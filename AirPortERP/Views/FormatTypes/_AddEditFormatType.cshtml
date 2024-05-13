@@ -1,0 +1,78 @@
+﻿@model AirPortERP.Models.FormatType
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Format Types </h5>
+            }
+            else
+            {
+
+                <h5>Add Format Types </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Type, "Types", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <span>Update Format Types</span>
+                            }
+                            else
+                            {
+
+                                <span>Add Format Types</span>
+                            }
+
+                        }
+
+
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

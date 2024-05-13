@@ -1,0 +1,507 @@
+﻿@model AirPortERP.ViewModels.PrintFinalInvoiceViewModel
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+<style>
+    .invoiceFinal {
+        padding: 10px;
+        font-family: Arial;
+    }
+
+        .invoiceFinal .invoice-header {
+            border: 2px solid #808080;
+            border-radius: 5px;
+            padding: 15px;
+            /*margin-bottom:10px;*/
+        }
+
+            .invoiceFinal .invoice-header .text-word {
+                float: none;
+            }
+
+                .invoiceFinal .invoice-header .text-word h6 {
+                    font-size: 18px;
+                    font-weight: bolder;
+                }
+
+            .invoiceFinal .invoice-header .image-R {
+                float: right;
+                margin-right: 30px;
+                margin-top: -90px;
+            }
+
+            .invoiceFinal .invoice-header .image-L {
+                float: left;
+                margin-top: -10px;
+            }
+
+        .invoiceFinal .invoice-Body {
+            clear: both;
+        }
+
+            .invoiceFinal .invoice-Body .date {
+                float: right;
+            }
+
+            .invoiceFinal .invoice-Body label {
+                display: inline;
+            }
+
+            .invoiceFinal .invoice-Body .h-mr {
+                margin-right: 20px;
+                font-weight: bolder;
+                font-size: 18px;
+            }
+
+            .invoiceFinal .invoice-Body .InvoiceNo {
+                font-size: 16px;
+            }
+
+            .invoiceFinal .invoice-Body .arline-header {
+                margin-left: 40px;
+                border: 2px solid #282a2c;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 10px;
+                font-weight: 500;
+                font-size: 25px;
+            }
+
+                .invoiceFinal .invoice-Body .arline-header .font-normal {
+                    font-weight: normal;
+                }
+
+        .invoiceFinal .invoice-details {
+            margin-left: 100px;
+            margin-right: 180px;
+            color: #282a2c;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .invoiceFinal .invoice-Body {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .invoiceFinal .myTable {
+            border: 2px solid #282a2c;
+        }
+
+        .invoiceFinal .invoice-details table {
+            width: 800px;
+            text-align: left;
+        }
+
+        .invoiceFinal .invoice-details table, th, td {
+            border: 2px solid #282a2c;
+            padding: .5rem;
+            font-size: 18px;
+        }
+
+        .invoiceFinal .invoice-details .N {
+            width: 40px;
+        }
+
+        .invoiceFinal .invoice-details tfoot {
+            font-weight: 700;
+            background-color: #ebefef;
+            font-size: 16px;
+        }
+
+        .invoiceFinal .invoice-details thead {
+            font-weight: 900;
+            background-color: #ebefef;
+            font-size: 16px;
+        }
+
+        .invoiceFinal .invoice-footer {
+            margin-top: 20px;
+        }
+
+            .invoiceFinal .invoice-footer .number-Word {
+                margin-left: 100px;
+                font-size: 20px;
+                max-width: 1200px;
+            }
+
+            .invoiceFinal .invoice-footer .conditions {
+                border: 2px solid #282a2c;
+                margin-left: 100px;
+                padding: 10px;
+                margin-top: 10px;
+            }
+
+                .invoiceFinal .invoice-footer .conditions span {
+                    display: block;
+                    font-weight: bold;
+                    font-size: 18px;
+                }
+            /*.invoiceFinal .invoice-footer .chief div {
+                float:left;
+            }*/
+            .invoiceFinal .invoice-footer .chief .Thank {
+                text-align: center;
+            }
+
+            .invoiceFinal .invoice-footer .chief .Manager {
+                float: right;
+                margin-top: 20px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .invoiceFinal .invoice-footer .chief .Dept {
+                margin-left: 100px;
+                float: left;
+                margin-top: 20px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .invoiceFinal .invoice-footer .Thank {
+                margin-top: 40px;
+            }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceFinal">
+
+
+    <div class="invoice-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-Body">
+        <span class="font-weight-bold">Invoice No @Model.txtInvoiceNo</span> <span class="date">Date @Model.DateNow</span><h4 class="text-center font-weight-bold "><u>Final Invoice </u></h4>
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="h-mr">Company: <span>@Model.Name</span></label>
+                    <label class="h-mr">From:  <span class="font-normal"> @Model.DateFrom</span></label>
+                    <label class="h-mr">To:  <span class="font-normal">@Model.DateTo</span></label>
+                    <label class="h-mr">Rate: @Model.ExchangeRate</label><br />
+
+                    <label class="h-mr">Kindly arrange to settle the sum of:<span class="numberFormat ml-2">@Model.GrandTotalDollar </span> <span class="ml-1">$</span> </label>
+                    <label class="h-mr">as detailed bellow for: <span class="font-normal">@Model.HeaderDate</span>    </label>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center invoice-details">
+
+
+
+
+        <table class="myTable">
+            <thead>
+                <tr>
+                    <td class="N">N</td>
+                    <td>Description</td>
+                    <td>Amount $</td>
+                   
+                </tr>
+            </thead>
+            <tr>
+                <td class="N">1</td>
+                <td> Landing Fees</td>
+                <td class="numberFormat">@Model.LandingFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">2</td>
+                <td> Parking Fees</td>
+                <td class="numberFormat">@Model.ParkingFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">3</td>
+                <td> Night Surcharge Fees</td>
+                <td class="numberFormat">@Model.NightOperationFees</td>
+              
+            </tr>
+
+
+            <tr>
+                <td class="N">4</td>
+                <td> User Charge Fees</td>
+                <td class="numberFormat">@Model.NavigationFees</td>
+              
+            </tr>
+
+            <tr>
+                <td class="N">5</td>
+                <td> Security Fees</td>
+                <td class="numberFormat">@Model.SecurityFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">6</td>
+                <td>Freight Fees</td>
+                <td class="numberFormat">@Model.FreightFees</td>
+              
+            </tr>
+
+            <tr>
+                <td class="N">7</td>
+                <td> Exp_Mail Fees</td>
+                <td class="numberFormat">@Model.ExpMailFees</td>
+             
+            </tr>
+
+            <tr>
+                <td class="N">8</td>
+                <td>Imp_Mail Fees</td>
+                <td class="numberFormat">@Model.ImpMailFees</td>
+                
+            </tr>
+
+            <tr>
+                <td class="N">9</td>
+                <td>Noise Fees</td>
+                <td class="numberFormat">@Model.NoiseFees</td>
+              
+            </tr>
+
+            <tr>
+                <td class="N">10</td>
+                <td>ServiceCars Fees</td>
+                <td class="numberFormat">@Model.ServiceCars</td>
+              
+            </tr>
+
+            <tr>
+                <td class="N">11</td>
+                <td>International Cupps Fees</td>
+                <td class="numberFormat">@Model.InterCUPPSFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">12</td>
+                <td>International Ny Fees</td>
+                <td class="numberFormat">@Model.InterNYFees</td>
+            
+            </tr>
+
+            <tr>
+                <td class="N">13</td>
+                <td>Domestic Cupps Fees</td>
+                <td class="numberFormat">@Model.DomeCUPPSFees</td>
+              
+            </tr>
+
+            <tr>
+                <td class="N">14</td>
+                <td>Domestic Ny Fees</td>
+                <td class="numberFormat">@Model.DomeNYFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">15</td>
+                <td>First Class Fees</td>
+                <td class="numberFormat">@Model.FirstClassFees</td>
+               
+            </tr>
+
+            <tr>
+                <td class="N">16</td>
+                <td>PushBack Fees</td>
+                <td class="numberFormat">@Model.PushBackFees</td>
+             
+            </tr>
+
+
+            <tfoot>
+
+                <tr>
+                    <td colspan="2">  Total :</td>
+
+                    <td class="numberFormat">@Model.SubTotalDollar </td>
+                
+                </tr>
+
+                <tr>
+                    <td colspan="2">  Tax :</td>
+
+                    <td class="numberFormat">@Model.TaxDollar </td>
+                 
+                </tr>
+
+                <tr>
+                    <td colspan="2"> Grand Total :</td>
+
+                    <td class="numberFormat">@Model.GrandTotalDollar </td>
+                  
+                </tr>
+
+            </tfoot>
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+    <div class="invoice-footer">
+        <div class="number-Word"> @Model.NumberWord </div>
+
+        <div class="conditions">
+            <h5>TERMS & CONDITIONS:</h5>
+            <span> *This invoice should be reviewed within a maximum of three days.</span>
+            <span> * Bill payment 7 days maximum upon receiving the invoice.</span>
+            <span> * Make all checks payable to Sudan Airports Co.Ltd.</span>
+        </div>
+
+        <div class="chief ">
+            <div class="Dept">
+                <span>Chief Of Dept</span><br />
+                <span>-------------------------------</span>
+            </div>
+
+            <div class="Manager">
+                <span>Directorate Manager</span><br />
+                <span>-------------------------------</span>
+
+            </div>
+        </div>
+        <div class="Thank text-center">
+            <span>Thank you for your business</span>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+          // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+}

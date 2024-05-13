@@ -1,0 +1,280 @@
+﻿@model IEnumerable<AirPortERP.Models.LandingCore>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaneSizeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Wt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATA2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATD2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight_Out)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight_IN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mail_IN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mail_Out)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpMainIN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpMailOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cargo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NightSurgarche)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrainingOp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DolarRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsParking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Landing_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parking_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NightSurgarcge_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserCharge_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Security_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstClass_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PushBack_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpressMail_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mail_Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HandlingCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoUserCharge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PushBack)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoiceFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Scheduled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlaneSizeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Wt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATA2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATD2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Freight_Out)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Freight_IN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mail_IN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mail_Out)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpMainIN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpMailOut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Posted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NightSurgarche)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrainingOp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DolarRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitsParking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Landing_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Parking_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NightSurgarcge_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserCharge_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Security_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Freight_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstClass_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PushBack_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpressMail_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mail_Fees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HandlingCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoUserCharge)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PushBack)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoiceFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Scheduled)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

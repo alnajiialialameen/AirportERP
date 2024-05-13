@@ -1,0 +1,114 @@
+﻿@model AirPortERP.Models.FuelCompany
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Fuel Company </h5>
+            }
+            else
+            {
+                <h5>Add Fuel Company </h5>
+            }
+        }
+
+    <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+
+                <div class="form-horizontal">
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.NameEn, " English Name ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.NameEn, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter English Name" } })
+                                @Html.ValidationMessageFor(model => model.NameEn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.NameAr, " Arabic Name ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.NameAr, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                                @Html.ValidationMessageFor(model => model.NameAr, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Phone, "Phone", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Phone" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Email" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Address, " Address ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.CurrencyId, "Pay Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.RadioButtonFor(m => m.CurrencyId, 1)
+                                <label class="mr-5">SDG</label>
+
+
+                                @Html.RadioButtonFor(m => m.CurrencyId, 2)
+                                <label class="mr-5">USD</label>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.AccId, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("AccId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.AccId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.IsActive, "Is Active ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(m => m.IsActive)
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+            @{
+                if (Model.Id > 0)
+                {
+                    <span>Update Fuel </span>
+                }
+                else
+                {
+                    <span>Add Fuel</span>
+                }
+            }
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">إلغاء</button>
+    </div>
+</form>

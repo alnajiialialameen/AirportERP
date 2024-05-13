@@ -1,0 +1,348 @@
+﻿
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">PushBackFees</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">PushBackFees</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+
+        <p>
+
+            <button class="btn btn-primary" onclick="getPushBackFees(0)">Add New PushBackFees</button>
+            <button class="btn btn-info float-right" onclick="PrintData()">Print All PushBackFees </button>
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="card">
+            <div class="card-body">
+                <div style="width:100%" class="table-responsive">
+
+                    <table id="dataTable" class="table table-bordered table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>AireCraftSize</th>
+                                <th>AmountInDollar</th>
+                                <th>CreatedBy</th>
+                                <th>CreationDate</th>
+                                <th>UpdatedBy</th>
+                                <th>UpdatingDate</th>
+
+
+                                <th>Operation</th>
+
+                            </tr>
+                        </thead>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Model Start -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" id="myModel-content">
+
+                    <!-- Model content -->
+
+                    <div class="modal-footer justify-content-between">
+                        <button class="btn btn-primary btn-xs">Save Change</button>
+                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Model End -->
+
+    </section>
+@section scripts{
+
+    <script>
+            var dataTable;
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/PushBackFees/GetAllPushBackFees",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+                    "columns": [
+
+
+
+
+
+
+                        { "data": "Id", "autowidth": true },
+                          { "data": "AireCraftSize", "autowidth": true },
+                           { "data": "AmountInDollar", "autowidth": true },
+                             { "data": "CreatedBy", "autowidth": true },
+                             { "data": "CreationDate", "autowidth": true },
+
+                                { "data": "UpdatedBy", "autowidth": true },
+                                  { "data": "UpdatingDate", "autowidth": true },
+                                   
+                                {
+
+
+                                       "data": "Id", "width": "50px", "render": function (data) {
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getPushBackFees(' + data + ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  }
+                });
+
+            });
+
+
+            function getPushBackFees(Id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/PushBackFees/GetPushBackFeesParial", { Id: Id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+                        //$('#timepicker').datetimepicker({
+                        //    use24hours: true,
+                        //    format: 'HH:mm'
+                        //})
+
+
+
+
+
+
+                        //$('#timepicker1').datetimepicker({
+                        //    use24hours: true,
+                        //    format: 'HH:mm'
+                        //})
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                AireCraftSize: {
+                                    required: true,
+
+                                },
+                                AmountInDollar: {
+                                    required: true,
+
+                                },
+
+                            },
+                            messages: {//lest larg meduam small
+                                AireCraftSize: {
+                                    required: "  Please Choose The Size Of The Plane ",
+
+                                },
+                                AmountInDollar: {
+                                    required: " Please Enter The Dollar Value $   ",
+
+                                },
+
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function CreateOrUpdate() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/PushBackFees/CreateOrUpdatePushBackFees", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل العام Movement ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه عام Movement ", "اضافه");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+            function Delete(id) {
+
+                if (confirm("هل تريد فعلا حذف Movement ??") == true) {
+                    $.get("/PushBackFees/Delete", { id: id }, function (res) {
+                        if (res) {
+
+                            if (res.message != null && res.message === "Used") {
+                                toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                            }
+                            if (res.message != null && res.message === "AlreadyDeleted") {
+                                toastr.error(" لا يوجد بيانات متعلقة بالضباط ليتم حذفها اتصل لبرج المراقبة ليتم حفها نهائيا", "تعذر الحذف");
+                            }
+
+                            if (res.message != null && res.message === "Delete") {
+                                toastr.success("تم الحذف نوع Movement ", "الحذف");
+                            }
+                            dataTable.ajax.reload();
+                        }
+                    });
+                }
+            }
+
+            function PrintData() {
+
+                window.location.href = "/PushBackFees/PrintData?";
+            }
+
+
+            function Detail(id) {
+
+                window.location.href = "/PushBackFees/Details/" + id;
+            }
+
+
+    </script>
+}

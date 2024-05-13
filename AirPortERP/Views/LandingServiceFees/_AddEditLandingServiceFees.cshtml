@@ -1,0 +1,80 @@
+﻿@model AirPortERP.Models.LandingServiceFee
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update LandingServiceFees </h5>
+            }
+            else
+            {
+                <h5>Add LandingServiceFees</h5>
+            }
+        }
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        <div class="form-horizontal">
+            <div class="card-body">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.WieghtFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.WieghtFrom, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WieghtFrom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.WieghtTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.WieghtTo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WieghtTo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AmountInDollar, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AmountInDollar, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AmountInDollar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.CheckAppendWieght, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.CheckAppendWieght)
+                            @Html.ValidationMessageFor(model => model.CheckAppendWieght, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                @Html.HiddenFor(c => c.CreatedBy)
+                @Html.HiddenFor(c => c.CreationData)
+                @Html.HiddenFor(c => c.UpdatedBy)
+                @Html.HiddenFor(c => c.UpdatingDate)
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+            @{
+                if (Model.Id > 0)
+                {
+                    <span>Update LandingServiceFees</span>
+                }
+                else
+                {
+                    <span>Add LandingServiceFees</span>
+                }
+            }
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+    </div>
+</form>

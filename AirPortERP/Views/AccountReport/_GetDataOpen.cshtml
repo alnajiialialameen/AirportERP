@@ -1,0 +1,188 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.OpenAccBalance>
+
+
+@using PagedList.Mvc
+
+@{
+
+    Layout = null;
+
+}
+
+<style>
+    .re-sort:hover {
+      
+        color:#2d2cdd;
+        text-decoration:double;
+      
+    }
+</style>
+
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:13px;">
+
+
+
+            <tr>
+
+                <th>
+                    Id
+                </th>
+                <th>
+
+                    <div onclick="sortTable()" class="re-sort"><i class="fa fa-sort"></i> <a> Account </a></div>
+                </th>
+
+                <th>
+                    Debit
+                </th>
+                <th>
+                    Credit
+                </th>
+                <th>
+                    Currency
+                </th>
+                @*<th>
+                    Statement
+                </th>*@
+                <th>
+                    Date
+                </th>
+
+                
+                <th>Operation</th>
+
+            </tr>
+
+            @foreach (var item in Model)
+
+            {
+
+                <tr>
+
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Id)
+
+                    </td>
+              
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountTree.AccName)
+                    </td>
+
+                    <td>
+                        @{ decimal Debit = Convert.ToDecimal(item.Debit); }
+
+                        <h7>@Debit </h7>
+                      
+                    </td>
+
+                    <td>
+                        @{ decimal Credit= Convert.ToDecimal(item.Credit); }
+
+                       <h7>@Credit </h7>
+                    </td>
+                   <td>
+                       @{ int CurrencyId = Convert.ToInt32(item.CurrencyID);
+                           string cssClass;
+
+                           if (CurrencyId == 1)
+                           {
+                               cssClass = "badge-danger";
+                           }
+                           else { cssClass = "badge-success"; }
+
+                            }
+
+                       <span class="badge  + @cssClass + ">@item.Currency.CurrencyName</span>
+                   </td>
+
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Statement)
+                    </td>*@
+
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))
+                    </td>
+
+                
+                    <td>
+                        <div class="btn-group">
+                            <button disabled type="button" class="btn btn-default" data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button><div class="dropdown-menu">
+                                <button class="dropdown-item" href="#" onclick="ReTranfer('@item.Id')">   استرجاع</button>
+                            </div>
+                        </div>
+
+
+                    </td>
+
+                </tr>
+
+            }
+         
+
+
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("GetDataOpen", new { page,
+         
+           AccId = ViewBag.AccId
+
+          
+
+         
+           , Get = 1
+           ,Search=2,
+         
+
+           DateFrom= ViewBag.DateFrom,
+           DateTo=   ViewBag.DateTo,
+           
+
+       }))
+        </div>
+    </div>
+
+   @if (ViewBag.ItemCount > 0)
+   {
+
+        <div class="col-6">
+          
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <td>Total Debit</td>
+                        <td colspan="2">@ViewBag.TotalDebit</td>
+
+                        <td>Total Credit</td>
+                        <td colspan="2">@ViewBag.TotalCredit</td>
+
+
+                    </tr>
+                  
+                   
+                </table>
+            </div>
+        </div>
+
+
+   }
+
+
+
+
+
+</div>
+
+

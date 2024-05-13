@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Backup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Backup</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Backup</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-overlay">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="overlay d-flex justify-content-center align-items-center">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title">Creating Back Up</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Please Wait ...</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+
+
+@*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-overlay">
+    Launch Modal with Overlay
+</button>*@
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+
+        @*<div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>*@
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<section class="content">
+    <div class="container-fluid">
+
+      
+       
+
+
+        <button id="Backup" onclick="backup()" class="btn btn-primary " ><i class="fas fa-database"></i> Backup </button>
+
+      
+      
+        @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-success btn-sm float-right " })
+
+        </div>
+    </section>
+
+        @section scripts{
+            <script>                
+                function backup() {
+                    var model = $('#modal-overlay');
+                    model.modal('show');
+                 
+
+
+                    $.post("/Home/BackUp", null, function (res) {
+                     
+                        if (res) {
+                            console.log(res);
+                            if (res.message != null && res.message === "Success") {
+                                toastr.success("Backup تم انشاء ", " Backup");
+                                model.modal('hide');
+                            }
+
+                            else {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                                model.modal('hide');
+                            }
+                            
+                        }
+
+
+                        
+                    });
+
+
+
+
+
+
+
+
+
+
+                }
+            </script>
+        }

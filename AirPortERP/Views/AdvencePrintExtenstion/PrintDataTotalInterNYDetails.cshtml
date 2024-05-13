@@ -1,0 +1,200 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintTotalCompaniesInterCUPPSviewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceNyDetails">
+
+
+    <div class="invoice-NyDetails-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <h4 class="text-center"><u> International-Ny Fees</u></h4>
+    <div class="invoice-NyDetails-Body" style="float:right;">
+
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <label class="mr-5">Amount: @ViewBag.Amount</label>
+
+                    <label class="mr-5">ExchangeRate: @ViewBag.ExchangeRate</label>
+
+                    <label class="h-mr">  @ViewBag.txtDate  :عن شــهــر (Ny)مـطالبات رسوم </label>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="invoice-NyDetails-details">
+
+
+
+
+        <table class="NyDetails-table-header">
+
+            <tr>
+              
+                <th>
+                  الرسوم بالجنية
+                </th>
+                <th>
+                    رسوم Ny
+                </th>
+                <th>
+                    عدد الركاب
+                </th>
+
+                <th>
+                    الشركة
+                </th>
+
+
+                <th>
+                    N
+                </th>
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+
+                       
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.TotalAmountSDG)
+                        </td>
+
+
+
+
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.TotalAmountDollar)
+                        </td>
+
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pax)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                    </tr>
+                }
+
+                <tr class="footer">
+
+
+
+                    
+                    <td class="numberFormat">@ViewBag.SumTotalAmountSDG</td>
+
+                    <td class="numberFormat">@ViewBag.SumTotalAmountDollar</td>
+
+                    <td class="numberFormat">@ViewBag.SumPax</td>
+
+                    <td colspan="2">  الجملة </td>
+                </tr>
+            </tbody>
+        </table>
+
+      
+
+
+    </div>
+
+
+
+    <div class="prepared">
+        @*<h5 class="f-right">@ViewBag.SupervisorName /إعداد </h5>
+            <h5 class="f-left">@ViewBag.ManagerName/راجعه</h5>*@
+
+        <h6 class="f-right">  / اعداد</h6>
+        <h6 class="f-left">   راجعة/ @ViewBag.ManagerName</h6>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+               var num = Number(item).toLocaleString();
+               $(this).text(num);
+           });
+
+
+    </script>
+
+}

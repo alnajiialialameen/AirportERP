@@ -1,0 +1,460 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintLandingViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+
+<style type="text/css" media="print">
+    @@media print {
+        @@page {
+            size: landscape;
+        }
+    }
+</style>
+
+
+
+
+
+
+<style>
+    /*////////////////////////////////////////////////////Landing/////////////////////////////////////////////*/
+
+
+
+
+    .invoiceLanding {
+        padding: 10px;
+        font-family: Arial;
+    }
+
+        .invoiceLanding .invoice-header {
+            border: 2px solid #808080;
+            border-radius: 5px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+            .invoiceLanding .invoice-header .text-word {
+                float: none;
+            }
+
+
+
+
+                .invoiceLanding .invoice-header .text-word h6 {
+                    font-size: 16px;
+                    font-weight: bolder;
+                }
+
+            .invoiceLanding .invoice-header .image-R {
+                float: right;
+                margin-right: 30px;
+                margin-top: -90px;
+            }
+
+            .invoiceLanding .invoice-header .image-L {
+                float: left;
+                margin-top: -10px;
+            }
+
+        .invoiceLanding .invoice-Body {
+            clear: both;
+        }
+
+            .invoiceLanding .invoice-Body .h-mr {
+                margin-right: 16px;
+                /*//ADD//*/
+                font-size: 16px;
+            }
+
+
+        .invoiceLanding .invoice-Landing-details th {
+            background-color: #ebefef;
+        }
+
+
+        .invoiceLanding .invoice-Landing-details table, th, td {
+            border: 1px solid #000000;
+            padding: .3rem;
+            /*//ADD//*/
+            font-size: 14px;
+            padding-bottom: 10px;
+        }
+
+        .invoiceLanding .invoice-Landing-details .reg {
+            min-width: 80px;
+        }
+
+
+        .invoiceLanding .invoice-Landing-details table .footer {
+            background-color: #e6eded;
+        }
+
+
+
+        .invoiceLanding .invoice-Landing-details .footer {
+            background-color: #ebefef;
+            font-weight: 600;
+        }
+
+
+    .fontDiscount {
+        font-size: x-small;
+        font-weight: normal;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceLanding">
+
+
+    <div class="invoice-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-Body">
+        <h5 class="text-center"><u> Invoice Landing Domestic</u></h5>
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="h-mr">Company: @ViewBag.Name</label>
+                    <label class="h-mr">From: @ViewBag.DateFrom</label>
+                    <label class="h-mr">To: @ViewBag.DateTo</label>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="invoice-Landing-details" style="width:100%;margin-bottom:40px;">
+
+
+
+
+        <table class="Landing-table-header">
+
+            <tr>
+                <th>
+                    N
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Reg No
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Wt
+                </th>
+
+
+
+                <th>
+
+                    Landing Fees
+                </th>
+                <th>
+                    Night Fees
+
+                </th>
+
+                <th>
+                    User  Charge
+                </th>
+
+                <th>
+                    Security Fees <br /> <span class="fontDiscount">@ViewBag.TitleDiscount</span>
+                </th>
+                <th>
+                    Parking Fees
+                </th>
+
+
+
+
+                <th>
+                    Freight
+                </th>
+
+
+
+                <th>
+                    Imp Mail
+                </th>
+
+
+                <th>
+                    Exp Mail
+                </th>
+
+
+                <th>
+                    Noise Fees
+                </th>
+
+                <th>
+                    Total
+                </th>
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LandingDate)
+                        </td>
+
+                        <td class="reg">
+                            @Html.DisplayFor(modelItem => item.RegNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Wt)
+                        </td>
+
+
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LandingFees)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NightOperationFees)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NavigationFees)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SecurityFees)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParkingFees)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FreightFees)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImpMailFees)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpMailFees)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoiseFees)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                    </tr>
+                }
+
+                <tr class="footer">
+                    <td colspan="5">  Total :</td>
+
+                    <td class="numberFormat">@ViewBag.SumLandingFees </td>
+                    <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
+
+                    <td class="numberFormat">@ViewBag.SumNavigationFees</td>
+
+                    <td class="numberFormat">@ViewBag.SumSecurityFees</td>
+
+                    <td class="numberFormat">@ViewBag.SumParkingFees</td>
+                    <td  class="numberFormat">@ViewBag.SumFreightFees</td>
+
+                    <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                    <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+
+
+                    <td class="numberFormat">@ViewBag.SumNoiseFees</td>
+
+                    <td class="numberFormat">@ViewBag.SumTotal</td>
+                </tr>
+
+                <tr class="footer">
+                    <td colspan="5">  Tax :</td>
+
+                    <td colspan="9"> </td>
+
+                    <td class="numberFormat"> @ViewBag.Tax </td>
+
+                </tr>
+
+                <tr class="footer">
+                    <td colspan="5"> Grand Total :</td>
+
+                    <td colspan="9"> </td>
+
+                    <td class="numberFormat"> @ViewBag.GrandTotal </td>
+                </tr>
+
+            </tbody>
+
+
+
+
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+    </script>
+
+}

@@ -1,0 +1,337 @@
+﻿@model AirPortERP.Models.TowerData
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Movement Arrived </h5>
+            }
+            else
+            {
+
+                <h5>Add Movement Arrived </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+      
+           
+           
+            <div class="form-horizontal">
+               
+                 <div class="card-body">
+
+                     <div class="row">
+                         <div class="col-md-6">
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.AirLineId, "AirLine", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("AirLineId", null, htmlAttributes: new { @class = "form-control select2" })
+                                     @Html.ValidationMessageFor(model => model.AirLineId, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.FlightNo, "Flight No", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("FlightNo", null, htmlAttributes: new { @class = "form-control select2" })
+                                     @Html.ValidationMessageFor(model => model.FlightNo, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+
+
+
+
+
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.AircraftRegId, "REG", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("AircraftRegId", null, htmlAttributes: new { @class = "form-control select2" })
+                                     @Html.ValidationMessageFor(model => model.AircraftRegId, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+
+
+
+
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.AirportIdTo, "To", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("AirportIdTo", null, htmlAttributes: new { @class = "form-control select2" })
+                                     @Html.ValidationMessageFor(model => model.AirportIdTo, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.ATD, " ATD ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     <div class="input-group date" id="timepicker1" data-target-input="nearest">
+                                         @Html.EditorFor(model => model.ATD, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input ", data_target = "#timepicker1" } })
+                                         <div class="input-group-append" data-target="#timepicker1" data-toggle="datetimepicker">
+                                             <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.AirportIdFrom, "From", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("AirportIdFrom", null, htmlAttributes: new { @class = "form-control select2" })
+                                     @Html.ValidationMessageFor(model => model.AirportIdFrom, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.ATA, " ATA ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     <div class="input-group date" id="timepicker" data-target-input="nearest">
+                                         @Html.EditorFor(model => model.ATA, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input ", data_target = "#timepicker" } })
+                                         <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                                             <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                        
+
+                         
+                          </div>
+
+                         @*<div class="form-group row">
+                @Html.LabelFor(model => model.ATD, " ATD ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-sm-4">
+                    <div class="input-group date" id="timepicker1" data-target-input="nearest">
+                        @Html.EditorFor(model => model.ATD, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input " } })
+                        <div class="input-group-append" data-target="#timepicker1" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="far fa-clock"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+
+
+
+
+
+
+
+
+                         <div class="col-md-6">
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.POB, " POB ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-sm-10">
+                                     @Html.EditorFor(model => model.POB, new { htmlAttributes = new { @class = "form-control", placeholder = "POB" } })
+                                     @Html.ValidationMessageFor(model => model.POB, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.QBD, " QBD ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-sm-10">
+                                     @Html.EditorFor(model => model.QBD, new { htmlAttributes = new { @class = "form-control", placeholder = "QBD" } })
+                                     @Html.ValidationMessageFor(model => model.QBD, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.LandingPermission, " Landing Permission ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-sm-10">
+                                     @Html.EditorFor(model => model.LandingPermission, new { htmlAttributes = new { @class = "form-control", placeholder = "Landing Permission" } })
+                                     @Html.ValidationMessageFor(model => model.LandingPermission, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+
+
+                             <div class="form-group row">
+                                 @Html.LabelFor(model => model.TripTypeId, "Trip Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                 <div class="col-md-10">
+                                     @Html.DropDownList("TripTypeId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                     @Html.ValidationMessageFor(model => model.TripTypeId, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+
+
+
+                             @if (Model.Id > 0)
+                             {
+
+                                 @*<div class="form-group row">
+                                     @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                                     <div class="col-md-10">
+                                         <div class="input-group date" id="Date" data-target-input="nearest">
+                                             @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input ", data_target = "#Date" } })
+                                             <div class="input-group-append" data-target="#Date" data-toggle="datetimepicker">
+                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>*@
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.TakeOffDate, " TakeOffDate  ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(model => model.TakeOffDate, new { htmlAttributes = new { @class = "form-control", placeholder = "Landing Permission" } })
+                                        @Html.ValidationMessageFor(model => model.TakeOffDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.LandingDate, "LandingDate", htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                                    <div class="col-md-10">
+                                        <div class="input-group date" id="LandingDate" data-target-input="nearest">
+                                            @Html.EditorFor(model => model.LandingDate, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input ", data_target = "#LandingDate" } })
+
+
+                                            <div class="input-group-append" data-target="#LandingDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         </div>
+                     </div>
+
+
+
+
+
+
+                     @Html.HiddenFor(C => C.CreatedBy)
+                     @Html.HiddenFor(C => C.CreationDate)
+                   
+                     @Html.HiddenFor(C => C.UpdatedBy)
+                     @Html.HiddenFor(C => C.UpdatingDate)
+
+                     @Html.HiddenFor(C => C.LandingDate)
+                     @Html.HiddenFor(C => C.TakeOffDate)
+
+                     @Html.HiddenFor(C => C.Date)
+
+                     @Html.HiddenFor(C => C.Status)
+                    
+                     @Html.HiddenFor(C => C.ATD)
+                   
+
+
+                </div>
+             
+            </div>
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+       
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdateArrived()" class="btn btn-primary">
+            @{
+                if (Model.Id > 0)
+                {
+                    <span>Update</span>
+                }
+                else
+                {
+
+                    <span>Add</span>
+                }
+
+            }
+
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+    </div>
+</form>
+

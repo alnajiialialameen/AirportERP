@@ -1,0 +1,109 @@
+﻿@model AirPortERP.ViewModels.CUPPSServiceFeeViewModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5>@Model.Name</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                  
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "CUPPSServiceFees")">CUPPSServiceFees</a></li>
+                    <li class="breadcrumb-item active"> Details</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> Company: @Model.Name</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+                        <tr>
+                            <td> الرقم:</td>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Name  :</td>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <td>AmountInDollar  :</td>
+                            <td>@Model.AmountInDollar</td>
+                        </tr>
+
+                        <tr>
+                            <td> CreatedBy :</td>
+                            <td>@Model.CreatedBy</td>
+                        </tr>
+
+                        <tr>
+                            <td>CreationDate  :</td>
+                            <td>@Model.CreationDate</td>
+                        </tr>
+                        <tr>
+                            <td>  UpdatedBy  :</td>
+                            <td>@Model.UpdatedBy</td>
+                        </tr>
+                        <tr>
+                            <td>  UpdatingDate  :</td>
+                            <td>@Model.UpdatingDate</td>
+                        </tr>
+
+                    </table>
+                </div>
+               
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+
+
+
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@ 
+        @Html.ActionLink("Go to Back", "Index")
+    </p>
+
+</section>
+
+
+
+
+
+
+
+

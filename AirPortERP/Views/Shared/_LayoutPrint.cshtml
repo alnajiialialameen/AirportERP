@@ -1,0 +1,651 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> @ViewBag.Header</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Temp/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    
+    <link rel="stylesheet" href="~/Temp/dist/css/adminlte.min.css">
+    <style>
+
+       
+ /*////////////////////////////////////////////////////General/////////////////////////////////////////////*/
+              .invoiceGeneral {
+            padding:10px;
+        }
+       .invoiceGeneral .invoice-General-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceGeneral .invoice-General-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceGeneral .invoice-General-header .text-word h6 {
+            font-size:18px;
+              font-weight:bolder;
+        }
+               .invoiceGeneral .invoice-General-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceGeneral .invoice-General-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceGeneral .invoice-General-Body {
+                clear:both;
+            }
+
+             .invoiceCupps .invoice-Cupps-Body .h-mr {
+              margin-right:20px;
+              font-size:18px;
+        }
+
+
+                .invoiceGeneral .invoice-General-details th {
+                    background-color:#ebefef
+                }
+
+                .invoiceGeneral .invoice-General-details table {
+                    min-width:1000px;
+                    text-align:left;
+                }
+
+                    .invoiceGeneral .invoice-General-details table,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.5rem;
+                 font-size:20px;
+               
+            }
+
+              
+
+                .invoiceGeneral .invoice-General-details .footer {
+                     background-color:#ebefef
+                }
+
+
+
+                /*////////////////////////////////////////////////////CuppsDetails/////////////////////////////////////////////*/
+              .invoiceCuppsDetails {
+            padding:15px;
+        }
+       .invoiceCuppsDetails .invoice-CuppsDetails-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceCuppsDetails .invoice-CuppsDetails-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceCuppsDetails .invoice-CuppsDetails-header .text-word h6 {
+            font-size:18px;
+              font-weight:bolder;
+        }
+               .invoiceCuppsDetails .invoice-CuppsDetails-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceCuppsDetails .invoice-CuppsDetails-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceCuppsDetails .invoice-CuppsDetails-Body {
+               float:right;
+            }
+
+              
+
+
+             .invoiceCuppsDetails .invoice-CuppsDetails-details  {
+               float:right;
+              
+            }
+              .invoiceCuppsDetails .invoice-CuppsDetails-details  {
+              text-align:right;
+              
+            }
+
+
+             .invoiceCuppsDetails .invoice-CuppsDetails-Body .h-mr {
+              margin-right:20px;
+        }
+                .invoiceCuppsDetails .invoice-CuppsDetails-details {
+                    clear:both;
+                }
+
+                .invoiceCuppsDetails .invoice-CuppsDetails-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoiceCuppsDetails .invoice-CuppsDetails-details table {
+                      min-width:900px;
+                    text-align:right;
+                }
+
+                  
+
+                    .invoiceCuppsDetails .invoice-CuppsDetails-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoiceCuppsDetails .invoice-CuppsDetails-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+                   .invoiceCuppsDetails .invoice-CuppsDetails-details .header1 .header1-none{  border-left:hidden; border-top:hidden;background-color:#fff}
+
+
+
+                    .invoiceCuppsDetails .invoice-CuppsDetails-details table,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.5rem;
+               
+            }
+
+              
+
+                .invoiceCuppsDetails .invoice-CuppsDetails-details .footer {
+                     background-color:#ebefef
+                }
+                    .invoiceCuppsDetails .invoice-CuppsDetails-details .table-explan {
+                        margin-top:20px;
+                          margin-bottom:40px;
+                    }
+
+
+
+                .invoiceCuppsDetails .prepared {
+                    clear:both;
+                   
+                  
+                   
+                }
+                    .invoiceCuppsDetails .prepared .f-right {
+                        float:right;
+                    }
+                     .invoiceCuppsDetails .prepared .f-left {
+                        float:left;
+                        margin-left:200px;
+                    }
+
+
+
+
+        /*////////////////////////////////////////////////////CuppsDetails/////////////////////////////////////////////*/
+              .invoiceCuppsJournal {
+            padding:15px;
+            font-family:Arial;
+        }
+       .invoiceCuppsJournal .invoice-CuppsJournal-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceCuppsJournal .invoice-CuppsJournal-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceCuppsJournal .invoice-CuppsJournal-header .text-word h6 {
+            font-size:18px;
+              font-weight:bolder;
+             
+        }
+
+
+                .invoiceCuppsJournal .CuppsJournal-Title {
+                    margin-top:30px;
+                     margin-bottom:30px;
+                }
+
+               .invoiceCuppsJournal .invoice-CuppsJournal-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceCuppsJournal .invoice-CuppsJournal-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceCuppsJournal .invoice-CuppsJournal-Body {
+               float:right;
+            }
+
+              
+
+
+             .invoiceCuppsJournal .invoice-CuppsJournal-details  {
+               float:right;
+              
+            }
+              .invoiceCuppsJournal .invoice-CuppsJournal-details  {
+              text-align:right;
+              
+            }
+
+
+             .invoiceCuppsJournal .invoice-CuppsJournal-Body .h-mr {
+              margin-right:20px;
+        }
+                .invoiceCuppsJournal .invoice-CuppsJournal-details {
+                    clear:both;
+                }
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details table {
+                      min-width:900px;
+                    text-align:right;
+                }
+
+                  
+
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoiceCuppsJournal .invoice-CuppsJournal-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+
+
+
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details table, tr,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.5rem;
+                 min-height:240px;
+                  
+               
+            }
+
+              
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details {
+                     margin-bottom:700px;
+                }
+                    
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details .footer {
+                     background-color:#ebefef
+                }
+                    
+
+
+
+                .invoiceCuppsJournal .prepared {
+                    clear:both;
+                   
+                   
+                  
+                   
+                }
+                    .invoiceCuppsJournal .prepared .f-right {
+                        float:right;
+                    }
+                     .invoiceCuppsJournal .prepared .f-left {
+                        float:left;
+                        margin-left:200px;
+                    }
+
+
+
+
+                       /*////////////////////////////////////////////////////NyDetails/////////////////////////////////////////////*/
+              .invoiceNyDetails {
+            padding:15px;
+        }
+       .invoiceNyDetails .invoice-NyDetails-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceNyDetails .invoice-NyDetails-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceNyDetails .invoice-NyDetails-header .text-word h6 {
+            font-size:18px;
+              font-weight:bolder;
+        }
+               .invoiceNyDetails .invoice-NyDetails-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceNyDetails .invoice-NyDetails-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceNyDetails .invoice-NyDetails-Body {
+               float:right;
+            }
+
+              
+
+
+             .invoiceNyDetails .invoice-NyDetails-details  {
+               float:right;
+              
+            }
+              .invoiceNyDetails .invoice-NyDetails-details  {
+              text-align:right;
+              
+            }
+
+
+             .invoiceNyDetails .invoice-NyDetails-Body .h-mr {
+              margin-right:20px;
+        }
+                .invoiceNyDetails .invoice-NyDetails-details {
+                    clear:both;
+                }
+
+                .invoiceNyDetails .invoice-NyDetails-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoiceNyDetails .invoice-NyDetails-details table {
+                      min-width:900px;
+                    text-align:right;
+                }
+
+                  
+
+                    .invoiceNyDetails .invoice-NyDetails-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoiceNyDetails .invoice-NyDetails-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+
+
+
+                    .invoiceNyDetails .invoice-NyDetails-details table,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.5rem;
+               
+            }
+
+                .invoiceNyDetails .invoice-NyDetails-details {
+                    margin-bottom:40px;
+                }
+              
+
+                .invoiceNyDetails .invoice-NyDetails-details .footer {
+                     background-color:#ebefef
+                }
+                  
+
+
+                .invoiceNyDetails .prepared {
+                    clear:both;
+                   
+                  
+                   
+                }
+                    .invoiceNyDetails .prepared .f-right {
+                        float:right;
+                    }
+                     .invoiceNyDetails .prepared .f-left {
+                        float:left;
+                        margin-left:200px;
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+     /*////////////////////////////////////////////////////PushPack/////////////////////////////////////////////*/
+              .invoicePushPackDetails {
+            padding:15px;
+        }
+       .invoicePushPackDetails .invoice-PushPackDetails-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoicePushPackDetails .invoice-PushPackDetails-header .text-word {
+                  
+               float:none;
+
+        }
+      
+        .invoicePushPackDetails .invoice-PushPackDetails-header .text-word h6 {
+            font-size:18px;
+              font-weight:bolder;
+        }
+               .invoicePushPackDetails .invoice-PushPackDetails-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoicePushPackDetails .invoice-PushPackDetails-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoicePushPackDetails .invoice-PushPackDetails-Body {
+               float:right;
+               margin-bottom:20px;
+            }
+
+              
+
+
+             .invoicePushPackDetails .invoice-PushPackDetails-details  {
+               float:right;
+              
+            }
+              .invoicePushPackDetails .invoice-PushPackDetails-details  {
+              text-align:right;
+              
+            }
+
+
+             .invoicePushPackDetails .invoice-PushPackDetails-Body .h-mr {
+              margin-right:20px;
+        }
+                .invoicePushPackDetails .invoice-PushPackDetails-details {
+                    clear:both;
+                }
+
+                .invoicePushPackDetails .invoice-PushPackDetails-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoicePushPackDetails .invoice-PushPackDetails-details table {
+                      min-width:900px;
+                    text-align:right;
+                }
+
+                  
+
+                    .invoicePushPackDetails .invoice-PushPackDetails-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoicePushPackDetails .invoice-PushPackDetails-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+                   .invoicePushPackDetails .invoice-PushPackDetails-details .header1 .header1-none{  border-left:hidden; border-top:hidden;background-color:#fff}
+
+
+
+                    .invoicePushPackDetails .invoice-PushPackDetails-details table,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.5rem;
+               
+            }
+
+              
+
+                .invoicePushPackDetails .invoice-PushPackDetails-details .footer {
+                     background-color:#ebefef
+                }
+                    .invoicePushPackDetails .invoice-PushPackDetails-details .table-explan {
+                        margin-top:200px;
+                          margin-bottom:40px;
+                    }
+
+
+
+                .invoicePushPackDetails .prepared {
+                    clear:both;
+                   
+                  
+                   
+                }
+                    .invoicePushPackDetails .prepared .f-right {
+                        float:right;
+                    }
+                     .invoicePushPackDetails .prepared .f-left {
+                        float:left;
+                        margin-left:200px;
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Main content -->
+        
+           
+
+            <!--************************************************************************************* -->
+            @RenderBody()
+            <!--************************************************************************************* -->
+
+
+
+       
+        <!-- /.content -->
+    </div>
+    <!-- ./wrapper -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @RenderSection("scripts", required: false)
+   
+</body>
+</html>

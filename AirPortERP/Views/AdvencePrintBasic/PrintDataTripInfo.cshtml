@@ -1,0 +1,312 @@
+﻿@model AirPortERP.ViewModels.PrintTripInfoViewModel
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<style>
+    .invoiceFirstClass {
+        padding:10px;
+        font-family:Arial;
+    }
+    .invoiceFirstClass .invoice-FirstClass-header {
+        border:2px solid #808080;
+        border-radius:5px;
+        padding:16px;
+        margin-bottom:10px;
+    }
+        
+    .invoiceFirstClass .invoice-FirstClass-header .text-word {
+                  
+            float:none;
+
+    }
+    .invoiceFirstClass .invoice-FirstClass-header .text-word h6 {
+        font-size:21px;
+        font-weight:bolder;
+        line-height: 1.5;
+    }
+    .invoiceFirstClass .invoice-FirstClass-header .image-R {
+        float:right;
+        margin-right:30px;
+        margin-top:-130px;
+    }
+    .invoiceFirstClass .invoice-FirstClass-header .image-L {
+        float:left;
+        margin-top:-10px;
+    }
+    .invoiceFirstClass .invoice-FirstClass-Body {
+        clear:both;
+        margin-top:20px;
+        margin-bottom:20px;
+        display:flex;
+        justify-content:center;
+    }
+
+    .invoiceFirstClass .invoice-FirstClass-Body .h-mr {
+            margin-right:20px;
+            font-size:21px;
+    }
+
+    .invoiceFirstClass .invoice-FirstClass-details th {
+        background-color:#ebefef
+    }
+
+    .invoiceFirstClass .invoice-FirstClass-details table {
+        min-width:1000px;
+        text-align:left;
+    }
+
+    .invoiceFirstClass .invoice-FirstClass-details table,th,td {
+        border:1px solid #282a2c; 
+        padding:.5rem;
+        font-size:20px;
+    }
+
+    .invoiceFirstClass .invoice-FirstClass-details .footer {
+        background-color:#ebefef;
+        font-weight:600;
+    }
+
+    .trip-info {
+        text-align: left;
+        padding: 20px;
+    }
+
+    .title {
+        text-align: center!important;
+        border-bottom: 2px solid black;
+        display: inline-block;
+        transform: scale3d(1.5, 1.5, 1.5);
+        width: auto;
+    }
+
+    fieldset {
+      padding-top:1px; 
+      text-align:left; 
+      border: 2px solid black;
+      margin-left:10px;
+      margin-right:10px;
+      margin-bottom:50px;
+    }
+
+    .legend{
+        position: absolute;
+        top: -25px;
+        left: 55px;
+        background-color: white;
+        padding: 0 10px;
+        transform: scale3d(1.2, 1.2, 1.2);
+    }
+
+    #line {
+      position: absolute;
+      top: 9px; /* Position the line */
+      left: 12px;
+      border-top: 1px solid gray;
+      min-width: 20%; /* Fix this according to the white space to hide */
+    }
+
+    .row{
+        line-height:3;
+    }
+</style>
+
+<section class="invoiceFirstClass">
+
+
+    <div class="invoice-FirstClass-header">
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Airports Regional Directorate</h6>
+            <h6>Portsudan Int. Airport</h6>
+        </div>
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+    <br />
+    <div class="invoice-FirstClass-Body">
+        <strong class="title">Trip Information  [ @Model.Id ] </strong>
+    </div>
+    <br />
+
+    <div class="text-center invoice-FirstClass-details" style="width:100%;margin-bottom:40px;">
+        <div class="row">
+            <div class="col-8">
+                <fieldset class="row trip-info">
+                    <label class="legend">Main Info</label>
+                    <div class="col-9">
+                        <label>Operator:</label>
+                        <label class="font-weight-normal">@Model.Airline</label>
+                    </div>
+                    <div class="col-3">
+                        <label>F.No:</label>
+                        <label class="font-weight-normal">@Model.FlightNo</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Take off Date:</label>
+                        <label class="font-weight-normal">@Model.FlightDate</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Landing Date:</label>
+                        <label class="font-weight-normal">@Model.LandingDate</label>
+                    </div>
+                    <div class="col-6">
+                        <label>ATA:</label>
+                        <label class="font-weight-normal">@Model.ATA</label>
+                    </div>
+                    <div class="col-6">
+                        <label>ATD:</label>
+                        <label class="font-weight-normal">@Model.ATD</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Reg:</label>
+                        <label class="font-weight-normal">@Model.RegNo</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Max Takoff Wieght:</label>
+                        <label class="font-weight-normal">@Model.MaxTakoffWieght</label>
+                    </div>
+                    <div class="col-6">
+                        <label>From:</label>
+                        <label class="font-weight-normal">@Model.From</label>
+                    </div>
+                    <div class="col-6">
+                        <label>To:</label>
+                        <label class="font-weight-normal">@Model.To</label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-4">
+                <fieldset class="row trip-info" style="margin-left:15px;">
+                    <label class="legend">Passengers</label>
+                    <div class="col-12">
+                        <label>Pax:</label>
+                        <label class="font-weight-normal">@Model.InterPax</label>
+                    </div>
+                    <div class="col-12">
+                        <label>TRN Pax:</label>
+                        <label class="font-weight-normal">@Model.TRNPax</label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-8">
+                <label class="legend">Services</label>
+                <fieldset class="row trip-info">
+                    
+                    <div class="col-6">
+                        <label>Ambulance Cars:</label>
+                        <label class="font-weight-normal">@Model.AmbulanceCarCount</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Fire Truck:</label>
+                        <label class="font-weight-normal">@Model.FireTruckCount</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Mail Exp:</label>
+                        <label class="font-weight-normal">@Model.MailExp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Mail Imp:</label>
+                        <label class="font-weight-normal">@Model.MailImp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Frieght Exp:</label>
+                        <label class="font-weight-normal">@Model.FrieghtExp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Frieght Imp:</label>
+                        <label class="font-weight-normal">@Model.FrieghtImp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Agent:</label>
+                        <label class="font-weight-normal">@Model.GroundHandlingComp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Fuel Company:</label>
+                        <label class="font-weight-normal">@Model.FuelComp</label>
+                    </div>
+                    <div class="col-6">
+                        <label>Fuel Liters:</label>
+                        <label class="font-weight-normal">@Model.FuelLiters</label>
+                    </div>
+
+                </fieldset>
+            </div>
+
+            
+        </div>
+    </div>
+    <br /><br /><br />
+
+    <div class="row">
+        <div class="col-6" style="line-height:2">
+            <strong class="">Officer </strong><br />
+            <span>Name : @ViewBag.UserName</span>
+            <br />
+            <span>-------------------------------</span>
+
+        </div>
+
+        <div class="col-6" style="line-height:2">
+            <strong >Acountant </strong><br />
+            <span>Name :------------------------------ </span>
+            <br />
+            <span>-----------------------------------------</span>
+
+        </div>
+
+    </div>
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+        window.addEventListener("load", window.print());
+
+        $('.numberFormat').each(function () {
+            var item = $(this).text();
+
+            var N = round(item, 2);
+
+            var num = Number(N).toLocaleString();
+            $(this).text(num);
+        });
+
+        function round(value, exp) {
+            if (typeof exp === 'undefined' || +exp === 0)
+                return Math.round(value);
+
+            value = +value;
+            exp = +exp;
+
+            if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                return NaN;
+
+            // Shift
+            value = value.toString().split('e');
+            value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+            // Shift back
+            value = value.toString().split('e');
+            return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+        }
+
+    </script>
+}

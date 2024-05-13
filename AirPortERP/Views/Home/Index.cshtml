@@ -1,0 +1,507 @@
+﻿@model AirPortERP.ViewModels.DescriptionReportModel
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Movement Description Report</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Movement Description Report</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <section class="content">
+        <div class="container-fluid">
+
+           
+
+
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info elevation-1"><i class="fa fa-plane"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Airline</span>
+                            <span class="info-box-number">
+                                @Model.TotalCountOfAirline
+
+                            </span>
+                        </div>
+
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-plane-departure"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">AirLines Flight Trip</span>
+                            <span class="info-box-number">@Model.TotalAirLinesFlightTrip</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-bacon"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">AirPorts</span>
+                            <span class="info-box-number">@Model.TotalAirPort</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-globe-africa"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Countries</span>
+                            <span class="info-box-number">@Model.TotalCountries</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <!--///////////////////////-->
+                    <div class="card">
+                        <div class="card-body">
+
+                            <canvas id="InternationalDomestic"></canvas>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="NightDayTitle"></canvas>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <canvas id="TripTypeTitle"></canvas>
+                        </div>
+                    </div>
+
+                    @if (Model.FiveTakeOffStatus == true)
+            {
+                        <div class="card">
+                            <div class="card-body">
+
+
+                                <canvas id="FiveTakeOffTitle"></canvas>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <canvas id="InternationalDomesticMonth"></canvas>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+            <hr />
+
+            <h4 class="text-center">Tower Movement Fight Report</h4>
+
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        @*<span class="info-box-icon bg-info elevation-1"><i class="fa fa-plane"></i></span>*@
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Daily Flights</span>
+                            <span class="info-box-number">
+                                @Model.TotalFlightInDay <span>Trip</span>
+
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Monthly Flights</span>
+                            <span class="info-box-number">@Model.TotalFlightInMonth</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Flight In Year</span>
+                            <span class="info-box-number">@Model.TotalFlightInYear</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+
+            </div>
+
+@*
+    <div class="row">
+        <div class="col-md-6">
+
+            <!--///////////////////////-->
+            <div class="card">
+                <div class="card-body">
+
+                   <canvas id="NightStop"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+*@
+                </div>
+
+</section>
+   
+    <script src="~/Temp/dist/js/Chart.min.js"></script>
+
+    @section scripts{
+
+        <script>
+            $(function () {
+
+
+
+                var ctx = document.getElementById("InternationalDomestic").getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+
+                        labels: ["Domestic", "International"],
+                        datasets: [{
+
+                            backgroundColor: ['#f56954', '#00c0ef'],
+
+                            // backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+
+                            data: [@Model.TotalDomesticCount, @Model.TotalInternationalCount]
+                        }]
+                    }, options: {
+                        title: {
+                            display: true,
+                            text: "@Model.InternationalDomesticTitle"
+                        }
+                    }
+
+                });
+
+                ////////////////////////////////////////////InternationalDomesticMonth/////////////////////////////////////////
+                var ctx = document.getElementById("InternationalDomesticMonth").getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+
+                        labels: ["Domestic", "International"],
+                        datasets: [{
+
+                            backgroundColor: ['#f56954', '#00c0ef'],
+
+                            // backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+
+                            data: [@Model.TotalDomesticMonthCount, @Model.TotalInternationalMonthCount]
+                        }]
+                    }, options: {
+                        title: {
+                            display: true,
+                            text: "@Model.InternationalDomesticMonthTitle"
+                        }
+                    }
+
+                });
+
+
+
+                @*var ctxNightStop = document.getElementById("NightStop").getContext('2d');
+                var myPieChartNightStop = new Chart(ctxNightStop, {
+                    type: 'pie',
+                    data: {
+
+                        labels: ["Has Night Stop", "Hasn't Night Stop"],
+                        datasets: [{
+
+                            backgroundColor: ['#00c0ef', '#f56954'],
+
+                            // backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+
+                            data: [@Model.HasNightStop, @Model.NotHasNightStop]
+                        }]
+                    }, options: {
+                        title: {
+                            display: true,
+                            text: "@Model.NightStopTitle"
+                        }
+                    }
+
+                });*@
+
+
+
+
+                var xValues = ["@Model.FiveTakeOffName1", "@Model.FiveTakeOffName2", "@Model.FiveTakeOffName3", "@Model.FiveTakeOffName4", "@Model.FiveTakeOffName5"];
+                var yValues = [@Model.FiveTakeOffCount1, @Model.FiveTakeOffCount2, @Model.FiveTakeOffCount3, @Model.FiveTakeOffCount4, @Model.FiveTakeOffCount5];
+                var barColors = ["green", "red", "blue", "orange", "brown"];
+
+                new Chart("FiveTakeOffTitle", {
+                    type: "horizontalBar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "@Model.FiveTakeOffTitle"
+                        }, scales: {
+                            xAxes: [{ ticks: { min: 0 } }]
+                        }
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+                var ctx = document.getElementById("NightDayTitle").getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+
+                        labels: ["Day", "Night"],
+                        datasets: [{
+                            
+                           // backgroundColor: ['#00c0ef', '#00a65a'],
+                            backgroundColor: ['orange', 'black'],
+
+                            // backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+
+                            data: [@Model.InDuityCount, @Model.InOverTimeCount]
+                        }]
+                    }, options: {
+                        title: {
+                            display: true,
+                            text: "@Model.NightStopTitle"
+                        }
+                    }
+
+                });
+
+
+
+
+
+                var xValues = ["Local Movement", "Foreign Movement", "Local Domstic", "Local International"];
+                var yValues = [@Model.Totallocal, @Model.TotalForeign, @Model.TotallocalDomstic, @Model.TotallocalInter];
+                var barColors = ["green", "red", "blue", "orange"];
+
+               // var barColors = ["green", "red", "blue", "orange", "brown"];
+                new Chart("TripTypeTitle", {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "@Model.TripTypeTitle"
+                        }, scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                        }
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                @*var ctx_bar = document.getElementById("TripTypeTitle");
+                        var myChart = new Chart(ctx_bar, {
+                            type: 'bar',
+                            data: {
+                                labels: ["Normal", "Military", "Un"],
+                                datasets: [{
+                                    label: "@Model.TargetsExecuteTitle",
+                                    backgroundColor: "rgba(255,99,132,0.2)",
+                                    borderColor: "rgba(255,99,132,1)",
+                                    borderWidth: 2,
+                                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                                    hoverBorderColor: "rgba(255,99,132,1)",
+                                    data: [@Model.TotalNormalCount, @Model.TotalmilitaryCount, @Model.TotalUNCount]
+                                }]
+                            }, options: {
+                                title: {
+                                    display: true,
+                                    text: "@Model.TargetsExecuteTitle"
+                                }
+                            }
+
+                        });*@
+
+
+
+
+
+                @*var ctx = document.getElementById("ExecutionInOutPlan").getContext('2d');
+                        var myPieChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+
+                                labels: [" منفذ داخل الخطة", "منفذ خارج الخطة"],
+                                datasets: [{
+
+                                    backgroundColor: ['green', '#00c0ef'],
+
+                                    // backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+
+                                    data: [@Model.TotalExecuteInplanCount, @Model.TotalExecuteOutplanCount]
+                                }]
+                            }, options: {
+                                title: {
+                                    display: true,
+                                    text: "@Model.ExecuteInOutTitle"
+                                }
+                            }
+
+                        });*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+
+
+
+
+        </script>
+    }

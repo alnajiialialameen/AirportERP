@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.spTotalCompaniesPushbackFees_Result>
+
+@using PagedList.Mvc
+
+@{
+    Layout = null;
+}
+
+<style>
+    .re-sort:hover {      
+        color:#2d2cdd;
+        text-decoration:double;      
+    }
+</style>
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px;">
+           <thead>
+               <tr  class="text-center">                  
+                   @*<th class="hidden text-center">
+                       Id
+                   </th>*@  
+                   <th>
+                       Name
+                   </th>
+                   <th>
+                       Code
+                   </th>                   
+                   <th>
+                       Total $
+                   </th>
+               </tr>
+           </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr> 
+                    @*<th class="hidden text-center">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </th>*@                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>                                      
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PushBackFees)
+                    </td>
+                </tr>
+            }
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("SearchDataTotalCompaniesInterCUPPS", new { page,           
+           Get = 1,           
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           DateFrom = ViewBag.DateFrom
+       }))
+        </div>
+    </div>
+</div>

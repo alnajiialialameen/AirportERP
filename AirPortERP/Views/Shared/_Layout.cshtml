@@ -1,0 +1,1655 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Airport ERP</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/Airline.ico">
+
+    <link rel="stylesheet" href="~/Temp/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    @*<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">*@
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Temp/dist/css/adminlte.min.css">
+    @*<link href="~/Temp/dist/css/adminlte.css" rel="stylesheet" />*@
+    <script src="~/Temp/plugins/bootstrap/js/bootstrap.min.js"></script>
+    @*<link href="~/Temp/dist/css/bootstrapRtl.min.css" rel="stylesheet" />*@
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="~/Temp/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <link href="~/Temp/Table/dataTables.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Temp/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Temp/dist/css/custom.css" rel="stylesheet" />
+    
+
+    <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
+    <link rel="stylesheet" href="~/Temp/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/Temp/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+    <link href="~/Temp/Tree/dist/themes/default/style.min.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="~/Temp/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/Temp/dist/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/Temp/Tree/dist/themes/default/style.min.css" rel="stylesheet" />
+   
+    <style>
+           
+
+        .navbar-expand {
+            background-color: #3c8dbc;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+            .navbar-light .navbar-nav .nav-link:hover {
+                color: #fff;
+            }
+
+            .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+                color: #fff;
+            }
+      
+        .modal-open {
+            padding-right: 0px;
+        }
+      
+        .card-title {
+            float: left;
+        }
+        
+        .content-header .breadcrumb {
+            font-size: smaller;
+        }
+
+        .breadcrumb-item + .breadcrumb-item {
+            padding-right: .0rem;
+        }
+
+        .badge {
+            font-size: 90%;
+        }
+
+        .navbar-badges {
+            position: absolute;
+            right: 5px;
+            top: 9px;
+        }
+
+        .badge-warning {
+            color: white;
+            background-color: #3c8dbc;
+        }
+        .modal-body {
+            padding:0;
+        }
+        .invalid-feedback {
+  
+    text-align: right;
+}
+       
+        /*////////////////////////////////////////////////////////////////////////////////////////////*/
+         .setting-nav-link {
+        position: relative;
+        margin-bottom: .2rem;
+        display: block;
+        padding: .5rem 1rem;
+        }
+        .setting-p {
+            display:inline;
+        }
+
+
+  .main-sidebar, .main-sidebar::before {
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+    width: 200px;
+}
+        .Setting-fees {
+            font-size:small;
+        }
+       .modal-dialog .overlay {
+            background-color: #dee2e6;
+        }
+    
+    .jsonText {
+        width: 90px;
+    }
+        .Workon {
+            margin-right: 100px;
+        }
+        Workon-Li {
+  text-align: right;
+  left: -100px;
+  right: inherit;
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+        .sidebar {
+ 
+    font-size: small;
+}
+.table-sm td, .table-sm th {
+    padding: .50rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+        .text-layout {
+            font-size:12px;
+        }
+        .font-xs {
+            font-size:11px;
+        }
+        .badge-warning {
+        color: #1f2d3d;
+        background-color: #ffc107;
+
+    }
+
+         .custom-table {
+        /*background-color:#f7d08b*/
+         background-color:#ededed;
+    }
+   
+  .custom-table .table thead th {
+ 
+  border-bottom: 2px solid #dedada;
+   
+}
+   .custom-table .table-sm td, .table-sm th {
+  
+  border-top: 1px solid #b2b1b1;
+}
+   .custom-table .table-bordered td, .table-bordered th {
+  border: 1px solid #b2b1b1;
+  
+}
+    .custom-table .table-bordered {
+  border: 1px solid #b2b1b1;
+  
+
+
+
+}
+        .colorBrand {
+            color:#ffb400
+        }
+         .extra {
+            color:bisque
+        }
+
+        /*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    </style>
+    <link href="~/Temp/Loader/Loader.css" rel="stylesheet" />
+    <link href="~/Temp/Loader/Sinnper.css" rel="stylesheet" />
+    @using AirPortERP.Models;
+    @using Microsoft.AspNet.Identity;
+    @using AirPortERP.Extenstion;
+
+    @{
+
+        Entities db = new Entities();
+        RptExtention ex = new RptExtention();
+        RoleController Role = new RoleController();
+        CommonUsed CommonUsed = new CommonUsed();
+        string UserRole = "";
+        if (Request.IsAuthenticated)
+        {
+            var id = User.Identity.GetUserId();
+
+            UserRole = Role.GetRole(id);
+        }
+        else {
+            Response.Redirect(new Uri(Request.Url, Url.Action("Login", "Account")).ToString());
+
+        }
+
+        var UserId = User.Identity.GetUserId();
+        bool HasMouth = db.WorkOns.Any(x => x.UserId == UserId);
+
+
+    }
+
+
+
+
+
+
+</head>
+<body class="hold-transition sidebar-mini">
+
+
+
+    <div id="LoginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xs">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>تسجيل الخروج</h4>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <span>هل تريد تسجيل الخروج؟؟</span>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">تسجيل الخروج</button>
+                    <button class="btn btn-danger" data-dismiss="modal">الغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+          
+            
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+
+
+
+            <!---/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!---/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- Right navbar links -->
+           
+            
+            
+           
+
+
+            
+            
+            
+            
+            
+            
+             <div class="navbar-nav ml-auto">
+                 
+
+                 @if (HasMouth)
+                 {
+                     if (Request.IsAuthenticated)
+                     {
+                 <div class="Workon">
+                     <ul>
+                         <li class="nav-item dropdown">
+                             <a class="nav-link" data-toggle="dropdown" href="#">
+                                 @{ 
+
+                                     var id = User.Identity.GetUserId();
+                                     string Mouth = CommonUsed.GetMouthName(id);
+                                     string Year = CommonUsed.GetYear(id).ToString();
+
+                                     }
+                                    
+                                 }
+                                 <span class="badge badge-warning navbar-badges">  @Mouth / @Year م</span>
+                             </a>
+                             <div class="dropdown-menu dropdown-menu dropdown-menu-right">
+
+                                 <a href="@Url.Action("WorkOnUpdate", "WorkOns")" class="dropdown-item"><span class="font-xs"> Change Mouth && Year</span>  <i class="fas fa-calculator"></i> </a>
+                                
+
+
+                             </div>
+                         </li>
+                     </ul>
+
+                 </div>
+                                         }
+                                     }
+                <!-- //////////////////////////////////////////////////////////////////////////////// تسجيل خروج //////// -->
+                @Html.Partial("_Login")
+              
+              
+               
+                  
+              
+                <div class="nav-item">
+                   @if (UserRole == "Super-Admin") {
+
+                    <div class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                        <i class="fas fa-cogs fa-1x"></i>
+                     <!--*******************************************************************************-->
+
+                    </div>
+                   }
+                </div>
+                
+            </div>
+
+
+          
+
+         
+
+
+
+
+
+
+
+
+
+
+        </nav>
+
+       @if (Request.IsAuthenticated)
+         {
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            @*<a href="index3.html" class="brand-link">
+                <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">AdminLTE 3</span>
+            </a>*@
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    @*<div class="image">
+                        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>*@
+                    <div class="info">
+                        <a href="#" class="d-block">AirPort Erp</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    
+                     
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">
+                                <i class="fas fa-home"></i>
+                                <p>
+                                    Home
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <!-- -------------------------------------------------------------------------------------------- -->
+
+
+                        @if (UserRole.Contains("Account") || UserRole == "Super-Admin" || UserRole == "Account-Admin" || UserRole == "Revenues")
+                        {
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-calculator colorBrand"></i>
+                                <p>
+                                    Accounts
+                                    <i class="fas fa-angle-left right mr-2"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                              
+                                @*<li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountGroups")" class="nav-link">
+                                        <span><i class="fas fa-university colorBrand "></i></span>
+                                        <p class="setting-p">
+                                            Group
+                                        </p>
+                                    </a>
+                                </li>*@
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountTree")" class="nav-link">
+                                        <span><i class="fas fa-tree colorBrand"></i></span>
+                                        <p>
+                                           Tree Account 
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                               
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Banks")" class="nav-link">
+                                        <span><i class="fas fa-university colorBrand "></i></span>
+                                        <p class="setting-p">
+                                            Banks
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Funds")" class="nav-link">
+                                        <span><i class="fas fa-cube colorBrand "></i></span>
+                                        <p class="setting-p">
+                                            Funds(الصناديق)
+                                        </p>
+                                    </a>
+                                </li>
+
+                          
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountOpen")" class="nav-link">
+                                        <span><i class="fas fa-key  colorBrand"></i></span>
+                                        <p>
+                                            Open Balance
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Open", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-key  colorBrand"></i></span>
+                                        <p>
+                                            Open Balance Report
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountSand")" class="nav-link">
+                                        <span><i class="fas fa-receipt colorBrand"></i></span>
+                                        <p>
+                                            receipt
+                                        </p>
+                                    </a>
+                                </li>
+
+                                
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Sand", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-file-pdf colorBrand"></i></span>
+                                        <p>
+                                            receipt Report
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountClaim")" class="nav-link">
+                                        <span><i class="fas fa-dollar-sign colorBrand"></i></span>
+                                        <p>
+                                             Claim
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Claim", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-dollar-sign colorBrand"></i></span>
+                                        <p>
+                                             Claim Report
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Statement", "AccountReport")" class="nav-link">
+                                        <span><i class="fas  fa-lightbulb colorBrand "></i></span>
+                                        <p>
+                                            Account Statement
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AccountSandSarf")" class="nav-link">
+                                        <span><i class="fas fa-comment-dollar colorBrand "></i></span>
+                                        <p>
+                                            receipt Sarf
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("SandSarf", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-comment-dollar colorBrand "></i></span>
+                                        <p>
+                                            receipt Sarf Report
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ComapniesPaymentStatus", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-comment-dollar colorBrand "></i></span>
+                                        <p>
+                                            AirLines Payment Status
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ComapniesPaymentStatusDollar", "AccountReport")" class="nav-link">
+                                        <span><i class="fas fa-comment-dollar colorBrand "></i></span>
+                                        <p>
+                                            AirLines Payment Status(USD)
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+
+                            </ul>
+                        </li>
+
+
+                             }
+
+
+                        <!-- -------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+                        @if (UserRole.Contains("Tower") || UserRole.Contains("Landing") ||
+                       UserRole == "Super-Admin" || UserRole == "Revenues")
+                        {
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("TakeOff", "TowerDatas")" class="nav-link">
+                                    <i class="fas fa-rocket"></i>
+                                    <p>
+                                        Movement
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("TowerDataReport", "TowerDatas")" class="nav-link">
+                                    <i class="fas fa-rocket"></i>
+                                    <p>
+                                        Movement Report
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("DailyMovement", "TowerDatas")" class="nav-link">
+                                    <i class="fas fa-rocket"></i>
+                                    <p>
+                                        Daily Movement
+                                    </p>
+                                </a>
+                            </li>
+
+                        }
+
+
+                        @if (UserRole.Contains("Ny") || UserRole.Contains("Cupps") ||
+                          UserRole == "Super-Admin" || UserRole == "Revenues")
+                        {
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("NyAndCuppMain", "RevenueMain")" class="nav-link">
+                                    <i class="fas fa-luggage-cart"></i>
+                                    <p>
+                                        Ny And Cupps
+                                  
+                                        @{
+                                            var id = User.Identity.GetUserId();
+                                            var CNy = ex.NyAndCuppCount(id);
+                                            }
+                                        @if (CNy > 0)
+                                        {
+                                        <span class="badge badge-info right">
+                                          @CNy
+                                        </span>
+                                       
+                                        }
+                                        
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("NyAndCuppsFillter", "RevenueExtenstion")" class="nav-link">
+                                    <i class="fas fa-luggage-cart"></i>
+                                    <p>
+                                        Ny And Cupps Fillter
+                                    </p>
+                                </a>
+                            </li>
+                                            }
+
+
+                        @if (UserRole.Contains("FirstClass") ||
+                       UserRole == "Super-Admin" || UserRole == "Revenues")
+                        {
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("FirstClassMain", "RevenueMain")" class="nav-link">
+                                    <i class="fas fa-medal"></i>
+                                    <p>
+                                        First Class
+
+                                        @{ 
+                                            var id = User.Identity.GetUserId();
+                                            var Cfirst = ex.FirstClassCount(id);
+                                            }
+                                        @if (Cfirst > 0)
+                                        {
+                                            <span class="badge badge-info right">
+                                                @Cfirst
+                                            </span>
+                                        }
+
+
+
+
+
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("FirstClassFillter", "RevenueExtenstion")" class="nav-link">
+                                    <i class="fas fa-medal"></i>
+                                    <p>
+                                        First Class Fillter
+                                    </p>
+                                </a>
+                            </li>
+
+                                            }
+
+                        @if (UserRole.Contains("Car") ||
+                       UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Cupps&&Car")
+                        {
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("CarSeriveMain", "RevenueMain")" class="nav-link">
+
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Car Service
+                                        @{
+                                            var id = User.Identity.GetUserId();
+                                            var CCs = ex.CarServiceCount(id);
+                                            }
+                                        @if (CCs > 0)
+                                        {
+                                            <span class="badge badge-info right">
+                                                @CCs
+                                            </span>
+                                        }
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("CarServiceFillter", "RevenueExtenstion")" class="nav-link">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Car Service Fillter
+                                    </p>
+                                </a>
+                            </li>
+
+                                            }
+
+                        @if (UserRole.Contains("Mail") || UserRole.Contains("Freight") ||
+                         UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Landing-Admin")
+                        {
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("MailAndFreightMain", "RevenueMain")" class="nav-link">
+                                    <i class="fas fa-dolly-flatbed"></i>
+                                    <p>
+                                        Mail And Freight
+                                        @{
+                                            var id = User.Identity.GetUserId();
+                                            var CMAndF = ex.MailAndFrieghtCount(id);
+                                            }
+                                        @if (CMAndF > 0)
+                                        {
+                                            <span class="badge badge-info right">
+                                                @CMAndF
+                                            </span>
+                                        }
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("MailAndFreightFillter", "RevenueExtenstion")" class="nav-link">
+                                    <i class="fas fa-dolly-flatbed"></i>
+                                    <p>
+                                        Mail And Freight Fillter
+                                    </p>
+                                </a>
+                            </li>
+                                            }
+
+                        @if (UserRole.Contains("PushPack") ||
+                           UserRole == "Super-Admin" || UserRole == "Revenues")
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("PushPackMain", "RevenueMain")" class="nav-link">
+                                    <i class="fas fa-truck-loading"></i>
+                                    <p>
+                                        PushPack
+                                        @{
+                                            var id = User.Identity.GetUserId();
+                                            var CP = ex.PushPackCount(id);
+                                            }
+                                        @if (CP > 0)
+                                        {
+                                            <span class="badge badge-info right">
+                                                @CP
+                                            </span>
+                                        }
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("PushPackFillter", "RevenueExtenstion")" class="nav-link">
+                                    <i class="fas fa-truck-loading"></i>
+                                    <p>
+                                        PushPack Fillter
+                                    </p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "groundHandling")" class="nav-link">
+                                    <span><i class="fas fa-paste colorBrand "></i></span>
+                                    <p>
+                                        Ground Handling
+                                    </p>
+                                </a>
+                            </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("GroundHandlingReport", "groundHandling")" class="nav-link">
+                                        <span><i class="fas fa-paste colorBrand "></i></span>
+                                        <p>
+                                            Ground Handling Report
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Fuels")" class="nav-link">
+                                    <span><i class="fas fa-paste colorBrand "></i></span>
+                                    <p>
+                                        Fuel Fees
+                                    </p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="@Url.Action("FuelsReport", "Fuels")" class="nav-link">
+                                    <span><i class="fas fa-paste colorBrand "></i></span>
+                                    <p>
+                                        Fuel Fees Report
+                                    </p>
+                                </a>
+                            </li>
+
+
+                                            }
+
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-scroll extra"></i>
+                                <p>
+                                    extra Report 
+                                    <i class="right fas fa-angle-left mr-2"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                @if (UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole.Contains("Account"))
+                                {
+                                    @*<li class="nav-item">
+                                        <a href="@Url.Action("FinalInvoiceReport", "Revenues")" class="nav-link">
+                                            <i class="fas fa-sticky-note extra"></i>
+                                            <p>Final Invoice Report</p>
+                                        </a>
+                                    </li>*@
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalAllFees", "AdvencePrintExtenstion")" class="nav-link">
+                                                <i class="fas fa-sticky-note extra"></i>
+                                                <p>Total All Fees</p>
+                                            </a>
+                                        </li>
+                                 }
+
+                            </ul>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+@if (!UserRole.Contains("Account"))
+{
+
+
+
+
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-scroll"></i>
+                                    <p>
+                                        Report Papers
+                                        <i class="right fas fa-angle-left mr-2"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+                                    @if (UserRole.Contains("Tower") || UserRole.Contains("Landing") || UserRole.Contains("Mail") || UserRole.Contains("Freight")
+           || UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Account-Admin")
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("LandingReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Landing Report</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("ServiceMailReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Mail&&Freight Report</p>
+                                            </a>
+                                        </li>
+                                    }
+
+
+                                    @if (UserRole.Contains("Ny") || UserRole.Contains("Cupps") ||
+              UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Account-Admin")
+                                    {
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CuppsReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Cupps Report</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("NyReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Ny Report</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CuppsReportDistribtion", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Cupps Report Distribtion</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CuppsReportNoData", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Cupps No Data Report</p>
+                                            </a>
+                                        </li>
+
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalInterCUPPSDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>CUPPS Details(International)</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalInterNYDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>NY Details(International)</p>
+                                            </a>
+                                        </li>
+
+
+                                    }
+                                    @if (UserRole.Contains("FirstClass") || UserRole == "Account-Admin" ||
+                  UserRole == "Super-Admin" || UserRole == "Revenues")
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("FirstClassReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>First Class Report</p>
+                                            </a>
+                                        </li>
+                                    }
+
+
+                                    @if (UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Account-Admin")
+                                    {
+
+                                        @*<li class="nav-item">
+                                            <a href="@Url.Action("FinalInvoiceReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Final Invoice Report</p>
+                                            </a>
+                                        </li>*@
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalAllFees", "AdvencePrintExtenstion")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Total All Fees</p>
+                                            </a>
+                                        </li>
+
+
+
+
+
+                                    }
+            
+
+                                    @if (UserRole.Contains("Car") ||
+            UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Account-Admin")
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("ServiceCarReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Service Car Report</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalDomesticCUPPSDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>CUPPS Details(Domestic)</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalDomesticNYDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>NY Details(Domestic)</p>
+                                            </a>
+                                        </li>
+
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalServiceCarDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>ServiceCar Details</p>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (UserRole.Contains("PushPack") || UserRole == "Super-Admin" || UserRole == "Revenues" || UserRole == "Account-Admin")
+                                    {
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("PushPackReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Pushback Report</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("TotalPushbackDetails", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p>Pushback Details</p>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (UserRole.Contains("Ny") || UserRole.Contains("Cupps") || UserRole == "Super-Admin" || UserRole == "Revenues")
+                                    {
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("NewReport", "Revenues")" class="nav-link">
+                                                <i class="fas fa-sticky-note"></i>
+                                                <p class="text-layout">Total Copmanies CUPPS</p>
+                                            </a>
+                                        </li>
+
+                                    }
+                                </ul>
+                        </li>
+}
+                       @if (UserRole.Contains("Admin") || UserRole == "Revenues" || UserRole == "Super-Admin" || UserRole == "Account-Admin")
+                       {
+                         <li class="nav-item has-treeview">
+                             <a href="#" class="nav-link">
+                                 <i class="fas fa-puzzle-piece fa-1x"></i>
+
+
+                                 <p>
+                                     Start Up
+                                     <i class="fas fa-angle-left right mr-2"></i>
+                                 </p>
+                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Countries")" class="nav-link">
+                                        <i class="fas fa-globe-africa"></i>
+                                        <p>
+                                            Countries
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AirPorts")" class="nav-link">
+                                        <i class="fas fa-bacon"></i>
+                                        <p>
+                                            AirPorts
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AirLinesFlightTrips")" class="nav-link">
+                                        <i class="far fa-paper-plane"></i>
+                                        <p>
+                                            AirLines Flight Trips
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Airlines")" class="nav-link">
+                                        <i class="fas fa-rocket"></i>
+                                        <p>
+                                            Airlines
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AircraftTypes")" class="nav-link">
+                                        <i class="fas fa-plane-departure"></i>
+                                        <p>
+                                            Aircraft Types
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AircraftRegistrations")" class="nav-link">
+                                        <i class="far fa-registered"></i>
+                                        <p>
+                                            Aircraft Registrations
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                @*<li class="nav-item">
+                                    <a href="@Url.Action("Index", "AirLineAgents")" class="nav-link">
+                                        <i class="far fa-user"></i>
+                                        <p>
+                                            AirLine Agents
+                                        </p>
+                                    </a>
+                                </li>*@
+
+                                @*<li class="nav-item">
+                                    <a href="@Url.Action("Index", "HandlingAgentsCompanies")" class="nav-link">
+                                        <i class="fas fa-trailer"></i>
+                                        <p>
+                                            HandlingAgents Companies
+                                        </p>
+                                    </a>
+                                </li>*@
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "TripTypes")" class="nav-link">
+                                        <i class="fas fa-plane"></i>
+                                        <p>
+                                            TripTypes
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "AircraftSizes")" class="nav-link">
+                                        <i class="fas fa-plane"></i>
+                                        <p>
+                                            AircraftSizes
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "handlingAgentsCompanies")" class="nav-link">
+                                        <i class="fas fa-comments-dollar"></i>
+                                        <p>
+                                            Ground Handling Companies
+                                        </p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "CurrencyDetails")" class="nav-link">
+                                        <i class="fas fa-comments-dollar"></i>
+                                        <p>
+                                            Currencys
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "PrintFormats")" class="nav-link">
+                                        <i class="fas fa-paragraph"></i>
+                                        <p>
+                                            PrintFormats
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+
+                              
+
+
+
+
+                                
+
+
+
+
+
+
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Backup", "Home")" class="nav-link">
+                                        <i class="fas fa-database"></i>
+                                        <p>
+                                            Backup
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+
+                            </ul>
+                        </li>
+                       }
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-book-open"></i>
+                                <p>
+                                    Reference
+                                    <i class="fas fa-angle-left right mr-2"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                               
+                                <li class="nav-item">
+                                    <a href="@Url.Action("FlightRCores", "FlightRCores")" class="setting-nav-link">
+                                        <span style="color:greenyellow"><i class="fas fa-book-open"></i></span>
+                                        <p class="setting-p">
+                                            Right Flight No 
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("PlaneRCores", "PlaneRCores")" class="setting-nav-link">
+                                        <span style="color:greenyellow"><i class="fas fa-book-open"></i></span>
+                                        <p class="setting-p">
+                                            Right Plane Reg
+                                        </p>
+                                    </a>
+                                </li>
+                                
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "RegisterationCores")" class="nav-link">
+                                        <span style="color:orangered"><i class="fas fa-book-open"></i></span>
+                                        <p>
+                                           D.Adel Registeration 
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FlightNoCores")" class="nav-link">
+                                        <span style="color:orangered"><i class="fas fa-book-open"></i></span>
+                                        <p>
+                                            D.Adel FlightNo 
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("LandingCore", "LandingCores")" class="nav-link">
+                                        <span style="color:orangered"><i class="fas fa-book-open"></i></span>
+                                       
+                                        <p>
+                                            D.Adel Landing 
+                                        </p>
+                                    </a>
+                                </li>
+
+
+
+
+
+                            </ul>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+
+            <div class="content-wrapper">
+
+                <!--************************************************************************************* -->
+                @RenderBody()
+                <!--************************************************************************************* -->
+
+            </div>
+
+                                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <footer class="main-footer">
+                <strong>
+                    Copyright &copy; 2022 <a href="http://adminlte.io">
+                        SHALC
+                        khartoum Airport ERP
+                    </a>.
+                </strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 1.0.0
+                </div>
+            </footer>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+
+
+                <div class="Setting-fees">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        @*<div class="image">
+                            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        </div>*@
+                        <div class="info">
+                            <a href="#" class="d-block">Setting</a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Usermanager","Account")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        User Manager
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","CompanyInfoes")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        Company Informations
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Register","Account")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        Register New User
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","CarServiceFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        CarServiceFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","CUPPSServiceFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        CUPPSServiceFees
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","FreightFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        FreightFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","LandingServiceFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        LandingServiceFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","MailServiceFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        MailServiceFees
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","NoiseFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        NoiseFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","NYFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        NYFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","PushBackFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        PushBackFees
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","ParkingServiceFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        ParkingServiceFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","SecurityFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        SecurityFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","StayInFees")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        StayInFees
+                                    </p>
+                                </a>
+                            </li>
+
+                         
+                            <li class="nav-item">
+                                <a href="@Url.Action("UpdateInterNYFees","Updater")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        UpdateInterNYFees
+                                    </p>
+                                </a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a href="@Url.Action("UpdateSecurityFees","Updater")" class="setting-nav-link">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p class="setting-p">
+                                        UpdateSecurityFees
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </nav>
+
+                </div>
+
+
+
+
+
+
+            </aside>
+
+        </div>
+
+
+
+
+    <script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="~/Temp/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Temp/dist/js/adminlte.min.js"></script>
+    <script src="~/Temp/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Temp/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/Temp/plugins/jquery-validation/additional-methods.min.js"></script>
+
+    <!-- AdminLTE for demo purposes -->
+    @*<script src="~/Temp/dist/js/demo.js"></script>*@
+    <script src="~/Temp/Table/jquery.dataTables.min.js"></script>
+    <script src="~/Temp/Table/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Temp/plugins/toastr/toastr.min.js"></script>
+
+    @*<script src="~/Temp/Table/datatables-demo.js"></script>*@
+
+
+
+    <script src="~/Temp/plugins/chart.js/Chart.min.js"></script>
+    @*<script src="~/Temp/dist/js/demo.js"></script>*@
+    <!-- FLOT CHARTS -->
+    <script src="~/Temp/plugins/flot/jquery.flot.js"></script>
+    <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+    <script src="~/Temp/plugins/flot-old/jquery.flot.resize.min.js"></script>
+    <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+    <script src="~/Temp/plugins/flot-old/jquery.flot.pie.min.js"></script>
+ 
+    
+    
+    <script src="~/Temp/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/Temp/plugins/select2/js/select2.full.min.js"></script>
+   
+
+
+
+
+    <script src="~/Temp/plugins/moment/moment.min.js"></script>
+    <script src="~/Temp/plugins/inputmask/jquery.inputmask.min.js"></script>
+
+    <script src="~/Temp/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+   
+    <script src="~/Temp/dist/js/sweetalert2.min.js"></script>
+    <script src="~/Temp/dist/js/sweetalert.js"></script>
+
+    <script src="~/Temp/Tree/dist/jstree.min.js"></script>
+
+
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+        function GoToLogin() {
+
+            window.location.href = "/Account/Login/";
+        }
+    </script>
+
+</body>
+</html>

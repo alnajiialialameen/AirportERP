@@ -1,0 +1,77 @@
+﻿@model AirPortERP.Models.MailServiceFee
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update MailServiceFees </h5>
+            }
+            else
+            {
+                <h5>Add MailServiceFees</h5>
+            }
+        }
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        <div class="form-horizontal">
+            <div class="card-body">
+                @if (Model.Id > 0)
+                {
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayTextFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.HiddenFor(c => c.Name)
+                }
+                else
+                {
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AmountInDollar, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AmountInDollar, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AmountInDollar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(c => c.CreatedBy)
+                @Html.HiddenFor(c => c.CreationDate)
+                @Html.HiddenFor(c => c.UpdatedBy)
+                @Html.HiddenFor(c => c.UpdatingDate)
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+            @{
+                if (Model.Id > 0)
+                {
+                    <span>Update MailServiceFees</span>
+                }
+                else
+                {
+                    <span>Add MailServiceFees</span>
+                }
+            }
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,225 @@
+﻿@model AirPortERP.Models.CompanyInfo
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "CompanyInfoes", FormMethod.Post, new { enctype = "multipart/form-data" ,@id= "quickForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-8">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.NameAr, " Arabic Name ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.NameAr, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                            @Html.ValidationMessageFor(model => model.NameAr, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.NameEn, " English Name ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.NameEn, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter English Name" } })
+                            @Html.ValidationMessageFor(model => model.NameEn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Code, " Code ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", placeholder = "Code" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Address, " Address ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Longitude, " Longitude ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control", placeholder = "Longitude" } })
+                            @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Latitude, "Latitude", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control", placeholder = "Latitude" } })
+                            @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.RevenuesManager, "RevenuesManager", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.RevenuesManager, new { htmlAttributes = new { @class = "form-control", placeholder = "Revenues Manager" } })
+                            @Html.ValidationMessageFor(model => model.RevenuesManager, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+
+                            <input type="file" name="ImageFile" id="ImageFile" onchange="getImageFile(this);" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.IsActive, "IsActive", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsActive)
+
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Phone, "Phone", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <img src="" alt="" id="imgCompInfo" style="height:200px; width:200px" class="img-thumbnail"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      
+  
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+
+
+</div>
+
+@section scripts{
+
+
+<script>
+
+    function getImageFile(input) {
+        //debugger;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                $('#imgCompInfo').prop('src', e.target.result)                   
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+   
+
+
+
+
+    $(function () {
+        $.validator.setDefaults({
+            submitHandler: function () {
+                alert("Form successful submitted!");
+            }
+        });
+        $('#quickForm').validate({
+            rules: {
+                NameAr: {
+                    required: true,
+                    email: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                terms: {
+                    required: true
+                },
+            },
+            messages: {
+                NameAr: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+                terms: "Please accept our terms"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+}

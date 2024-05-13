@@ -1,0 +1,152 @@
+﻿@model AirPortERP.ViewModels.OfficerDataViewModelsOnly
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Aircraft Type </h5>
+            }
+            else
+            {
+
+                <h5>Add Aircraft Type </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+      
+        
+
+           
+           
+            <div class="form-horizontal">
+               
+                 <div class="card-body">
+
+
+
+                     <div class="form-group row">
+                         @Html.LabelFor(model => model.CrewNO, " CrewNO ", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-sm-10">
+                             @Html.EditorFor(model => model.CrewNO, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone1" } })
+                             @Html.ValidationMessageFor(model => model.CrewNO, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+
+                     <div class="form-group row">
+                         @Html.LabelFor(model => model.HasNightStop, "Has Night Stop??", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(m => m.HasNightStop)
+
+                         </div>
+                     </div>
+
+                     <div class="form-group row">
+                         @Html.LabelFor(model => model.HandlingAgentId, "HandlingAgentId", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.DropDownList("HandlingAgentId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                             @Html.ValidationMessageFor(model => model.HandlingAgentId, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+
+
+
+
+
+                   
+
+
+                     <div class="form-group row">
+                         @Html.LabelFor(model => model.AireLineAgentId, "AireLineAgentId", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.DropDownList("AireLineAgentId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                             @Html.ValidationMessageFor(model => model.AireLineAgentId, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+
+
+
+                     <div class="form-group row">
+                         @Html.LabelFor(model => model.IsCurrentAccount, "IsCurrentAccount", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(m => m.IsCurrentAccount)
+
+                         </div>
+                     </div>
+
+
+
+
+                     
+
+                    
+
+                    
+                     @Html.HiddenFor(C => C.ServiceCarReqId)
+                   
+
+
+                     @Html.HiddenFor(C => C.TowerDataId)
+                     @Html.HiddenFor(C => C.OfficerDataCreatedBy)
+                     @Html.HiddenFor(C => C.OfficerDataCreationDate)
+
+
+
+                  
+                </div>
+             
+            </div>
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+       
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+            @{
+                if (Model.Id > 0)
+                {
+                    <span>Update</span>
+                }
+                else
+                {
+
+                    <span>Add</span>
+                }
+
+            }
+
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">إلغاء</button>
+
+    </div>
+</form>
+

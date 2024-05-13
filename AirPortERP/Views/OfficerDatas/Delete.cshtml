@@ -1,0 +1,248 @@
+﻿@model AirPortERP.Models.OfficerData
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>OfficerData</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CrewNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CrewNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasNightStop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasNightStop)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRNYCUPPS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRNYCUPPS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRNY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRNY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRNone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRNone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmbInft)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmbInft)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DISEMB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DISEMB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisEmbInft)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisEmbInft)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrightLoadingExp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrightLoadingExp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrightLoadingImp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrightLoadingImp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NormalMailLoadingExp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NormalMailLoadingExp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RapidMailLoadingExp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RapidMailLoadingExp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NormalMailLoadingImp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NormalMailLoadingImp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RapidMailLoadingImp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RapidMailLoadingImp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmbulanceCarCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmbulanceCarCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FireFightingCarCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FireFightingCarCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCurrentAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCurrentAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatingDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AirLineAgent.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AirLineAgent.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyInfo.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyInfo.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HandlingAgentsCompany.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HandlingAgentsCompany.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceCarCompany.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceCarCompany.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TowerData.LandingPermission)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TowerData.LandingPermission)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

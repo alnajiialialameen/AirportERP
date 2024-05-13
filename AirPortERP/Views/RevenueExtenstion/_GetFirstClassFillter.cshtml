@@ -1,0 +1,204 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.Revenue>
+
+@using PagedList.Mvc
+
+@{
+
+    Layout = null;
+
+}
+
+<style>
+    .re-sort:hover {
+        color: #2d2cdd;
+        text-decoration: double;
+    }
+</style>
+
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px">
+
+
+
+            <tr>
+
+                <th>ID </th>
+
+                <th>
+
+                    <div onclick="sortTable()" class="re-sort"><i class="fa fa-sort"></i> <a>AirLine</a></div>
+
+
+                </th>
+
+                <th>
+                    Flight No
+                </th>
+                <th>
+                    Reg
+                </th>
+                <th>
+                     From
+                </th>
+                <th>
+                     To
+                </th>
+                <th>
+                    Date
+                </th>
+
+
+
+                <th>
+                    First Class Count
+                </th>
+
+                <th>
+                    First Class Fees
+                </th>
+              
+
+
+
+
+
+
+                <th>Operation</th>
+
+            </tr>
+
+            @foreach (var item in Model)
+
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.Id)
+
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.AirLine.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.AirLinesFlightTrip.FlightNo)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.AircraftRegistration.Registration)
+                    </td>
+
+
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.AirPort1.Code)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.TowerData.AirPort.Code)
+
+                    </td>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.OfficerData.TowerData.Date))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerData.FirstClassCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstClassFees)
+                    </td>
+                   
+
+
+                   
+
+
+
+
+                      <td>
+                    
+                        <div class="btn-group">
+
+                            <button type="button" class="btn" data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" onclick="getNyFees(@item.Id)" href="#">Update</a>
+                                <a class="dropdown-item" href="@Url.Action("Details", "RevenueAddition")/@item.Id">More Details</a>
+
+                                @*<a class="dropdown-item" href="#">Something else here</a>*@
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onclick="Delete(@item.Id)" href="#">Detete </a>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount)
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("GetDataFirstClass", new
+       {
+           page,
+           // int? AirPortIdFrom,int? AirPortIdTo
+           Get = 1
+           ,
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           AirLineId = ViewBag.AirLineId,
+
+           DateTo = ViewBag.DateTo,
+           DateFrom = ViewBag.DateFrom,
+
+           FlightTypeId = ViewBag.FlightTypeId,
+       }))
+        </div>
+    </div>
+
+    @if (ViewBag.ItemCount > 0)
+    {
+
+        @*<div class="col-6">
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">عدد الدورات:</th>
+                            <td>@ViewBag.ItemCount</td>
+                        </tr>
+                        <tr>
+                            <th>مجموع النثريات</th>
+                            <td>@ViewBag.Allowance</td>
+                        </tr>
+                        <tr>
+                            <th>اجمالي التكلفة:</th>
+                            <td>@ViewBag.Amount</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>*@
+
+
+    }
+
+
+
+
+
+</div>

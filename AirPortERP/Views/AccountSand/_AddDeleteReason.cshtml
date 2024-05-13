@@ -1,0 +1,92 @@
+﻿@model AirPortERP.ViewModels.DeleteReasonAddViewModel
+@using AirPortERP.Models;
+@{ 
+    Entities db = new Entities();
+}
+<style>
+    .DivMain {
+        background-color:#f8f9fa;
+        padding:10px;
+        border:1px solid #808080
+    }
+
+</style>
+<form name="DeleteReasonFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Delete Reason </h5>          
+            }
+            else
+            {
+
+                <h5>Add Delete Reason </h5>               
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" style="font-size:13px">
+    
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                
+
+                   
+                @Html.HiddenFor(C => C.Id)
+                     
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.DeleteReason, "Delete Reason", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DeleteReason, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                        @Html.ValidationMessageFor(model => model.DeleteReason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                      
+
+
+                             
+
+                 
+              
+                                         
+           
+
+        
+
+                <!--------------------------------------------------------------------------------------------------------------------------------------------->
+                <div class="modal-footer justify-content-between">
+                    <button type="button" onclick="AddDeleteReason()" class="btn btn-primary">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <span>Update Delete Reason</span>
+                            }
+                            else
+                            {
+
+                                <span>Add Delete Reason</span>
+                            }
+
+                        }
+
+
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

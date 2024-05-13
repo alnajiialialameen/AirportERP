@@ -1,0 +1,538 @@
+﻿@model AirPortERP.ViewModels.PrintFinalInvoiceViewModel
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<style>
+    /*////////////////////////////////////////////////////Graf/////////////////////////////////////////////*/
+
+    .invoiceGraf {
+        padding: 10px;
+        font-family: Arial;
+    }
+
+        .invoiceGraf .invoice-Graf-header {
+            border: 2px solid #808080;
+            border-radius: 5px;
+            padding: 21px;
+            margin-bottom: 10px;
+            background-color: #f9fcfc;
+        }
+
+            .invoiceGraf .invoice-Graf-header .Center-image {
+                text-align: center;
+                float: none;
+                margin-right: 280px;
+            }
+
+
+
+            .invoiceGraf .invoice-Graf-header .text-word {
+                float: none;
+            }
+
+            .invoiceGraf .invoice-Graf-header h5 {
+                /*///ADD//*/
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            .invoiceGraf .invoice-Graf-header .image-R {
+                float: right;
+                margin-right: 30px;
+                margin-top: -90px;
+            }
+
+            .invoiceGraf .invoice-Graf-header .image-L {
+                float: left;
+            }
+
+        .invoiceGraf .invoice-Graf-Body {
+            clear: both;
+        }
+
+        .invoiceGraf .invoice-Graf-Body {
+            margin-right: 30px;
+            margin-top: 60px;
+            text-align: right;
+        }
+
+            .invoiceGraf .invoice-Graf-Body .arline-header h5 {
+                font-weight: 600;
+                font-size: 22px;
+            }
+
+            .invoiceGraf .invoice-Graf-Body .mater {
+                text-align: center;
+                margin-top: 60px;
+                margin-left: 160px;
+                font-size: 20px;
+                font-weight: bolder;
+            }
+
+            .invoiceGraf .invoice-Graf-Body .hay {
+                text-align: center;
+                margin-top: 40px;
+                margin-right: 240px;
+            }
+
+        .invoiceGraf .invoice-Graf-details {
+            margin-top: 60px;
+        }
+
+            .invoiceGraf .invoice-Graf-details h5 {
+                margin-right: 30px;
+                text-align: right;
+                margin-top: 30px;
+                font-size: 22px;
+            }
+
+            .invoiceGraf .invoice-Graf-details .myTable {
+                float: right;
+                margin-top: 30px;
+                margin-right: 30px;
+                width: 800px;
+            }
+
+            .invoiceGraf .invoice-Graf-details table, th, td {
+                padding: .5rem;
+                /*ADD*/
+                font-size: 22px;
+                font-weight: 500;
+            }
+
+                .invoiceGraf .invoice-Graf-details table thead tr {
+                    background-color: #ebefef;
+                }
+
+
+
+
+
+        .invoiceGraf .number-word {
+            clear: both;
+            margin-top: 30px;
+            margin-right: 30px;
+            float: right;
+            font-size: 21px;
+        }
+
+            .invoiceGraf .number-word h6 {
+                font-size: 22px;
+            }
+
+        .invoiceGraf .thank h5 {
+            /*ADD*/
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .invoiceGraf .thank {
+            clear: both;
+            text-align: center;
+            margin-top: 260px;
+        }
+
+            .invoiceGraf .thank .fas {
+                font-size: x-small;
+            }
+
+        .invoiceGraf .Pay {
+            /*ADD*/
+            clear: both;
+            margin-top: 30px;
+            float: right;
+            margin-right: 30px;
+        }
+
+            .invoiceGraf .Pay h5 {
+                /*ADD*/
+                font-size: 22px;
+            }
+
+
+    .invoice-Graf-footer .sign {
+        margin-left: 140px;
+        margin-top: 220px;
+        text-align: right;
+        float: left;
+    }
+
+        .invoice-Graf-footer .sign h5 {
+            /*ADD*/
+            font-size: 24px;
+        }
+
+
+
+    .invoiceGraf .divid {
+        clear: both;
+        margin-top: 410px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .invoiceGraf .pay-final {
+        text-align: right;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceGraf">
+
+
+    <div class="invoice-Graf-header">
+
+
+
+        <div class="image-L">
+
+
+            <h5>Sudan Airports Company .Ltd</h5>
+            <h5>General Administration Of Finance Affairs</h5>
+            <h5>Revenue Directorate</h5>
+        </div>
+
+
+
+        <div class="Center-image">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+
+        <div class="image-R text-right">
+            <h5>شركة مطارات السودان المحدودة  </h5>
+            <h5>الادارة العامة للشؤون المالية</h5>
+            <h5>ادارة الايرادات </h5>
+        </div>
+    </div>
+
+
+
+
+    <div class="invoice-Graf-Body">
+
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h5>   التاريخ:   @ViewBag.DateNow</h5> <br />
+
+                    <h5>  السيد مدير/ @ViewBag.ArName</h5>
+                    <div class="mater">
+                        <h5>المحترم</h5>
+                    </div>
+
+                    <div class="hay">
+                        <h5>  .... السلام عليكم ورحمة الله</h5>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center invoice-Graf-details">
+
+        <h4 class="font-weight-bold text-center"><u>   الموضوع/ @ViewBag.DemandDate </u> </h4>
+
+        <h5>بالاشارة للموضوع اعلاة مرفق لسيادتكم @ViewBag.DemandDate حسب ماموضح ادناة</h5>
+
+        <table class="myTable" width="100%">
+            <thead>
+                <tr>
+
+
+                    <td>المبلغ بالدولار  </td>
+                    <td>البيـــــــــــــــــان </td>
+                    <td class="N">الرقم</td>
+                </tr>
+            </thead>
+            <tr>
+
+
+                <td class="numberFormat">  @Model.GrandTotalDollar</td>
+                <td>اجمالي الرسوم الطيرانية</td>
+                <td class="N">1</td>
+            </tr>
+
+
+
+
+
+
+
+
+        </table>
+
+
+
+
+
+    </div>
+
+    <div class="number-word">
+        <h6>@Model.GrandTotalDollarTxt</h6>
+
+    </div>
+    <div class="Pay">
+        <h5>نرجو التكرم بالسداد</h5>
+    </div>
+    <div class="thank">
+        <h5> <i class="fas fa-quote-right"></i> ولكم الشكر </h5>
+    </div>
+
+    <div class="invoice-Graf-footer">
+
+        <div class="sign">
+            @*<h5>@ViewBag.RevenuesManager</h5>*@
+            <h5>بلقــــــيس مــــــحـــجوب احـــــــــمد</h5>
+            @*<h5>مديــــر ادارة الايــــرادات</h5>*@
+            <h5>مدير الادارة العامة للشؤون المالية والحسابية</h5>
+        </div>
+
+
+
+
+    </div>
+
+
+    <div class="divid">
+        <hr />
+    </div>
+    <div class="pay-final">
+        <h5>الرجاء مراجعة الفاتورة خلال 72 ساعة وبعدها تصبح قابلة للسداد</h5>
+        <h5>السداد خلال اسبوع من تاريخ استلام الفاتورة</h5>
+    </div>
+
+
+
+
+
+
+
+    <script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+</section>
+
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+          // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           //var number = 681.975;
+           //console.log(number.toLocaleString());
+           //alert(number.toLocaleString());
+
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+
+
+
+
+
+    </script>
+
+}

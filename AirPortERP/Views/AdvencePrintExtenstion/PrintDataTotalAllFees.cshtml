@@ -1,0 +1,574 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintAllFeesViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint2.cshtml";
+}
+
+<style type="text/css" media="print">
+    @@media print {
+        @@page {
+            size: landscape;
+        }
+    }
+</style>
+
+
+
+<style>
+
+       /*////////////////////////////////////////////////////CuppsDetails/////////////////////////////////////////////*/
+              .invoiceCuppsJournal {
+            padding:15px;
+            font-family:'Times New Roman';
+            font-size:x-small;
+        }
+       .invoiceCuppsJournal .invoice-CuppsJournal-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:14px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceCuppsJournal .invoice-CuppsJournal-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceCuppsJournal .invoice-CuppsJournal-header .text-word h6 {
+            font-size:16px;
+              /*font-weight:bolder;*/
+             
+        }
+
+
+                .invoiceCuppsJournal .CuppsJournal-Title {
+                    margin-top:30px;
+                     margin-bottom:30px;
+                }
+
+               .invoiceCuppsJournal .invoice-CuppsJournal-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceCuppsJournal .invoice-CuppsJournal-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceCuppsJournal .invoice-CuppsJournal-Body {
+               float:right;
+            }
+
+              
+
+
+             .invoiceCuppsJournal .invoice-CuppsJournal-details  {
+               float:right;
+              
+            }
+              .invoiceCuppsJournal .invoice-CuppsJournal-details  {
+              text-align:right;
+              
+            }
+
+
+             .invoiceCuppsJournal .invoice-CuppsJournal-Body .h-mr {
+              margin-right:20px;
+        }
+                .invoiceCuppsJournal .invoice-CuppsJournal-details {
+                    clear:both;
+                }
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details table {
+                      min-width:900px;
+                    text-align:right;
+                }
+
+                  
+
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoiceCuppsJournal .invoice-CuppsJournal-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+
+
+
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details table, tr,th,td {
+                 border:1px solid #282a2c; 
+                 padding:.2rem;
+                 /*min-height:240px;*/
+                 font-size:11px
+                  
+               
+            }
+
+              
+                    .invoiceCuppsJournal .invoice-CuppsJournal-details {
+                     margin-bottom:700px;
+                }
+                    
+
+                .invoiceCuppsJournal .invoice-CuppsJournal-details .footer {
+                     background-color:#ebefef
+                }
+                    
+
+
+
+                .invoiceCuppsJournal .prepared {
+                    clear:both;
+                   
+                   
+                  
+                   
+                }
+                    .invoiceCuppsJournal .prepared .f-right {
+                        float:right;
+                    }
+                     .invoiceCuppsJournal .prepared .f-left {
+                        float:left;
+                        margin-left:200px;
+                    }
+
+
+
+
+</style>
+
+
+
+
+<section class="invoicePushPackDetails">
+
+
+    <div class="invoice-PushPackDetails-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+    <br />
+    @*<h5 class="text-center"><u> Pushback Fees</u></h5>*@
+    <div class="invoice-PushPackDetails-Body" style="float:right;">
+
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    @*<label class="mr-5">Amount: @ViewBag.Amount</label>*@
+
+                    @*<label class="mr-5">ExchangeRate: @ViewBag.ExchangeRate</label>*@
+
+                    <label class="h-mr">   الرسوم الطيرانية عن شهر :  @ViewBag.txtDate    <span></span></label>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="invoice-PushPackDetails-details">
+
+
+       
+
+
+
+
+            <table class="PushPackDetails-table-header">
+
+                <tr>
+
+
+                    <th>
+                        م
+                    </th>
+
+                
+                    <th>
+                        الاسم
+                    </th>
+                    <th>
+                        رسوم الهبوط
+                    </th>
+
+                    <th>
+                        هبوط ليلي
+                    </th>
+                    <th>
+                        ملاحة
+                    </th>
+                    <th>
+                        امنية
+                    </th>
+                    <th>
+                        بضائع
+                    </th>
+                    <th>
+                        وقوف
+                    </th>
+                    <th>
+                        Cupps رسوم
+                    </th>
+                    <th>
+                        عربة خدمة
+                    </th>
+                    <th>
+                        بريد
+                    </th>
+                    <th>
+                        ركاب درجة
+                    </th>
+                    <th>
+                        Push Pack
+                    </th>
+                    <th>
+                        Noise
+                    </th>
+                    <th>
+                        الجملة
+                    </th>
+                    <th>
+                        الضريبة
+                    </th>
+
+                    <th>
+                        Ny رسوم
+                    </th>
+
+                    <th>
+                        الجملة بعد الضريبة
+                    </th>
+
+                  
+
+                  
+
+                  
+
+
+                   
+
+                
+
+                 
+
+
+                  
+
+                  
+
+                 
+
+                  
+
+
+                  
+
+
+
+                   
+                  
+
+
+                  
+                  
+
+                   
+
+
+
+
+
+                </tr>
+
+
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.N)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.LandingFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.NightOperationFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.NavigationFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.SecurityFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.FreightFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.ParkingFees)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.CuppsFees)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.ServiceCars)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.MailFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.FirstClassFees)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.PushBackFees)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.NoiseFees)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.TotalWithoutNy)
+                            </td>
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.Tax)
+                            </td>
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.NyFees @*+ item.InterNYFees*@)
+                            </td>
+
+
+
+
+
+
+                            <td class="numberFormat">
+                                @Html.DisplayFor(modelItem => item.GrandTotal)
+                            </td>
+
+
+
+
+
+                        
+
+
+                          
+
+                          
+
+                          
+
+                       
+
+
+
+                         
+
+                        
+                          
+
+
+
+                         
+
+                           
+
+                        
+                          
+
+                         
+
+
+                          
+
+                        </tr>
+                    }
+
+                    @*<tr class="footer">
+                        <td colspan="5">  Total :</td>
+
+                        <td class="numberFormat">@ViewBag.SumLandingFees </td>
+                        <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
+
+                        <td class="numberFormat">@ViewBag.SumNavigationFees</td>
+
+                        <td class="numberFormat">@ViewBag.SumSecurityFees</td>
+
+                        <td class="numberFormat">@ViewBag.SumParkingFees</td>
+                        <td class="numberFormat">@ViewBag.SumFreightFees</td>
+
+                        <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                        <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+
+
+                        <td class="numberFormat">@ViewBag.SumNoiseFees</td>
+
+                        <td class="numberFormat">@ViewBag.SumTotal</td>
+                    </tr>
+
+                    <tr class="footer">
+                        <td colspan="5">  Tax :</td>
+
+                        <td colspan="9"> </td>
+
+                        <td class="numberFormat"> @ViewBag.Tax </td>
+
+                    </tr>
+
+                    <tr class="footer">
+                        <td colspan="5"> Grand Total :</td>
+
+                        <td colspan="9"> </td>
+
+                        <td class="numberFormat"> @ViewBag.GrandTotal </td>
+                    </tr>*@
+
+                </tbody>
+
+
+
+
+
+
+
+
+            </table>
+
+
+
+
+        
+
+
+
+     
+
+
+    </div>
+
+
+
+    <div class="prepared">
+        @*<h5 class="f-right">@ViewBag.SupervisorName /إعداد </h5>
+            <h5 class="f-left">@ViewBag.ManagerName/راجعه</h5>*@
+
+        <h6 class="f-right">  / اعداد</h6>
+        <h6 class="f-left">   راجعة/ @ViewBag.ManagerName</h6>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+          // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+
+
+    </script>
+
+}

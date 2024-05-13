@@ -1,0 +1,258 @@
+﻿@model AirPortERP.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Register New User</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Register New User</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<section class="content">
+    <div class="container-fluid">
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-md-8">
+            <div class="card card-info">
+                <div class="form-horizontal">
+
+                    <div class="card-body">
+
+                      @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "quickForm" }))
+
+
+                      //  @using (Html.BeginForm("Register", "Account", new { @id = "quickForm"  }))
+                        {
+                            @Html.AntiForgeryToken();
+                            @Html.ValidationSummary()
+
+                            <h3 class="text-center text-info">Register</h3>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.UserName, new { @class = "control-label col-md-2" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("UserType", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" , autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.ConfirmPassword,"conifrm Password", new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control" , autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                @Html.LabelFor(m => m.CompanyInfo, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("CompanyInfo", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="form-group">
+                                @*<label for="remember-me" class="text-primary"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>*@
+                                <input type="submit" name="submit" class="btn btn-primary btn-md" value="Register">
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        }
+                    </div>
+
+
+
+
+                    <div class="container">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="alert alert-danger">
+                            @Model.Message
+                        </div>
+                    }
+                   </div> 
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+</div>
+    <div>
+        @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-success btn-sm" })
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+
+    <script>
+
+       
+    $(function () {
+      
+        $('#quickForm').validate({
+            rules: {
+                UserName: {
+                    required: true,
+                   
+                },
+                Email: {
+                   
+                    email: true,
+                },
+                Password: {
+                    required: true
+                },
+                ConfirmPassword: {
+                    required: true
+                },
+            },
+            messages: {
+                UserName: {
+                    required: "Please enter a UserName",
+                    
+                },
+                Email: {
+                   
+                    email: "Please Enter valid email"
+                },
+                Password: {
+                    required: "Please enter a UserName",
+
+                },
+
+                UserName: {
+                    ConfirmPassword: "Please enter a Confirm Password",
+
+                },
+
+
+
+
+
+
+
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+}

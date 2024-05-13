@@ -1,0 +1,227 @@
+﻿@model AirPortERP.ViewModels.SandAddViewModelSarf
+@using AirPortERP.Models;
+@{ 
+    Entities db = new Entities();
+}
+<style>
+    .DivMain {
+        background-color:#fbdaa5;
+        padding:10px;
+        border:1px solid #000000
+    }
+    .col-md-6 {
+        padding-left:40px;
+         padding-right:40px;
+    }
+
+</style>
+<form name="SandSarfFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Receipt voucher </h5>                <h5 class="float-right">تعديل سند صرف </h5>
+            }
+            else
+            {
+
+                <h5>Add Receipt voucher </h5>                <h5 class="float-right">اضافة سند صرف </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" style="font-size:13px">
+    
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                <div class="row DivMain">
+
+                    <div class="col-md-6">
+                        @Html.HiddenFor(C => C.Id)
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.AccIdMain, "Account Main", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("AccIdMain", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.AccIdMain, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                      
+
+
+                             
+
+                    </div>
+              
+                                         
+                    <div class="col-md-6">
+
+                        @*<div class="form-group row">
+                            @Html.LabelFor(model => model.ISCash, "IS Cash?", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(m => m.ISCash)
+
+                            </div>
+                        </div>*@
+
+                      
+
+
+                        @*<div class="form-group row" id="DivShakNo">
+                            @Html.LabelFor(model => model.ShakNumber, " No Shak", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ShakNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                                @Html.ValidationMessageFor(model => model.ShakNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+
+                      
+                   </div>
+  
+
+                    </div>
+                <!---/////////////////////////Second///////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <hr />
+                
+                    <div class="row">
+
+                    <div class="col-md-6">
+                        @Html.HiddenFor(C => C.Id)
+                        @Html.HiddenFor(C => C.MainId)
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.AccIdDetail, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("AccIdDetail", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.AccIdDetail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        @*<div class="form-group row">
+                            @Html.LabelFor(model => model.YearId, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("YearId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.YearId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.MonthId, "Month", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("MonthId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.MonthId, "", new { @class = "text-danger" })
+                                
+                            </div>
+                        </div>*@
+
+
+
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                            <div class="col-md-10">
+                                <div class="input-group date" id="Date" data-target-input="nearest">
+                                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "text", @class = "form-control datetimepicker-input ", data_target = "#LandingDate" } })
+
+
+                                    <div class="input-group-append" data-target="#LandingDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   
+
+
+                       
+
+
+                       
+
+                       
+
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.CurrencyId, "Currency", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CurrencyId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.TotalAmountCredit, " Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TotalAmountCredit, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Amount" } })
+                                <label id="MoneyText" name="MoneyText" class="customlabel"></label>
+                            </div>
+                        </div>
+                       
+
+
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Statement, " Statement", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                              @Html.TextAreaFor(m => m.Statement, new { @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.Statement, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                      
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!--------------------------------------------------------------------------------------------------------------------------------------------->
+                <div class="modal-footer justify-content-between">
+                    <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <span>Update Receipt</span>
+                            }
+                            else
+                            {
+
+                                <span>Add Receipt</span>
+                            }
+
+                        }
+
+
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

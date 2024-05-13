@@ -1,0 +1,122 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.spTotalCompaniesCUPPSForDomestic_Result>
+
+@using PagedList.Mvc
+
+@{
+    Layout = null;
+}
+
+<style>
+    .re-sort:hover {      
+        color:#2d2cdd;
+        text-decoration:double;      
+    }
+</style>
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px;">
+           <thead>
+               <tr  class="text-center">
+                   <th >
+                       <input type="checkbox" id="checkall" />
+                   </th>
+                   <th class="hidden text-center">
+                       Id
+                   </th>  
+                   <th>
+                       Name
+                   </th>
+                   <th>
+                       Code
+                   </th>
+                   <th>
+                       Pax
+                   </th>
+                   <th>
+                       Amount $
+                   </th>
+                   <th>
+                       Tax $
+                   </th>
+                   <th>
+                       GrandTotal $
+                   </th>
+                   @*<th>
+                GrandTotal SDG
+            </th>*@
+               </tr>
+           </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr> 
+                    <td class="text-center">
+                        <input type="checkbox" id="selectedRows"  class ="chk" />
+                    </td>  
+                    <th class="hidden text-center">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </th>                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pax)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmountDollar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaxDollar)             
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GrandTotalDollar)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.GrandTotalDollar * item.ExchRate)
+                    </td>*@
+                </tr>
+            }
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("SearchDataTotalCompaniesInterCUPPS", new { page,           
+           Get = 1,           
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           DateFrom = ViewBag.DateFrom
+       }))
+        </div>
+    </div>
+
+   @if (ViewBag.ItemCount > 0)
+   {
+        @*<div class="col-6">       
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:50%">عدد الدورات:</th>
+                        <td>@ViewBag.ItemCount</td>
+                    </tr>
+                    <tr>
+                        <th>مجموع النثريات</th>
+                        <td>@ViewBag.Allowance</td>
+                    </tr>
+                    <tr>
+                        <th>اجمالي التكلفة:</th>
+                        <td>@ViewBag.Amount</td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>*@
+   }
+</div>

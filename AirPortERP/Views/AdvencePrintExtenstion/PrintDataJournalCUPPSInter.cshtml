@@ -1,0 +1,390 @@
+﻿
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceCuppsJournal">
+
+
+    <div class="invoice-CuppsJournal-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <h5 class="text-center CuppsJournal-Title"> <u class="h-mr">  @ViewBag.txtDate  :رسوم مسافرين عالمية عن شــهــر (CUPPS)قيد يومية</u></h5>
+    <div class="invoice-CuppsJournal-Body" style="float:right;">
+
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    @*<label class="mr-5">Amount: @ViewBag.Amount</label>
+
+                    <label class="mr-5">ExchangeRate: @ViewBag.ExchangeRate</label>
+
+                    <label class="h-mr">  @ViewBag.txtDate  :عن شــهــر (CUPPS)مـطالبات رسوم المغادرة الالي   <span></span></label>*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="invoice-CuppsJournal-details">
+
+
+
+
+        <table class="CuppsJournal-table-header">
+
+            <tr>
+                <th>
+                    رئيسي
+                </th>
+                <th>
+                    فــرعــي
+                </th>
+                <th>
+                    الــبــيــان
+                </th>
+                <th>
+                    مــفــردات
+                </th>
+
+                <th>
+                    لــــه
+                </th>
+
+
+                <th>
+                    مـــنـــه
+                </th>
+            </tr>
+
+
+            <tbody>
+               
+          
+                    <tr>
+
+                        <td>
+                            المدينون
+                        </td>
+                        <td>
+                            شركــات طـيـران
+                        </td>
+
+                        <td >
+                            من ح/ المدينون
+                        </td>
+
+                        <td>
+                          
+                        </td>
+
+
+                        <td>
+                           
+                        </td>
+
+
+                        <td class="numberFormat">
+
+                            @ViewBag.TotalAmountSDG
+                        </td>
+
+                    </tr>
+             
+                   <tr>
+
+                    <td>
+                       
+                    </td>
+                    <td>
+                       
+                    </td>
+
+                    <td>
+                        شركــات طـيـران
+                    </td>
+
+                    <td></td>
+
+
+                    <td></td>
+
+
+                    <td >
+
+                      
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td></td>
+                    <td> </td>
+
+                    <td>
+                          
+                    </td>
+
+                    <td></td>
+
+
+                    <td></td>
+
+
+                    <td></td>
+
+                </tr>
+                <tr>
+
+                   
+                    <td></td>
+                    <td> </td>
+                    <td >
+                        ح/ الإيرادات
+                    </td>
+                    <td></td>
+
+                   
+
+
+                    <td></td>
+
+                    <td></td>
+                   
+
+                </tr>
+
+
+                <tr>
+
+                    <td>الإيــرادات</td>
+                    <td>رسـوم مـسـافـرين</td>
+
+                    <td>
+                        إلي ح/ مذكورين
+                    </td>
+
+                    <td></td>
+
+
+                    <td></td>
+
+
+                    <td></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td></td>
+                    <td> </td>
+
+
+                    <td> رسوم مسافرين عالمي</td>
+                    <td class="numberFormat">@ViewBag.KartoumPart</td>
+                    <td></td>
+
+                   
+
+
+                    
+
+
+                    <td></td>
+
+                </tr>
+                <tr>
+
+                    <td></td>
+                    <td> </td>
+
+
+                    <td> </td>
+                    <td> </td>
+                    <td></td>
+
+
+
+
+
+
+
+                    <td></td>
+
+                </tr>
+                @*/////////////////////////////////////////////////////////////////////////////////////////*@
+
+                <tr>
+
+                    <td>الــدائـنـون</td>
+                    <td>شـركـة رايـت </td>
+
+
+                    <td>ح/ الـدائـنـون </td>
+                    <td> </td>
+                    <td></td>
+
+
+
+
+
+
+
+                    <td></td>
+
+                </tr>
+
+                <tr>
+
+                    <td></td>
+                    <td> الضريبة </td>
+                    <td>شـركـة رايـت </td>
+                    <td class="numberFormat">@ViewBag.RightPart </td>
+                    <td></td>
+
+                    <td></td>
+
+                </tr>
+                <tr>
+
+                    <td></td>
+                    <td>  </td>
+                    <td> الضريبة %5 </td>
+                    <td class="numberFormat">@ViewBag.TaxSDG </td>
+                    <td class="numberFormat">@ViewBag.KartoumPart </td>
+
+                    <td></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td></td>
+                    <td>  </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td></td>
+
+                </tr>
+
+
+
+
+
+
+
+
+
+
+                <tr class="footer">
+
+
+
+                    <td></td>
+
+                    <td></td>
+
+                    <td></td>
+
+                    <td></td>
+
+                    <td class="numberFormat">@ViewBag.TotalAmountSDG</td>
+                    <td class="numberFormat">@ViewBag.TotalAmountSDG</td>
+                </tr>
+            </tbody>
+        </table>
+
+      
+
+
+    </div>
+
+
+
+    <div class="prepared">
+        @*<h5 class="f-right">@ViewBag.SupervisorName /إعداد </h5>
+            <h5 class="f-left">@ViewBag.ManagerName/راجعه</h5>*@
+
+        <h6 class="f-right">  / اعداد</h6>
+        <h6 class="f-left">   راجعة/ @ViewBag.ManagerName</h6>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+               var num = Number(item).toLocaleString();
+               $(this).text(num);
+           });
+
+
+    </script>
+
+}

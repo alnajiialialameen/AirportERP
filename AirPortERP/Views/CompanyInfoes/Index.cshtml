@@ -1,0 +1,333 @@
+﻿
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Company Info</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Company Info</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <p>
+
+        <a class="btn btn-primary" href="@Url.Action("Create","CompanyInfoes")">Add New AirPort</a>
+        <button class="btn btn-info float-right" onclick="PrintData()">Print All AirLine Agents </button>
+    </p>
+
+
+
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name in  Arabic </th>
+                            <th>Name in English</th>
+                            <th>Code</th>
+                            <th>Address</th>
+                            <th>Longitude</th>
+                            <th>Latitude</th>
+                            @*<th>Image</th>*@
+                            <th>IsActive</th>
+                            <th>Operation</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+            var dataTable;
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/CompanyInfoes/GetAllCompanyInfo",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+
+                    "columns": [
+                        { "data": "Id", "autowidth": true },
+                          { "data": "NameAr", "autowidth": true },
+                             { "data": "NameEn", "autowidth": true },
+                             { "data": "Code", "autowidth": true },
+                                { "data": "Address", "autowidth": true },
+                                   { "data": "Longitude", "autowidth": true },
+                                     { "data": "Latitude", "autowidth": true },
+
+
+
+                                          {
+                                              "data": "IsActive", "width": "50px", "render": function (data) {
+                                                  var cssClass;
+                                                  if (data === "Not Active") {
+                                                      cssClass = "badge-danger";
+                                                  }
+                                                  if (data === "Active") {
+                                                      cssClass = "badge-success";
+                                                  }
+                                                  return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                              }
+                                          },
+
+
+                                           //{
+                                              
+                                           //    "data": "Image", "width": "50px", "render": function (data) {
+
+                                                     
+                                           //        return '<img src="/Uploads/Images/' + data + '" style="width:90px" class="img-thumbnail"/>'
+
+                                           //    }
+                                           //},
+
+
+
+                                   {
+                                       "data": "Id", "width": "50px", "render": function (data) {
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="Edit(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  }
+                });
+
+            });
+
+
+            function getCompanyInfo(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/CompanyInfoes/GetCompanyInfoParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                Name: {
+                                    required: true,
+
+                                },
+
+                            },
+                            messages: {
+                                Name: {
+                                    required: "الرجاء إدخال نوع الدوره",
+
+                                },
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function CreateOrUpdate() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/CompanyInfoes/CreateOrUpdateCompanyInfo", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل العام معلومات مطار ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه عام معلومات مطار ", "اضافه");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+            function Delete(id) {
+
+                if (confirm("هل تريد فعلا حذف معلومات المطار ??") == true) {
+                    $.get("/CompanyInfoes/Delete", { id: id }, function (res) {
+                        if (res) {
+
+                            if (res.message != null && res.message === "Used") {
+                                toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                            }
+
+                            if (res.message != null && res.message === "Delete") {
+                                toastr.success("تم الحذف نوع معلومات المطار ", "الحذف");
+                            }
+                            dataTable.ajax.reload();
+                        }
+                    });
+                }
+            }
+
+            function PrintData() {
+
+                window.location.href = "/AirLineAgents/PrintData";
+            }
+
+            function Edit(id) {
+
+                window.location.href = "/CompanyInfoes/Edit/"+id;
+            }
+
+    </script>
+}

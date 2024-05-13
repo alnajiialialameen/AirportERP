@@ -1,0 +1,212 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintCuppsNoDataViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+
+
+
+
+
+
+
+
+<section class="invoiceGeneral">
+
+
+    <div class="invoice-General-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-General-Body">
+        <h4 class="text-center"><u> Invoice Domestic Cupps</u></h4>
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="mr-3">Company: @ViewBag.Name</label>
+                    <label class="mr-3">From: @ViewBag.DateFrom</label>
+                    <label class="mr-3">To: @ViewBag.DateTo</label>
+                    @*<label class="h-mr">ExchangeRate: @ViewBag.ExchangeRate</label>*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center invoice-General-details" style="width:100%;margin-bottom:40px;">
+
+
+
+
+        <table class="General-table-header">
+
+            <tr>
+                <th>
+                    N
+                </th>
+
+                <th>
+                    FlightNo
+                </th>
+
+
+                <th>
+                    Date
+                </th>
+                <th>
+                    Registration
+                </th>
+                <th>
+                    To
+                </th>
+
+
+                <th>
+
+                    Pax
+                </th>
+                <th>
+                   TR
+
+                </th>
+
+
+                <th>
+                    Note
+
+                </th>
+
+
+
+
+
+
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightNo)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TakeOffDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Registration)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AirPortTo)
+                        </td>
+                        <td>
+                          
+                        </td>
+
+
+
+
+
+                        <td>
+                          
+                        </td>
+
+                        <td>
+                            
+                        </td>
+
+                    </tr>
+                }
+
+              
+            </tbody>
+
+
+
+
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+               var num = Number(item).toLocaleString();
+               $(this).text(num);
+           });
+
+
+    </script>
+
+}

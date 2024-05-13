@@ -1,0 +1,274 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.OfficerData>
+
+@using PagedList.Mvc
+
+@{
+
+    Layout = null;
+
+}
+
+<style>
+    .re-sort:hover {
+      
+        color:#2d2cdd;
+        text-decoration:double;
+      
+    }
+</style>
+
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover" style="width:100%; font-size:14px;">
+
+
+
+            <tr>
+
+                <th>ID </th>
+
+                <th>
+                    AirLine(Call Sing)
+                    @*<div onclick="sortTable()" class="re-sort"><i class="fa fa-sort"></i> <a>الاسم</a></div>*@
+                </th>
+
+                <th>
+                 REG    
+                </th>
+                <th>
+                    wt
+                </th>
+
+
+
+                <th>
+                    FlightNo
+                </th>
+                <th>
+                     From
+                </th>
+                <th>
+                     To
+                </th>
+                <th>
+                  Date
+                </th>
+
+                <th>
+                    Crew NO
+                </th>
+                <th style="font-size:x-small">
+                    Handling Agents Company
+                </th>
+                <th>
+                   Night Stop
+                </th>
+                <th>
+                    Agent
+                </th>
+                <th>
+                    Account
+                </th>
+                
+                <th>Oper</th>
+
+            </tr>
+
+            @foreach (var item in Model)
+
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TowerData.AirLine.Name)
+                    </td>
+
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.TowerData.AirLinesFlightTrip.FlightNo)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TowerData.AircraftRegistration.Registration)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TowerData.AircraftRegistration.AircraftType.MaxTakoffWieght)
+                    </td>
+
+
+
+                    
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.TowerData.AirPort1.Code)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TowerData.AirPort.Code)
+             
+                    </td>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.TowerData.Date))
+
+
+
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CrewNO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HandlingAgentsCompany.NameEn)
+                    </td>
+
+
+                    <td>
+                        @{
+                            var CssClassStop = "";
+                            var HasNightStop = "";
+                            if (item.HasNightStop == false)
+                            {
+                                CssClassStop = "badge-danger";
+                                HasNightStop = "No";
+
+                            }
+                            if (item.HasNightStop == true)
+                            {
+                                CssClassStop = "badge-success";
+                                HasNightStop = "Yes";
+                            }
+
+                        }
+
+
+                        <span class="badge @CssClassStop ">@HasNightStop  </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AirLineAgent.NameAn)
+                    </td>
+
+                    <td>
+
+                        @{
+                            var CssClass = "";
+                            var IsCurrentAccount = "";
+                            if (item.IsCurrentAccount ==false)
+                            {
+                                CssClass = "badge-danger";
+                                IsCurrentAccount = "No";
+
+                            }
+                            if (item.IsCurrentAccount == true)
+                            {
+                                CssClass = "badge-success";
+                                IsCurrentAccount = "Yes";
+                            }
+
+                        }
+
+
+                        <span class="badge @CssClass ">@IsCurrentAccount  </span>
+                       
+                    </td>
+
+
+
+
+
+
+
+
+
+
+                    <td>
+                        @*<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#">Update</a></div>
+                            <div class="dropdown-menu"><a class="dropdown-item" href="#">Update</a></div>
+                        
+                        </div>*@
+                        <div class="btn-group">
+                            
+                            <button type="button" class="btn" data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" onclick="getOfficerData(@item.TowerDataId)" href="#">Update</a>
+                                <a class="dropdown-item" href="@Url.Action("Details", "OfficerDatas")/@item.Id">More Details</a>
+                              
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onclick="Delete(@item.Id)" href="#">Detete </a>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("GetData", new { page,
+           // int? AirPortIdFrom,int? AirPortIdTo
+           Get = 1
+           ,Search=2,
+           Count= ViewBag.ItemCount,
+           AirLineId = ViewBag.AirLineId,
+           FlightNo = ViewBag.FlightNo,
+           AirPortIdFrom = ViewBag.AirPortIdFrom,
+           AirPortIdTo = ViewBag.AirPortIdTo,
+           HandlingAgentId = ViewBag.HandlingAgentId,
+           RegId = ViewBag.RegId,
+           
+       }))
+        </div>
+    </div>
+
+   @if (ViewBag.ItemCount > 0)
+   {
+
+        @*<div class="col-6">
+        
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:50%">عدد الدورات:</th>
+                        <td>@ViewBag.ItemCount</td>
+                    </tr>
+                    <tr>
+                        <th>مجموع النثريات</th>
+                        <td>@ViewBag.Allowance</td>
+                    </tr>
+                    <tr>
+                        <th>اجمالي التكلفة:</th>
+                        <td>@ViewBag.Amount</td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>*@
+
+
+   }
+
+
+
+
+
+</div>
+
+

@@ -1,0 +1,125 @@
+﻿@model AirPortERP.ViewModels.CurrencieViewModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5>@Model.CurrencyName</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                  
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Currencies")">Currencies</a></li>
+                    <li class="breadcrumb-item active"> Details</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="card">
+        <div class="card-header">
+            @*<h3 class="card-title"> Company: @Model.CurrencyName</h3>*@
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+                        <tr>
+                            <td> Number:</td>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>CurrencyName  :</td>
+                            <td>@Model.CurrencyName</td>
+                        </tr>
+                        <tr>
+                            <td>IsActive  :</td>
+                            <td>@Model.IsActive</td>
+                        </tr>
+                        <tr>
+                            <td>MajorUnit  :</td>
+                            <td>@Model.MajorUnit</td>
+                        </tr>
+                        <tr>
+                            <td>MinorUnit  :</td>
+                            <td>@Model.MinorUnit</td>
+                        </tr>
+                        <tr>
+                            <td>ExchangeRateAgainstPrimaryCurrency  :</td>
+                            <td>@Model.ExchangeRateAgainstPrimaryCurrency</td>
+                        </tr>
+                        <tr>
+                            <td>Notes  :</td>
+                            <td>@Model.Notes</td>
+                        </tr>
+
+                        <tr>
+                            <td> CreatedBy :</td>
+                            <td>@Model.CreatedBy</td>
+                        </tr>
+
+                        <tr>
+                            <td>CreationDate  :</td>
+                            <td>@Model.CreationDate</td>
+                        </tr>
+                        <tr>
+                            <td>  UpdatedBy  :</td>
+                            <td>@Model.UpdatedBy</td>
+                        </tr>
+                        <tr>
+                            <td>  UpdatingDate  :</td>
+                            <td>@Model.UpdatingDate</td>
+                        </tr>
+
+                    </table>
+                </div>
+               
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+
+
+
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@ 
+        @Html.ActionLink("Go to Back", "Index",null, new { @class = "btn btn-success btn-sm" })
+    </p>
+
+</section>
+
+
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.spTotalCompaniesServiceCarFees_Result>
+
+@using PagedList.Mvc
+
+@{
+    Layout = null;
+}
+
+<style>
+    .re-sort:hover {      
+        color:#2d2cdd;
+        text-decoration:double;      
+    }
+</style>
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px;">
+           <thead>
+               <tr  class="text-center">
+                   
+                   <th>
+                       Name
+                   </th>
+                   <th>
+                       Code
+                   </th>
+                   <th>
+                       Ambolance Count
+                   </th>
+                   <th>
+                       Firefighting Count
+                   </th>
+                   <th>
+                       Ambolance Fees $
+                   </th>
+                   <th>
+                       Firefighting Fees $
+                   </th>
+               </tr>
+           </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr> 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalACarCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalFCarCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbolanceFees)             
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FireFightingFees)
+                    </td>
+                </tr>
+            }
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("SearchDataTotalCompaniesInterCUPPS", new { page,           
+           Get = 1,           
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           DateFrom = ViewBag.DateFrom
+       }))
+        </div>
+    </div>
+
+   @if (ViewBag.ItemCount > 0)
+   {
+        @*<div class="col-6">       
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:50%">عدد الدورات:</th>
+                        <td>@ViewBag.ItemCount</td>
+                    </tr>
+                    <tr>
+                        <th>مجموع النثريات</th>
+                        <td>@ViewBag.Allowance</td>
+                    </tr>
+                    <tr>
+                        <th>اجمالي التكلفة:</th>
+                        <td>@ViewBag.Amount</td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>*@
+   }
+</div>

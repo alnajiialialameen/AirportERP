@@ -1,0 +1,697 @@
+﻿
+<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+    }
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    .ml-Custom {
+        margin-right: 120px;
+    }
+
+       .content-header {
+  padding: 7px .2rem;
+}
+</style>
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h6 class="m-0 text-dark">Tree Accounts</h6>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                 
+                    <li class="breadcrumb-item active">Tree Accounts</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <p>
+
+        <button class="btn btn-primary" onclick="getTreeAccount(0)">Add New Account Tree</button>
+        @*<button class="btn btn-info float-right" onclick="PrintData()">Print All Airports </button>*@
+    </p>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="margin-right: 40px;">
+                <img src="~/Temp/Tree/Image/Tree4.png" height="50" />
+            </div>
+            <div id="Refresh-Tree">
+
+
+                @Html.Partial("_Tree")
+            </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div style="width:100%" class="table-responsive">
+
+                        <table id="dataTable" class="table table-bordered table-sm" style="width:100%;font-size:12px;" >
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Id</th>
+                                    <th>Accounting Ttem</th>
+                                    <th>Parent Accounting Item</th>
+                                    <th>Group </th>
+                                    <th>Type </th>
+                                    <th>Operation</th>
+
+                                </tr>
+                            </thead>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Model Start -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" id="myModel-content">
+
+                        <!-- Model content -->
+
+                        <div class="modal-footer justify-content-between">
+                            <button class="btn btn-primary btn-xs">Save Change</button>
+                            <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+
+        $('#html').jstree();
+
+        var dataTable;
+
+        function format(d) {
+            return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-user"></i> الاسم: ' + d.Name + '</span><br>   <Span> البند الاب  :</Span>  <div class="float-right ml-Custom"><p>   البنود التي يتبع لها  <i class="fas fa-map-marker-alt"></i></p><Span> '+d.Name+' </Span><span>' +
+                  d.ParentNameList + '</div>'
+
+
+
+                + d.ParentName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                '<Span>رقم البند :</Span> ' + d.AccNumber + '<br>' +
+
+
+                 '<br><button class="btn btn-success btn-sm m-2" onclick="getUpdateTreeAccount(' + d.Id + ')">تحديث</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                 + ')">تفاصيل</button> <button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
+                '<br></div></div>';
+
+        }
+
+
+
+
+
+
+
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/AccountTree/GetAccountTree",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+                    "columns": [
+
+                         {
+                             "class": "details-control",
+                             "orderable": false,
+                             "data": null,
+                             "defaultContent": ""
+                         },
+
+
+                        { "data": "Id", "autowidth": true },
+                          { "data": "Name", "autowidth": true },
+                           { "data": "ParentName", "autowidth": true },
+                               //{ "data": "ParentNameList", "autowidth": true },
+
+                                  {
+                                      "data": "GroupName", "width": "50px", "render": function (data) {
+                                          var cssClass;
+                                          if (data === "حساب رئيسي") {
+                                              cssClass = "badge-primary";
+                                          }
+                                          else  {
+                                              cssClass = "badge-success";
+                                          }
+                                          return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                      }
+                                  },
+
+                                  {
+                                      "data": "AccTypeName", "width": "50px", "render": function (data) {
+                                          var cssClass;
+                                          if (data === "رئيسي") {
+                                              cssClass = "badge-primary";
+                                          }
+                                          else {
+                                              cssClass = "badge-warning";
+                                          }
+                                          return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                      }
+                                  },
+                          
+                                   {
+                                       "data": "Id", "width": "50px", "render": function (data) {
+                                           return '<div class="btn-group"> <button type="button" class="btn" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getUpdateTreeAccount(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  },
+
+                    "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                    "fnInitComplete": function (oSettings, json) {
+                        addSearchControl(json);
+                    }
+                });
+
+
+                var detailRows = [];
+
+                $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                    var tr = $(this).closest('tr');
+                    var row = dataTable.row(tr);
+                    var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                    if (row.child.isShown()) {
+                        tr.removeClass('details');
+                        row.child.hide();
+
+                        // Remove from the 'open' array
+                        detailRows.splice(idx, 1);
+                    }
+                    else {
+                        tr.addClass('details');
+                        row.child(format(row.data())).show();
+
+                        // Add to the 'open' array
+                        if (idx === -1) {
+                            detailRows.push(tr.attr('Id'));
+                        }
+                    }
+                });
+
+                // On each draw, loop over the `detailRows` array and show any child rows
+                dt.on('draw', function () {
+                    $.each(detailRows, function (i, id) {
+                        $('#' + id + ' td.details-control').trigger('click');
+                    });
+                });
+
+
+                function addSearchControl(json) {
+                    $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                    $("#dataTable thead tr:eq(1) th").each(function (index) {
+                        /*No Search*/
+                        if (index == 0 || index == 6 || index == 7 || index == 8 || index == 12) {
+                            $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                        }
+                        /*Search as text field*/
+                        if (index == 1 || index == 2 || index == 3 || index == 9) {
+                            $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                            searchControl.on('keyup', function () {
+                                dataTable.column(index).search(searchControl.val()).draw();
+                            });
+                        }
+                       
+
+
+
+                        if (index == 4) {
+                            var ClassCaseDropDown = $('<select/>');
+                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('المجموعة'));
+                            var ClassCase = [];
+                            $(json.data).each(function (index, element) {
+                                if ($.inArray(element.GroupName, ClassCase) == -1) {
+                                    ClassCase.push(element.GroupName);
+                                    ClassCaseDropDown.append($('<option/>').attr('value', element.GroupName).text(element.GroupName));
+                                }
+                            });
+                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                            searchControl.on('change', function () {
+                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                            });
+                        }
+
+
+                        if (index == 5) {
+                            var ClassCaseDropDown = $('<select/>');
+                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('النوع'));
+                            var ClassCase = [];
+                            $(json.data).each(function (index, element) {
+                                if ($.inArray(element.AccTypeName, ClassCase) == -1) {
+                                    ClassCase.push(element.AccTypeName);
+                                    ClassCaseDropDown.append($('<option/>').attr('value', element.AccTypeName).text(element.AccTypeName));
+                                }
+                            });
+                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                            searchControl.on('change', function () {
+                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                            });
+                        }
+
+
+
+
+
+                    });
+                }
+
+
+
+
+
+            });
+
+
+            function getTreeAccount(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/AccountTree/GetAccountTreeParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                NameAr: {
+                                    required: true,
+                                },
+                                NameEn: {
+                                    required: true,
+                                },
+                                Code: {
+                                    required: true,
+                                },
+                                CountryId: {
+                                    required: true,
+                                },
+
+                            },
+                            messages: {
+
+                                NameAr: {
+                                    required: "Please in inter arabic Name",
+
+                                },
+                                NameEn: {
+                                    required: "Please in inter English Name",
+
+                                },
+                                Code: {
+                                    required: "Please in inter Code",
+
+                                },
+                                CountryId: {
+                                    required: "Please in inter CountryId",
+
+                                },
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+            function getUpdateTreeAccount(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/AccountTree/GetAccountTreeUpdateParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                NameAr: {
+                                    required: true,
+                                },
+                                NameEn: {
+                                    required: true,
+                                },
+                                Code: {
+                                    required: true,
+                                },
+                                CountryId: {
+                                    required: true,
+                                },
+
+                            },
+                            messages: {
+
+                                NameAr: {
+                                    required: "Please in inter arabic Name",
+
+                                },
+                                NameEn: {
+                                    required: "Please in inter English Name",
+
+                                },
+                                Code: {
+                                    required: "Please in inter Code",
+
+                                },
+                                CountryId: {
+                                    required: "Please in inter CountryId",
+
+                                },
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+            }
+
+
+
+
+            function CreateTreeNode() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/AccountTree/CreateTreeNode", data, function (res) {
+                        if (res) {
+                           
+                            if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه بند ", "اضافه");
+                                treeReload();
+                            }
+                            else if (res.message != null && res.message === "Used") {
+                                toastr.error("العنصر موجود", "اضافه");
+                            }
+
+                            else if (res.message != null && res.message === "UsedAirline") {
+                                toastr.error("يجب اضافة حسابات شركة الطيران من المكان الخصص لة", "اضافه");
+                            }
+
+
+
+
+
+
+
+
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+            function UpdateTreeNode() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/AccountTree/UpdateTreeNode", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل البند  ", "تعديل");
+                                treeReload();
+                            }
+                          
+                            else if (res.message != null && res.message === "Used") {
+                                toastr.error("العنصر موجود", "اضافه");
+                            }
+
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+
+
+
+
+
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/AccountTree/Delete", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف نوع البند ", "الحذف");
+                                     treeReload();
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+            function treeReload(id) {
+
+                //$("#AjaxLoader").show()
+
+                $.get("/AccountTree/GetTreeParial", { id: id }, function (nn) {
+
+                    $("#Refresh-Tree").html(nn);
+                    //$("#myModal").modal('show');
+                    //$("#AjaxLoader").hide()
+                    //$('#html').jstree();
+                })
+            }
+
+
+
+
+
+
+            function PrintData() {
+
+                window.location.href = "/AirPorts/PrintData?";
+            }
+
+
+
+    </script>
+}

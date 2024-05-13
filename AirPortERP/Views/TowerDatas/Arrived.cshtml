@@ -1,0 +1,439 @@
+﻿
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Aircraft Take Off</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Arrived","TowerDatas")">Arrived</a></li>
+                    <li class="breadcrumb-item active">Aircraft Take Off</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    
+
+        @*<button class="btn btn-primary" onclick="getAirLineAgent(0)">Add New Movement</button>*@
+        @*<a href="@Url.Action("TakeOff")" class="btn btn-success"> Back To TakeOff</a>*@
+    <div class="row">
+        <div class="col-md-3">
+
+            <a class="btn btn-success m-2" href="@Url.Action("TakeOff")"> Back To TakeOff <br /><i class="fas fa-plane-departure fa-1x"></i></a>
+        </div>
+    </div>
+
+        @*<button class="btn btn-info float-right ml-2" onclick="PrintData()">Plan Not Arrived Yet </button>
+        <button class="btn btn-info float-right" onclick="PrintData()">Print All Reg </button>*@
+    
+
+
+
+    
+
+
+
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table table-bordered table-sm" style="width:100%;font-size:14px;">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Call Sing</th>
+                            <th>Flight No</th>
+                            <th>Reg</th>
+                            <th>Type</th>
+                            <th>Operation</th>
+                            <th>From</th>
+
+
+                            <th>To</th>
+                            <th>Date</th>
+                            <th>ATA</th>
+                            <th>ATD</th>
+                            <th>POB</th>
+                            <th>QBD</th>
+
+                            <th>Landing Date</th>
+                            <th>Take Off Date</th>
+                            <th>Permission</th>
+
+
+                            @*<th>CreatedBy</th>
+                            <th>CreationDate</th>
+                            <th>UpdatedBy</th>
+                            <th>UpdatingDate</th>
+
+                            <th>LandingDate</th>
+                            <th>TakeOffDate</th>*@
+
+
+                          
+
+
+
+
+                            <th>Oper</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+            var dataTable;
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/TowerDatas/GetAllAircraftNotArrived",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+                    "columns": [
+
+
+     
+
+
+
+                        { "data": "Id", "autowidth": true },
+                          { "data": "AirLineCode", "autowidth": true },
+                           { "data": "FlightNo", "autowidth": true },
+                             { "data": "AircraftRegName", "autowidth": true },
+
+                              { "data": "AirLineCode", "autowidth": true },
+                            { "data": "Type", "autowidth": true },
+                             { "data": "AirportIdFrom", "autowidth": true },
+
+                                { "data": "AirportIdTo", "autowidth": true },
+                                  { "data": "Date", "autowidth": true },
+                                    { "data": "ATA", "autowidth": true },
+                                      { "data": "ATD", "autowidth": true },
+                                        { "data": "POB", "autowidth": true },
+                                          { "data": "QBD", "autowidth": true },
+                                             { "data": "LandingDate", "autowidth": true },
+                                             { "data": "TakeOffDate", "autowidth": true },
+                                           { "data": "LandingPermission", "autowidth": true },
+
+                                                 //{ "data": "CreatedBy", "autowidth": true },
+                                                 //    { "data": "CreationDate", "autowidth": true },
+                                                 //      { "data": "UpdatedBy", "autowidth": true },
+                                                 //         { "data": "UpdatingDate", "autowidth": true },
+
+                                                 //           { "data": "LandingDate", "autowidth": true },
+                                                 //         { "data": "TakeOffDate", "autowidth": true },
+
+                                {
+
+
+                                       "data": "Id", "width": "50px", "render": function (data) {
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getAirLineAgent(' + data +
+                                               ')">Update</a><button class="dropdown-item"  onclick="Details(' + data + ')">Details</button><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  }
+                });
+
+            });
+
+
+            function getAirLineAgent(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/TowerDatas/GetTowerDataArrivedParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+                    $('#timepicker').datetimepicker({
+                        use24hours: true,
+                        format: 'HH:mm'
+                    })
+
+
+
+
+
+
+                    $('#timepicker1').datetimepicker({
+                        use24hours: true,
+                        format: 'HH:mm'
+                    })
+                    $('#Date').datetimepicker({
+                        format: 'L'
+                    });
+                    $('#LandingDate').datetimepicker({
+                        format: 'L'
+                    });
+                    $('#TakeOffDate').datetimepicker({
+                        format: 'L'
+                    });
+
+                  
+                        $("#AirLineId").prop("disabled", true);
+                        $("#FlightNo").prop("disabled", true);
+                        $("#AircraftRegId").prop("disabled", true);
+
+                        $("#AirportIdTo").prop("disabled", true);
+                       
+                        $("#ATD").prop("disabled", true);
+
+                        $("#TakeOffDate").prop("disabled", true);
+
+
+                        $("#POB").prop("disabled", true);
+                        $("#QBD").prop("disabled", true);
+                        $("#LandingPermission").prop("disabled", true);
+
+                        $("#TripTypeId").prop("disabled", true);
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                ATD: {
+                                    required: true,
+
+                                },
+
+                            },
+                            messages: {
+                                ATD: {
+                                    required: "Enter ATD",
+
+                                },
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function CreateOrUpdateArrived() {
+
+                $("#AirLineId").prop("disabled", false);
+                $("#FlightNo").prop("disabled", false);
+                $("#AircraftRegId").prop("disabled", false);
+
+                $("#AirportIdTo").prop("disabled", false);
+                $("#AirportIdFrom").prop("disabled", false);
+                $("#ATD").prop("disabled", true);
+
+                $("#TakeOffDate").prop("disabled", true);
+
+                $("#POB").prop("disabled", false);
+                $("#QBD").prop("disabled", false);
+                $("#LandingPermission").prop("disabled", false);
+                $("#TripTypeId").prop("disabled", false);
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/TowerDatas/CreateOrUpdateArrived", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل العام Movement ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه عام Movement ", "اضافه");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/TowerDatas/Delete", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف نوع Movement ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+            function PrintData() {
+
+                window.location.href = "/TowerDatas/PrintData?";
+            }
+
+            function Details(id) {
+
+                window.location.href = "/TowerDatas/Details/"+id;
+            }
+
+    </script>
+}

@@ -1,0 +1,832 @@
+﻿<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+    }
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        font-weight: bold;
+        padding: 5px;
+    }
+</style>
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Mail And Freight</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Mail And Freight</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    @*<p>
+
+            <button class="btn btn-primary" onclick="getAirPort(0)">Add New AirPort</button>
+            <button class="btn btn-info float-right" onclick="PrintData()">Print All AirLine Agents </button>
+        </p>*@
+
+
+
+
+
+
+
+    <div class="card custom-table">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table table-bordered table-condensed table-hover table-sm" style="width:100%;font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Airline</th>
+                            <th>Flight No</th>
+                            <th>Reg</th>
+                            <th>TripType</th>
+                            <th>Date</th>
+                            <th>Freight Exp</th>
+                            <th>Freight Imp</th>
+
+                            <th>Normal Mail Exp</th>
+                            <th>Normal Mail Imp</th>
+                            <th>Rapid Mail Exp</th>
+                            <th>Rapid Mail Imp</th>
+
+                            <th>Freight Fees</th>
+                            <th>Exp Mail Fees</th>
+                            <th>Imp Mail Fees</th>
+
+
+                            <th>OP</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal-lg" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="myModel-content-lg">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+        var dataTable;
+
+        function format(d) {
+            return '<div class="card Details"><div class="card-body"> <p> Plane <i class="fas fa-plane-departure"></i></p> <Span>Landing Date:</Span>  <div class="float-right"><p> Fees <i class="fas fa-comment-dollar"></i></p><Span>ExpMailFees:</Span><span>' +
+               d.ExpMailFees + '</span><br><Span>ImpMailFees:</Span><span>' + d.ImpMailFees + '</span> <br><Span>FreightFees:</Span><span>' + d.FreightFees +
+               '</span><br></div>   '
+
+
+                + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + '<Span>  &nbsp;&nbsp; &nbsp;&nbsp AirPortFrom:</Span> ' + d.AirPortFrom + '<br>' +
+                 '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '<Span>AirPortTo:</Span> ' + d.AirPortTo + '<br>' +
+                 '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                 '<Span>Wt: </Span>' + d.MaxTakoffWieght + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                 '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                 '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+
+                 '<br><button class="btn btn-success btn-sm m-2" onclick="getMailAndFreight(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="MoreDetails(' + d.Id
+                 + ')">Details</button> <button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                '<button class="btn btn-primary btn-sm m-2" onclick="getTakeOffData(' + d.TowerId + ')">Update Reg</button></div></div>';
+
+        }
+
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/RevenueMain/AllGetMailAndFreight",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+
+                    "columns": [
+                            {
+                                "class": "details-control",
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ""
+                            },
+                        { "data": "TowerId", "autowidth": true },
+                          { "data": "AirlineName", "autowidth": true },
+                             { "data": "FlightNo", "autowidth": true },
+                             { "data": "RegNo", "autowidth": true },
+                               {
+                                   "data": "TripType", "width": "50px", "render": function (data) {
+                                       var cssClass;
+                                       if (data === "Domestic") {
+                                           cssClass = "badge-danger";
+                                       }
+                                       if (data === "International") {
+                                           cssClass = "badge-success";
+                                       }
+                                       return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                   }
+                               },
+
+                               { "data": "Date", "autowidth": true },
+
+
+
+                                         { "data": "FreightLoadingExp", "autowidth": true },
+                          { "data": "FreightLoadingImp", "autowidth": true },
+                             { "data": "NormalMailLoadingExp", "autowidth": true },
+                             { "data": "NormalMailLoadingImp", "autowidth": true },
+
+                               { "data": "RapidMailLoadingExp", "autowidth": true },
+                                   { "data": "RapidMailLoadingImp", "autowidth": true },
+                                     { "data": "FreightFees", "autowidth": true },
+                                        { "data": "ExpMailFees", "autowidth": true },
+                                          { "data": "ImpMailFees", "autowidth": true },
+
+                                       
+
+
+
+                                       
+
+
+
+
+
+
+
+                                   {
+                                       "data": "TowerId", "width": "50px", "render": function (data) {
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getMailAndFreight(' + data
+                                               + ')">Update</a>  <button class="dropdown-item"  onclick="MoreDetails(' + data
+                                               + ')">More Details</button>    <button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  },
+                     "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                    "fnInitComplete": function (oSettings, json) {
+                    addSearchControl(json);
+                }
+                });
+
+
+
+                var detailRows = [];
+
+                $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                    var tr = $(this).closest('tr');
+                    var row = dataTable.row(tr);
+                    var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                    if (row.child.isShown()) {
+                        tr.removeClass('details');
+                        row.child.hide();
+
+                        // Remove from the 'open' array
+                        detailRows.splice(idx, 1);
+                    }
+                    else {
+                        tr.addClass('details');
+                        row.child(format(row.data())).show();
+
+                        // Add to the 'open' array
+                        if (idx === -1) {
+                            detailRows.push(tr.attr('Id'));
+                        }
+                    }
+                });
+
+                // On each draw, loop over the `detailRows` array and show any child rows
+                dt.on('draw', function () {
+                    $.each(detailRows, function (i, id) {
+                        $('#' + id + ' td.details-control').trigger('click');
+                    });
+                });
+
+
+
+                function addSearchControl(json) {
+                    $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                    $("#dataTable thead tr:eq(1) th").each(function (index) {
+                        //Not Whant To Using
+                        if (index == 0 || index == 4 || index == 7 || index == 8 || index == 9 || index == 10 || index == 11 || index == 12 || index == 13 || index == 14 || index == 15 || index == 16) {
+                            $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                        }
+                        // Whant To Using
+                        if (index == 1 || index == 2 || index == 3 || index == 6) {
+                            $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                            searchControl.on('keyup', function () {
+                                dataTable.column(index).search(searchControl.val()).draw();
+                            });
+                        }
+                        // Whant To Using select list 
+                        if (index == 5) {
+                            var ClassCaseDropDown = $('<select/>');
+                            ClassCaseDropDown.append($('<option/>').attr('value', '').text(' نوع الرحلة'));
+                            var ClassCase = [];
+                            $(json.data).each(function (index, element) {
+                                if ($.inArray(element.TripType, ClassCase) == -1) {
+                                    ClassCase.push(element.TripType);
+                                    ClassCaseDropDown.append($('<option/>').attr('value', element.TripType).text(element.TripType));
+                                }
+                            });
+                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                            searchControl.on('change', function () {
+                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                            });
+                        }
+
+
+
+
+
+
+
+                    });
+                }
+            });
+
+
+            function getMailAndFreight(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/RevenueMain/GetMailAndFreightfeesParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                FrightLoadingExp: {
+                                    required: true,
+                                    digits: true,
+                                    maxlength: 14,
+                                },
+                                FrightLoadingImp: {
+                                    required: true,
+                                    digits: true,
+                                    maxlength: 14,
+                                },
+
+                                NormalMailLoadingExpAmount: {
+                                    required: true,
+                                  //  digits: true,
+                                    maxlength: 14,
+                                },
+                                NormalMailLoadingImpAmount: {
+                                    required: true,
+                                 //   digits: true,
+                                    maxlength: 14,
+                                },
+                                RapidMailLoadingExpAmount: {
+                                    required: true,
+                                  //  digits: true,
+                                    maxlength: 14,
+                                },
+                                RapidMailLoadingImpAmount: {
+                                    required: true,
+                                  //  digits: true,
+                                    maxlength: 14,
+                                },
+
+
+                            },
+                            messages: {
+                                FrightLoadingExp: {
+                                    required: "Please Enter Number Of FrightLoadingExp",
+                                    digits: "Please inter Number Only ",
+                                    maxlength: "FrightLoadingExp must be at max 14 ",
+                                },
+                                FrightLoadingImp: {
+                                    required: "Please Enter Number Of FrightLoadingImp",
+                                    digits: "Please inter Number Only ",
+                                    maxlength: "FrightLoadingImp must be at max 14 ",
+                                },
+
+                                NormalMailLoadingExpAmount: {
+                                    required: "Please Enter Number Of NormalMailLoadingExpAmount",
+                                  //  digits: "Please inter Number Only ",
+                                    maxlength: "NormalMailLoadingExpAmount must be at max 14 ",
+                                },
+                                NormalMailLoadingImpAmount: {
+                                    required: "Please Enter Number Of NormalMailLoadingImpAmount",
+                                  ///  digits: "Please inter Number Only ",
+                                    maxlength: "NormalMailLoadingImpAmount must be at max 14 ",
+                                },
+                                RapidMailLoadingExpAmount: {
+                                    required: "Please Enter Number Of RapidMailLoadingExpAmount",
+                                 //   digits: "Please inter Number Only ",
+                                    maxlength: "RapidMailLoadingExpAmount must be at max 14 ",
+                                },
+                                RapidMailLoadingImpAmount: {
+                                    required: "Please Enter Number Of RapidMailLoadingImpAmount",
+                                 //   digits: "Please inter Number Only ",
+                                    maxlength: "RapidMailLoadingImpAmount must be at max 14 ",
+                                },
+
+
+                            },
+
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+
+
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function UpdateMailAndFreightfees() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/RevenueMain/UpdateMailAndFreightfees", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل MailAndFreight ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه MailAndFreight ", "اضافه");
+                            }
+                            else if (res.message != null && res.message === "Used") {
+                                toastr.error("العنصر موجود", "لم يتم الحفظ");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/RevenueAddition/DeleteMailAndFrieght", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف MailAndFrieght ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+            function getTakeOffData(TowerId) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/TowerDatas/GetAircraftTakeOffParial", { id: TowerId }, function (nn) {
+
+                    $("#myModel-content-lg").html(nn);
+                    $("#myModal-lg").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2').select2({
+                        theme: 'bootstrap4'
+                    })
+
+
+
+                    $('#timepicker').datetimepicker({
+                        use24hours: true,
+                        format: 'HH:mm'
+                    })
+
+
+
+
+
+
+                    $('#timepicker1').datetimepicker({
+                        use24hours: true,
+                        format: 'HH:mm'
+                    })
+
+
+                    $('#Date').datetimepicker({
+                        format: 'L'
+                    });
+                    $('#LandingDate').datetimepicker({
+                        format: 'L'
+                    });
+                    $('#TakeOffDate').datetimepicker({
+                        format: 'L'
+                    });
+
+
+                    $("#AirLineId").change(function () {
+                        debugger;
+                        var value = $('#AirLineId').val();
+                        //var valuePlanOut =
+                        //var valuePlanIn = $('#RbInPlan').val();
+
+
+
+                        //     alert("هل تريد اختيار دورة خارجية");
+                        $("#FlightNo option").remove()
+                        var url = "/TowerDatas/GetFlightNo/" + value;
+                        $.getJSON(url, function (data) {
+                            $.each(data, function (key, val) {
+                                var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                                $("#FlightNo").append(ele);
+                            });
+                        });
+
+
+                    })
+
+                    $('#quickForm').validate({
+                        rules: {
+                            ATD: {
+                                required: true,
+                            },
+                            TakeOffDate: {
+                                required: true,
+                                date: true,
+                            },
+                            FlightNo: {
+                                required: {
+                                    depends: function (element) {
+                                        if ('0' == $('#FlightNo').val()) {
+                                            //Set predefined value to blank.
+                                            $('#FlightNo').val('');
+                                        }
+                                        return true;
+                                    }
+                                }
+                            },
+                            AirportIdFrom: {
+                                required: true,
+
+                            },
+                            AirportIdTo: {
+                                required: true,
+
+                            },
+                            QBD: {
+                                required: true,
+
+                            },
+                            ATA: {
+                                required: true,
+
+                            },
+                            TripTypeId: {
+                                required: true,
+
+                            },
+                            POB: {
+                                required: true,
+
+                            },
+                            AirLineId: {
+                                required: true,
+
+                            },
+                            AircraftRegId: {
+                                required: true,
+
+                            },
+                            Date: {
+                                required: true,
+                                date: true,
+
+
+
+                            },
+                            LandingDate: {
+                                required: true,
+                                date: true,
+
+                            },
+
+                        },
+                        messages: {
+                            ATD: {
+                                required: "Please Enter ATD",
+
+                            },
+                            TakeOffDate: {
+                                required: "Please Take Off Date ",
+
+                            },
+                            FlightNo: {
+                                required: "Please Select FlightNo",
+
+                            },
+                            AirportIdFrom: {
+                                required: "Select Airport From",
+
+                            },
+                            AirportIdTo: {
+                                required: "Select AirportId To",
+
+                            },
+                            QBD: {
+                                required: "Enter QBD",
+
+                            },
+                            ATA: {
+                                required: "Enter ATA",
+
+                            },
+                            TripTypeId: {
+                                required: "Select Trip Type",
+
+                            },
+                            POB: {
+                                required: "Enter POB",
+
+                            },
+                            AirLineId: {
+                                required: "select AirLine",
+
+                            },
+                            AircraftRegId: {
+                                required: "Select Reg",
+
+                            },
+                            Date: {
+                                required: "Select Date",
+
+
+                            },
+                            LandingDate: {
+                                required: "Select LandingDate",
+                                date: "Please Enter valid Date",
+                            },
+
+
+                        },
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+            function CreateOrUpdate() {
+
+                $("#AjaxLoader").show()
+
+                var model = $('#myModal-lg');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    $("#AjaxLoader").hide()
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/TowerDatas/CreateOrUpdateTakeOff", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل العام Movement ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه عام Movement ", "اضافه");
+                            }
+
+                            else if (res.message === "Used") {
+                                toastr.error("العنصر موجود", "اضافه");
+                            }
+                            else if (res.message != null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+
+                            model.modal('hide');
+                            $("#AjaxLoader").hide()
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+            function MoreDetails(id) {
+
+                window.location.href = "/RevenueAddition/Details/" + id;
+            }
+
+
+
+    </script>
+}

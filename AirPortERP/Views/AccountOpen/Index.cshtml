@@ -1,0 +1,738 @@
+﻿
+
+
+@using AirPortERP.Models;
+
+
+@{
+    Entities db = new Entities();
+    ViewBag.Title = "Home Page";
+
+}
+
+
+
+<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+    }
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        /*font-weight: bold;*/
+        /*padding: 5px;*/
+    }
+
+    .Card-details-bold span {
+        font-weight: bold;
+    }
+
+    .ml-Custom {
+        margin-left: 300px;
+    }
+
+    .confirm {
+        /*background-color:antiquewhite;*/
+        background-color: #ffbb00;
+        color: #000000;
+    }
+
+
+    .jsonText {
+        width: 80px;
+    }
+
+    .jsonTextWide {
+        width: 140px;
+    }
+</style>
+
+
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h6 class="m-0 text-dark">Open Account Balances (الارصدة الافتتاحية)</h6>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active"> Open Account Balances  (الارصدة الافتتاحية)</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <p>
+
+
+        <button class="btn btn-primary" onclick="getOpen(0)">Add New Open Balances</button>
+
+        <button class="btn btn-primary float-right" onclick="getShowAll()">Show All Confirm Transaction</button>
+
+    </p>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table-sm table-bordered" style="width:100%;font-size:12px">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>AccId</th>
+                            <th>Account</th>
+                            <th>Debit  (مدين)  </th>
+                            <th>Credit   (دائن) </th>
+                            <th>Currency  (العملة) </th>
+                            
+                            @*<th>Currency</th>*@
+                            <th>Statement (البيان)</th>
+                            <th>Date</th>
+                           
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModalClaim" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-Claim">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+    <div id="myModalDelete" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-Delete">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+@section scripts{
+
+    <script>
+
+        //$(document).ready(function () {
+        //    $('.select2bs4').select2({
+        //        theme: 'bootstrap4'
+        //    })
+
+        //})
+
+
+
+
+
+
+
+
+
+
+        var dataTable;
+
+
+        function format(d) {
+
+            if (d.IsConfirm == true) {
+
+                return '<div class="card Details confirm"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   الارصدة الافتتاحية   <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.Date + ' </Span><span>' 
+                     + '</div>'
+
+
+
+                     + d.AccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+
+                      '<Span>  Debit :</Span> ' + d.Debit + '<br>' +
+                    '<Span>  Credit :</Span> ' + d.Credit + '<br>' +
+                      '<Span>  Date :</Span> ' + d.Date + '<br>' +
+
+
+
+                     '<br><button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button><button class="btn btn-success btn-sm m-2" onclick="getOpen(' + d.Id + ')"> تعديل المعاملة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id
+                     + ')">عرض القيد </button>   <button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
+                    '<br></div></div>';
+            } else
+            {
+                return '<div class="card Details "><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   الارصدة الافتتاحية   <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.Date + ' </Span><span>' 
+                       + '</div>'
+
+
+                 + d.AccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+
+                      '<Span>  Debit :</Span> ' + d.Debit + '<br>' +
+                    '<Span>  Credit :</Span> ' + d.Credit + '<br>' +
+                      '<Span>  Date :</Span> ' + d.Date + '<br>' +
+
+
+                  '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformOpen(' + d.Id
+                    + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getOpen(' + d.Id + ')"> تعديل المعاملة </button>   <button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
+                 '<br></div></div>';
+            }
+        }
+
+
+
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/AccountOpen/GetAllOpenAcc",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+                    "columns": [
+                         {
+                             "class": "details-control",
+                             "orderable": false,
+                             "data": null,
+                             "defaultContent": ""
+                         },
+                       { "data": "Id", "autowidth": true },
+                          { "data": "AccId", "autowidth": true },
+                           { "data": "AccName", "autowidth": true },
+
+                             { "data": "Debit", "autowidth": true },
+                              { "data": "Credit", "autowidth": true },
+                              // { "data": "CurrencyName", "autowidth": true },
+
+                                  {
+                                      "data": "CurrencyName", "width": "50px", "render": function (data) {
+                                          var cssClass;
+                                          if (data === "دولار أمريكي") {
+                                              cssClass = "badge-danger";
+                                          }
+                                          if (data === "جنية سوداني") {
+                                              cssClass = "badge-success";
+                                          }
+                                          return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                      }
+                                  },
+
+
+
+                              
+                                  { "data": "Statement", "autowidth": true },
+                                 { "data": "Date", "autowidth": true },
+                                   //{
+                                   //    "data": "Id", "width": "50px", "render": function (data) {
+                                   //        return '<div class="btn-group"> <button type="button" class="btn" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getSand(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                   //    }
+                                   //},
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  },
+
+                    "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                    "fnInitComplete": function (oSettings, json) {
+                        addSearchControl(json);
+                    }
+                });
+
+
+
+
+                var detailRows = [];
+
+                $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                    var tr = $(this).closest('tr');
+                    var row = dataTable.row(tr);
+                    var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                    if (row.child.isShown()) {
+                        tr.removeClass('details');
+                        row.child.hide();
+
+                        // Remove from the 'open' array
+                        detailRows.splice(idx, 1);
+                    }
+                    else {
+                        tr.addClass('details');
+                        row.child(format(row.data())).show();
+
+                        // Add to the 'open' array
+                        if (idx === -1) {
+                            detailRows.push(tr.attr('Id'));
+                        }
+                    }
+                });
+
+                // On each draw, loop over the `detailRows` array and show any child rows
+                dt.on('draw', function () {
+                    $.each(detailRows, function (i, id) {
+                        $('#' + id + ' td.details-control').trigger('click');
+                    });
+                });
+
+
+                function addSearchControl(json) {
+                    $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                    $("#dataTable thead tr:eq(1) th").each(function (index) {
+                        /*No Search*/
+                        if (index == 0 || index == 1 || index == 2 || index == 4 || index == 5 || index == 7) {
+                            $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                        }
+                        /*Search as text field*/
+                        if (index == 8) {
+                            $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                            searchControl.on('keyup', function () {
+                                dataTable.column(index).search(searchControl.val()).draw();
+                            });
+                        }
+                        /*Search as combobox*/
+
+
+                        if (index == 3) {
+                            var ClassCaseDropDown = $('<select/>');
+                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('الحساب'));
+                            var ClassCase = [];
+                            $(json.data).each(function (index, element) {
+                                if ($.inArray(element.AccName, ClassCase) == -1) {
+                                    ClassCase.push(element.AccName);
+                                    ClassCaseDropDown.append($('<option/>').attr('value', element.AccName).text(element.AccName));
+                                }
+                            });
+                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                            searchControl.on('change', function () {
+                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                            });
+                        }
+
+
+
+
+
+
+
+                        if (index == 6) {
+                            var ClassCaseDropDown = $('<select/>');
+                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('العملة'));
+                            var ClassCase = [];
+                            $(json.data).each(function (index, element) {
+                                if ($.inArray(element.CurrencyName, ClassCase) == -1) {
+                                    ClassCase.push(element.CurrencyName);
+                                    ClassCaseDropDown.append($('<option/>').attr('value', element.CurrencyName).text(element.CurrencyName));
+                                }
+                            });
+                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                            searchControl.on('change', function () {
+                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                            });
+                        }
+
+
+
+                       
+
+                    });
+                }
+
+            });
+
+
+
+            function getOpen(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/AccountOpen/OpenParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+                    $('.select2bs4').select2({
+                        theme: 'bootstrap4'
+                    })
+                    $("#Credit").change(function () {
+
+                        var Debit = $('#Debit').val();
+                        if (Debit > 0)
+                        {
+                            $("#Debit").val(0);
+                        }
+
+                    });
+
+
+                    $("#Debit").change(function () {
+
+                        var Credit = $('#Credit').val();
+                        if (Credit > 0) {
+                            $("#Credit").val(0);
+                        }
+
+                    });
+
+
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                AccId: {
+                                    required: {
+                                        depends: function (element) {
+                                            if ('0' == $('#AccId').val()) {
+                                                //Set predefined value to blank.
+                                                $('#AccId').val('');
+                                            }
+                                            return true;
+                                        }
+                                    }
+                                },
+                                //Debit: {
+                                //    digits: true,
+                                //},
+                                //Credit: {
+                                //    digits: true,
+                                //},
+                               
+
+                            },
+                            messages: {
+
+                                AccId: {
+                                    required: "Please Select Account",
+
+                                },
+                                //Debit: {
+                                //    digits: "Please in inter Number Only",
+
+                                //},
+                                //Credit: {
+                                //    digits: "Please in inter Number Only",
+
+                                //},
+                              
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function CreateOrUpdate() {
+
+                var model = $('#myModal');
+                var form = $('form[name="OpenBalanceFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/AccountOpen/CreateOrUpdateBalance", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل الرصيد الافتتاحي ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه الرصيد الافتتاحي ", "اضافه");
+                            }
+                            else if (res.message != null && res.message === "Used") {
+                                toastr.error("تم اضافة رصيد افتتاحي مسبقا", "اضافه");
+                            }
+
+                            else if (res.message != null && res.message === "AmountError") {
+                                toastr.error("خطاء في اضافة المبلغ", "اضافه");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+
+
+
+
+            function ConformOpen(id) {
+
+
+
+                $.get("/AccountOpen/GetOpenToConfirm", { id: id }, function (result) {
+                        swal({
+                            title: result.message,
+                            text: result.moneytext,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                         .then((willDelete) => {
+                             if (willDelete) {
+                                 AddToConfrim(id);
+                             }
+                    });
+                });
+            }
+            function AddToConfrim(id) {
+                $.post("/AccountOpen/AddToConfrim", { id: id }, function (res) {
+                    if (res) {
+
+                         if (res.message != null && res.message === "Add") {
+                            toastr.success("تم تاكيد المعاملة ", "اضافه");
+                        }
+
+                        else if (res.message == null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحفظ");
+                        }
+
+                         //var model = $('#myModalClaim');
+                         //model.modal('hide');
+                        dataTable.ajax.reload();
+
+                    }
+
+                })
+
+            }
+
+
+
+         
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/AccountOpen/Delete", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف المعاملة ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+            function Tranfer(id) {
+                swal({
+                    title: "هل تريد نقل ",
+                    text: " OK تقوم بنقل العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/AccountOpen/Transfer", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Add") {
+                                     toastr.success("تم نقل المعاملة ", "عملية النقل");
+                                 }
+
+                                 //if (res.message != null && res.message === "Delete") {
+                                 //    toastr.error("تم الحذف نوع المطار ", "الحذف");
+                                 //}
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+
+      
+            function PrintConstraint(id) {
+                var url = '/AccountReport/PrintOpenConstraint/' + id;
+                window.open(url, '_blank').focus();
+            }
+
+            function PrintDataGraf(id) {
+                var url = '/AccountReport/PrintDataGraf/' + id;
+                window.open(url, '_blank').focus();
+            }
+
+
+            function getShowAll() {
+
+                window.location.href = "/AccountOpen/ConfirmOpenTransaction";
+            }
+
+
+    </script>
+}

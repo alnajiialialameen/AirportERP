@@ -1,0 +1,59 @@
+﻿@model AirPortERP.Models.RegisterationCore
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RegisterationCore</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxTakeOff)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxTakeOff)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaneSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaneSize)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

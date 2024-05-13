@@ -1,0 +1,187 @@
+﻿@model PagedList.IPagedList<AirPortERP.Models.spAllFeesRep_Result>
+
+@using PagedList.Mvc
+
+@{
+    Layout = null;
+}
+
+<style>
+    .re-sort:hover {      
+        color:#2d2cdd;
+        text-decoration:double;      
+    }
+</style>
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px;">
+           <thead>
+               <tr  class="text-center">                  
+                   
+                   <th>
+                       Name
+                   </th>
+                   <th>
+                       Landing Fees
+                   </th>                   
+                   <th>
+                       Parking Fees
+                   </th>
+
+                   <th>
+                       Night Fees
+                   </th>
+                  
+                    <th>
+                       Navigation Fees
+                   </th>
+
+                   <th>
+                       Security Fees
+                   </th>
+                   <th>
+                       Freight Fees
+                   </th>
+
+
+                   <th>
+                       First Class Fees
+                   </th>
+
+                   <th>
+                       FireFighting Fees
+                   </th>
+                  
+                   
+                   
+                    <th>
+                        Ambolance Fees
+                   </th>
+
+                   <th>
+                       Inter CUPPS Fees
+                   </th>
+
+                   <th>
+                       Dome CUPPS Fees
+                   </th>
+                  
+
+                   <th>
+                       Inter Ny Fees
+                   </th>
+
+                   <th>
+                       Dome Dome Fees
+                   </th>
+
+
+                   <th>
+                       PushBack Fees
+                   </th>
+
+                   <th>
+                       Exp Mail Fees
+                   </th>
+
+                   <th>
+                       Imp Mail Fees
+                   </th>
+
+                   <th>
+                       Noise Fees
+                   </th>
+
+
+               </tr>
+           </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr> 
+                    @*<th class="hidden text-center">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </th>*@                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.LandingFees)
+                    </td>                                      
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParkingFees)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NightOperationFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NavigationFees)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SecurityFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FreightFees)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstClassFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FireFightingFees)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbolanceFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InterCUPPSFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DomeCUPPSFees)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InterNYFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DomeNYFees)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PushBackFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpMailFees)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImpMailFees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoiseFees)
+                    </td>
+                </tr>
+            }
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("SearchDataTotalCompaniesInterCUPPS", new { page,           
+           Get = 1,           
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           DateFrom = ViewBag.DateFrom
+       }))
+        </div>
+    </div>
+</div>

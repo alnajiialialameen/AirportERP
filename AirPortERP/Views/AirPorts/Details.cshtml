@@ -1,0 +1,50 @@
+﻿@model AirPortERP.Models.AirPort
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AirPort</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameEn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameEn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country.NameAr)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

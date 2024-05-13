@@ -1,0 +1,203 @@
+﻿@model AirPortERP.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "changeProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h2 class="text-center">change Profile</h2>
+
+@using (Html.BeginForm("ChangeProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "quickForm" }))
+{
+        @Html.AntiForgeryToken()
+
+
+
+
+
+
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.OldEmail)
+            @Html.HiddenFor(model => model.OldUserName)
+            <div class="card-body">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.UserName, "  Name ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Full Name " } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Email, "  Email ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.OldPassword, " Old Password ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.OldPassword, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", placeholder = "Old Password" } })
+                        @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Password, " Password ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", placeholder = "Password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ConfirmPassword, " Confirm Password ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", placeholder = "Confirm Password" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Confirm</button>
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+
+    }
+
+     
+
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="row">
+                    <div class="col-md-12 p-t-5">
+                        <div class="alert alert-warning">
+                            @ViewBag.Message
+                        </div>
+                    </div>
+
+                </div>
+            }
+        
+
+    @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-success btn-sm" })
+    </div>
+
+
+ 
+@section scripts{
+
+
+    <script>
+
+
+    $(function () {
+
+        $('#quickForm').validate({
+            rules: {
+                UserName: {
+                    required: true,
+
+                },
+                Email: {
+
+                    email: true,
+                },
+                OldPassword: {
+                    required: true
+                },
+                Password: {
+                    required: true
+                },
+                ConfirmPassword: {
+                    required: true
+                },
+            },
+            messages: {
+                UserName: {
+                    required: "Please enter a UserName",
+
+                },
+                Email: {
+
+                    email: "Please Enter valid email"
+                },
+                OldPassword: {
+                    required: "Please enter a UserName",
+
+                },
+
+                Password: {
+                    required: "Please enter a Confirm Password",
+
+                },
+
+                ConfirmPassword: {
+                    required: "Please enter a Confirm Password",
+
+                },
+
+
+
+
+
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+}

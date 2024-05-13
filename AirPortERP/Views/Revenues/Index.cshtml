@@ -1,0 +1,147 @@
+﻿@model IEnumerable<AirPortERP.Models.Revenue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LandingFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenAireportOvertimeFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NavigationFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NightOperationFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParkingFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PushBackFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CUPPSFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FireFightingFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmbolanceFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrightFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecurityFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NYFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoiseFees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyInfo.NameAr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OfficerData.CreatedBy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LandingFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpenAireportOvertimeFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NavigationFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NightOperationFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParkingFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PushBackFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CUPPSFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FireFightingFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmbolanceFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrightFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecurityFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NYFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoiseFees)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatingDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyInfo.NameAr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OfficerData.CreatedBy)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

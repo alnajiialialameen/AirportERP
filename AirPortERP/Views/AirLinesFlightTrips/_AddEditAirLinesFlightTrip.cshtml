@@ -1,0 +1,120 @@
+﻿@model AirPortERP.Models.AirLinesFlightTrip
+@using AirPortERP.Models;
+@{
+    Entities db = new Entities();
+}
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>AirLines Flight Trips</h5>
+            }
+            else
+            {
+
+                <h5>AirLines Flight Trips</h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.FlightNo, " FlightNo", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FlightNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                        @Html.ValidationMessageFor(model => model.FlightNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+
+                @*<div class="form-group">
+                        <label class="control-label col-md-2">AirPort</label>
+                        <div class="col-md-10">
+                            <select class="form-control select2bs4" name="AirPortId" id="AirPortId" style="width: 100%;">
+                                <option value="0"></option>
+                                @foreach (AirPort AirPort in db.AirPorts.ToList())
+                                {
+                                    <option value="@AirPort.Id">@AirPort.Code</option>
+                                }
+                            </select>
+                        </div>
+                    </div>*@
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AirPortId, "AirPortId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("AirPortId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.AirPortId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AirLineId, "AirLineId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("AirLineId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.AirLineId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.IsActive, "Is IsActive", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.IsActive)
+
+                    </div>
+                </div>
+
+
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <span>Update</span>
+                            }
+                            else
+                            {
+
+                                <span>Add</span>
+                            }
+
+                        }
+
+
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+

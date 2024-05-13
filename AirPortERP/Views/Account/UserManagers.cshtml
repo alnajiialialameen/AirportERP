@@ -1,0 +1,372 @@
+﻿
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">AirLines</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Countries</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <p>
+
+        <button class="btn btn-primary" onclick="getAirline(0)">Add New Airline</button>
+        <button class="btn btn-info float-right" onclick="PrintData()">Print All AirLines  </button>
+    </p>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>UserName</th>
+                            <th>Email</th>
+                            <th>RoleCurrent</th>
+                          
+                            <th>Operation</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+            var dataTable;
+            $(document).ready(function () {
+
+                dataTable = $("#dataTable").DataTable({
+
+                    "processing": true,
+                    // "serverSide": true,
+                    "ajax": {
+                        "url": "/Account/GetAllUserManager",
+                        "type": "GET",
+                        "datatype": "json",
+
+                    },
+                    "columns": [
+                        { "data": "Id", "autowidth": true },
+                          { "data": "UserName", "autowidth": true },
+                           { "data": "Email", "autowidth": true },
+                             { "data": "RoleCurrent", "autowidth": true },
+                                
+
+
+
+                                 //{
+                                 //    "data": "Islocal", "width": "50px", "render": function (data) {
+                                 //        var cssClass;
+                                 //        if (data === "محلية") {
+                                 //            cssClass = "badge-warning";
+                                 //        }
+                                 //        if (data === "اجنبية") {
+                                 //            cssClass = "badge-success";
+                                 //        }
+                                 //        return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                                 //    }
+                                 //},
+
+
+
+
+
+
+
+
+
+
+
+                                   {
+                                       "data": "Id", "width": "50px", "render": function (data) {
+                                           var id = data
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="Edit(\""+'+data+'+"\")">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+
+                                       }
+                                   },
+
+
+                    ], "language":
+                                  {
+                                      "sProcessing": "جارٍ التحميل...",
+                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                      "sZeroRecords": "لم يعثر على أية سجلات",
+                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                      "sInfoPostFix": "",
+                                      "sSearch": "ابحث:",
+                                      "sUrl": "",
+                                      "oPaginate": {
+                                          "sFirst": "الأول",
+                                          "sPrevious": "السابق",
+                                          "sNext": "التالي",
+                                          "sLast": "الأخير",
+                                      }
+                                  }
+                });
+
+            });
+
+
+            function getAirline(id) {
+
+                $("#AjaxLoader").show()
+
+                $.get("/Airlines/GetAirlineParial", { id: id }, function (nn) {
+
+                    $("#myModel-content").html(nn);
+                    $("#myModal").modal('show');
+                    $("#AjaxLoader").hide()
+
+
+                    $(function () {
+                        $.validator.setDefaults({
+                            submitHandler: function () {
+                                alert("Form successful submitted!");
+                            }
+                        });
+                        $('#quickForm').validate({
+                            rules: {
+                                Name: {
+                                    required: true,
+
+                                },
+                                Code: {
+                                    required: true,
+
+                                },
+                                Phone: {
+                                    digits: true,
+                                    maxlength: 14,
+                                },
+                                Email: {
+                                    email: true,
+                                },
+                                IsLocalCompany: {
+                                    required: true,
+                                },
+
+
+
+                            },
+                            messages: {
+                                Name: {
+                                    required: "Please Enter Airline Name",
+
+                                },
+                                Code: {
+                                    required: "Please Enter Airline Code",
+
+                                },
+                                Phone: {
+                                    digits: "Please inter Number Only ",
+                                    maxlength: "phone must be at max 14 ",
+
+                                },
+                                Email: {
+                                    required: "Please in inter Valid email",
+
+                                },
+                                IsLocalCompany: {
+                                    required: " IsLocalCompany?",
+
+                                },
+
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function (error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function (element, errorClass, validClass) {
+                                $(element).addClass('is-invalid');
+                            },
+                            unhighlight: function (element, errorClass, validClass) {
+                                $(element).removeClass('is-invalid');
+                            }
+                        });
+                    });
+
+
+
+
+
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+            function CreateOrUpdate() {
+
+                var model = $('#myModal');
+                var form = $('form[name="DepartmentFormAdd"]');
+
+
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                } else {
+                    var data = form.serialize();
+                    $.post("/Airlines/CreateOrUpdateAirline", data, function (res) {
+                        if (res) {
+                            if (res.message != null && res.message === "Update") {
+                                toastr.success("تم تعديل شركة الطيران  ", "تعديل");
+                            }
+                            else if (res.message != null && res.message === "Add") {
+                                toastr.success("تم اضافه شركة الطيران ", "اضافه");
+                            }
+                            else if (res.message == null || res.message === "error") {
+                                toastr.error("حدث خطا ", "لم يتم الحفظ");
+                            }
+                            model.modal('hide');
+
+
+                            dataTable.ajax.reload();
+                        }
+
+                    })
+                }
+            }
+
+
+
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/Airlines/Delete", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف نوع شركة الطيران ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function Edit(id) {
+
+                window.location.href = "/Account/Edit?id=" + id;
+            }
+
+
+    </script>
+}

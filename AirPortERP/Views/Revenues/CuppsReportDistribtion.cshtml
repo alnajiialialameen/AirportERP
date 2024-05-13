@@ -1,0 +1,475 @@
+﻿@using AirPortERP.Models;
+
+
+@{
+    Entities db = new Entities();
+    ViewBag.Title = "Home Page";
+
+}
+
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myModel-content">
+
+            <!-- Model content -->
+
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-primary btn-xs">Save Change</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5> Cupps Report Distribtion</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active"> Cupps Report Distribtion</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<section class="content">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <link href="~/Temp/dist/css/PagedList.css" rel="stylesheet" />
+    <script src="~/Temp/dist/js/sorting.js"></script>
+    <style>
+        .badge-warning {
+            color: #1f2d3d;
+            background-color: #ffc107;
+        }
+    </style>
+
+
+    <div class="card card-default">
+        @*<div class="card-header">
+                <h3 class="card-title">Select2 (Bootstrap4 Theme)</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+            </div>*@
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+
+
+
+
+                    <div class="form-group">
+                        <label>Flight Type</label>
+                        <select class="form-control" id="FlightTypeId">
+                            <option value="0"></option>
+                            <option value="1">InterNational</option>
+                            <option value="2">Domestic</option>
+                        </select>
+                    </div>
+
+
+
+
+
+                    @*<div class="form-group">
+                        <label>  AirLine</label>
+                        <select class="form-control select2bs4" id="AirLineId">
+                            <option value="0"></option>
+                            @foreach (AirLine AirLine in db.AirLines.OrderBy(x => x.Id).ToList())
+                            {
+                                <option value="@AirLine.Id">@AirLine.Name</option>
+                            }
+                        </select>
+                    </div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+                <div class="col-md-6">
+
+
+
+
+
+
+
+
+
+
+
+                    @*<div class="form-group">
+                            <label>داخل/خارج الخطة</label>
+                            <select class="form-control" id="IsInPlan">
+                                <option value="0"></option>
+                                <option value="1">داخل الخطة</option>
+                                <option value="2">خارج الخطة</option>
+                            </select>
+                        </div>*@
+
+
+                    <div class="form-group">
+                        <label>بين الفترة</label>
+
+                        <div class="row">
+                            <div class=" col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"> From  </i></span>
+                                    </div>
+                                    @*<input type="text" class="form-control datetime" data-inputmask-alias="datetime" id="DateFrom" data-inputmask-inputformat="dd/mm/yyyy" data-mask>*@
+                                    <input type="date" id="DateFrom" />
+                                </div>
+
+                            </div>
+
+                            <div class=" col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"> To  </i></span>
+                                    </div>
+                                    <input type="date" id="DateTo" />
+
+                                    @*<input type="text" class="form-control datetime" data-inputmask-alias="datetime" id="DateTo" data-inputmask-inputformat="dd/mm/yyyy" data-mask>*@
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label> بحث</label>
+
+                        <div class="row">
+                            <div class=" col-md-4">
+                                <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control m-1">بحث</button>
+
+
+                            </div>
+
+                            <div class=" col-md-4">
+                                @*<button id="btnall" onclick="PrintData()" class="btn form-control btn-info btn-sm m-1">Print Search </button>*@
+                                <button id="btnallD" onclick="PrintDataD()" class="btn form-control btn-info btn-sm m-1"> Print Search  </button>
+
+                            </div>
+                            <div class=" col-md-4">
+                                <button id="btnaDDetails" onclick="PrintDataDetail()" class="btn form-control btn-info btn-sm m-1"> Details  </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+
+            @Html.Action("GetDataCuppsDistribtion")
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+@section scripts{
+
+    <script language="javascript" type="text/javascript">
+
+            $(document).ready(function () {
+
+                $(document).on("click", "#contentPager a[href]", function () {
+
+                    $.ajax({
+
+                        url: $(this).attr("href"),
+
+                        type: 'GET',
+
+                        cache: false,
+
+                        success: function (result) {
+
+                            $('#content').html(result);
+
+                        }
+
+                    });
+
+                    return false;
+
+                });
+
+
+
+
+
+
+                $('.datetime').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0"
+                });
+
+
+
+
+
+            });
+
+
+
+
+
+
+            function Search() {
+                $("#AjaxLoader").show()
+              //  var AirLineId = $("#AirLineId").val();
+
+
+
+                //var AirPortIdFrom = $("#AirPortIdFrom").val();
+                //var AirPortIdTo = $("#AirPortIdTo").val();
+                var DateFrom = $("#DateFrom").val();
+                var DateTo = $("#DateTo").val();
+                var FlightTypeId = $("#FlightTypeId").val();
+
+                var ddlFlightType = $("#FlightTypeId");
+                //var ddlAirLine = $("#AirLineId");
+                if (ddlFlightType.val() == "0") {
+                    Swal.fire('Select!! Enter FlightType ')
+                    $("#AjaxLoader").hide();
+                    return false;
+                } 
+                //if (ddlAirLine.val() == "0") {
+                //    Swal.fire('Select!! Enter AirLine ')
+                //    $("#AjaxLoader").hide();
+                //    return false;
+           // } 
+             else {
+
+
+                    $.ajax({
+                        url: '@Url.Action("GetDataCuppsDistribtion", "Revenues")',
+                        data: {
+
+                            Get: 1, Search: 1
+                            //, AirLineId: AirLineId
+
+                            , DateFrom: DateFrom,
+                            DateTo: DateTo,
+                            FlightTypeId: FlightTypeId
+
+
+                        },
+                        type: 'GET',
+                        cache: false,
+                        success: function (result) {
+                            $('#content').html(result);
+                            $("#AjaxLoader").hide();
+                        }
+                    });
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+     /////////////////////////////////////////////////////////////////
+     
+
+
+     
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+        function PrintDataD() {
+
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+       
+
+            if (ddlFlightType.val() == "0") {
+              
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+                 
+                } else {
+
+
+                    window.location.href = "/Revenues/PrintDataCuppsDistribtion?DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                    + "&&FlightTypeId=" + FlightTypeId;
+                }
+
+            }
+        
+
+
+
+        function PrintDataDetail() {
+
+ 
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+   
+            if (ddlFlightType.val() == "0") {
+              
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+               
+                } else {
+
+
+                    window.location.href = "/Revenues/PrintDataCuppsDetails?DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                    + "&&FlightTypeId=" + FlightTypeId;
+                }
+
+            }
+        
+
+
+
+
+
+
+    </script>
+
+}

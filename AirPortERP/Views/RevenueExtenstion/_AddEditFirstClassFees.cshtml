@@ -1,0 +1,78 @@
+﻿@model AirPortERP.ViewModels.FirstClassFeesViewModelDTO
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+     
+
+                <h5>Update First Class</h5>
+            
+
+        
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        <div class="form-horizontal">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.FirstClassCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstClassCount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstClassCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group row">
+                    @Html.LabelFor(model => model.DisEmbInft, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DisEmbInft, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisEmbInft, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                @*<div class="form-group row">
+                    @Html.LabelFor(model => model.TRNY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TRNY, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TRNY, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                @*<div class="form-group row">
+                    @Html.LabelFor(model => model.TRNYCUPPS, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TRNYCUPPS, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TRNYCUPPS, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+             
+                @Html.HiddenFor(C => C.OfficerDataId)
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="UpdateCuppsfees()" class="btn btn-primary">
+          
+                    <span>Update First Class</span>
+               
+            
+
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+    </div>
+</form>
+

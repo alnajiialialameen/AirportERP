@@ -1,0 +1,87 @@
+﻿@model AirPortERP.Models.FlightNoCore
+
+<form name="DepartmentFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.id > 0)
+            {
+                <h5>Update FlightNoCores </h5>
+            }
+            else
+            {
+
+                <h5>Add FlightNoCores</h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.id)
+
+        <div class="form-horizontal">
+            <div class="card-body">
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FlightNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FlightNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FlightNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CompanyCode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FlightTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FlightTo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FlightTo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+            @{
+                if (Model.id > 0)
+                {
+                    <span>Update FlightNoCores</span>
+                }
+                else
+                {
+
+                    <span>Add FlightNoCores</span>
+                }
+
+            }
+
+
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+    </div>
+</form>
+

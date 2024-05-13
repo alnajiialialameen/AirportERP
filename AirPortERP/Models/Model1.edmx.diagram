@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ac50b52f899e4a96abea3e93ad811b9e" Name="Diagram1">
+        <EntityTypeShape EntityType="AirPortERPLastModel.AccountGroup" Width="1.5" PointX="0.75" PointY="34.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AccountOperation" Width="1.5" PointX="5.25" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AccountTree" Width="1.5" PointX="3" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.Bank" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FinancialClaim" Width="1.5" PointX="8.25" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.Fund" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.OpenAccBalance" Width="1.5" PointX="5.25" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.OpenAccDetail" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.OperationType" Width="1.5" PointX="3" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.SandDetail" Width="1.5" PointX="5.25" PointY="39.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.SandMain" Width="1.5" PointX="11.25" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AircraftRegistration" Width="1.5" PointX="7.5" PointY="56.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AircraftSize" Width="1.5" PointX="3" PointY="55.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AircraftType" Width="1.5" PointX="5.25" PointY="54.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AireCraftStyIn" Width="1.5" PointX="12.75" PointY="58.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AireCraftStyInFee" Width="1.5" PointX="15" PointY="65.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AirLine" Width="1.5" PointX="5.25" PointY="58.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AirLineAgent" Width="1.5" PointX="7.5" PointY="61.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AirLinesFlightTrip" Width="1.5" PointX="10.5" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AirPort" Width="1.5" PointX="8.25" PointY="50.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.AspNetUser" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.CompanyInfo" Width="1.5" PointX="13.5" PointY="51.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.Country" Width="1.5" PointX="6" PointY="50.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.Currency" Width="1.5" PointX="6" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.CurrencyDetail" Width="1.5" PointX="11.25" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FinalInvoiceNumber" Width="1.5" PointX="7.5" PointY="70.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FlightNoCore" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FlightRCore" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FormatType" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FuelCompany" Width="1.5" PointX="8.25" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.HandlingAgentsCompany" Width="1.5" PointX="8.25" PointY="39.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.LandingCore" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.MouthWorkOn" Width="1.5" PointX="3" PointY="38.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.OfficerData" Width="1.5" PointX="18" PointY="42" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.PlaneRCore" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.PrintFormat" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.RegisterationCore" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.Revenue" Width="1.5" PointX="20.25" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.ServiceCarCompany" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.sysdiagram" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.TowerData" Width="1.5" PointX="15.75" PointY="56.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.TransactionLog" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.TripType" Width="1.5" PointX="13.5" PointY="70.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.WorkOn" Width="1.5" PointX="5.25" PointY="44.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.YearWorkOn" Width="1.5" PointX="3" PointY="41.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.CarServiceFee" Width="1.5" PointX="8.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.CUPPSServiceFee" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.FreightFee" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.GeneralService" Width="1.5" PointX="11.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.GroundHandlingFee" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.LandingServiceFee" Width="1.5" PointX="12.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.MailServiceFee" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.NoiseFee" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.NYFee" Width="1.5" PointX="13.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.ParkingServiceFee" Width="1.5" PointX="4.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.PushBackFee" Width="1.5" PointX="6.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.SecurityFee" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.StayInFee" Width="1.5" PointX="8.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.View_FlightNoInsert" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.View_Types" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwAllAirlinesSumationFee" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwAllFeesRep" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwJournalCUPPSDome" Width="1.5" PointX="16.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwJournalCUPPSInter" Width="1.5" PointX="10.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwJournalNYDome" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwJournalNYInter" Width="1.5" PointX="16.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwJournalPushback" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwTopMaxAirLine" Width="1.5" PointX="2.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPLastModel.vwUserRlo" Width="1.5" PointX="18.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AccountTree_AccountGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AccountOperations_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AccountOperations_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AccountOperations_OperationType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AirLine_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FinancialClaim_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FuelCompany_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_HandlingAgentsCompany_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OpenAccBalances_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandDetails_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandMain_AccountTree" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FinancialClaim_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FinancialClaim_OperationType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OpenAccBalances_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandMain_OperationType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandDetails_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandDetails_MouthWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandDetails_SandMain" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_SandDetails_YearWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AircraftRegistration_AircraftRegistration" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AircraftRegistration_AircraftType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AireCraftStyIn_AircraftRegistration" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_AircraftRegistration" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AircraftType_AircraftSize" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AireCraftStyIn_AirLine" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AireCraftStyIn_AirLineAgent" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AireCraftStyIn_AirLineAgent1" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AireCraftStyInFees_AireCraftStyIn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AirLineAgent_AirLine" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AirLinesFlightTrip_AirLine" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FinalInvoiceNumber_AirLine" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_AirLine" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OfficerData_AirLineAgent" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AirLinesFlightTrip_AirPort" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_AireLinesFlightTrip" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_AirPort_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_AirPort" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_AirPort1" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_Revenue_CompanyInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_CompanyInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_CurrencyDetails_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_FuelCompany_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_HandlingAgentsCompany_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_CurrencyDetails_MouthWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_CurrencyDetails_YearWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_PrintFormat_FormatType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OfficerData_FuelCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OfficerData_HandlingAgentsCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_WorkOn_MouthWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_OfficerData_TowerData" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_Revenue_OfficerData" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_TowerData_TripType" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.FK_WorkOn_YearWorkOn" ManuallyRouted="false" />
+        <AssociationConnector Association="AirPortERPLastModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

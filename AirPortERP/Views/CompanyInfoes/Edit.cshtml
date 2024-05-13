@@ -1,0 +1,246 @@
+﻿@model AirPortERP.Models.CompanyInfo
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Company Info</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">Company Info</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+@using (Html.BeginForm("Edit", "CompanyInfoes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-8">
+
+            <div class="form-horizontal">
+                <div class="card-body">
+               
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Image)
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.NameAr, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NameAr, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NameAr, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.NameEn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NameEn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NameEn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.RevenuesManager, "RevenuesManager", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.RevenuesManager, new { htmlAttributes = new { @class = "form-control", placeholder = "Revenues Manager" } })
+                            @Html.ValidationMessageFor(model => model.RevenuesManager, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.DomeCUUPSSupervisor, "DomeCUUPSSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.DomeCUUPSSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = "DomeCUUPSSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.DomeCUUPSSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.InterCUUPSSupervisor, "InterCUUPSSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.InterCUUPSSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " InterCUUPSSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.InterCUUPSSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.DomeNYSupervisor, "DomeNYSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.DomeNYSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " DomeNYSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.DomeNYSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.InterNYSupervisor, "InterNYSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.InterNYSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " InterNYSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.InterNYSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.LandingSupervisor, "LandingSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.LandingSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " LandingSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.LandingSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.PushBackSupervisor, "PushBackSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.PushBackSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " PushBackSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.PushBackSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.ServiceCarSupervisor, "ServiceCarSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.ServiceCarSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " ServiceCarSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.ServiceCarSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.FirstClassSupervisor, "FirstClassSupervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.FirstClassSupervisor, new { htmlAttributes = new { @class = "form-control", placeholder = " FirstClassSupervisor" } })
+                            @Html.ValidationMessageFor(model => model.FirstClassSupervisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                    
+                    
+                     <div class="form-group row">
+                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsActive)
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Latitude" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Phone, "Phone", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Latitude" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+
+                            <input type="file" name="ImageFile" id="ImageFile"  onchange="getImageFile(this);" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="col-4">
+            <div class="form-horizontal">
+                <div class="card-body">
+                    @{
+                        var base64 = Convert.ToBase64String(Model.Image);
+                        var imagesrc = string.Format("data:image/gif;base64,{0}", base64);
+                    }
+
+                    @*<input type="image" src="@imagesrc" style="height:200px" />*@
+                    <img src="@imagesrc" alt="" id="imgCompInfo" height="200" width="200"/>
+                </div>
+            </div>
+        </div>
+            </div>
+            }
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+
+@section scripts{
+
+
+    <script>
+
+    function getImageFile(input) {
+        //debugger;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                $('#imgCompInfo').prop('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    </script>
+}

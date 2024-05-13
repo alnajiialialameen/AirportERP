@@ -1,0 +1,241 @@
+﻿@using AirPortERP.Models;
+
+@{
+    Entities db = new Entities();
+    ViewBag.Title = "Home Page";
+
+}
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myModel-content">
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-primary btn-xs">Save Change</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5>CUPPS Details(International)</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
+                    <li class="breadcrumb-item active">CUPPS Reports</li>
+
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </div>
+
+</div>
+
+@*<div class="card">
+    <div class="card-body">
+        @Html.Action("SearchDataTotalCompaniesInterCUPPS")
+    </div>
+</div>*@
+
+<section class="content">
+    <link href="~/Temp/dist/css/PagedList.css" rel="stylesheet" />
+    <script src="~/Temp/dist/js/sorting.js"></script>
+    <style>
+        .badge-warning {
+            color: #1f2d3d;
+            background-color: #ffc107;
+        }
+    </style>
+
+
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">                        
+                        <div class="row">
+                            <div class=" col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="ml-3 mr-3">إختار اتاريخ</label>
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"> From  </i></span>
+                                        <input type="date" id="DateFrom" />
+                                    </div>         
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>                    
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class=" col-md-4">
+                                <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control">بحث</button>
+                            </div>
+
+                            <div class=" col-md-4">
+                                <button id="btnall" onclick="PrintData()" class="btn form-control btn-info btn-sm">Print Search </button>
+                            </div>
+
+                            <div class=" col-md-4">
+                                <button id="btnPrintJournal" onclick="PrintJournal()" class="btn form-control btn-info btn-sm">Print Journal </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div id="ReportData">
+                @Html.Action("SearchDataTotalCompaniesInterCUPPS")
+            </div>
+        </div>
+    </div>
+
+</section>
+@section scripts{
+
+    <script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).on("click", "#contentPager a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                $('#content').html(result);
+                }
+            });
+            return false;
+        });
+        $('.datetime').datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0"
+        });
+    });
+          
+function Search()
+{
+    $("#AjaxLoader").show()
+    var DateFrom = $("#DateFrom").val();
+    if (DateFrom == "" || DateFrom == null)
+    {
+        Swal.fire('Select The Date ')
+        $("#AjaxLoader").hide();
+        return false;
+    } else {
+        $.ajax({
+            url: '@Url.Action("SearchDataTotalInterCUPPSDetails", "Revenues")', data: {
+                Get: 1, Search: 1, DateFrom: DateFrom
+            },
+            type: 'GET',
+            cache: false,
+            success: function (result) {
+                $('#ReportData').html(result);
+                $("#AjaxLoader").hide();
+            }
+        });
+    }                
+}
+
+function PrintJournal() {
+    var DateFrom = $("#DateFrom").val();
+    if (DateFrom == "" || DateFrom == null) {
+        Swal.fire('Select The Date ')
+        $("#AjaxLoader").hide();
+        return false;
+    } else {
+        //window.location.href = "/AdvencePrintExtenstion/PrintDataJournalCUPPSInter?DateFrom=" + DateFrom;
+
+        var url = "/AdvencePrintExtenstion/PrintDataJournalCUPPSInter?DateFrom=" + DateFrom;
+        window.open(url, '_blank').focus();
+    }
+}
+     /////////////////////////////////////////////////////////////////          
+        var aData = [];
+        function PrintData() {
+            var DateFrom = $("#DateFrom").val();
+            if (DateFrom == "" || DateFrom == null) {
+                Swal.fire('Select The Date ')
+                $("#AjaxLoader").hide();
+                return false;
+            } else {
+                //window.location.href = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSDetails?DateFrom=" + DateFrom;
+
+                var url = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSDetails?DateFrom=" + DateFrom;
+                window.open(url, '_blank').focus();
+            }
+        }
+
+        $(document).ajaxComplete(function () {
+            var val = false;
+            $('#checkall').change(function () {
+                if (this.checked) {
+                    $("#testTable tbody tr").each(function () {
+                        var currentRow = $(this);
+                        currentRow.find(".chk").attr('checked', "checked");
+                    });
+                    //console.log(val);
+                    //val = true;
+                    //console.log(val);
+                } else {
+                    $("#testTable tbody tr").each(function () {
+                        var currentRow = $(this);
+                        currentRow.find(".chk").removeAttr('checked');
+                    });
+                    //console.log(val);
+                    //val = false;
+                    //console.log(val);
+                }
+            });            
+            
+            //$("#testTable tbody tr").find("#selectedRows").click(function () {
+            //    debugger;
+            //    if ($("#selectedRows").is('checked')) {
+            //        if ($("input[name='selectedRows']").lenght != $("input[name='selectedRows']:checked").lenght) {
+            //            $('#checkall').removeAttr('checked');
+            //            console.log('clicked');
+            //        } else {
+            //            console.log('Not clicked');
+            //            $('#checkall').attr('checked', "checked");
+            //        }
+            //    } else {
+            //        $('#checkall').removeAttr('checked');                   
+            //    }
+            //});            
+        });
+    </script>
+}

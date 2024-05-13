@@ -1,0 +1,404 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintMailViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+<style>
+
+    /*////////////////////////////////////////////////////Mail/////////////////////////////////////////////*/
+              .invoiceMail {
+            padding:10px;
+            font-family:Arial;
+        }
+       .invoiceMail .invoice-Mail-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceMail .invoice-Mail-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceMail .invoice-Mail-header .text-word h6 {
+            font-size:21px;
+              font-weight:bolder;
+        }
+               .invoiceMail .invoice-Mail-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceMail .invoice-Mail-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceMail .invoice-Mail-Body {
+                clear:both;
+            }
+
+             .invoiceMail .invoice-Mail-Body .h-mr {
+              margin-right:20px;
+              font-size:18px;
+        }
+
+
+                .invoiceMail .invoice-Mail-details th {
+                    background-color:#f5f8f8
+
+                }
+
+                .invoiceMail .invoice-Mail-details table {
+                      min-width:900px;
+                    text-align:left;
+                }
+
+                  
+
+                    .invoiceMail .invoice-Mail-details table .header1 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+                     .invoiceMail .invoice-Mail-details table .header2 th {
+                        background-color:#f5f8f8;
+                         padding:0px;
+                         text-align:center;
+                        
+                    }
+
+                   .invoiceMail .invoice-Mail-details .header1 .header1-none{  border-left:hidden; border-top:hidden;background-color:#fff}
+
+
+
+                    .invoiceMail .invoice-Mail-details table,th,td {
+                 border:2px solid #282a2c; 
+                 padding:.7rem;
+                 font-size:18px;
+               
+            }
+
+              
+
+                .invoiceMail .invoice-Mail-details .footer {
+                     background-color:#ebefef;
+                     font-weight:600;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+<section class="invoiceMail">
+
+
+    <div class="invoice-Mail-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-Mail-Body">
+        <h4 class="text-center"><u> Invoice Mail&&Freight</u></h4>
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="h-mr">Company: @ViewBag.Name</label>
+                    <label class="h-mr">From: @ViewBag.DateFrom</label>
+                    <label class="h-mr">To: @ViewBag.DateTo</label>
+                    @*<label class="h-mr">ExchangeRate: @ViewBag.ExchangeRate</label>*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center invoice-Mail-details" style="width:100%;margin-bottom:40px;">
+
+
+
+
+        <table class="Mail-table-header">
+
+
+
+            <tr class="header1">
+                <th class="header1-none" colspan="3">
+                 
+                </th>
+
+               
+                <th  colspan="3">
+                    Freight
+
+                </th>
+
+
+                <th colspan="6">
+
+                    Mail
+                </th>
+            </tr>
+
+
+            <tr class="header2">
+                <th rowspan="2">
+                    N
+                </th>
+
+                <th rowspan="2">
+                    Flight No
+                </th>
+
+
+                <th rowspan="2">
+                    Date
+                </th>
+                <th rowspan="2">
+                     Exp
+                </th>
+                <th rowspan="2">
+                     Imp
+
+                </th>
+
+
+                <th rowspan="2">
+
+                     Fees
+                </th>
+
+                <th colspan="3">
+                    Export
+                </th>
+                <th colspan="3">
+                    Import
+                </th>
+
+            </tr>
+
+
+
+            <tr>
+               
+
+               
+
+
+               
+               
+                 <th>
+                    Normal
+                </th>
+                <th>
+                    Rapid 
+                </th>
+
+                <th>
+                     Fees
+                </th>
+
+                <th>
+                    Normal 
+                </th>
+                <th>
+                    Rapid 
+                </th>
+
+                <th>
+                    Fees
+                </th>
+
+
+
+                
+
+
+
+
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightNo)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LandingDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FreightLoadingExp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FreightLoadingImp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FreightFees)
+                        </td>
+
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NormalMailLoadingExp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RapidMailLoadingExp)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpMailFees)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NormalMailLoadingImp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RapidMailLoadingImp)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImpMailFees)
+                        </td>
+
+                    </tr>
+                }
+                <tr class="footer">
+                    <td colspan="5">  Total :</td>
+
+
+
+
+
+                    <td class="numberFormat">@ViewBag.SumFreightFees</td>
+
+                    <td colspan="2"></td>
+
+                    <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+
+                    <td colspan="2"></td>
+
+                    <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                </tr>
+
+            </tbody>
+
+
+
+
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+               var num = Number(item).toLocaleString();
+               $(this).text(num);
+           });
+
+
+    </script>
+
+}

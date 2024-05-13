@@ -1,0 +1,299 @@
+﻿@model AirPortERP.ViewModels.TowerDataViewModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5>@Model.AirLineName</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                  
+                    <li class="breadcrumb-item"><a href="@Url.Action("TowerDataReport", "TowerDatas")">Tower Report</a></li>
+                    <li class="breadcrumb-item active"> Details</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> Company: @Model.AirLineName</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+                        <tr>
+                            <td> Id:</td>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Airline  :</td>
+                            <td>@Model.AirLineName <span>/</span><span>@Model.AirLineCode</span></td>
+                        </tr>
+                        <tr>
+                            <td>REG  :</td>
+                            <td>@Model.AircraftRegName</td>
+                        </tr>
+
+                        <tr>
+                            <td> Form :</td>
+                            <td>@Model.AirportIdFrom  <span>/</span><span> @Model.AirportFromName</span> <span> /@Model.CountryFrom </span></td>
+                        </tr>
+
+                        <tr>
+                            <td>To  :</td>
+                            <td>@Model.AirportIdTo   <span>/</span><span>@Model.AirportToName</span> <span>/ @Model.CountryTo </span></td>
+                        </tr>
+                        <tr>
+                            <td>  Date  :</td>
+                            <td>@Model.Date</td>
+                        </tr>
+
+                        <tr>
+                            <td>  CreatedBy  :</td>
+                            <td>@Model.CreatedBy</td>
+                        </tr>
+
+                        <tr>
+                            <td>  CreationDate  :</td>
+                            <td>@Model.CreationDate</td>
+                        </tr>
+
+                        <tr>
+                            <td>  UpdatedBy  :</td>
+                            <td>@Model.UpdatedBy</td>
+                        </tr>
+                        <tr>
+                            <td>  UpdatingDate  :</td>
+                            <td>@Model.UpdatingDate</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+                        <tr>
+                            <td>  LandingDate: </td>
+                            <td>@Model.LandingDate </td>
+                        </tr>
+                        <tr>
+                            <td>TakeOffDate  : </td>
+                            <td>@Model.TakeOffDate </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td>  ATA: </td>
+                            <td>@Model.ATA </td>
+                        </tr>
+                        <tr>
+                            <td>ATD  : </td>
+                            <td>@Model.ATD </td>
+                        </tr>
+
+                        @*<tr>
+                            <td>POB : </td>
+                            <td>@Model.POB </td>
+                        </tr>
+
+                        <tr>
+                            <td>QBD : </td>
+                            <td>@Model.QBD </td>
+                        </tr>*@
+                        @*<tr>
+                            <td>LandingPermission : </td>
+                            <td>@Model.LandingPermission </td>
+                        </tr>*@
+
+                        <tr>
+                            <td>FlightType : </td>
+                           @{
+                               var CssClass="";
+                               if (Model.FlightType == "Domestic")
+                               {
+                                   CssClass = "badge-danger";
+                               }
+                               if (Model.FlightType == "International")
+                               {
+                                   CssClass = "badge-success";
+                               }
+
+                          }
+
+                            <td><span class="badge @CssClass ">  @Model.FlightType  </span></td>
+                        </tr>
+
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Revenue</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+                        <tr>
+                            <td> LandingFees:</td>
+                            <td>@Model.LandingFees</td>
+                        </tr>
+                        <tr>
+                            <td>ParkingFees  :</td>
+                            <td>@Model.ParkingFees</td>
+                        </tr>
+                        <tr>
+                            <td>NightOperationFees  :</td>
+                            <td>@Model.NightOperationFees</td>
+                        </tr>
+
+                        <tr>
+                            <td> NavigationFees :</td>
+                            <td>@Model.NavigationFees</td>
+                        </tr>
+
+                        <tr>
+                            <td>SecurityFees  :</td>
+                            <td>@Model.SecurityFees </td>
+                        </tr>
+                       
+
+                        <tr>
+                            <td>NoiseFees  :</td>
+                            <td>@Model.NoiseFees </td>
+                        </tr>
+
+
+
+
+                    </table>
+                </div>
+                <div class="col-md-6">
+
+                    <table class="table table-bordered table-condensed table-hover">
+
+
+                        <tr>
+                            <td>Max TaKeOff Weight  : </td>
+                            <td>@Model.MaxTaKeOffWeight </td>
+                        </tr>
+
+                        <tr>
+                            <td>Aircraft  Type  : </td>
+                            <td>@Model.Type </td>
+                        </tr>
+
+                        
+
+
+
+
+                        @*<tr>
+                            <td>  LandingDate: </td>
+                            <td>@Model.LandingDate </td>
+                        </tr>
+                        <tr>
+                            <td>LandingDate  : </td>
+                            <td>@Model.TakeOffDate </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td>  ATA: </td>
+                            <td>@Model.ATA </td>
+                        </tr>
+                        <tr>
+                            <td>ATD  : </td>
+                            <td>@Model.ATD </td>
+                        </tr>
+
+                        <tr>
+                            <td>POB : </td>
+                            <td>@Model.POB </td>
+                        </tr>*@
+
+                       
+
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@ 
+        @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-success btn-sm" })
+    </p>
+
+</section>
+
+
+
+
+
+
+
+
