@@ -1221,7 +1221,7 @@ namespace AirPortERP.Controllers
             if (db.FinancialClaims.Any(x => x.AccIdDebit == AirLineAccId && (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
                  (DbFunctions.TruncateTime(x.DateFrom) <= DateTo & DbFunctions.TruncateTime(x.DateTo) >= DateTo)))
             {
-                var obj = db.FinancialClaims.Where(x => (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
+                var obj = db.FinancialClaims.Where(x => x.AccIdDebit == AirLineAccId && (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
                  (DbFunctions.TruncateTime(x.DateFrom) <= DateTo & DbFunctions.TruncateTime(x.DateTo) >= DateTo)).FirstOrDefault();
                 ExchangeRate = Convert.ToDecimal(obj.ExchangeRateAgainstPrimaryCurrency);
 
@@ -1430,7 +1430,7 @@ namespace AirPortERP.Controllers
             if (db.FinancialClaims.Any(x =>  x.AccIdDebit == AirLineAccId && (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
                  (DbFunctions.TruncateTime(x.DateFrom) <= DateTo & DbFunctions.TruncateTime(x.DateTo) >= DateTo)))
             {
-                var obj = db.FinancialClaims.Where(x => (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
+                var obj = db.FinancialClaims.Where(x => x.AccIdDebit == AirLineAccId && (DbFunctions.TruncateTime(x.DateFrom) <= DateFrom & DbFunctions.TruncateTime(x.DateTo) >= DateFrom) |
                  (DbFunctions.TruncateTime(x.DateFrom) <= DateTo & DbFunctions.TruncateTime(x.DateTo) >= DateTo)).FirstOrDefault();
                 ExchangeRate = Convert.ToDecimal(obj.ExchangeRateAgainstPrimaryCurrency);
 
@@ -2146,18 +2146,17 @@ namespace AirPortERP.Controllers
                 model.AmbulanceCarCount = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).AmbulanceCarCount > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).AmbulanceCarCount.ToString() : "Not Found";
                 model.FireTruckCount = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FireFightingCarCount > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FireFightingCarCount.ToString() : "Not Found";
 
-                model.MailExp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp.ToString() : "Not Found";
-                model.MailImp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingImp.ToString() : "Not Found";
-                model.FrieghtExp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingExp.ToString() : "Not Found";
-                model.FrieghtImp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingImp.ToString() : "Not Found";
-
+                model.MailExp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp > 0 | towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).RapidMailLoadingExp > 0 ? (towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingExp + towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).RapidMailLoadingExp).ToString() : "Not Found";
+                model.MailImp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingImp > 0 | towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).RapidMailLoadingImp > 0 ? (towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).NormalMailLoadingImp  + towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).RapidMailLoadingImp).ToString() : "Not Found";
+                model.FrieghtExp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingExp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingExp.ToString() : "Not Found";
+                model.FrieghtImp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingImp > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FreightLoadingImp.ToString() : "Not Found";
+                
                 model.GroundHandlingComp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).HandlingAgentId > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).HandlingAgentsCompany.NameEn : "Not Found";
                 model.FuelComp = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FuelCompanyId > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FuelCompany.NameEn : "Not Found";
                 model.FuelLiters = towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FuelLiter > 0 ? towerData.OfficerDatas.FirstOrDefault(x => x.TowerDataId == towerData.Id).FuelLiter.ToString() : "Not Found";
             }
             
             return View(model);
-
         }
         
     }
