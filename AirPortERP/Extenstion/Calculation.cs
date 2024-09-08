@@ -1055,6 +1055,16 @@ namespace AirPortERP.Extenstion
 
             return FinalAmountInDollar;
         }
+
+        // دي وقفت بناء علي خطاب سلطة الطيران المدني وبتوجيه المدير العام بوقف حساب رسوم الملاحة الجوية اعتبارا من تاريخ 8 - سبتمبر - 2024
+        /*
+            كانت مستخدمة في 4 مواقع في النظام كلها في بيانات البرج(TowerDatasController)
+            
+            1- سطر قم 813 اسم الدالة calculateFees
+            2- سطر قم 838 اسم الدالة calculateFees
+            2- سطر قم 880 اسم الدالة calculateFeesUpdate
+            4- سطر قم 899 اسم الدالة calculateFeesUpdate 
+        */
         public decimal NavigationFees(decimal LandingFees)
         {
             GeneralService gs = db.GeneralServices.FirstOrDefault(x => x.Id == 2);

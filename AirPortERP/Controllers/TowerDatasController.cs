@@ -794,7 +794,7 @@ namespace AirPortERP.Controllers
             //---------------------------------------------
 
             db.OfficerDatas.Add(off);
-            db.Entry(TransactionLog).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(TransactionLog).State = EntityState.Modified;
             db.SaveChanges();
             // End Create New OFFicer Data
 
@@ -810,7 +810,7 @@ namespace AirPortERP.Controllers
                 rev.LandingFees = val;
                 rev.NightOperationFees = cal.NightOperationFees(model.ATA.Value.Hours, model.ATD.Value.Hours, val);
                 rev.OpenAireportOvertimeFees = cal.OpenAireportOvertimeFees(model.ATA.Value.Hours, val);
-                rev.NavigationFees = cal.NavigationFees(val);
+            //    rev.NavigationFees = cal.NavigationFees(val);
                 //rev.ParkingFees = cal.ParkingFees(off1.Id);
                 var AirLine = db.AirLines.FirstOrDefault(x => x.Id == model.AirLineId);
                 rev.ParkingFees = cal.ParkingFees(off1.Id, Convert.ToDateTime(model.LandingDate), Convert.ToDateTime(model.TakeOffDate), model.ATA.Value, model.ATD.Value, Convert.ToBoolean(AirLine.IsLocalCompany));
@@ -835,7 +835,7 @@ namespace AirPortERP.Controllers
                 rev.LandingFees = val;
                 rev.NightOperationFees = cal.NightOperationFees(model.ATA.Value.Hours, model.ATD.Value.Hours, val);
                 rev.OpenAireportOvertimeFees = cal.OpenAireportOvertimeFees(model.ATA.Value.Hours, val);
-                rev.NavigationFees = cal.NavigationFees(val);
+                //rev.NavigationFees = cal.NavigationFees(val);
                 //rev.ParkingFees = cal.ParkingFees(off1.Id);
                 var AirLine = db.AirLines.FirstOrDefault(x => x.Id == model.AirLineId);
                 rev.ParkingFees = cal.ParkingFees(off1.Id, Convert.ToDateTime(model.LandingDate), Convert.ToDateTime(model.TakeOffDate), model.ATA.Value, model.ATD.Value, Convert.ToBoolean(AirLine.IsLocalCompany));
@@ -877,7 +877,7 @@ namespace AirPortERP.Controllers
                 rev.LandingFees = val;
                 rev.NightOperationFees = cal.NightOperationFees(model.ATA.Value.Hours, model.ATD.Value.Hours, val);
                 rev.OpenAireportOvertimeFees = cal.OpenAireportOvertimeFees(model.ATA.Value.Hours, val);
-                rev.NavigationFees = cal.NavigationFees(val);
+                //rev.NavigationFees = cal.NavigationFees(val);
                 var AirLine = db.AirLines.FirstOrDefault(x => x.Id == model.AirLineId);
                 rev.ParkingFees = cal.ParkingFees(OfficerData.Id, Convert.ToDateTime(model.LandingDate), Convert.ToDateTime(model.TakeOffDate), model.ATA.Value, model.ATD.Value, Convert.ToBoolean(AirLine.IsLocalCompany));
                 rev.NoiseFees = cal.NoiseFees(wt);
@@ -896,7 +896,7 @@ namespace AirPortERP.Controllers
                 rev.LandingFees = val;
                 rev.NightOperationFees = cal.NightOperationFees(model.ATA.Value.Hours, model.ATD.Value.Hours, val);
                 rev.OpenAireportOvertimeFees = cal.OpenAireportOvertimeFees(model.ATA.Value.Hours, val);
-                rev.NavigationFees = cal.NavigationFees(val);
+                //rev.NavigationFees = cal.NavigationFees(val);
                 var AirLine = db.AirLines.FirstOrDefault(x => x.Id == model.AirLineId);
                 rev.ParkingFees = cal.ParkingFees(OfficerData.Id, Convert.ToDateTime(model.LandingDate), Convert.ToDateTime(model.TakeOffDate), model.ATA.Value, model.ATD.Value, Convert.ToBoolean(AirLine.IsLocalCompany));
                 rev.NoiseFees = cal.NoiseFees(wt);
