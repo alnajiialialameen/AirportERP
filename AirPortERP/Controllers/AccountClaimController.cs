@@ -23,20 +23,25 @@ namespace AirPortERP.Controllers
         ClsAccount cls = new ClsAccount();
         Entities db = new Entities();
         List<CurrencyInfo> currencies = new List<CurrencyInfo>();
-        // GET: AccountClaim
+        List<int> blackListAirlines = new List<int>() { 176, 107, 52};
 
+        // GET: AccountClaim
 
         public ActionResult Index()
         {
             var id = User.Identity.GetUserId();
             var companyId = CommonUsed.getCompanyId(id);
             ViewBag.CompanyId = companyId;
+            ViewBag.AirlinesSeperateNYInvoiceList = blackListAirlines;
+
             return View();
         }
+        
         public ActionResult ConfirmClaimTransaction()
         {
             return View();
         }
+        
         public AccountClaimController()
         {
 

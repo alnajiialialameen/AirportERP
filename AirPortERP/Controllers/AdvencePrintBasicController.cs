@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using static System.Web.Razor.Parser.SyntaxConstants;
 
 namespace AirPortERP.Controllers
 {
@@ -22,6 +23,7 @@ namespace AirPortERP.Controllers
         static decimal ExchangeRate;
         private Calculation cal = new Calculation();
         private DateTime currentDate = DateTime.UtcNow.AddHours(2);
+        List<int> blackListAirlines = new List<int>() { 176, 107, 52 };
 
         public AdvencePrintBasicController(){
             
@@ -132,16 +134,17 @@ namespace AirPortERP.Controllers
             //F.InterCUPPSFees = Convert.ToInt32(Revenue.Where(x=> x.OfficerData.TowerData.FlightTypeD == 1).Sum(x => x.OfficerData.Pax + x.OfficerData.TRNYCUPPS)) * 2.5;
             F.DomeCUPPSFees = Convert.ToDouble(Revenue.Sum(x => x.DomeCUPPSFees));
 
-            if (companyId != 11)
+            if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
             {
-                F.InterNYFees = Convert.ToDouble(Revenue.Where(x => x.OfficerData.TowerData.FlightTypeD == 1).Sum(x => x.InterNYFees));
-                F.DomeNYFees = Convert.ToDouble(Revenue.Where(x => x.OfficerData.TowerData.FlightTypeD == 2).Sum(x => x.DomeNYFees) / ExchangeRate);
+                F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
+                F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees));
             }
             else
             {
                 F.InterNYFees = 0;
                 F.DomeNYFees = 0;
             }
+
             //F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
             //if (ExchangeRate > 0)
             //{
@@ -787,7 +790,7 @@ namespace AirPortERP.Controllers
             F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
-            if (companyId != 11)
+            if (companyId != 11 || !blackListAirlines.Contains(AirLineId??0))
             {
                 F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
                 F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
@@ -847,7 +850,7 @@ namespace AirPortERP.Controllers
                 return View("PrintDataGrafDollar", F);
             }
         }
-        
+
         [Authorize(Roles = "Revenues,Super-Admin,Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult PrintDataServiceCar(int? AirLineId, DateTime? DateFrom, DateTime? DateTo, int? FlightTypeId)
         {

@@ -1,8 +1,13 @@
 ﻿@using AirPortERP.Models;
+@using Newtonsoft.Json;
 @{
     Entities db = new Entities();
     ViewBag.Title = "Home Page";
 }
+
+@*@{
+    List<int> AirlinesSeperateNYInvoiceList = ViewBag.AirlinesSeperateNYInvoiceList as List<int>;
+}*@
 
 <style>
     td.details-control {
@@ -94,7 +99,7 @@
 <section class="content">
     <label class="CompanyId d-none">@ViewBag.CompanyId</label>
     <p>
-         <button class="btn btn-primary" onclick="getClaim(0)">Add Claim</button>
+        <button class="btn btn-primary" onclick="getClaim(0)">Add Claim</button>
         <button class="btn btn-primary float-right" onclick="getShowAll()">Show All Confirm Transaction</button>
     </p>
 
@@ -113,8 +118,8 @@
                             <th>Currency(العملة)</th>
                             <th>Explain (البيان)</th>
                             <th>Date</th>
-                             <th>Month</th>
-                             <th>Year</th>
+                            <th>Month</th>
+                            <th>Year</th>
                         </tr>
                     </thead>
                 </table>
@@ -137,7 +142,6 @@
         </div>
     </div>
     <!--Model End -->
-
     <!-- Model Start -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-xl">
@@ -179,723 +183,721 @@
         //    })
         //})
 
-            var dataTable;
-            function format(d)
-            {
-                var companyId = $('.CompanyId').text();
-                console.clear();
-                console.log(companyId);
-                if (d.IsConfirm == true)
-                {
-                    return '<div class="card Details confirm"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
-                       "===>"+   d.DateTo + '</div>'
-                        + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-                         '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
-                        '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
-                          '<Span>  Date :</Span> ' + d.DateFrom + "===>"+ d.DateTo+ '<br>' +
-                        '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
-                        '<br><button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button><button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>' +
-                        '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
-                         + ')">طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
-                        + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
-                        + (companyId == 11?
-                             '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
-                            : '')
-                         + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
-                        '<br></div></div>';
-                } else
-                {
-                    return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
-                       "===>" + d.DateTo + '</div>'
-                     + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-                          '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
-                        '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
-                          '<Span>  Date :</Span> ' + d.DateFrom + "===>" + d.DateTo + '<br>' +
-                        '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
-                      '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformClaim(' + d.Id
-                        + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
-                        + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
-                        + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')">طباعة المطالبة</button> ' 
-                        + (companyId == 11?
-                            '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
-                            : '')
-                       + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
-                     '<br></div></div>';
-                }
+        var dataTable;
+        function format(d) {
+            var companyId = $('.CompanyId').text();
+            var airlinesSeperateNYInvoiceList = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AirlinesSeperateNYInvoiceList));
+            console.clear();
+            console.log(companyId);
+            if (d.IsConfirm == true) {
+                return '<div class="card Details confirm"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
+                    "===>" + d.DateTo + '</div>'
+                    + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                    '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
+                    '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
+                    '<Span>  Date :</Span> ' + d.DateFrom + "===>" + d.DateTo + '<br>' +
+                    '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
+                    '<br><button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button><button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>' +
+                    '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
+                    + ')">طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
+                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
+                    + (companyId == 11 && airlinesSeperateNYInvoiceList.includes(d.AirLineId)?
+                        '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
+                                : '')
+                + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
+                    '<br></div></div>';
+            } else {
+                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
+                    "===>" + d.DateTo + '</div>'
+                    + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                    '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
+                    '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
+                    '<Span>  Date :</Span> ' + d.DateFrom + "===>" + d.DateTo + '<br>' +
+                    '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
+                    '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformClaim(' + d.Id
+                    + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
+                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
+                    + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')">طباعة المطالبة</button> '
+                    + (companyId == 11 && airlinesSeperateNYInvoiceList.includes(d.AirLineId) ?
+                        '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
+                        : '')
+                    + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
+                    '<br></div></div>';
             }
+        }
 
-            $(document).ready(function () {
-                dataTable = $("#dataTable").DataTable({
-                    "processing": true,
-                    // "serverSide": true,
-                    "ajax": {
-                        "url": "/AccountClaim/GetAllClaim",
-                        "type": "GET",
-                        "datatype": "json",
+        $(document).ready(function () {
+            dataTable = $("#dataTable").DataTable({
+                "processing": true,
+                // "serverSide": true,
+                "ajax": {
+                    "url": "/AccountClaim/GetAllClaim",
+                    "type": "GET",
+                    "datatype": "json",
 
+                },
+                "columns": [
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
                     },
-                    "columns": [
-                         {
-                             "class": "details-control",
-                             "orderable": false,
-                             "data": null,
-                             "defaultContent": ""
-                         },
-                        { "data": "Id", "autowidth": true },
-                          { "data": "AccId", "autowidth": true },
-                           { "data": "AccName", "autowidth": true },
+                    { "data": "Id", "autowidth": true },
+                    { "data": "AccId", "autowidth": true },
+                    { "data": "AccName", "autowidth": true },
 
 
-                              { "data": "TotalAmountCredit", "autowidth": true },
-                                  //{ "data": "TotalAmountText", "autowidth": true },
+                    { "data": "TotalAmountCredit", "autowidth": true },
+                    //{ "data": "TotalAmountText", "autowidth": true },
 
-                               {
-                                   "data": "CurrencyName", "width": "50px", "render": function (data) {
-                                       var cssClass;
-                                       if (data === "دولار أمريكي") {
-                                           cssClass = "badge-danger";
-                                       }
-                                       if (data === "جنية سوداني") {
-                                           cssClass = "badge-success";
-                                       }
-                                       return '<span class="badge ' + cssClass + '">' + data + '</span>'
+                    {
+                        "data": "CurrencyName", "width": "50px", "render": function (data) {
+                            var cssClass;
+                            if (data === "دولار أمريكي") {
+                                cssClass = "badge-danger";
+                            }
+                            if (data === "جنية سوداني") {
+                                cssClass = "badge-success";
+                            }
+                            return '<span class="badge ' + cssClass + '">' + data + '</span>'
 
-                                   }
-                               },
-                                 { "data": "Statement", "autowidth": true },
-                                 { "data": "Date", "autowidth": true },
-
-
-                                   { "data": "Month", "autowidth": true },
-                                     { "data": "Year", "autowidth": true },
-                                   //{
-                                   //    "data": "Id", "width": "50px", "render": function (data) {
-                                   //        return '<div class="btn-group"> <button type="button" class="btn" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getSand(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
-
-                                   //    }
-                                   //},
+                        }
+                    },
+                    { "data": "Statement", "autowidth": true },
+                    { "data": "Date", "autowidth": true },
 
 
-                    ], "language":
-                                  {
-                                      "sProcessing": "جارٍ التحميل...",
-                                      "sLengthMenu": "أظهر _MENU_ مدخلات",
-                                      "sZeroRecords": "لم يعثر على أية سجلات",
-                                      "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                                      "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                                      "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                                      "sInfoPostFix": "",
-                                      "sSearch": "ابحث:",
-                                      "sUrl": "",
-                                      "oPaginate": {
-                                          "sFirst": "الأول",
-                                          "sPrevious": "السابق",
-                                          "sNext": "التالي",
-                                          "sLast": "الأخير",
-                                      }
-                                  },
+                    { "data": "Month", "autowidth": true },
+                    { "data": "Year", "autowidth": true },
+                    //{
+                    //    "data": "Id", "width": "50px", "render": function (data) {
+                    //        return '<div class="btn-group"> <button type="button" class="btn" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getSand(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
 
-                    "dom": '<"top"l>rt<"bottom"ip><"clear">',
-                    "fnInitComplete": function (oSettings, json) {
-                        addSearchControl(json);
+                    //    }
+                    //},
+
+
+                ], "language":
+                {
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "الأول",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي",
+                        "sLast": "الأخير",
                     }
-                });
+                },
 
-                var detailRows = [];
-
-                $('#dataTable tbody').on('click', 'tr td.details-control', function () {
-                    var tr = $(this).closest('tr');
-                    var row = dataTable.row(tr);
-                    var idx = $.inArray(tr.attr('Id'), detailRows);
-
-                    if (row.child.isShown()) {
-                        tr.removeClass('details');
-                        row.child.hide();
-
-                        // Remove from the 'open' array
-                        detailRows.splice(idx, 1);
-                    }
-                    else {
-                        tr.addClass('details');
-                        row.child(format(row.data())).show();
-
-                        // Add to the 'open' array
-                        if (idx === -1) {
-                            detailRows.push(tr.attr('Id'));
-                        }
-                    }
-                });
-
-                // On each draw, loop over the `detailRows` array and show any child rows
-                dt.on('draw', function () {
-                    $.each(detailRows, function (i, id) {
-                        $('#' + id + ' td.details-control').trigger('click');
-                    });
-                });
-
-                function addSearchControl(json) {
-                    $("#dataTable thead").append($("#dataTable thead tr:first").clone());
-                    $("#dataTable thead tr:eq(1) th").each(function (index) {
-                        /*No Search*/
-                        if (index == 0 || index == 1 || index == 2 || index == 4 || index == 6 || index == 12) {
-                            $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
-                        }
-                        /*Search as text field*/
-                        if (index == 7) {
-                            $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
-                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
-                            searchControl.on('keyup', function () {
-                                dataTable.column(index).search(searchControl.val()).draw();
-                            });
-                        }
-                        /*Search as combobox*/
-
-
-                        if (index == 3) {
-                            var ClassCaseDropDown = $('<select/>');
-                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('الحساب'));
-                            var ClassCase = [];
-                            $(json.data).each(function (index, element) {
-                                if ($.inArray(element.AccName, ClassCase) == -1) {
-                                    ClassCase.push(element.AccName);
-                                    ClassCaseDropDown.append($('<option/>').attr('value', element.AccName).text(element.AccName));
-                                }
-                            });
-                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
-                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
-                            searchControl.on('change', function () {
-                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
-                            });
-                        }
-
-
-                        if (index == 5) {
-                            var ClassCaseDropDown = $('<select/>');
-                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('العملة'));
-                            var ClassCase = [];
-                            $(json.data).each(function (index, element) {
-                                if ($.inArray(element.CurrencyName, ClassCase) == -1) {
-                                    ClassCase.push(element.CurrencyName);
-                                    ClassCaseDropDown.append($('<option/>').attr('value', element.CurrencyName).text(element.CurrencyName));
-                                }
-                            });
-                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
-                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
-                            searchControl.on('change', function () {
-                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
-                            });
-                        }
-
-
-
-
-                        if (index == 8) {
-                            var ClassCaseDropDown = $('<select/>');
-                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('الشهر'));
-                            var ClassCase = [];
-                            $(json.data).each(function (index, element) {
-                                if ($.inArray(element.Month, ClassCase) == -1) {
-                                    ClassCase.push(element.Month);
-                                    ClassCaseDropDown.append($('<option/>').attr('value', element.Month).text(element.Month));
-                                }
-                            });
-                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
-                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
-                            searchControl.on('change', function () {
-                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
-                            });
-                        }
-
-
-
-                        if (index == 9) {
-                            var ClassCaseDropDown = $('<select/>');
-                            ClassCaseDropDown.append($('<option/>').attr('value', '').text('العام'));
-                            var ClassCase = [];
-                            $(json.data).each(function (index, element) {
-                                if ($.inArray(element.Year, ClassCase) == -1) {
-                                    ClassCase.push(element.Year);
-                                    ClassCaseDropDown.append($('<option/>').attr('value', element.Year).text(element.Year));
-                                }
-                            });
-                            $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
-                            var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
-                            searchControl.on('change', function () {
-                                dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
-                            });
-                        }
-
-
-
-
-
-
-
-
-                    });
+                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                "fnInitComplete": function (oSettings, json) {
+                    addSearchControl(json);
                 }
-
             });
 
-            function getClaim(id) {
+            var detailRows = [];
 
-                $("#AjaxLoader").show()
+            $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = dataTable.row(tr);
+                var idx = $.inArray(tr.attr('Id'), detailRows);
 
-                $.get("/AccountClaim/ClaimParial", { id: id }, function (nn) {
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
 
-                    $("#myModel-Claim").html(nn);
-                    $("#myModalClaim").modal('show');
-                    $("#AjaxLoader").hide()
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('Id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td.details-control').trigger('click');
+                });
+            });
+
+            function addSearchControl(json) {
+                $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                $("#dataTable thead tr:eq(1) th").each(function (index) {
+                    /*No Search*/
+                    if (index == 0 || index == 1 || index == 2 || index == 4 || index == 6 || index == 12) {
+                        $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                    }
+                    /*Search as text field*/
+                    if (index == 7) {
+                        $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                        searchControl.on('keyup', function () {
+                            dataTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+                    /*Search as combobox*/
 
 
-
-
-
-
-                    $('#DateFrom').datepicker({
-                        dateFormat: "dd/mm/yy",
-                        changeMonth: true,
-                        changeYear: true,
-                        yearRange: "-60:+0",
-                        showOn: "button",
-                        buttonText: "<span class='fa fa-calendar'></span>"
-
-                    });
-
-
-                    $('#DateTo').datepicker({
-                        dateFormat: "dd/mm/yy",
-                        changeMonth: true,
-                        changeYear: true,
-                        yearRange: "-60:+0",
-                        showOn: "button",
-                        buttonText: "<span class='fa fa-calendar'></span>"
-
-                    });
-
-
-                    $('.select2bs4').select2({
-                        theme: 'bootstrap4'
-                    })
-               //////////////////////////////////////////////////////////////////////////////////////
-
-                    $(function () {
-                        debugger;
-                        $.validator.setDefaults({
-                            submitHandler: function () {
-                                alert("Form successful submitted!");
+                    if (index == 3) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('الحساب'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.AccName, ClassCase) == -1) {
+                                ClassCase.push(element.AccName);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.AccName).text(element.AccName));
                             }
                         });
-                        $('#quickForm').validate({
-                            rules: {
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
 
 
-                                AccId: {
-                                    required: {
-                                        depends: function (element) {
-                                            if ('0' == $('#AccId').val()) {
-                                                //Set predefined value to blank.
-                                                $('#AccId').val('');
-                                            }
-                                            return true;
-                                        }
-                                    }
-                                },
-
-
-
-                          
-                                DateTo: {
-                                    required: true,
-                                    dateITA: true,
-
-                                },      
-                             
-                                DateFrom: {
-                                    required: true,
-                                    dateITA: true,
-
-                                },
-                            
-                            },
-                            messages: {
-                             
-                                AccId: {
-                                    required: "الرجاء تحديد الحساب",
-
-                                },
-
-
-                                DateFrom: {
-                                    required: "الرجاء إدخال تاريخ بداية المطالبة",
-                                    dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
-
-                                },
-
-
-                             
-                                DateTo: {
-                                    required: "الرجاء إدخال تاريخ نهاية المطالبة",
-                                    dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
-
-                                },
-                             
-
-                            },
-                            errorElement: 'span',
-                            errorPlacement: function (error, element) {
-                                error.addClass('invalid-feedback');
-                                element.closest('.form-group').append(error);
-                            },
-                            highlight: function (element, errorClass, validClass) {
-                                $(element).addClass('is-invalid');
-                            },
-                            unhighlight: function (element, errorClass, validClass) {
-                                $(element).removeClass('is-invalid');
+                    if (index == 5) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('العملة'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.CurrencyName, ClassCase) == -1) {
+                                ClassCase.push(element.CurrencyName);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.CurrencyName).text(element.CurrencyName));
                             }
                         });
-                    });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
 
-                })
-            }
-          
-            function ConformClaim(id) {
-                $.get("/AccountClaim/GetClaimToConfirm", { id: id }, function (result) {
-                        swal({
-                            title: result.message,
-                            text: result.moneytext,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                        })
-                         .then((willDelete) => {
-                             if (willDelete) {
-                                 AddToConfrim(id);
-                             }
-                         });
+
+
+
+                    if (index == 8) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('الشهر'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.Month, ClassCase) == -1) {
+                                ClassCase.push(element.Month);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.Month).text(element.Month));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+                    if (index == 9) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('العام'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.Year, ClassCase) == -1) {
+                                ClassCase.push(element.Year);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.Year).text(element.Year));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+
+
+
+
+
                 });
             }
 
-            function AddToConfrim(id) {
-                $.post("/AccountClaim/AddToConfrim", { id: id }, function (res) {
-                    if (res) {
+        });
+
+        function getClaim(id) {
+
+            $("#AjaxLoader").show()
+
+            $.get("/AccountClaim/ClaimParial", { id: id }, function (nn) {
+
+                $("#myModel-Claim").html(nn);
+                $("#myModalClaim").modal('show');
+                $("#AjaxLoader").hide()
 
 
-                         if (res.message != null && res.message === "Add") {
-                            toastr.success("تم تاكيد المعاملة ", "اضافه");
-                        }
 
-                        else if (res.message == null || res.message === "error") {
-                            toastr.error("حدث خطا ", "لم يتم الحفظ");
-                        }
-                      
-                         //var model = $('#myModalClaim');
-                         //model.modal('hide');
-                        dataTable.ajax.reload();
 
-                    }
 
+
+                $('#DateFrom').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0",
+                    showOn: "button",
+                    buttonText: "<span class='fa fa-calendar'></span>"
+
+                });
+
+
+                $('#DateTo').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0",
+                    showOn: "button",
+                    buttonText: "<span class='fa fa-calendar'></span>"
+
+                });
+
+
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
                 })
+                //////////////////////////////////////////////////////////////////////////////////////
 
-            }
-
-            function AddToDelete(id) {
-                $.post("/AccountSand/AddToConfrim", { id: id }, function (res) {
-                    if (res) {
-
-
-                        if (res.message != null && res.message === "Add") {
-                            toastr.success("تم تاكيد المعاملة ", "اضافه");
+                $(function () {
+                    debugger;
+                    $.validator.setDefaults({
+                        submitHandler: function () {
+                            alert("Form successful submitted!");
                         }
-
-                        else if (res.message == null || res.message === "error") {
-                            toastr.error("حدث خطا ", "لم يتم الحفظ");
-                        }
-                        //var model = $('#myModalWithOut');
-                        //model.modal('hide');
-                        dataTable.ajax.reload();
-
-                    }
-
-                })
-
-            }
-
-            function getDeleteReason(id) {
-
-                $("#AjaxLoader").show()
-
-                $.get("/AccountSand/getDeleteReasonParial", { id: id }, function (nn) {
-
-                    $("#myModel-Delete").html(nn);
-                    $("#myModalDelete").modal('show');
-                    $("#AjaxLoader").hide()
-
-                    $(function () {
-                        $.validator.setDefaults({
-                            submitHandler: function () {
-                                alert("Form successful submitted!");
-                            }
-                        });
-                        $('#quickForm').validate({
-                            rules: {
-                                NameAr: {
-                                    required: true,
-
-                                },
-
-
-                            },
-                            messages: {
-                                NameAr: {
-                                    required: "Plase Enter Arabic Name",
-
-                                },
-
-
-                            },
-                            errorElement: 'span',
-                            errorPlacement: function (error, element) {
-                                error.addClass('invalid-feedback');
-                                element.closest('.form-group').append(error);
-                            },
-                            highlight: function (element, errorClass, validClass) {
-                                $(element).addClass('is-invalid');
-                            },
-                            unhighlight: function (element, errorClass, validClass) {
-                                $(element).removeClass('is-invalid');
-                            }
-                        });
                     });
-                })
+                    $('#quickForm').validate({
+                        rules: {
 
-            }
 
-            function Delete(id) {
+                            AccId: {
+                                required: {
+                                    depends: function (element) {
+                                        if ('0' == $('#AccId').val()) {
+                                            //Set predefined value to blank.
+                                            $('#AccId').val('');
+                                        }
+                                        return true;
+                                    }
+                                }
+                            },
+
+
+
+
+                            DateTo: {
+                                required: true,
+                                dateITA: true,
+
+                            },
+
+                            DateFrom: {
+                                required: true,
+                                dateITA: true,
+
+                            },
+
+                        },
+                        messages: {
+
+                            AccId: {
+                                required: "الرجاء تحديد الحساب",
+
+                            },
+
+
+                            DateFrom: {
+                                required: "الرجاء إدخال تاريخ بداية المطالبة",
+                                dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
+
+                            },
+
+
+
+                            DateTo: {
+                                required: "الرجاء إدخال تاريخ نهاية المطالبة",
+                                dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
+
+                            },
+
+
+                        },
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
+                });
+
+            })
+        }
+
+        function ConformClaim(id) {
+            $.get("/AccountClaim/GetClaimToConfirm", { id: id }, function (result) {
                 swal({
-                    title: "هل انت متاكد ",
-                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    title: result.message,
+                    text: result.moneytext,
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                 .then((willDelete) => {
-                     if (willDelete) {
-                         $.get("/AccountClaim/Delete", { id: id }, function (res) {
-                             if (res) {
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            AddToConfrim(id);
+                        }
+                    });
+            });
+        }
 
-                                 if (res.message != null && res.message === "Used") {
-                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
-                                 }
-                                 if (res.message != null && res.message === "SandFound") {
-                                     toastr.error(" تم دفع المطالبة المالية ", " الحذف");
-                                 }
-                                 if (res.message != null && res.message === "Delete") {
-                                     toastr.success("تم الحذف المعاملة ", "الحذف");
-                                 }
-                                 dataTable.ajax.reload();
-                             }
-                         });
-                     }
-                 });
-
-            }
-
-            function DeleteConfirm(id) {
+        function AddToConfrim(id) {
+            $.post("/AccountClaim/AddToConfrim", { id: id }, function (res) {
+                if (res) {
 
 
-                swal({
-                    title: "هل انت متاكد ",
-                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                 .then((willDelete) => {
-                     if (willDelete) {
-                         $.get("/AccountClaim/DeleteConfirm", { id: id }, function (res) {
-                             if (res) {
+                    if (res.message != null && res.message === "Add") {
+                        toastr.success("تم تاكيد المعاملة ", "اضافه");
+                    }
 
-                                 if (res.message != null && res.message === "Used") {
-                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
-                                 }
+                    else if (res.message == null || res.message === "error") {
+                        toastr.error("حدث خطا ", "لم يتم الحفظ");
+                    }
 
-                                 if (res.message != null && res.message === "Delete") {
-                                     toastr.success("تم الحذف المعاملة ", "الحذف");
-                                 }
-                                 dataTable.ajax.reload();
-                             }
-                         });
-                     }
-                 });
+                    //var model = $('#myModalClaim');
+                    //model.modal('hide');
+                    dataTable.ajax.reload();
 
-            }
+                }
 
-            function Tranfer(id) {
+            })
+
+        }
+
+        function AddToDelete(id) {
+            $.post("/AccountSand/AddToConfrim", { id: id }, function (res) {
+                if (res) {
 
 
-                swal({
-                    title: "هل تريد نقل ",
-                    text: " OK تقوم بنقل العنصر! عند الضعط علي",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                 .then((willDelete) => {
-                     if (willDelete) {
-                         $.get("/AccountClaim/Transfer", { id: id }, function (res) {
-                             if (res) {
+                    if (res.message != null && res.message === "Add") {
+                        toastr.success("تم تاكيد المعاملة ", "اضافه");
+                    }
 
-                                 if (res.message != null && res.message === "Add") {
-                                     toastr.success("تم نقل المعاملة ", "عملية النقل");
-                                 }
+                    else if (res.message == null || res.message === "error") {
+                        toastr.error("حدث خطا ", "لم يتم الحفظ");
+                    }
+                    //var model = $('#myModalWithOut');
+                    //model.modal('hide');
+                    dataTable.ajax.reload();
 
-                                 //if (res.message != null && res.message === "Delete") {
-                                 //    toastr.error("تم الحذف نوع المطار ", "الحذف");
-                                 //}
-                                 dataTable.ajax.reload();
-                             }
-                         });
-                     }
-                 });
+                }
 
-            }
+            })
+
+        }
+
+        function getDeleteReason(id) {
+
+            $("#AjaxLoader").show()
+
+            $.get("/AccountSand/getDeleteReasonParial", { id: id }, function (nn) {
+
+                $("#myModel-Delete").html(nn);
+                $("#myModalDelete").modal('show');
+                $("#AjaxLoader").hide()
+
+                $(function () {
+                    $.validator.setDefaults({
+                        submitHandler: function () {
+                            alert("Form successful submitted!");
+                        }
+                    });
+                    $('#quickForm').validate({
+                        rules: {
+                            NameAr: {
+                                required: true,
+
+                            },
+
+
+                        },
+                        messages: {
+                            NameAr: {
+                                required: "Plase Enter Arabic Name",
+
+                            },
+
+
+                        },
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
+                });
+            })
+
+        }
+
+        function Delete(id) {
+            swal({
+                title: "هل انت متاكد ",
+                text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/AccountClaim/Delete", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Used") {
+                                    toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                }
+                                if (res.message != null && res.message === "SandFound") {
+                                    toastr.error(" تم دفع المطالبة المالية ", " الحذف");
+                                }
+                                if (res.message != null && res.message === "Delete") {
+                                    toastr.success("تم الحذف المعاملة ", "الحذف");
+                                }
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    }
+                });
+
+        }
+
+        function DeleteConfirm(id) {
+
+
+            swal({
+                title: "هل انت متاكد ",
+                text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/AccountClaim/DeleteConfirm", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Used") {
+                                    toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                }
+
+                                if (res.message != null && res.message === "Delete") {
+                                    toastr.success("تم الحذف المعاملة ", "الحذف");
+                                }
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    }
+                });
+
+        }
+
+        function Tranfer(id) {
+
+
+            swal({
+                title: "هل تريد نقل ",
+                text: " OK تقوم بنقل العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/AccountClaim/Transfer", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Add") {
+                                    toastr.success("تم نقل المعاملة ", "عملية النقل");
+                                }
+
+                                //if (res.message != null && res.message === "Delete") {
+                                //    toastr.error("تم الحذف نوع المطار ", "الحذف");
+                                //}
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    }
+                });
+
+        }
 
         //=====================================================================================================================================================
-            function AddDeleteReason() {
+        function AddDeleteReason() {
 
-                var model = $('#myModalDelete');
-                var form = $('form[name="DeleteReasonFormAdd"]');
+            var model = $('#myModalDelete');
+            var form = $('form[name="DeleteReasonFormAdd"]');
 
 
-                form.validate();
-                if (!form.valid()) {
-                    return;
-                } else {
-                    var data = form.serialize();
-                    $.post("/AccountSand/AddDeleteReason", data, function (res) {
-                        if (res) {
-                            if (res.message != null && res.message === "Delete") {
-                                toastr.success("تم عملية الحذف بنجاح ", "تعديل");
-                            }
+            form.validate();
+            if (!form.valid()) {
+                return;
+            } else {
+                var data = form.serialize();
+                $.post("/AccountSand/AddDeleteReason", data, function (res) {
+                    if (res) {
+                        if (res.message != null && res.message === "Delete") {
+                            toastr.success("تم عملية الحذف بنجاح ", "تعديل");
+                        }
 
-                            else if (res.message != null && res.message === "Used") {
-                                toastr.error("العنصر موجود", "اضافه");
-                            }
+                        else if (res.message != null && res.message === "Used") {
+                            toastr.error("العنصر موجود", "اضافه");
+                        }
 
-                            else if (res.message == null || res.message === "error") {
-                                toastr.error("حدث خطا ", "لم يتم الحذف");
-                            }
+                        else if (res.message == null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحذف");
+                        }
+                        model.modal('hide');
+
+
+                        dataTable.ajax.reload();
+                    }
+
+                })
+            }
+        }
+
+        ///=====================================================================================================================================================
+
+        function AddClaim() {
+
+            var model = $('#myModalClaim');
+            var form = $('form[name="ClaimFormAdd"]');
+
+
+            form.validate();
+            if (!form.valid()) {
+                return;
+            } else {
+                var data = form.serialize();
+
+                $.post("/AccountClaim/CreateOrUpdateClaim", data, function (res) {
+                    if (res) {
+                        if (res.message != null && res.message === "Update") {
+                            toastr.success("تم تعديل مطالبة مالية", "تعديل");
+                            var model = $('#myModalClaim');
                             model.modal('hide');
 
-
-                            dataTable.ajax.reload();
                         }
 
-                    })
-                }
-            }
+                        else if (res.message != null && res.message === "Add") {
+                            toastr.success("تم اضافه مطالبة مالية ", "اضافه");
+                            var model = $('#myModalClaim');
+                            model.modal('hide');
+                        }
 
-        ///=====================================================================================================================================================
-        
-            function AddClaim() {
-
-                var model = $('#myModalClaim');
-                var form = $('form[name="ClaimFormAdd"]');
-
-
-                form.validate();
-                if (!form.valid()) {
-                    return;
-                } else {
-                    var data = form.serialize();
-
-                    $.post("/AccountClaim/CreateOrUpdateClaim", data, function (res) {
-                        if (res) {
-                            if (res.message != null && res.message === "Update") {
-                                toastr.success("تم تعديل مطالبة مالية", "تعديل");
-                                var model = $('#myModalClaim');
-                                model.modal('hide');
-
-                            }
-
-                            else if (res.message != null && res.message === "Add") {
-                                toastr.success("تم اضافه مطالبة مالية ", "اضافه");
-                                var model = $('#myModalClaim');
-                               model.modal('hide');
-                            }
-
-                            else if (res.message != null && res.message === "InvaildStartDate") {
-                                toastr.error("التاريخ يجب ان يبدا من يوم 1 ", "اضافه");
-                              
-                            }
-
-                            else if (res.message != null && res.message === "InvaildEndDate") {
-                                toastr.error("التاريخ النهاية غير صحيح  ", "اضافه");
-                              
-                            }
-
-
-
-                            else if (res.message != null && res.message === "Used") {
-                                toastr.error("يوجد مطالبة مالية لنفس الشهر  ", "اضافه");
-
-                            }
-                            
-                          
-                            else if (res.message != null && res.message === "InvaildDate") {
-                                toastr.error("لايمكن المطالبة لشهرين  ", "اضافه");
-
-                            }
-
-                            else if (res.message != null && res.message === "InvaildDateYear") {
-                                toastr.error("لايمكن المطالبة لسنتين مختلفتين  ", "اضافه");
-
-                            }
-
-
-                            else if (res.message == null || res.message === "error") {
-                                toastr.error("حدث خطا ", "لم يتم الحفظ");
-                            }
-                            //   model.modal('hide');
-                            //  $("#myModalS").modal('show');
-
-                            //GetSearch();
-                            dataTable.ajax.reload();
-                            //dataTableS.ajax.reload();
-
+                        else if (res.message != null && res.message === "InvaildStartDate") {
+                            toastr.error("التاريخ يجب ان يبدا من يوم 1 ", "اضافه");
 
                         }
 
-                    })
-                }
+                        else if (res.message != null && res.message === "InvaildEndDate") {
+                            toastr.error("التاريخ النهاية غير صحيح  ", "اضافه");
+
+                        }
+
+
+
+                        else if (res.message != null && res.message === "Used") {
+                            toastr.error("يوجد مطالبة مالية لنفس الشهر  ", "اضافه");
+
+                        }
+
+
+                        else if (res.message != null && res.message === "InvaildDate") {
+                            toastr.error("لايمكن المطالبة لشهرين  ", "اضافه");
+
+                        }
+
+                        else if (res.message != null && res.message === "InvaildDateYear") {
+                            toastr.error("لايمكن المطالبة لسنتين مختلفتين  ", "اضافه");
+
+                        }
+
+
+                        else if (res.message == null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحفظ");
+                        }
+                        //   model.modal('hide');
+                        //  $("#myModalS").modal('show');
+
+                        //GetSearch();
+                        dataTable.ajax.reload();
+                        //dataTableS.ajax.reload();
+
+
+                    }
+
+                })
             }
+        }
 
         ///=====================================================================================================================================================
-           function PrintConstraint(id) {
-                var url = '/AccountReport/PrintClaimConstraint/' + id;
-                window.open(url, '_blank').focus();
-            }
+        function PrintConstraint(id) {
+            var url = '/AccountReport/PrintClaimConstraint/' + id;
+            window.open(url, '_blank').focus();
+        }
 
-            function PrintDataGraf(id) {
-                var url = '/AccountReport/PrintDataGraf/' + id;
-                window.open(url, '_blank').focus();
-            }
+        function PrintDataGraf(id) {
+            var url = '/AccountReport/PrintDataGraf/' + id;
+            window.open(url, '_blank').focus();
+        }
 
-            function PrintDataNYGraf(id) {
-                var url = '/AccountReport/PrintDataNYGraf/' + id;
-                window.open(url, '_blank').focus();
-            }
+        function PrintDataNYGraf(id) {
+            var url = '/AccountReport/PrintDataNYGraf/' + id;
+            window.open(url, '_blank').focus();
+        }
 
-            function PrintDataFinalInvoice(id) {
-                var url = '/AccountReport/PrintDataFinalInvoice/' + id;
-                window.open(url, '_blank');
-            }
-            
-            function getShowAll() {
+        function PrintDataFinalInvoice(id) {
+            var url = '/AccountReport/PrintDataFinalInvoice/' + id;
+            window.open(url, '_blank');
+        }
 
-                window.location.href = "/AccountClaim/ConfirmClaimTransaction";
-            }
-            
+        function getShowAll() {
+
+            window.location.href = "/AccountClaim/ConfirmClaimTransaction";
+        }
+
     </script>
 }
