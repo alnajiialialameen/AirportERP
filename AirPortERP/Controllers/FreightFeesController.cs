@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.Extenstion;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using Microsoft.AspNet.Identity;
 
@@ -124,34 +123,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptFreightFees.rpt")));
-            IQueryable<FreightFee> FreightFees;
-            FreightFees = db.FreightFees;
-            rd.SetDataSource(FreightFees.Select(p => new
-            {
-                Id = p.Id,
-                Name = p.Name,
-                AmountInDollar = p.AmountInDollar,
-                CreatedBy = p.CreatedBy,
-                CreationDate = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "FreightFees.pdf");
-        }
 
 
         public ActionResult Details(int? id)

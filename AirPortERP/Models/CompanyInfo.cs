@@ -17,8 +17,11 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CompanyInfo()
         {
+            this.FinancialClaims = new HashSet<FinancialClaim>();
+            this.SandMains = new HashSet<SandMain>();
             this.Revenues = new HashSet<Revenue>();
             this.TowerDatas = new HashSet<TowerData>();
+            this.WorkOns = new HashSet<WorkOn>();
         }
     
         public int Id { get; set; }
@@ -45,10 +48,17 @@ namespace AirPortERP.Models
         public string DomeNYSupervisor { get; set; }
         public string FirstClassSupervisor { get; set; }
         public string PushBackSupervisor { get; set; }
+        public Nullable<bool> IsSingleAccounting { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaim> FinancialClaims { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SandMain> SandMains { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Revenue> Revenues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TowerData> TowerDatas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOn> WorkOns { get; set; }
     }
 }

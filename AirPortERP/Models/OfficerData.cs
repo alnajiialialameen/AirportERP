@@ -56,6 +56,8 @@ namespace AirPortERP.Models
         public Nullable<System.DateTime> CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
+        public Nullable<int> PaxInter { get; set; }
+        public Nullable<bool> IsClaimCalculated { get; set; }
     
         public virtual AirLineAgent AirLineAgent { get; set; }
         public virtual FuelCompany FuelCompany { get; set; }

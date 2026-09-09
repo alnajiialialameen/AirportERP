@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using System.IO;
-using CrystalDecisions.CrystalReports.Engine;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
 using Microsoft.AspNet.Identity;
@@ -119,34 +118,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptCUPPSServiceFees.rpt")));
-            IQueryable<CUPPSServiceFee> CUPPSServiceFees;
-            CUPPSServiceFees = db.CUPPSServiceFees;
-            rd.SetDataSource(CUPPSServiceFees.Select(p => new
-            {
-                Id = p.Id,
-                Name = p.Name,
-                AmountInDollar = p.AmountInDollar,
-                CreatedBy = p.CreatedBy,
-                CreationDate = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "CUPPSServiceFees.pdf");
-        }
 
 
         public ActionResult Details(int? id)

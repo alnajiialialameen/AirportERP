@@ -14,29 +14,45 @@ namespace AirPortERP.Models
     
     public partial class FinancialClaim
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FinancialClaim()
+        {
+            this.FinancialClaimDetails = new HashSet<FinancialClaimDetail>();
+            this.SandMains = new HashSet<SandMain>();
+        }
+    
         public int Id { get; set; }
-        public Nullable<int> AccIdDebit { get; set; }
-        public Nullable<decimal> Amount { get; set; }
         public Nullable<int> OperationTypeId { get; set; }
+        public Nullable<int> TowerDataId { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
+        public Nullable<decimal> TotalAmountSDG { get; set; }
+        public string DeleteReason { get; set; }
+        public Nullable<int> AccId { get; set; }
         public Nullable<System.DateTime> DateFrom { get; set; }
         public Nullable<System.DateTime> DateTo { get; set; }
         public string Statement { get; set; }
+        public Nullable<bool> IsTransfer { get; set; }
         public Nullable<bool> IsConfirm { get; set; }
         public Nullable<bool> IsDelete { get; set; }
         public string Note { get; set; }
-        public Nullable<int> Month { get; set; }
-        public Nullable<int> Year { get; set; }
         public Nullable<int> CurrencyId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<bool> IsTransfer { get; set; }
-        public Nullable<decimal> ExchangeRateAgainstPrimaryCurrency { get; set; }
+        public Nullable<System.DateTime> ClaimDate { get; set; }
+        public Nullable<decimal> ExchangeRate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
+        public Nullable<int> FinancialClaimRefId { get; set; }
     
         public virtual AccountTree AccountTree { get; set; }
+        public virtual CompanyInfo CompanyInfo { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual OperationType OperationType { get; set; }
+        public virtual TowerData TowerData { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaimDetail> FinancialClaimDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SandMain> SandMains { get; set; }
     }
 }

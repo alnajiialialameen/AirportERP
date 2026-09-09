@@ -1,0 +1,200 @@
+﻿@using AirPortERP.Models;
+
+@{
+    Entities db = new Entities();
+    ViewBag.Title = "Home Page";
+}
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myModel-content">
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-primary btn-xs">Save Change</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5>Freight & Pax Report</h5>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active"> Freight & Pax Report</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <link href="~/Temp/dist/css/PagedList.css" rel="stylesheet" />
+    <script src="~/Temp/dist/js/sorting.js"></script>
+    <style>
+        .badge-warning {
+            color: #1f2d3d;
+            background-color: #ffc107;
+        }
+    </style>
+
+
+    <div class="card card-default">
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>بين الفترة</label>
+
+                        <div class="row">
+                            <div class=" col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"> From  </i></span>
+                                    </div>
+                                    <input type="date" id="DateFrom" />
+                                </div>
+                            </div>
+
+                            <div class=" col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"> To  </i></span>
+                                    </div>
+                                    <input type="date" id="DateTo" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label> بحث</label>
+                       <div class="row">
+                           <div class=" col-md-4">
+                               <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control m-1">Search</button>
+                           </div>
+                           <div class=" col-md-4">
+                               <button id="btnall" onclick="PrintData()" class="btn form-control btn-success btn-sm m-1">Print Report </button>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            @Html.Action("GetDataPAxAndFrieght")
+        </div>
+    </div>
+
+</section>
+@section scripts{
+
+    <script language="javascript" type="text/javascript">
+
+            $(document).ready(function () {
+
+                $(document).on("click", "#contentPager a[href]", function () {
+
+                    $.ajax({
+
+                        url: $(this).attr("href"),
+
+                        type: 'GET',
+
+                        cache: false,
+
+                        success: function (result) {
+
+                            $('#content').html(result);
+
+                        }
+
+                    });
+
+                    return false;
+
+                });
+
+                $('.datetime').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0"
+                });
+            });
+          
+            function Search() {
+                $("#AjaxLoader").show();
+                var DateFrom = $("#DateFrom").val();
+                var DateTo = $("#DateTo").val();
+                if (DateFrom == null || DateFrom == "") {
+                    Swal.fire('Select!! Enter Date From ')
+                    $("#AjaxLoader").hide();
+                    return false;
+                } if (DateTo == null || DateTo == "") {
+                    Swal.fire('Select!! Enter Date To ')
+                    $("#AjaxLoader").hide();
+                    return false;
+                } else {
+                    $.ajax({
+                        url: '@Url.Action("GetDataPAxAndFrieght", "ReportExtenstion")',
+                        data: {
+                            Get: 1, Search: 1,
+                            DateFrom: DateFrom,
+                            DateTo: DateTo
+                        },
+                        type: 'GET',
+                        cache: false,
+                        success: function (result) {
+                            $('#content').html(result);
+                            $("#AjaxLoader").hide();
+                        }
+                    });
+                }
+            }
+
+
+        function PrintData() {
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+            if (DateFrom == null || DateFrom == "") {
+                Swal.fire('Select!! Enter Date From ')
+                $("#AjaxLoader").hide();
+                return false;
+            } if (DateTo == null || DateTo == "") {
+                Swal.fire('Select!! Enter Date To ')
+                $("#AjaxLoader").hide();
+                return false;
+            } else {
+                var url = "/ReportExtenstion/PrintPaxAndFrieghtReport?DateFrom=" + DateFrom + "&&DateTo=" + DateTo;
+                window.open(url, '_blank').focus();
+            }
+
+        }
+
+    </script>
+}

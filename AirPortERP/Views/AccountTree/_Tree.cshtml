@@ -35,49 +35,49 @@
                     <li>
 
                         (@T1.AccNumber) @T1.AccName
-                        @foreach (AccountTree T2 in Model.Where(x => x.AccParent == T1.AccNumber))
+                        @foreach (AccountTree T2 in Model.Where(x => x.AccParent == T1.Id))
                         {
                             <ul>
                                 <li>
-                                    (@T2.AccNumber) @T2.AccName 
+                                    (@T2.AccNumber) @T2.AccName
 
-                                    @foreach (AccountTree T3 in Model.Where(x => x.AccParent == T2.AccNumber))
+                                    @foreach (AccountTree T3 in Model.Where(x => x.AccParent == T2.Id))
                                     {
                                         <ul>
                                             <li>
                                                 (@T3.AccNumber) @T3.AccName
-                                                @foreach (AccountTree T4 in Model.Where(x => x.AccParent == T3.AccNumber))
+                                                @foreach (AccountTree T4 in Model.Where(x => x.AccParent == T3.Id))
                                                 {
                                                     <ul>
                                                         <li>
                                                             (@T4.AccNumber) @T4.AccName
 
-                                                            @foreach (AccountTree T5 in Model.Where(x => x.AccParent == T4.AccNumber))
+                                                            @foreach (AccountTree T5 in Model.Where(x => x.AccParent == T4.Id))
                                                             {
                                                                 <ul>
                                                                     <li>
                                                                         (@T5.AccNumber) @T5.AccName
-                                                                        @foreach (AccountTree T6 in Model.Where(x => x.AccParent == T5.AccNumber))
+                                                                        @foreach (AccountTree T6 in Model.Where(x => x.AccParent == T5.Id))
                                                                         {
                                                                             <ul>
                                                                                 <li>
                                                                                     (@T6.AccNumber) @T6.AccName
-                                                                                    @foreach (AccountTree T7 in Model.Where(x => x.AccParent == T6.AccNumber))
+                                                                                    @foreach (AccountTree T7 in Model.Where(x => x.AccParent == T6.Id))
                                                                                     {
                                                                                         <ul>
                                                                                             <li>
                                                                                                 (@T7.AccNumber) @T7.AccName
-                                                                                                @foreach (AccountTree T8 in Model.Where(x => x.AccParent == T7.AccNumber))
+                                                                                                @foreach (AccountTree T8 in Model.Where(x => x.AccParent == T7.Id))
                                                                                                 {
                                                                                                     <ul>
                                                                                                         <li>
                                                                                                             (@T8.AccNumber)   @T8.AccName
-                                                                                                        @foreach (AccountTree T9 in Model.Where(x => x.AccParent == T8.AccNumber))
-                                                                                                        {
-                                                                                                            <ul>
-                                                                                                                <li> (@T9.AccNumber) @T9.AccName</li>
-                                                                                                            </ul>
-                                                                                                        }
+                                                                                                            @foreach (AccountTree T9 in Model.Where(x => x.AccParent == T8.Id))
+                                                                                                            {
+                                                                                                                <ul>
+                                                                                                                    <li> (@T9.AccNumber) @T9.AccName</li>
+                                                                                                                </ul>
+                                                                                                            }
 
                                                                                                         </li>
                                                                                                     </ul>
@@ -120,18 +120,23 @@
             }
 
 
+
+     
+
+
+
             @*<script src="~/Temp/plugins/jquery/jquery.min.js"></script>*@
 
 
             <script src="~/Temp/Tree/dist/jstree.min.js"></script>
 
             <script src="~/Scripts/jquery-3.5.1.js"></script>
-          
 
-          <script>
 
-              $('#html').jstree();
-          </script>
+            <script>
+
+                $('#html').jstree();
+            </script>
 
 
 

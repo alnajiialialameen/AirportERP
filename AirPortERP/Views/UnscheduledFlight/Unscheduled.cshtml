@@ -1,0 +1,4095 @@
+﻿
+
+<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        width: 50px;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+        width: 50px;
+    }
+
+    .iconImg {
+        width: 23px;
+    }
+
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    .ml-Custom {
+        margin-right: 300px;
+    }
+
+    .content {
+        font-size: 14px;
+    }
+
+    .badgeIcon {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    *, ::after, ::before {
+        box-sizing: border-box;
+    }
+
+    .table-hover tbody tr:hover {
+        color: #212529;
+    }
+
+
+
+
+
+    .badgeIcon {
+        font-size: 70%;
+    }
+
+    .badge-color1 {
+        color: #111010;
+        background-color: #ffffff;
+    }
+
+    .badge-color2 {
+        color: #111010;
+        background-color: #ffffff;
+    }
+
+    .badge-color3 {
+        color: #111010;
+        background-color: aquamarine;
+    }
+
+    .imgIcon {
+        vertical-align: baseline;
+        width: 24px;
+    }
+
+    .invalid-feedback {
+        color: red;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+
+
+
+
+    /* #modal-arrived .form-group {
+        margin-bottom: 12px;
+    }
+
+    #modal-arrived .form-control {
+        height: 38px;
+    }
+
+    #modal-arrived .select2-container {
+        width: 100% !important;
+    }
+
+    #modal-arrived .modal-content {
+        border-radius: 10px;
+    }
+
+    #modal-arrived .modal-header {
+        padding: 12px 20px;
+    }
+
+    #modal-arrived .modal-body {
+        padding: 20px;
+    }*/
+
+
+    .container-fluid {
+        padding: 30px
+    }
+
+
+
+
+
+    #modal-arrived {
+        z-index: 1050;
+    }
+
+    #add-model-o,
+    #add-model-f,
+    #add-model-r,
+    #add-model-s,
+    #add-model-to {
+        z-index: 1065 !important;
+    }
+
+    .modal-backdrop.show:nth-of-type(2) {
+        z-index: 1060 !important;
+    }
+  
+
+</style>
+
+
+
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-light m-2" id="addMovementArrived" data-toggle="modal" data-target="#modal-arrived">Add Unscheduled flights <img class="iconImg" src="~/Temp/Image/landing.png" /></button>
+        </div>
+
+
+    </div>
+
+
+    <div class="modal fade" id="add-model-o">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal" id="add-form-o">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Add Airline </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">English Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addnameo" name="addnameo" placeholder=" Operater Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addcodeo" name="addcodeo" placeholder=" Operater Code" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Phone  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addphoneo" name="addphoneo" placeholder=" Operater Phone" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addemailo" name="addemailo" placeholder=" Operater Email" />
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Arabic Name  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addarnameo" name="addarnameo" placeholder=" Operater Phone" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Address  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addaddresso" name="addaddresso" placeholder=" Operater Address" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">  Is Local Company  </label>
+                                        <div class="col-sm-10">
+                                            <input class="pull-left" type="checkbox" id="islocalcompanyo">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Acc</label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control" id="addaccido" name="addaccido" placeholder=" Operater Address" /></select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="add-model-f">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal" id="add-form-f">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Add Flight Number </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label for="addflightnof" class="col-sm-2 col-form-label">Flight No</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addflightnof" name="addflightnof" placeholder="Enter Flight Number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="addoperatoridf" class="col-sm-2 col-form-label">Airline </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="select2" id="addoperatoridf" name="addoperatoridf" placeholder="Enter Operator" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="addairportidf" class="col-sm-2 col-form-label"> AirPort </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class=" select2" id="addairportidf" name="addairportidf" placeholder="Enter Operator" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+
+
+
+                                    @*<div class="form-group row">
+                                            <label for="addisactivef" class="col-sm-2 col-form-label">Is Active  </label>
+                                            <div class="col-sm-10">
+                                                <input class="pull-left" type="checkbox" id="addisactivef" name="addisactivef">
+                                            </div>
+                                        </div>*@
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="add-model-r">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal" id="add-form-r">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Add Aircraft Registration  </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label for="addregr" class="col-sm-2 col-form-label"> Registration </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addregr" name="addregr" placeholder="Enter Aircraft Registration" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="addtypeidr" class="col-sm-2 col-form-label">Type  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control" id="addtypeidr" name="addtypeidr" placeholder="Enter Aircraft Type" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="addwtr" class="col-sm-2 col-form-label"> Max TakOff Wieght </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addwtr" name="addwtr" placeholder="Enter Max TakOff Wieght" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    <div class="modal fade" id="add-model-s">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal" id="add-form-s">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Add AirPort  </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Arabic Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addnamears" name="addnamears" placeholder="Enter arabic Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">English Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addnameens" name="addnameens" placeholder="Enter english Name" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addcodes" name="addcodes" placeholder="Enter code" />
+                                        </div>
+                                    </div>
+
+                                    @*<div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Lat  </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="addlats" name="addlats" placeholder="Enter Lan" />
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label"> Long   </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="addlongs" name="addlongs" placeholder="Enter code" />
+                                            </div>
+                                        </div>*@
+
+                                    @*<div class="form-group row">
+                                            <label for="addgates" class="col-sm-2 col-form-label">Gate  </label>
+                                            <div class="col-sm-10">
+                                                <select type="text" class="form-control" id="addgates" name="addgates" placeholder="Enter Gate Name" autocomplete="off"></select>
+                                            </div>
+                                        </div>*@
+
+
+
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Country  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control" id="addcountryids" name="addcountryids" placeholder="Enter country Name" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="add-model-to">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal" id="add-form-to">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Add AirPort  </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group row">
+                                        <label for="addnamearto" class="col-sm-2 col-form-label">Arabic Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addnamearto" name="addnamearto" placeholder="Enter arabic Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="addnameento" class="col-sm-2 col-form-label">English Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addnameento" name="addnameento" placeholder="Enter english Name" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="addcodeto" class="col-sm-2 col-form-label">Code  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="addcodeto" name="addcodeto" placeholder="Enter code" />
+                                        </div>
+                                    </div>
+
+                                  
+
+                                    <div class="form-group row">
+                                        <label for="addcountryidto" class="col-sm-2 col-form-label">Country  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control" id="addcountryidto" name="addcountryidto" placeholder="Enter country Name" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="modal-arrived">
+        <div class="modal-dialog modal-xl" style="max-width:95%;">
+            <div class="modal-content">
+
+                <form class="form-horizontal" id="form-arrived">
+
+                    <!-- Header -->
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title">Movement</h4>
+
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="container-fluid">
+
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs" id="arrivedTabs" role="tablist">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#aircraftTab">
+                                        Aircraft
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#passengerTab">
+                                        Passenger
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#mailTab">
+                                        Mail & Freight
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#serviceCarTab">
+                                        Service Car
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#pushpackTab">
+                                        Push Pack
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#fuelTab">
+                                        Fuel
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <!-- Tabs Content -->
+                            <div class="tab-content pt-3">
+
+                                <!-- Aircraft -->
+                                <div class="tab-pane fade show active" id="aircraftTab">
+                                    <div class="aircraft-information">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Call Sing</label>
+
+                                                    <div class="col-sm-8">
+                                                        <select type="text" class="form-control select2" id="addAirlineIdAr" name="addAirlineIdAr" placeholder="Airlines" autocomplete="off"> </select>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-sm btn-primary w-100" data-toggle="modal" data-target="#add-model-o"> New Airline </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Flight No </label>
+                                                    <div class="col-sm-8">
+                                                        <select type="text" class="form-control select2" id="addFlightNoAr" name="addFlightNoAr" placeholder=" Flight No " autocomplete="off"></select>
+
+                                                    </div>
+
+
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-sm btn-primary w-100" id="addnewflightno" data-toggle="modal" data-target="#add-model-f"> New Flight No </button>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Reg  </label>
+                                                    <div class="col-sm-8">
+                                                        <select type="text" class="form-control select2" id="addRegAr" name="addRegAr" placeholder=" Reg  " autocomplete="off"></select>
+
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-sm btn-primary w-100" id="addnewreg" data-toggle="modal" data-target="#add-model-r"> New Reg </button>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">From  </label>
+                                                    <div class="col-sm-8">
+                                                        <select type="text" class="form-control select2" id="addAirportFromAr" name="addAirportFromAr" placeholder=" From  " autocomplete="off"></select>
+
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-sm btn-primary w-100" id="addnewfrom" data-toggle="modal" data-target="#add-model-s"> New From </button>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addAirportToAr" class="col-sm-2 col-form-label">To  </label>
+                                                    <div class="col-sm-8">
+                                                        <select type="text" class="form-control select2" id="addAirportToAr" name="addAirportToAr" placeholder=" To  " autocomplete="off"></select>
+
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-sm btn-primary w-100" id="addnewto" data-toggle="modal" data-target="#add-model-to"> New To </button>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <div class="form-group row">
+                                                    <label for="addATAAr" class="col-sm-2 col-form-label">ATA</label>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="addATAAr" data-target-input="nearest">
+                                                            <input type="text" id="addATAArReal" class="form-control datetimepicker-input" name="addATAArReal" data-target="#addATAAr" />
+                                                            <div class="input-group-append" data-target="#addATAAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addATDAr" class="col-sm-2 col-form-label">ATD</label>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="addATDAr" data-target-input="nearest">
+                                                            <input type="text" id="addATDArReal" class="form-control datetimepicker-input" name="addATDArReal" data-target="#addATDAr" />
+                                                            <div class="input-group-append" data-target="#addATDAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Trip Type  </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control" id="addTripTypeAr" name="addTripTypeAr" placeholder=" TripType  " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addDateAr" class="col-sm-2 col-form-label">Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="addDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" name="addDateArReal" id="addDateArReal" data-target="#addDateAr" />
+                                                            <div class="input-group-append" data-target="#addDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addLandingDateAr" class="col-sm-2 col-form-label">Landing Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="addLandingDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" id="addLandingDateArReal" name="addLandingDateArReal" data-target="#addLandingDateAr" />
+                                                            <div class="input-group-append" data-target="#addLandingDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addTakeOffDateAr" class="col-sm-2 col-form-label">Take off Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="addTakeOffDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" id="addTakeOffDateArReal" name="addTakeOffDateArReal" data-target="#addTakeOffDateAr" />
+                                                            <div class="input-group-append" data-target="#addTakeOffDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <div class="form-group row">
+                                                    <label for="addNoteAr" class="col-sm-2 col-form-label">Note   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="addNoteAr" name="addNoteAr" class="form-control" placeholder="Note" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addPOBAr" class="col-sm-2 col-form-label">POB   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="addPOBAr" name="addPOBAr" class="form-control" placeholder="POB" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addQBDAr" class="col-sm-2 col-form-label">QBD   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="addQBDAr" name="addQBDAr" class="form-control" placeholder="QBD" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addLandingPermission " class="col-sm-2 col-form-label">Landing Permission   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="addLandingPermission" name="addLandingPermission" class="form-control" placeholder="Landing Permission" />
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                                <!-- Passenger -->
+                                <div class="tab-pane fade" id="passengerTab">
+                                    <div class="passenger-information">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Pax</label>
+                                                    <input class="form-control"
+                                                           id="addPax"
+                                                           name="addPax">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>TR</label>
+                                                    <input class="form-control"
+                                                           id="addTRNYCUPPS"
+                                                           name="addTRNYCUPPS">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mail & Freight -->
+                                <div class="tab-pane fade" id="mailTab">
+                                    <div class="mailandfrieght">
+                                        <div class="row">
+
+                                            <!-- Mail -->
+                                            <div class="col-md-6">
+                                                <div class="mail">
+
+                                                    <h6 class="text-center">Mail</h6>
+
+                                                    <div class="form-group">
+                                                        <label>Normal Mail Imp</label>
+                                                        <input class="form-control"
+                                                               id="addNormalMailLoadingImp"
+                                                               name="addNormalMailLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Normal Mail Exp</label>
+                                                        <input class="form-control"
+                                                               id="addNormalMailLoadingExp"
+                                                               name="addNormalMailLoadingExp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Rapid Mail Imp</label>
+                                                        <input class="form-control"
+                                                               id="addRapidMailLoadingImp"
+                                                               name="addRapidMailLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Rapid Mail Exp</label>
+                                                        <input class="form-control"
+                                                               id="addRapidMailLoadingExp"
+                                                               name="addRapidMailLoadingExp">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <!-- Freight -->
+                                            <div class="col-md-6">
+                                                <div class="fright">
+
+                                                    <h6 class="text-center">Freight</h6>
+
+                                                    <div class="form-group">
+                                                        <label>Freight Imp</label>
+                                                        <input class="form-control"
+                                                               id="addFreightLoadingImp"
+                                                               name="addFreightLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Freight Exp</label>
+                                                        <input class="form-control"
+                                                               id="addFreightLoadingExp"
+                                                               name="addFreightLoadingExp">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Service Car -->
+                                <div class="tab-pane fade" id="serviceCarTab">
+                                    <div class="service-car">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Ambulance Car Count</label>
+                                                    <input class="form-control"
+                                                           id="addAmbulanceCarCount"
+                                                           name="addAmbulanceCarCount">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Fire Fighting Car Count</label>
+                                                    <input class="form-control"
+                                                           id="addFireFightingCarCount"
+                                                           name="addFireFightingCarCount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Push Pack -->
+                                <div class="tab-pane fade" id="pushpackTab">
+                                    <div class="pushpack">
+
+                                        <div class="form-group mt-3">
+
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       id="addPushPack"
+                                                       name="addPushPack">
+
+                                                <label class="form-check-label"
+                                                       for="addPushPack">
+                                                    Has PushBack
+                                                </label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Fuel -->
+                                <div class="tab-pane fade" id="fuelTab">
+                                    <div class="fuel">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group mt-3">
+                                                    <div class="form-group row">
+                                                        <label for="addFuel" class="col-sm-3 col-form-label">Fuel In Leiter   </label>
+                                                        <div class="col-sm-9">
+                                                            <input id="addFuel" name="addFuel" class="form-control" placeholder="Fuel" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
+                                        </div>
+                                    </div>
+                              
+                              
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">
+                            Add
+                        </button>
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="ed-modal-arrived">
+        <div class="modal-dialog modal-xl" style="max-width:95%;">
+            <div class="modal-content">
+
+                <form class="form-horizontal" id="ed-form-arrived">
+
+                    <!-- Header -->
+                    <div class="modal-header bg-light">
+                        <h4 class="modal-title">Update Movement</h4>
+
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="container-fluid">
+
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs" id="arrivedTabs" role="tablist">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#aircraftTab1">
+                                        Aircraft
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#passengerTab1">
+                                        Passenger
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#mailTab1">
+                                        Mail & Freight
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#serviceCarTab1">
+                                        Service Car
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#pushpackTab1">
+                                        Push Pack
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#fuelTab1">
+                                        Fuel
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <!-- Tabs Content -->
+                            <div class="tab-content pt-3">
+
+                                <!-- Aircraft -->
+                                <div class="tab-pane fade show active" id="aircraftTab1">
+                                    <div class="aircraft-information">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input id="edIdAr" type="hidden" name="edIdAr" />
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Call Sing</label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control select2" id="edAirlineIdAr" name="edAirlineIdAr" placeholder=" Airlines " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Flight No </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control select2" id="edFlightNoAr" name="edFlightNoAr" placeholder=" Flight No " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Reg  </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control select2" id="edRegAr" name="edRegAr" placeholder=" Reg  " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">From  </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control select2" id="edAirportFromAr" name="edAirportFromAr" placeholder=" From  " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addAirportToAr" class="col-sm-2 col-form-label">To  </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control select2" id="edAirportToAr" name="edAirportToAr" placeholder=" To  " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-group row">
+                                                    <label for="addATAAr" class="col-sm-2 col-form-label">ATA</label>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="edATAAr" data-target-input="nearest">
+                                                            <input type="text" id="edATAArReal" class="form-control datetimepicker-input" name="edATAArReal" data-target="#edATAAr" />
+                                                            <div class="input-group-append" data-target="#edATAAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addATDAr" class="col-sm-2 col-form-label">ATD</label>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="edATDAr" data-target-input="nearest">
+                                                            <input type="text" id="edATDArReal" class="form-control datetimepicker-input" name="edATDArReal" data-target="#edATDAr" />
+                                                            <div class="input-group-append" data-target="#edATDAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Trip Type  </label>
+                                                    <div class="col-sm-10">
+                                                        <select type="text" class="form-control" id="edTripTypeAr" name="edTripTypeAr" placeholder=" TripType  " autocomplete="off"></select>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addDateAr" class="col-sm-2 col-form-label">Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="edDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" name="edDateArReal" id="edDateArReal" data-target="#edDateAr" />
+                                                            <div class="input-group-append" data-target="#edDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addLandingDateAr" class="col-sm-2 col-form-label">Landing Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="edLandingDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" id="edLandingDateArReal" name="edLandingDateArReal" data-target="#edLandingDateAr" />
+                                                            <div class="input-group-append" data-target="#edLandingDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label for="addTakeOffDateAr" class="col-sm-2 col-form-label">Take Off Date</label>
+
+                                                    <div class="col-md-10">
+                                                        <div class="input-group date" id="edTakeOffDateAr" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" id="edTakeOffDateArReal" name="edTakeOffDateArReal" data-target="#edTakeOffDateAr" />
+                                                            <div class="input-group-append" data-target="#edTakeOffDateAr" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <div class="form-group row">
+                                                    <label for="addNoteAr" class="col-sm-2 col-form-label">Note   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="edNoteAr" name="edNoteAr" class="form-control" placeholder="Note" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addPOBAr" class="col-sm-2 col-form-label">POB   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="edPOBAr" name="edPOBAr" class="form-control" placeholder="POB" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="addQBDAr" class="col-sm-2 col-form-label">QBD   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="edQBDAr" name="edQBDAr" class="form-control" placeholder="QBD" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="edLandingPermission " class="col-sm-2 col-form-label">Landing Permission   </label>
+                                                    <div class="col-sm-10">
+                                                        <input id="edLandingPermission" name="edLandingPermission" class="form-control" placeholder="Landing Permission" />
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                                <!-- Passenger -->
+                                <div class="tab-pane fade" id="passengerTab1">
+                                    <div class="passenger-information">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Pax</label>
+                                                    <input class="form-control"
+                                                           id="edPax"
+                                                           name="edPax">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>TR</label>
+                                                    <input class="form-control"
+                                                           id="edTRNYCUPPS"
+                                                           name="edTRNYCUPPS">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mail & Freight -->
+                                <div class="tab-pane fade" id="mailTab1">
+                                    <div class="mailandfrieght">
+                                        <div class="row">
+
+                                            <!-- Mail -->
+                                            <div class="col-md-6">
+                                                <div class="mail">
+
+                                                    <h6 class="text-center">Mail</h6>
+
+                                                    <div class="form-group">
+                                                        <label>Normal Mail Imp</label>
+                                                        <input class="form-control"
+                                                               id="edNormalMailLoadingImp"
+                                                               name="edNormalMailLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Normal Mail Exp</label>
+                                                        <input class="form-control"
+                                                               id="edNormalMailLoadingExp"
+                                                               name="edNormalMailLoadingExp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Rapid Mail Imp</label>
+                                                        <input class="form-control"
+                                                               id="edRapidMailLoadingImp"
+                                                               name="edRapidMailLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Rapid Mail Exp</label>
+                                                        <input class="form-control"
+                                                               id="edRapidMailLoadingExp"
+                                                               name="edRapidMailLoadingExp">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <!-- Freight -->
+                                            <div class="col-md-6">
+                                                <div class="fright">
+
+                                                    <h6 class="text-center">Freight</h6>
+
+                                                    <div class="form-group">
+                                                        <label>Freight Imp</label>
+                                                        <input class="form-control"
+                                                               id="edFreightLoadingImp"
+                                                               name="edFreightLoadingImp">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Freight Exp</label>
+                                                        <input class="form-control"
+                                                               id="edFreightLoadingExp"
+                                                               name="edFreightLoadingExp">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Service Car -->
+                                <div class="tab-pane fade" id="serviceCarTab1">
+                                    <div class="service-car">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Ambulance Car Count</label>
+                                                    <input class="form-control"
+                                                           id="edAmbulanceCarCount"
+                                                           name="edAmbulanceCarCount">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Fire Fighting Car Count</label>
+                                                    <input class="form-control"
+                                                           id="edFireFightingCarCount"
+                                                           name="edFireFightingCarCount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Push Pack -->
+                                <div class="tab-pane fade" id="pushpackTab1">
+                                    <div class="pushpack">
+
+                                        <div class="form-group mt-3">
+
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       id="edPushPack"
+                                                       name="edPushPack">
+
+                                                <label class="form-check-label"
+                                                       for="edPushPack">
+                                                    Has PushBack
+                                                </label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <!-- Fuel -->
+                                <div class="tab-pane fade" id="fuelTab1">
+                                    <div class="fuel">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group mt-3">
+                                                    <div class="form-group row">
+                                                        <label for="edFuel" class="col-sm-3 col-form-label">Fuel In Leiter   </label>
+                                                        <div class="col-sm-9">
+                                                            <input id="edFuel" name="edFuel" class="form-control" placeholder="Fuel" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">
+                            Add
+                        </button>
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive table-sm">
+
+                <table id="dataTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:13px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Airline</th>
+                            <th>Flight No</th>
+                            <th>Reg</th>
+                            <th>Type</th>
+                            <th>Wt</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Date</th>
+                            <th>TripType</th>
+                            <th>Created By</th>
+                            <th>OP</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</section>
+@section scripts{
+
+    <script>
+        var dataTable;
+
+        function format(d) {
+            if (d.IsStop == true) {
+                return '<div class="card Details card-warning"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>'
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>FuelFees:</Span> ' + d.FuelFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+                    '<br> <span class="badge badge-danger">تم تحرير المطالبة للرحلة</span>  <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                    + ')">Details</button>  <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button>' +
+                    '<br></div></div>';
+            }
+            else {
+
+                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>InterNYFees:</Span> ' + d.InterNYFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>DomeNYFees: </Span>' + d.DomeNYFees + '<br>' +
+                    '<Span>InterCUPPSFees:</Span> ' + d.InterCUPPSFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>DomeCUPPSFees: </Span>' + d.DomeCUPPSFees + '<br>' +
+                    '<Span>ExpMailFees:</Span> ' + d.ExpMailFees + ' &nbsp;&nbsp;' + ' <Span>ImpMailFees: </Span>' + d.ImpMailFees + ' <Span>FreightFees: </Span>' + d.FreightFees + '<br>' +
+                    '<Span>ServiceCarFees:</Span> ' + d.ServiceCar + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>PushBackFees: </Span>' + d.PushBackFees + '<br>' +
+                    '<Span>FuelFees:</Span> ' + d.FuelFees + '<br>'+
+                    
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+
+                    '<br><button class="btn btn-success btn-sm m-2" onclick="getDataForUpdate(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                    + ')">Details</button>  <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintDataFinalInvoice(' + d.Id + ')">Print Invoice</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div>';
+
+
+            }
+        }
+        $(document).ready(function () {
+
+            dataTable = $("#dataTable").DataTable({
+
+                "processing": true,
+                // "serverSide": true,
+                "ajax": {
+                    "url": "/UnscheduledFlight/GetUnscheduled",
+                    "type": "GET",
+                    "datatype": "json",
+
+                },
+                "columns": [
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
+
+
+                    { "data": "Id", "autowidth": true },
+                    { "data": "AirLineCode", "autowidth": true },
+                    { "data": "FlightNo", "autowidth": true },
+                    { "data": "AircraftRegName", "autowidth": true },
+
+
+
+
+                    { "data": "Type", "autowidth": true },
+                    { "data": "MaxTaKeOffWeight", "autowidth": true },
+
+
+                    { "data": "AirportIdFrom", "autowidth": true },
+
+                    { "data": "AirportIdTo", "autowidth": true },
+                    { "data": "Date", "autowidth": true },
+                    //{ "data": "ATA", "autowidth": true },
+                    //  { "data": "ATD", "autowidth": true },
+                    //{ "data": "POB", "autowidth": true },
+                    //  { "data": "QBD", "autowidth": true },
+                    //{ "data": "LandingDate", "autowidth": true },
+                    //{ "data": "TakeOffDate", "autowidth": true },
+
+                    {
+                        "data": "TripType", "width": "50px", "render": function (data) {
+                            var cssClass;
+                            if (data === "Domestic") {
+                                cssClass = "badge-danger";
+                            }
+                            if (data === "International") {
+                                cssClass = "badge-success";
+                            }
+                            return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                        }
+                    },
+
+
+                    { "data": "CreatedBy", "autowidth": true },
+
+                    {
+
+
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTowerData(' + data +
+                                ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
+
+                        }
+                    },
+
+
+                ], "language":
+                {
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "الأول",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي",
+                        "sLast": "الأخير",
+                    }
+                },
+
+
+                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                "fnInitComplete": function (oSettings, json) {
+                    addSearchControl(json);
+                },
+                "rowCallback": function (row, data) {
+                    // Check if IsStop is true and change the row color
+                    if (data.IsStop) {
+                        $(row).css('background-color', '#ffcccc'); // Change to desired color
+                    }
+                }
+
+
+            });
+
+
+
+            var detailRows = [];
+
+            $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = dataTable.row(tr);
+                var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('Id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            //dt.on('draw', function () {
+            //    $.each(detailRows, function (i, id) {
+            //        $('#' + id + ' td.details-control').trigger('click');
+            //    });
+            //});
+
+
+            function addSearchControl(json) {
+                $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                $("#dataTable thead tr:eq(1) th").each(function (index) {
+                    /*No Search*/
+                    if (index == 0 || index == 5 || index == 6 || index == 7 || index == 8 || index == 12) {
+                        $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                    }
+                    /*Search as text field*/
+                    if (index == 1 || index == 2 || index == 3 || index == 4 || index == 9) {
+                        $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                        searchControl.on('keyup', function () {
+                            dataTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+                    /*Search as combobox*/
+                    if (index == 10) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text(' نوع الرحلة'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.TripType, ClassCase) == -1) {
+                                ClassCase.push(element.TripType);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.TripType).text(element.TripType));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+                    if (index == 11) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('By'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.CreatedBy, ClassCase) == -1) {
+                                ClassCase.push(element.CreatedBy);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.CreatedBy).text(element.CreatedBy));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+
+
+
+
+
+                });
+            }
+
+        });
+
+        //----------------------start add arrive --------------------------------------
+
+        function getAirline() {
+
+            $('#addAirlineIdAr').empty();
+            $.ajax({
+                url: "/Air/GetAirline",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                        });
+                        $('#addAirlineIdAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+        function getFlightNo() {
+
+            $('#addFlightNoAr').empty();
+            $.ajax({
+                url: "/Air/GetFlightNo",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.FlightNo + "</option>";
+                        });
+                        $('#addFlightNoAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+        function getReg() {
+
+            $('#addRegAr').empty();
+            $.ajax({
+                url: "/Air/GetReg",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Registration + "</option>";
+                        });
+                        $('#addRegAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+        function getAirportTo() {
+
+            $('#addAirportToAr').empty();
+            $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                        });
+                        $('#addAirportToAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+        function getAirportFrom() {
+
+            $('#addAirportFromAr').empty();
+            $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                        });
+                        $('#addAirportFromAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+        function getTripType() {
+
+            $('#addTripTypeAr').empty();
+            $.ajax({
+                url: "/Air/GetTripType",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        var x;
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                        });
+                        $('#addTripTypeAr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+
+
+        $("#addMovementArrived").click(function () {
+
+            getAirline();
+            getFlightNo();
+            getReg();
+            getAirportTo();
+            getAirportFrom();
+            getTripType();
+
+            var today = moment().format('DD/MM/YYYY');
+
+            $('#addDateArReal').val(today);
+            $('#addLandingDateArReal').val(today);
+            $('#addTakeOffDateArReal').val(today);
+        });
+
+
+        $("#addAirlineIdAr").change(function () {
+
+            var value = $('#addAirlineIdAr').val();
+            $("#addFlightNoAr option").remove()
+            var url = "/TowerDatas/GetFlightNo/" + value;
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                    $("#addFlightNoAr").append(ele);
+                });
+            });
+
+
+        })
+        $('#ATDAr').datetimepicker({
+            use24hours: true,
+            format: 'HH:mm'
+        })
+
+        $('#addDateAr').datetimepicker({
+            format: 'DD/MM/YYYY'
+
+        });
+        $('#addLandingDateAr').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        $('#addTakeOffDateAr').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+
+        $('#addATAAr').datetimepicker({
+            use24hours: true,
+            format: 'HH:mm'
+        })
+        $('#addATDAr').datetimepicker({
+            use24hours: true,
+            format: 'HH:mm'
+        })
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+        $(function () {
+            // Set default submit handler to call the saveAr function
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    saveAr(); // This will call your save function on form submission
+                }
+            });
+
+            // Initialize form validation on the form with ID 'form-arrived'
+            $('#form-arrived').validate({
+                ignore: [],
+
+                rules: {
+                    addAirlineIdAr: { required: true },
+                    addFlightNoAr: { required: true },
+                    addRegAr: { required: true },
+                    addAirportFromAr: { required: true },
+                    addATAArReal: { required: true },
+                    addATDArReal: { required: true },
+                    addTripTypeAr: { required: true },
+                    addDateArReal: { required: true, dateITA: true },
+                    addLandingDateArReal: { required: true, dateITA: true },
+                    addTakeOffDateArReal: { required: true, dateITA: true },
+                    addPax: { digits: true },
+                    addTRNYCUPPS: { digits: true },
+                     
+                    addNormalMailLoadingImp: { number: true },
+                    addNormalMailLoadingExp: { number: true },
+                    addRapidMailLoadingImp: { number: true },
+                    addRapidMailLoadingExp: { number: true },
+
+                    addFreightLoadingImp: { number: true },
+                    addFreightLoadingExp: { number: true },
+
+
+                    addAmbulanceCarCount: { digits: true },
+                    addFireFightingCarCount: { digits: true },
+                    addFuel: { digits: true },
+                    
+                    
+                },
+
+                messages: {
+                    addAirlineIdAr: { required: "Please select an Airline." },
+                    addFlightNoAr: { required: "Please select Flight No." },
+                    addRegAr: { required: "Please select Aircraft Registration." },
+                    addAirportFromAr: { required: "Please select Airport From." },
+                    addATAArReal: { required: "Please enter ATA." },
+                    addATDArReal: { required: "Please enter ATD." },
+                    
+                    addTripTypeAr: { required: "Please select Trip Type." },
+                    addDateArReal: {
+                        required: "Please select a Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+                    addLandingDateArReal: {
+                        required: "Please select a Landing Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+                    addTakeOffDateArReal: {
+                        required: "Please select a Take off Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+
+                    addPax: {
+                        digits: "Please Inter  valid Pax."
+                    },
+
+                    addTRNYCUPPS: {
+                        digits: "Please Inter  valid Tr."
+                    },
+
+                    addNormalMailLoadingImp: {      
+                        number: "Please Inter valid Normal Mail Import."
+                    },
+                    addNormalMailLoadingExp: {
+                        number: "Please Inter valid Normal Mail Export."
+                    },
+                    addRapidMailLoadingImp: {
+                        number: "Please Inter valid Rapid Mail Import."
+                    },
+                    addRapidMailLoadingExp: {
+                        number: "Please Inter valid Rapid Mail Export."
+                    },
+
+
+                    addFreightLoadingImp: {
+                        number: "Please Inter valid Freight Import."
+                    },
+                    addFreightLoadingExp: {
+                        number: "Please Inter valid Freight Export."
+                    },
+                    addAmbulanceCarCount: {
+                        digits: "Please Inter valid Ambulance Car."
+                    },
+                    addFireFightingCarCount: {
+                        digits: "Please Inter valid Fighting Car."
+                    },
+
+                    addFuel: {
+                        digits: "Please Inter valid Fuel by Fuel In Liter."
+                    },
+                },
+
+               
+                
+
+
+                errorElement: 'span',
+                errorClass: 'invalid-feedback',
+
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('datetimepicker-input')) {
+                        error.insertAfter(element.closest('.input-group'));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+
+                highlight: function (element) {
+                    $(element).addClass('is-invalid');
+                },
+
+                unhighlight: function (element) {
+                    $(element).removeClass('is-invalid');
+                },
+
+                submitHandler: function () {
+                    saveAr();
+                }
+            });
+        });
+
+        function saveAr()
+        {
+
+            var addDateAr = $('#addDateArReal').val();
+            var formataddDateAr = moment(addDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var addLandingDateAr = $('#addLandingDateArReal').val();
+            var formataddLandingDateAr = moment(addLandingDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+            var addTakeOffDateAr = $('#addTakeOffDateArReal').val();
+            var formataddTakeOffDateAr = moment(addTakeOffDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+
+
+
+            var ob = {
+                "AirLineIdAr": $('#addAirlineIdAr').val(),
+                "FlightNoAr": $('#addFlightNoAr').val(),
+                "AircraftRegIdAr": $('#addRegAr').val(),
+                "AirportIdFromAr": $('#addAirportFromAr').val(),
+                "AirportIdToAr": $('#addAirportToAr').val(),
+
+                "ATAAr": $('#addATAArReal').val(),
+                "ATDAr": $('#addATDArReal').val(),
+                "TripTypeIdAr": $('#addTripTypeAr').val(),
+                "DateAr": formataddDateAr,
+                "LandingDateAr": formataddLandingDateAr,
+                "TakeOffDateAr": formataddTakeOffDateAr,
+
+                "NoteAr": $('#addNoteAr').val(),
+                "POBAr": $('#addPOBAr').val(),
+                "QBDAr": $('#addQBDAr').val(),
+                "LandingPermissionAr": $('#addLandingPermission').val(),
+                ///passenger
+                "Pax": $('#addPax').val(),
+                "TRNYCUPPS": $('#addTRNYCUPPS').val(),
+
+                //mail && frieght
+                "NormalMailLoadingImp": $('#addNormalMailLoadingImp').val(),
+                "NormalMailLoadingExp": $('#addNormalMailLoadingExp').val(),
+
+                "RapidMailLoadingImp": $('#addRapidMailLoadingImp').val(),
+                "RapidMailLoadingExp": $('#addRapidMailLoadingExp').val(),
+
+                "FreightLoadingImp": $('#addFreightLoadingImp').val(),
+                "FreightLoadingExp": $('#addFreightLoadingExp').val(),
+
+                "AmbulanceCarCount": $('#addAmbulanceCarCount').val(),
+                "FireFightingCarCount": $('#addFireFightingCarCount').val(),
+
+                "hasPushPack": $('#addPushPack').is(':checked'),
+                "FuelLiter": $('#addFuel').val(),
+                
+                
+                ///service Car
+            };
+
+            // Perform the AJAX request to send the data
+            $.ajax({
+                url: "@Url.Action("CreateUnscheduled", "UnscheduledFlight")",
+                type: "POST",
+                data: JSON.stringify(ob),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                error: function (response) {
+                    // Handle error
+                },
+                success: function (response) {
+
+                    toastr[response.Status](response.Message, response.Title);
+                    clearArrivedForm();
+                    // $('#add-form').bootstrapValidator('resetForm', true);
+                    $('#modal-arrived').modal('hide');
+
+                    dataTable.ajax.reload();
+
+
+
+                }
+            });
+        };
+
+
+
+        function clearArrivedForm() {
+
+            // Reset native form
+            document.getElementById("form-arrived").reset();
+
+            // Reset select2
+            //$('#form-arrived select').val(null).trigger('change');
+
+            // Clear datetimepickers
+            $('#addDateAr').datetimepicker('clear');
+            $('#addLandingDateAr').datetimepicker('clear');
+            $('#addTakeOffDateAr').datetimepicker('clear');
+            $('#addATAAr').datetimepicker('clear');
+            $('#addATDAr').datetimepicker('clear');
+
+        }
+
+
+        //----------------------end add arrive --------------------------------------
+
+        //----------------------start edit arrive --------------------------------------
+        $("#edAirlineIdAr").change(function () {
+
+            var value = $('#edAirlineIdAr').val();
+            $("#edFlightNoAr option").remove()
+            var url = "/TowerDatas/GetFlightNo/" + value;
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                    $("#edFlightNoAr").append(ele);
+                });
+            });
+
+
+        })
+
+
+        $('#edDateAr').datetimepicker({
+            format: 'DD/MM/YYYY'
+
+        });
+        $('#edLandingDateAr').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        //$('#edATAAr').datetimepicker({
+        //    use24hours: true,
+        //    format: 'HH:mm'
+        //})
+
+
+
+
+
+
+        function edgetAirline() {
+            $('#edAirlineIdAr').empty();
+            return $.ajax({
+                url: "/Air/GetAirline",
+                type: "GET",
+                dataType: "json",
+                success: function (result) {
+                    var html = "";
+                    $.each(result, function (key, item) {
+                        html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                    });
+                    $('#edAirlineIdAr').append(html);
+                }
+            });
+        }
+        function edgetFlightNo() {
+
+            $('#edFlightNoAr').empty();
+
+            return $.ajax({
+                url: "/Air/GetFlightNo",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.FlightNo + "</option>";
+                });
+
+                $('#edFlightNoAr').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+        function edgetReg() {
+
+            $('#edRegAr').empty();
+
+            return $.ajax({
+                url: "/Air/GetReg",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Registration + "</option>";
+                });
+
+                $('#edRegAr').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+        function edgetAirportTo() {
+
+            $('#edAirportToAr').empty();
+
+            return $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                });
+
+                $('#edAirportToAr').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+        function edgetAirportFrom() {
+
+            $('#edAirportFromAr').empty();
+
+            return $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                });
+
+                $('#edAirportFromAr').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+        function edgetTripType() {
+
+            $('#edTripTypeAr').empty();
+
+            return $.ajax({
+                url: "/Air/GetTripType",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                });
+
+                $('#edTripTypeAr').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+
+        function getDataForUpdate(id) {
+
+            $("#ed-modal-arrived").modal('show');
+
+            // تحميل كل الـ select أولاً
+            Promise.all([
+                edgetAirline(),
+                edgetReg(),
+                edgetAirportFrom(),
+                edgetTripType(),
+                edgetAirportTo(),
+            ])
+            .then(function () {
+
+                // بعد تحميل القوائم الأساسية
+                return $.ajax({
+                    type: "GET",
+                    url: "/UnscheduledFlight/GetDataForUpdate/" + id,
+                    dataType: "json"
+                });
+
+            })
+            .then(function (response) {
+
+                if (!response) {
+                    alert("Something went wrong");
+                    return;
+                }
+
+                // ====== تعيين Airline أولاً ======
+                $('#edAirlineIdAr').val(String(response.AirLineIdAr)).trigger('change');
+
+                $('#edIdAr').val(response.IdAr);
+                //alert(response.IdAr);
+                // ====== الآن حمّل FlightNo بناءً على Airline ======
+                return edgetFlightNo().then(function () {
+
+                    $('#edFlightNoAr').val(String(response.FlightNoAr)).trigger('change');
+
+                    return response;
+                });
+
+            })
+            .then(function (response) {
+
+                // ====== باقي الـ select ======
+                //$('#edRegAr').val(String(response.AircraftRegIdAr));
+                $('#edRegAr').val(String(response.AircraftRegIdAr)).trigger('change');
+                $('#edAirportFromAr').val(String(response.AirportIdFromAr)).trigger('change');
+                $('#edAirportToAr').val(String(response.AirportIdToAr)).trigger('change');
+
+                $('#edTripTypeAr').val(String(response.TripTypeIdAr)).trigger('change');
+
+                // ====== الوقت ======
+                $('#edATAArReal').val(response.ATAArShow);
+                $('#edATDArReal').val(response.ATDArShow);
+
+
+                $('#edATAAr').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+                $('#edATDAr').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+
+
+                // ====== بقية الحقول ======
+                $('#edPOBAr').val(response.POBAr);
+                $('#edQBDAr').val(response.QBDAr);
+                $('#edNoteAr').val(response.NoteAr);
+                $('#edLandingPermissionAr').val(response.LandingPermissionAr);
+                $('#edCreatedByAr').val(response.CreatedByAr);
+
+                $('#edCreationDateAr').val(response.CreationDateAr);
+
+
+                // ====== التاريخ ======
+                var DateAr = response.DateAr
+                    ? moment(response.DateAr, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+
+
+                var TakeOffDate = response.TakeOffDateAr
+                    ? moment(response.TakeOffDateAr, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+
+
+
+                $('input[name="edDateArReal"]').val(DateAr);
+
+                var LandingDateAr = response.LandingDateAr
+                    ? moment(response.LandingDateAr, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+
+                $('input[name="edLandingDateArReal"]').val(LandingDateAr);
+                $('input[name="edTakeOffDateArReal"]').val(TakeOffDate);
+
+
+                $('#edPax').val(response.Pax);
+                $('#edTRNYCUPPS').val(response.TRNYCUPPS);
+
+
+                $('#edNormalMailLoadingExp').val(response.NormalMailLoadingExp);
+                $('#edNormalMailLoadingImp').val(response.NormalMailLoadingImp);
+
+                $('#edRapidMailLoadingExp').val(response.RapidMailLoadingExp);
+                $('#edRapidMailLoadingImp').val(response.RapidMailLoadingImp);
+
+                $('#edFreightLoadingExp').val(response.FreightLoadingExp);
+                $('#edFreightLoadingImp').val(response.FreightLoadingImp);
+
+
+                $('#edAmbulanceCarCount').val(response.AmbulanceCarCount);
+                $('#edFireFightingCarCount').val(response.FireFightingCarCount);
+                $('#edFuel').val(response.FuelLiter);
+              
+
+                if (response.HasPushPack === true) {
+                    $('#edPushPack').prop('checked', true);
+                } else {
+                    $('#edPushPack').prop('checked', false);
+                }
+            })
+            .catch(function (error) {
+
+                console.error(error);
+                alert("Error loading data");
+
+            });
+        }
+
+
+
+
+        $(function () {
+
+            $('#ed-form-arrived').on('submit', function (e) {
+                e.preventDefault();
+            });
+
+            $('#ed-form-arrived').validate({
+
+                ignore: [],
+
+                rules: {
+
+                    edAirlineIdAr: { required: true },
+                    edFlightNoAr: { required: true },
+                    edRegAr: { required: true },
+                    edAirportFromAr: { required: true },
+
+                    edATAArReal: { required: true },
+                    edATDArReal: { required: true },
+
+                    edTripTypeAr: { required: true },
+
+                    edDateArReal: {
+                        required: true,
+                        dateITA: true
+                    },
+
+                    edLandingDateArReal: {
+                        required: true,
+                        dateITA: true
+                    },
+
+                    edTakeOffDateArReal: {
+                        required: true,
+                        dateITA: true
+                    },
+
+                    edPax: {
+                        number: true
+                    },
+
+                    edTRNYCUPPS: {
+                        number: true
+                    },
+
+                    edNormalMailLoadingImp: {
+                        number: true
+                    },
+
+                    edNormalMailLoadingExp: {
+                        number: true
+                    },
+
+                    edRapidMailLoadingImp: {
+                        number: true
+                    },
+
+                    edRapidMailLoadingExp: {
+                        number: true
+                    },
+
+                    edFreightLoadingImp: {
+                        number: true
+                    },
+
+                    edFreightLoadingExp: {
+                        number: true
+                    },
+
+                    edAmbulanceCarCount: {
+                        digits: true
+                    },
+
+                    edFireFightingCarCount: {
+                        digits: true
+                    },
+
+                    edFuel: {
+                        number: true
+                    }
+
+                },
+
+                messages: {
+
+                    edAirlineIdAr: {
+                        required: "Please select an Airline."
+                    },
+
+                    edFlightNoAr: {
+                        required: "Please select Flight No."
+                    },
+
+                    edRegAr: {
+                        required: "Please select Aircraft Registration."
+                    },
+
+                    edAirportFromAr: {
+                        required: "Please select Airport From."
+                    },
+
+                    edATAArReal: {
+                        required: "Please enter ATA."
+                    },
+
+                    edATDArReal: {
+                        required: "Please enter ATD."
+                    },
+
+                    edTripTypeAr: {
+                        required: "Please select Trip Type."
+                    },
+
+                    edDateArReal: {
+                        required: "Please select a Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+
+                    edLandingDateArReal: {
+                        required: "Please select a Landing Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+
+                    edTakeOffDateArReal: {
+                        required: "Please select a Take Off Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+
+                    edPax: {
+                        number: "Please enter valid Pax."
+                    },
+
+                    edTRNYCUPPS: {
+                        number: "Please enter valid TR."
+                    },
+
+                    edNormalMailLoadingImp: {
+                        number: "Please enter valid Normal Mail Import."
+                    },
+
+                    edNormalMailLoadingExp: {
+                        number: "Please enter valid Normal Mail Export."
+                    },
+
+                    edRapidMailLoadingImp: {
+                        number: "Please enter valid Rapid Mail Import."
+                    },
+
+                    edRapidMailLoadingExp: {
+                        number: "Please enter valid Rapid Mail Export."
+                    },
+
+                    edFreightLoadingImp: {
+                        number: "Please enter valid Freight Import."
+                    },
+
+                    edFreightLoadingExp: {
+                        number: "Please enter valid Freight Export."
+                    },
+
+                    edAmbulanceCarCount: {
+                        digits: "Please enter valid Ambulance Car Count."
+                    },
+
+                    edFireFightingCarCount: {
+                        digits: "Please enter valid Fire Fighting Car Count."
+                    },
+
+                    edFuel: {
+                        number: "Please enter valid Fuel In Liter."
+                    }
+
+                },
+
+                errorElement: 'span',
+                errorClass: 'invalid-feedback',
+
+                errorPlacement: function (error, element) {
+
+                    if (element.hasClass('datetimepicker-input')) {
+
+                        error.insertAfter(element.closest('.input-group'));
+
+                    } else if (element.hasClass('select2')) {
+
+                        error.insertAfter(element.next('.select2'));
+
+                    } else {
+
+                        error.insertAfter(element);
+                    }
+                },
+
+                highlight: function (element) {
+
+                    $(element).addClass('is-invalid');
+
+                    if ($(element).hasClass('select2')) {
+                        $(element).next('.select2').find('.select2-selection')
+                            .addClass('is-invalid');
+                    }
+                },
+
+                unhighlight: function (element) {
+
+                    $(element).removeClass('is-invalid');
+
+                    if ($(element).hasClass('select2')) {
+                        $(element).next('.select2').find('.select2-selection')
+                            .removeClass('is-invalid');
+                    }
+                },
+
+                submitHandler: function (form, event) {
+
+                    event.preventDefault();
+
+                    editAr();
+
+                    return false;
+                }
+
+            });
+
+        });
+       function editAr() {
+
+    var edDateAr = $('#edDateArReal').val();
+    var formatedDateAr = moment(edDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    var edLandingDateAr = $('#edLandingDateArReal').val();
+    var formatedLandingDateAr = moment(edLandingDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    var edTakeOffDateAr = $('#edTakeOffDateArReal').val();
+    var formatedTakeOffDateAr = moment(edTakeOffDateAr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    var ob = {
+
+        // Aircraft
+        "IdAr": $('#edIdAr').val(),
+        "AirLineIdAr": $('#edAirlineIdAr').val(),
+        "FlightNoAr": $('#edFlightNoAr').val(),
+        "AircraftRegIdAr": $('#edRegAr').val(),
+        "AirportIdFromAr": $('#edAirportFromAr').val(),
+        "AirportIdToAr": $('#edAirportToAr').val(),
+
+       /* "ATAArShow": $('#edATAArReal').val(),*/
+        "ATAAr": $('#edATAArReal').val(),
+        "ATDAr": $('#edATDArReal').val(),
+
+        "TripTypeIdAr": $('#edTripTypeAr').val(),
+
+        "DateAr": formatedDateAr,
+        "LandingDateAr": formatedLandingDateAr,
+        "TakeOffDateAr": formatedTakeOffDateAr,
+
+        "NoteAr": $('#edNoteAr').val(),
+        "POBAr": $('#edPOBAr').val(),
+        "QBDAr": $('#edQBDAr').val(),
+
+        "LandingPermissionAr": $('#edLandingPermission').val(),
+
+        "CreatedByAr": $('#edCreatedByAr').val(),
+        "CreationDateAr": $('#edCreationDateAr').val(),
+
+        // Passenger
+        "Pax": $('#edPax').val(),
+        "TRNYCUPPS": $('#edTRNYCUPPS').val(),
+
+        // Mail
+        "NormalMailLoadingImp": $('#edNormalMailLoadingImp').val(),
+        "NormalMailLoadingExp": $('#edNormalMailLoadingExp').val(),
+        "RapidMailLoadingImp": $('#edRapidMailLoadingImp').val(),
+        "RapidMailLoadingExp": $('#edRapidMailLoadingExp').val(),
+
+        // Freight
+        "FreightLoadingImp": $('#edFreightLoadingImp').val(),
+        "FreightLoadingExp": $('#edFreightLoadingExp').val(),
+
+        // Service Car
+        "AmbulanceCarCount": $('#edAmbulanceCarCount').val(),
+        "FireFightingCarCount": $('#edFireFightingCarCount').val(),
+
+        // Push Pack
+        "hasPushPack": $('#edPushPack').prop('checked'),
+
+
+        // Fuel Liter
+        "FuelLiter": $('#edFuel').val(),
+    };
+
+    $.ajax({
+        url: "@Url.Action("CreateUnscheduled", "UnscheduledFlight")",
+        type: "POST",
+        data: JSON.stringify(ob),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+
+        error: function (response) {
+
+            toastr.error("Error");
+
+        },
+
+        success: function (response) {
+
+            toastr[response.Status](response.Message, response.Title);
+
+            $('#ed-modal-arrived').modal('hide');
+
+            dataTable.ajax.reload();
+
+        }
+    });
+}
+
+
+
+
+
+
+        //----------------------end edit arrive --------------------------------------
+
+            function Delete(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/UnscheduledFlight/Delete", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف نوع Movement ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+            function DeleteCompleted(id) {
+
+
+                swal({
+                    title: "هل انت متاكد ",
+                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                 .then((willDelete) => {
+                     if (willDelete) {
+                         $.get("/Air/DeleteCompleted", { id: id }, function (res) {
+                             if (res) {
+
+                                 if (res.message != null && res.message === "Used") {
+                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                 }
+
+                                 if (res.message === "CuppsAndNyFound") {
+                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: '... يوجد بيانات متعلقة Ny و Cupps',
+                                         text: '  يجب حذف البيانات اولا',
+                                         footer: '<a href="">Why do I have this issue?</a>'
+                                     })
+                                 }
+
+                                 if (res.message === "MailAndFreightFound") {
+                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: '... يوجد بيانات متعلقة Mail و Freight',
+                                         text: '  يجب حذف البيانات اولا',
+                                         footer: '<a href="">Why do I have this issue?</a>'
+                                     })
+                                 }
+
+                                 if (res.message === "CarServiceFound") {
+                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: '... يوجد بيانات متعلقة Car Service',
+                                         text: '  يجب حذف البيانات اولا',
+                                         footer: '<a href="">Why do I have this issue?</a>'
+                                     })
+                                 }
+                                 if (res.message === "PushPackFound") {
+                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                     Swal.fire({
+                                         icon: 'error',
+                                         title: '... يوجد بيانات متعلقة PushPack',
+                                         text: '  يجب حذف البيانات اولا',
+                                         footer: '<a href="">Why do I have this issue?</a>'
+                                     })
+                                 }
+
+
+                                 if (res.message != null && res.message === "Delete") {
+                                     toastr.success("تم الحذف نوع Movement ", "الحذف");
+                                 }
+                                 dataTable.ajax.reload();
+                             }
+                         });
+                     }
+                 });
+
+            }
+
+
+
+            function PrintData() {
+
+                window.location.href = "/TowerDatas/PrintData?";
+            }
+            function GoArrived() {
+
+                window.location.href = "/TowerDatas/Arrived";
+            }
+            function GoAll() {
+
+                window.location.href = "/Air/AirCompleted";
+            }
+            function PrintDaily() {
+
+                var Date = moment().format("YYYY/MM/DD")
+
+                var url = "/Air/PrintDataDaily?DateDaily=" + Date;
+                window.open(url, '_blank');
+            }
+
+
+
+            /*---------------------------------------------------*/
+            function PrintTripInfo(Id) {
+                window.open('/advencePrintBasic/PrintDataTripInfo?Id=' + Id, '_blank');
+        }
+
+        function PrintDataFinalInvoice(id) {
+            var url = '/UnscheduledFlight/PrintInoviceDetailUnscheduled/' + id;
+            window.open(url, '_blank');
+        }
+
+
+
+
+           ///--------------------------------oooooooooooooooooooooooo--------------------Strart Opration ooooooooooooooooooooooo----------------------------------------------------------------------------------------------
+
+
+        $('#add-model-o').on('show.bs.modal', function () {
+
+            getAcc().then(function () {
+
+                $('#addaccido').val(6);
+
+            });
+
+        });
+
+
+        function getAcc() {
+
+            return new Promise(function (resolve, reject) {
+
+                $('#addaccido').empty();
+
+                $.ajax({
+                    url: "/UnscheduledFlight/GetAccounts",
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+
+                    success: function (result) {
+
+                        if (result) {
+
+                            var html = "";
+
+                            $.each(result, function (key, item) {
+
+                                html += "<option value='" + item.Id + "'>"
+                                    + item.Name +
+                                    "</option>";
+
+                            });
+
+                            $('#addaccido').append(html);
+                        }
+
+                        resolve(result);
+                    },
+
+                    error: function (errormessage) {
+
+                        reject(errormessage);
+
+                    }
+                });
+
+            });
+
+        }
+
+
+   $(function () {
+       $.validator.setDefaults({
+           submitHandler: function () {
+               saveo();
+           }
+       });
+       $('#add-form-o').validate({
+           rules: {
+               addnameo: {
+                   required: true,
+
+               },
+               addcodeo: {
+                   required: true,
+
+               },
+               addarnameo: {
+                   required: true,
+
+               },
+
+           },
+           messages: {
+               addnameo: {
+                   required: "Please enter Name",
+
+               },
+               addcodeo: {
+                   required: "Please enter Code",
+
+               },
+               addarnameo: {
+                   required: "Please enter Arabic Name",
+
+               },
+
+           },
+           errorElement: 'span',
+           errorPlacement: function (error, element) {
+               error.addClass('invalid-feedback');
+               element.closest('.form-group').append(error);
+           },
+           highlight: function (element, errorClass, validClass) {
+               $(element).addClass('is-invalid');
+           },
+           unhighlight: function (element, errorClass, validClass) {
+               $(element).removeClass('is-invalid');
+           }
+       });
+   });
+
+
+
+
+
+
+
+   function saveo()
+   {
+       var isChecked = $('#islocalcompanyo').is(':checked');
+       var ob = {
+
+
+           "Name": $('#addnameo').val(),
+           "ArName": $('#addarnameo').val(),
+           "Email": $('#addemailo').val(),
+           "Address": $('#addaddresso').val(),
+           "Phone": $('#addphoneo').val(),
+           "Code": $('#addcodeo').val(),
+           "AccId": $('#addaccido').val(),
+
+           "IsLocalCompany": isChecked,
+
+       };
+       $.ajax({
+           url: "@Url.Action("CreateOrUpdateAirline", "AirLines")",
+           type: "POST",
+       data: JSON.stringify(ob),
+       contentType: "application/json charset=utf-8",
+       dataType: "json",
+       error: function (response) {
+           //toastr[response.Status](response.Message, response.Title);
+       },
+       success: function (response) {
+           //alert("ttt"+ response.CloseModel)
+
+           //toastr[response.Status](response.Message, response.Title);
+           if (response.message != null && response.message === "Add") {
+               toastr.success("تم اضافة شركة طيران  ", "اضافة");
+               /*alert(response.LastId);*/
+               var defaultOption = "<option value='" + response.LastId + "'>" + $('#addcodeo').val() + "</option>";
+               $('#addAirlineIdAr').append(defaultOption);
+
+               //getaddOperatorId();  // to Reinitial select
+               $('#addAirlineIdAr').val(response.LastId);
+               clearFormAddO();
+           }
+
+           $('#add-model-o').modal('hide');
+           if (response.message != null && response.message === "Used")
+           {
+               toastr.error("هذة الشركة موجودة مسفا  ", "اضافة");        
+           }
+           
+
+             
+
+           
+       }
+   });
+   };
+
+
+        $('#add-model-o').on('show.bs.modal', function () {
+            $('body').addClass('modal-open');
+        });
+
+   function clearFormAddO() {
+       $('#add-form-o .form-control').val('');
+       $('#add-form-o input[type="checkbox"]').prop('checked', false);
+   };
+
+
+   $('#add-model-o').on('hidden.bs.modal', function () {
+       clearFormAddO();
+   });
+
+
+
+
+
+         ///ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff---Strart---fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+
+
+ function getaddOperator()
+ {
+     return new Promise(function (resolve, reject) {
+         $('#addoperatoridf').empty(); // Clear any existing options
+
+         $.ajax({
+             url: "/UnscheduledFlight/GetAirline", // Ensure this is the correct path for your controller action
+             type: "GET",
+             contentType: "application/json;charset=utf-8",
+             dataType: "json",
+             success: function (result) {
+                 if (result) {
+                     // Add the default option
+                     var defaultOption = "<option value='0'>--please select Flight No---</option>";
+                     $('#addoperatoridf').append(defaultOption);
+
+                     // Append options from the AJAX result
+                     var html = "";
+                     $.each(result, function (key, item) {
+                         html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                     });
+                     $('#addoperatoridf').append(html);
+
+                     resolve(); // Resolve the promise when done
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+                 reject(); // Reject the promise in case of an error
+             }
+         });
+     });
+ }
+
+ function getaddairportid() {
+     return new Promise(function (resolve, reject) {
+         $('#addairportidf').empty(); // Clear any existing options
+
+         $.ajax({
+             url: "/UnscheduledFlight/GetAirport",
+             type: "GET",
+             contentType: "application/json;charset=utf-8",
+             dataType: "json",
+             success: function (result) {
+                 if (result) {
+                     // Add the default option
+                     var defaultOption = "<option value='0'>--please select AirPort No---</option>";
+                     $('#addairportidf').append(defaultOption);
+
+                     // Append options from the AJAX result
+                     var html = "";
+                     $.each(result, function (key, item) {
+                         html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                     });
+                     $('#addairportidf').append(html);
+
+                     resolve(); // Resolve the promise when done
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+                 reject(); // Reject the promise in case of an error
+             }
+         });
+     });
+ }
+
+
+
+
+        $("#addnewflightno").click(function () {
+
+            Promise.all([
+                getaddOperator(),
+                getaddairportid()
+            ]).then(function () {
+
+                if ($('#addAirlineIdAr').val()) {
+
+                    var selectflightNo = $('#addAirlineIdAr').val();
+
+                    $('#addoperatoridf').val(selectflightNo);
+
+                    $("#addoperatoridf").prop("disabled", true);
+
+                } else {
+
+                    console.log('The select element does not have a value.');
+
+                }
+
+            }).catch(function () {
+
+                alert('Failed to load data.');
+
+            });
+
+        });
+
+
+
+ $(function () {
+     $.validator.setDefaults({
+         submitHandler: function () {
+             saveff();
+         }
+     });
+     $('#add-form-f').validate({
+         rules: {
+             addflightnof: {
+                 required: true,
+
+             },
+
+             addoperatoridf: {
+                 required: {
+                     depends: function (element) {
+                         if ('0' == $('#addoperatoridf').val()) {
+                             //Set predefined value to blank.
+                             $('#addoperatoridf').val('');
+                         }
+                         return true;
+                     }
+                 }
+             },
+
+             addairportidf: {
+                 required: {
+                     depends: function (element) {
+                         if ('0' == $('#addairportidf').val()) {
+                             //Set predefined value to blank.
+                             $('#addairportidf').val('');
+                         }
+                         return true;
+                     }
+                 }
+             },
+
+
+
+         },
+         messages: {
+             addflightnof: {
+                 required: "Please enter FlightNo",
+
+             },
+             addoperatoridf: {
+                 required: "Please enter Operator",
+
+             },
+             addairportidf: {
+                 required: "Please enter Airport",
+
+             },
+
+         },
+         errorElement: 'span',
+         errorPlacement: function (error, element) {
+             error.addClass('invalid-feedback');
+             element.closest('.form-group').append(error);
+         },
+         highlight: function (element, errorClass, validClass) {
+             $(element).addClass('is-invalid');
+         },
+         unhighlight: function (element, errorClass, validClass) {
+             $(element).removeClass('is-invalid');
+         }
+     });
+ });
+
+
+
+
+
+ function saveff()
+ {
+     //var isChecked = $('#addisactivef').is(':checked');
+     var ob = {
+
+
+         "FlightNo": $('#addflightnof').val(),
+         "AirLineId": $('#addoperatoridf').val(),
+         "AirPortId": $('#addairportidf').val(),
+         //"IsActive": isChecked,
+
+
+     };
+     $.ajax({
+         url: "@Url.Action("CreateOrUpdateAirLinesFlightTrip", "AirLinesFlightTrips")",
+         type: "POST",
+     data: JSON.stringify(ob),
+     contentType: "application/json charset=utf-8",
+     dataType: "json",
+     error: function (response) {
+         //toastr[response.Status](response.Message, response.Title);
+     },
+     success: function (response) {
+         //alert("ttt"+ response.CloseModel)
+         if (response.message != null && response.message === "Add") {
+             toastr.success("تم اضافة رقم الرحلة لشركة الطيران  ", "اضافة");
+
+             var defaultOption = "<option value='" + response.LastId + "'>" + $('#addflightnof').val() + "</option>";
+             $('#addFlightNoAr').append(defaultOption);
+
+             //getaddOperatorId();  // to Reinitial select
+             $('#addFlightNoAr').val(response.LastId);
+             //alert(response.LastId);
+         }
+         //toastr[response.Status](response.Message, response.Title);
+       
+         if (response.message != null && response.message === "Used")
+         {
+            
+                 toastr.error("رقم الرحلة موجودة مسفا  ", "اضافة");
+             
+             //alert(response.LastId);
+             //$('#addFlightNoAr').val(response.LastId);
+             //$('#addFlightNoAr').select2({
+             //    theme: 'bootstrap4'
+             //});
+         }
+         $('#add-model-f').modal('hide');
+
+
+
+
+     }
+ });
+ };
+
+ function clearFormAddff() {
+     $('#add-form-f .form-control').val('');
+
+ };
+
+
+ $('#add-model-f').on('hidden.bs.modal', function () {
+     clearFormAddff();
+ });
+
+
+
+
+
+
+
+        //$('#add-model-f').on('shown.bs.modal', function () {
+
+        //    $('#addoperatoridf').select2('destroy').select2({
+        //        dropdownParent: $('#add-model-f'),
+        //        width: '100%'
+        //    });
+
+        //    $('#addairportidf').select2('destroy').select2({
+        //        dropdownParent: $('#add-model-f'),
+        //        width: '100%'
+        //    });
+
+        //});
+
+
+        $('#add-model-f').on('shown.bs.modal', function () {
+
+            $('#addoperatoridf').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#add-model-f'),
+                width: '100%'
+            });
+
+            $('#addairportidf').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#add-model-f'),
+                width: '100%'
+            });
+
+        });
+
+        //--------------------------------------------------Registerion------------------------------------------------------------------------------
+
+        //-----------rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+
+        function getaddType() {
+
+            $('#addtypeidr').empty();
+
+
+            $.ajax({
+                url: "/UnscheduledFlight/GetAircraftType",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+
+                        // Add the default option
+                        var defaultOption = "<option value='0'>--Please Select Type--</option>";
+                        $('#addtypeidr').append(defaultOption);
+
+                        var html = "";
+                        $.each(result, function (key, item) {
+                            html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                        });
+                        $('#addtypeidr').append(html);
+                        //$('#DName2').append(html);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+
+
+
+
+        };
+        $("#addnewreg").click(function () {
+
+
+            getaddType();
+            $('#addtypeidr').select2({
+                theme: 'bootstrap4'
+            })
+
+        });
+
+
+
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    saver();
+                }
+            });
+            $('#add-form-r').validate({
+                rules: {
+                    addregr: {
+                        required: true,
+
+                    },
+                    addwtr: {
+                        required: true,
+
+                    },
+
+                    addtypeidr: {
+                        required: {
+                            depends: function (element) {
+                                if ('0' == $('#addtypeidr').val()) {
+                                    //Set predefined value to blank.
+                                    $('#addtypeidr').val('');
+                                }
+                                return true;
+                            }
+                        }
+                    },
+
+
+                },
+                messages: {
+                    addregr: {
+                        required: "Please enter Registration ",
+
+                    },
+                    addwtr: {
+                        required: "Please enter Max Take Off Wieght ",
+
+                    },
+
+                    addtypeidr: {
+                        required: "Please enter Type",
+
+                    },
+
+
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+
+
+
+
+
+        function saver()
+        {
+
+            var ob = {
+
+
+                "Registration": $('#addregr').val(),
+
+                "AircraftTypeId": $('#addtypeidr').val(),
+
+                "MaxTakoffWieght": $('#addwtr').val(),
+
+
+
+            };
+            $.ajax({
+                url: "@Url.Action("CreateOrUpdateAircraftRegistration", "AircraftRegistrations")",
+                type: "POST",
+            data: JSON.stringify(ob),
+            contentType: "application/json charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                //toastr[response.Status](response.Message, response.Title);
+            },
+            success: function (response) {
+                //alert("ttt"+ response.CloseModel)
+
+
+                if (response.message != null && response.message === "Add") {
+                    toastr.success("تم اضافة رقم التسجيل   ", "اضافة");
+
+                    var defaultOption = "<option value='" + response.LastId + "'>" + $('#addregr').val() + "</option>";
+                    $('#addRegAr').append(defaultOption);
+
+                    //getaddOperatorId();  // to Reinitial select
+                    $('#addRegAr').val(response.LastId);
+                    clearFormAddr();
+
+                }
+                // toastr[response.Status](response.Message, response.Title);
+
+               
+                if (response.message != null && response.message === "Used")
+                {
+                   
+                        toastr.error("هذا العنصر موجود  مسفا  ", "اضافة");
+                    
+                    //alert(response.LastId);
+                    //$('#addRegAr').val(response.LastId);
+                    //$('#addRegAr').select2({
+                    //    theme: 'bootstrap4'
+                    //});
+                    //('#addregid').val(response.LastId).trigger('change');
+
+                }
+
+                $('#add-model-r').modal('hide');
+            }
+        });
+        };
+
+        function clearFormAddr() {
+            $('#add-form-r .form-control').val('');
+
+        };
+
+
+        $('#add-model-r').on('hidden.bs.modal', function () {
+            clearFormAddr();
+        });
+
+
+        $('#add-model-r').on('shown.bs.modal', function () {
+
+            $('#addtypeidr').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#add-model-r'),
+                width: '100%'
+            });
+
+
+
+        });
+
+
+
+        //-------------------------------------------------From-----------------------------------------------------------------
+          //-------------------------------------Strart Center In-----------in ininin in in in in-----------------------------------------------
+  $("#addnewfrom").click(function () {
+
+
+      getedCountry();
+    /*  getedgate();*/
+      $('#addcountryids').select2({
+          theme: 'bootstrap4'
+      })
+      //$('#addgates').select2({
+      //    theme: 'bootstrap4'
+      //})
+
+  });
+
+
+
+  function getedCountry()
+  {
+
+      $('#addcountryids').empty();
+
+
+      $.ajax({
+          url: "/UnscheduledFlight/GetCountry",
+          type: "GET",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          success: function (result) {
+              if (result) {
+
+                  var x;
+                  var html = "";
+                  $.each(result, function (key, item) {
+                      html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                  });
+                  $('#addcountryids').append(html);
+                  //$('#DName2').append(html);
+
+              }
+          },
+          error: function (errormessage) {
+              alert(errormessage.responseText);
+          }
+
+      });
+
+
+
+
+  };
+
+
+
+
+  $(function () {
+      $.validator.setDefaults({
+          submitHandler: function () {
+              saves();
+          }
+      });
+      $('#add-form-s').validate({
+          rules: {
+              addnameens: {
+                  required: true,
+
+              },
+              addcodes: {
+                  required: true,
+
+              },
+              //countryid: {
+              //    required: true,
+
+              //},
+              addcountryids: {
+                  required: {
+                      depends: function (element) {
+                          if ('0' == $('#addcountryids').val()) {
+                              //Set predefined value to blank.
+                              $('#addcountryids').val('');
+                          }
+                          return true;
+                      }
+                  }
+              },
+
+
+          },
+          messages: {
+              addnameens: {
+                  required: "Please enter English Name",
+
+              },
+              addcodes: {
+                  required: "Please enter Code",
+
+              },
+              addcountryids: {
+                  required: "Please enter Country",
+
+              },
+
+
+          },
+          errorElement: 'span',
+          errorPlacement: function (error, element) {
+              error.addClass('invalid-feedback');
+              element.closest('.form-group').append(error);
+          },
+          highlight: function (element, errorClass, validClass) {
+              $(element).addClass('is-invalid');
+          },
+          unhighlight: function (element, errorClass, validClass) {
+              $(element).removeClass('is-invalid');
+          }
+      });
+  });
+
+
+
+
+
+  function saves()
+  {
+
+      var ob = {
+
+
+          "NameAr": $('#addnamears').val(),
+          "NameEn": $('#addnameens').val(),
+          "Code": $('#addcodes').val(),
+          //"Lat": $('#addlats').val(),
+          /*"GateId": $('#addgates').val(),*/
+          "CountryId": $('#addcountryids').val(),
+
+
+
+      };
+      $.ajax({
+          url: "@Url.Action("CreateOrUpdateAirPort", "AirPorts")",
+          type: "POST",
+      data: JSON.stringify(ob),
+      contentType: "application/json charset=utf-8",
+      dataType: "json",
+      error: function (response) {
+          //toastr[response.Status](response.Message, response.Title);
+      },
+      success: function (response) {
+         
+
+          if (response.message != null && response.message === "Add") {
+              toastr.success("تم اضافة مطار   ", "اضافة");
+
+              var defaultOption = "<option value='" + response.LastId + "'>" + $('#addcodes').val() + "</option>";
+              $('#addAirportFromAr').append(defaultOption);
+              $('#addAirportFromAr').val(response.LastId);
+          }
+
+
+
+         
+          if (response.message != null && response.message === "Used") {
+           toastr.error("هذا المطار موجودة مسفا  ", "اضافة");
+              
+          }
+
+          $('#add-model-s').modal('hide');
+
+      }
+  });
+  };
+
+  function clearFormAdds() {
+      $('#add-form-s .form-control').val('');
+
+  };
+
+
+  $('#add-model-s').on('hidden.bs.modal', function () {
+      clearFormAdds();
+  });
+
+
+
+   $('#add-model-s').on('shown.bs.modal', function () {
+
+            $('#addcountryids').select2({
+                theme: 'bootstrap4',
+                dropdownParent: $('#add-model-s'),
+                width: '100%'
+            });
+
+
+
+        });
+
+
+
+
+      //-------------------------------------------------To-----------------------------------------------------------------
+        //-------------------------------------T0 Center In-----------in To to in in in-----------------------------------------------
+$("#addnewto").click(function () {
+
+
+    getedCountryTo();
+  /*  getedgate();*/
+    $('#addcountryidto').select2({
+        theme: 'bootstrap4'
+    })
+    //$('#addgates').select2({
+    //    theme: 'bootstrap4'
+    //})
+
+});
+
+
+
+function getedCountryTo()
+{
+
+    $('#addcountryidto').empty();
+
+
+    $.ajax({
+        url: "/UnscheduledFlight/GetCountry",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result) {
+
+                var x;
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                });
+                $('#addcountryidto').append(html);
+                //$('#DName2').append(html);
+
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+
+    });
+
+
+
+
+};
+
+
+
+
+$(function () {
+    $.validator.setDefaults({
+        submitHandler: function () {
+            saveto();
+        }
+    });
+    $('#add-form-to').validate({
+        rules: {
+            addnameento: {
+                required: true,
+
+            },
+            addcodeto: {
+                required: true,
+
+            },
+            //countryid: {
+            //    required: true,
+
+            //},
+            addcountryidto: {
+                required: {
+                    depends: function (element) {
+                        if ('0' == $('#addcountryidto').val()) {
+                            //Set predefined value to blank.
+                            $('#addcountryidto').val('');
+                        }
+                        return true;
+                    }
+                }
+            },
+
+
+        },
+        messages: {
+            addnameento: {
+                required: "Please enter English Name",
+
+            },
+            addcodeto: {
+                required: "Please enter Code",
+
+            },
+            addcountryidto: {
+                required: "Please enter Country",
+
+            },
+
+
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+});
+
+
+
+
+
+function saveto()
+{
+
+    var ob = {
+
+
+        "NameAr": $('#addnamearto').val(),
+        "NameEn": $('#addnameento').val(),
+        "Code": $('#addcodeto').val(),
+        //"Lat": $('#addlats').val(),
+        /*"GateId": $('#addgates').val(),*/
+        "CountryId": $('#addcountryidto').val(),
+
+
+
+    };
+    $.ajax({
+        url: "@Url.Action("CreateOrUpdateAirPort", "AirPorts")",
+        type: "POST",
+    data: JSON.stringify(ob),
+    contentType: "application/json charset=utf-8",
+    dataType: "json",
+    error: function (response) {
+        //toastr[response.Status](response.Message, response.Title);
+    },
+    success: function (response) {
+        //alert("ttt"+ response.CloseModel)
+
+        if (response.message != null && response.message === "Add") {
+            toastr.success("تم اضافة مطار   ", "اضافة");
+
+            var defaultOption = "<option value='" + response.LastId + "'>" + $('#addcodeto').val() + "</option>";
+            $('#addAirportToAr').append(defaultOption);
+            $('#addAirportToAr').val(response.LastId);
+        }
+
+
+
+       
+        if (response.message != null && response.message === "Used") {
+             toastr.error("هذا المطار موجودة مسفا  ", "اضافة");
+            
+            //alert(response.LastId);
+            $('#addAirportToAr').val(response.LastId);
+            $('#addAirportToAr').select2({
+                theme: 'bootstrap4'
+            });
+          
+        }
+
+        $('#add-model-to').modal('hide');
+
+    }
+});
+};
+
+function clearFormAdds() {
+    $('#add-form-to .form-control').val('');
+
+};
+
+
+$('#add-model-to').on('hidden.bs.modal', function () {
+    clearFormAdds();
+});
+
+
+
+ $('#add-model-to').on('shown.bs.modal', function () {
+
+          $('#addcountryidto').select2({
+              theme: 'bootstrap4',
+              dropdownParent: $('#add-model-to'),
+              width: '100%'
+          });
+
+
+
+      });
+
+        $('#add-model-o, #add-model-f, #add-model-r, #add-model-s, #add-model-to')
+            .on('hidden.bs.modal', function () {
+
+                $('body').addClass('modal-open');
+
+                $('#modal-arrived').css('overflow-y', 'auto');
+
+            });
+
+    </script>
+}

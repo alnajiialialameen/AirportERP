@@ -174,7 +174,7 @@
                             @Html.DisplayFor(modelItem => item.GroundHandlingFees)
                         </td>
 
-                        <td>
+                        <td class="numberFormat">
                             @Html.DisplayFor(modelItem => item.GroundHandlingFeeSDG)
                         </td>
 
@@ -190,15 +190,15 @@
 
                     <th class="numberFormat">@ViewBag.SumFuelFees</th>
 
-                    <th class="numberFormat">@ViewBag.SumFuelFeesSDG</th>
+                    <th class="numberFormat2">@ViewBag.SumFuelFeesSDG</th>
                 </tr>
 
-                @*<tr class="footer">
-                    <th colspan="7">  Tax :</th>
+                <tr class="footer">
+                    <th colspan="7">   Revenue Stamp(5%) :</th>
 
                     <th class="numberFormat">@ViewBag.TaxDollar</th>
 
-                    <th class="numberFormat">@ViewBag.TaxSDG</th>
+                    <th class="numberFormat2">@ViewBag.TaxSDG</th>
                 </tr>
 
                 <tr class="footer">
@@ -206,8 +206,8 @@
 
                     <th class="numberFormat">@ViewBag.GrandTotalDollar</th>
 
-                    <th class="numberFormat">@ViewBag.GrandTotalSDG</th>
-                </tr>*@
+                    <th class="numberFormat2">@ViewBag.GrandTotalSDG</th>
+                </tr>
 
             </tbody>
         </table>
@@ -224,7 +224,7 @@
 
         window.addEventListener("load", window.print());
 
-           $('.numberFormat').each(function () {
+           $('.numberFormat2').each(function () {
                var item = $(this).text();
 
                var N = round(item, 2);
@@ -235,6 +235,25 @@
                $(this).text(num);
            });
 
+
+        $('.numberFormat').each(function () {
+            var item = parseFloat($(this).text().replace(/,/g, ''));
+
+            if (!isNaN(item)) {
+
+                if (item === 0) {
+                    $(this).text('0');
+                } else {
+                    var num = item.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 4
+                    });
+
+                    $(this).text(num);
+                }
+            }
+        });
+       
 
 
            function round(value, exp) {

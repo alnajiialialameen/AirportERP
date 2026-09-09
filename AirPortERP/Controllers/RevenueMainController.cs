@@ -7,11 +7,13 @@ using AirPortERP.Models;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 
 namespace AirPortERP.Controllers
 {
     public class RevenueMainController : Controller
     {
+        RoleController Role = new RoleController();
         Calculation Cal = new Calculation();
         Entities db = new Entities();
         CommonUsed CommonUsed = new CommonUsed();
@@ -20,7 +22,7 @@ namespace AirPortERP.Controllers
         // GET: RevenueMain
 
 
-        [Authorize(Roles = "Cupps,Ny,Revenues,Super-Admin,Cupps&&Car,Ny&&Car")]
+        [Authorize(Roles = "Cupps,Ny,Revenues,Super-Admin,Cupps&&Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult NyAndCuppMain()
         {
             var id = User.Identity.GetUserId();
@@ -40,11 +42,14 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.DomeNYFees == null && x.InterNYFees == null && x.DomeCUPPSFees == null && x.InterNYFees == null
-             && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+             && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+             && x.OfficerData.TowerData.CompanyInfoId == companyId);
             var RevenueList = new List<NyAndCuppsViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -90,19 +95,20 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
                 RevenueList.Add(N);
             }
-
-
-
-
-
-
-
-
-
-
+            
             return Json(new { data = RevenueList.ToList() }, JsonRequestBehavior.AllowGet);
         }
 
@@ -111,12 +117,29 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
-
-
+           
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.Where(x => (x.DomeNYFees != null || x.InterNYFees != null || x.DomeCUPPSFees != null || x.InterCUPPSFees != null)
-                                    && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear );
-            
+            //Revenue = db.Revenues.Where(x => (x.DomeNYFees != null || x.InterNYFees != null || x.DomeCUPPSFees != null || x.InterCUPPSFees != null)
+            //                        && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear 
+            //                        && x.OfficerData.TowerData.CompanyInfoId == companyId);
+
+          
+
+            Revenue = db.Revenues.Where(x =>
+                (x.DomeNYFees != null ||
+                 x.InterNYFees != null ||
+                 x.DomeCUPPSFees != null ||
+                 x.InterCUPPSFees != null)
+
+                && x.OfficerData.TowerData.Date.HasValue
+                && DbFunctions.TruncateTime(x.OfficerData.TowerData.Date).Value.Month == WorkMouth
+                && DbFunctions.TruncateTime(x.OfficerData.TowerData.Date).Value.Year == WorkYear
+                && x.OfficerData.TowerData.CompanyInfoId == companyId
+            );
+
+
             var RevenueList = new List<NyAndCuppsViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -138,7 +161,15 @@ namespace AirPortERP.Controllers
                 N.TakeOffDate = CommonUsed.CheckDate(item?.OfficerData.TowerData.TakeOffDate.ToString());
                 N.LandingDate = CommonUsed.CheckDate(item?.OfficerData.TowerData.LandingDate.ToString());
 
-                N.Pax = Convert.ToInt32(item?.OfficerData.Pax);
+                if (item.OfficerData.PaxInter > 0)
+                {
+                    N.Pax2 = Convert.ToInt32(item?.OfficerData.Pax).ToString() + "+" + Convert.ToInt32(item?.OfficerData.PaxInter).ToString();
+                }
+                else { N.Pax2 = (Convert.ToInt32(item?.OfficerData.Pax) + Convert.ToInt32(item?.OfficerData.PaxInter)).ToString(); }
+               
+
+                //N.Pax = Convert.ToInt32(item?.OfficerData.Pax) + Convert.ToInt32(item?.OfficerData.PaxInter);
+
 
                 // N.DisEmbInft = Convert.ToInt32(item?.OfficerData.DisEmbInft);
 
@@ -164,7 +195,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
 
 
@@ -187,14 +227,14 @@ namespace AirPortERP.Controllers
 
 
 
-        [Authorize(Roles = "Cupps,Ny,Revenues,Super-Admin,Cupps&&Car,Ny&&Car")]
+        [Authorize(Roles = "Cupps,Ny,Revenues,Super-Admin,Cupps&&Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult AllNyAndCuppMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -222,7 +262,9 @@ namespace AirPortERP.Controllers
 
 
                 NyFeesViewModelDTO.IsNotUsedCUPPS = Convert.ToBoolean(OfficerData.IsNotUsedCUPPS);
+                NyFeesViewModelDTO.FlightTypeD = Convert.ToInt32(OfficerData.TowerData.FlightTypeD);
                 NyFeesViewModelDTO.Pax = Convert.ToInt32(OfficerData.Pax);
+                NyFeesViewModelDTO.PaxInter = Convert.ToInt32(OfficerData.PaxInter);
 
                 NyFeesViewModelDTO.TRNYCUPPS = Convert.ToInt32(OfficerData.TRNYCUPPS);
                 NyFeesViewModelDTO.Id = Convert.ToInt32(id);
@@ -238,9 +280,11 @@ namespace AirPortERP.Controllers
 
         public ActionResult UpdateNyAndCuppsfees(NyAndCuppsFeesViewModelDTO model)
         {
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
             if (ModelState.IsValid)
             {
-                var id = User.Identity.GetUserId();
+              
                 bool IsLocalCompany = Convert.ToBoolean(db.OfficerDatas.FirstOrDefault(x => x.Id == model.OfficerDataId).TowerData.AirLine.IsLocalCompany);
                 if (model.Id > 0)
                 {
@@ -253,6 +297,8 @@ namespace AirPortERP.Controllers
                     //  OfficerData.DisEmbInft = model.DisEmbInft;
                     OfficerData.TRNYCUPPS = model.TRNYCUPPS;
                     OfficerData.IsNotUsedCUPPS = model.IsNotUsedCUPPS;
+                    OfficerData.PaxInter = model.PaxInter;
+                    Revenue RevObject = db.Revenues.FirstOrDefault(x => x.Id == model.Id);
 
                     TowerData TowerData = db.TowerDatas.Where(x => x.Id == OfficerData.TowerDataId).FirstOrDefault();
                     if (TowerData.FlightTypeD == 2/* && TowerData.FlightTypeL == 2*/)
@@ -260,14 +306,28 @@ namespace AirPortERP.Controllers
                         //Domestic Cupps
                         decimal DomeNYFees = Cal.DomeNYFees(Convert.ToInt32(OfficerData.Pax), IsLocalCompany);
 
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).DomeNYFees = DomeNYFees;
+                        RevObject.DomeNYFees = DomeNYFees;
 
                         decimal DomeCUPPSFees = Cal.DomeCUPPSFees(Convert.ToInt32(OfficerData.Pax), Convert.ToInt32(OfficerData.TRNYCUPPS), model.IsNotUsedCUPPS);
 
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).DomeCUPPSFees = DomeCUPPSFees;
+                        RevObject.DomeCUPPSFees = DomeCUPPSFees;
+                        if (model.PaxInter > 0)
+                        {
+                            decimal InterCUPPSFees = Cal.InterCUPPSFees(Convert.ToInt32(model.PaxInter), 0, model.IsNotUsedCUPPS);
+                            decimal InterNYFees = Cal.InterNYFees(Convert.ToInt32(model.PaxInter), IsLocalCompany, companyId);
+                            RevObject.InterCUPPSFees = InterCUPPSFees;
+                            RevObject.InterNYFees = InterNYFees;
+
+                        }
+                        else
+                        {
+                            RevObject.InterCUPPSFees = 0;
+                            RevObject.InterNYFees = 0;
+                        }
+
+
                         /// Zeros Inter
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).InterCUPPSFees = 0;
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).InterNYFees = 0;
+                       
                     }
                     else
                     {
@@ -275,21 +335,20 @@ namespace AirPortERP.Controllers
 
                         decimal InterCUPPSFees = Cal.InterCUPPSFees(Convert.ToInt32(OfficerData.Pax), Convert.ToInt32(OfficerData.TRNYCUPPS), model.IsNotUsedCUPPS);
 
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).InterCUPPSFees = InterCUPPSFees;
+                        RevObject.InterCUPPSFees = InterCUPPSFees;
 
 
-                        decimal InterNYFees = Cal.InterNYFees(Convert.ToInt32(OfficerData.Pax), IsLocalCompany);
+                        decimal InterNYFees = Cal.InterNYFees(Convert.ToInt32(OfficerData.Pax), IsLocalCompany, companyId);
 
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).InterNYFees = InterNYFees;
+                        RevObject.InterNYFees = InterNYFees;
                         /// Zeros Inter
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).DomeCUPPSFees = 0;
-                        db.Revenues.SingleOrDefault(x => x.Id == model.Id).DomeNYFees = 0;
+                        RevObject.DomeCUPPSFees = 0;
+                        RevObject.DomeNYFees = 0;
                     }
 
 
-
-
-                    db.Entry(OfficerData).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(RevObject).State = EntityState.Modified;
+                    db.Entry(OfficerData).State = EntityState.Modified;
                     //   cal.LandingFees(model.Id);
                     db.SaveChanges();
 
@@ -318,14 +377,14 @@ namespace AirPortERP.Controllers
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-        [Authorize(Roles = "FirstClass,Revenues,Super-Admin")]
+        [Authorize(Roles = "FirstClass,Revenues,Super-Admin, Account, Account-Admin, Account, Account-Admin")]
         public ActionResult FirstClassMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -337,14 +396,14 @@ namespace AirPortERP.Controllers
             }
         }
 
-        [Authorize(Roles = "FirstClass,Revenues,Super-Admin")]
+        [Authorize(Roles = "FirstClass,Revenues,Super-Admin, Account, Account-Admin, Account, Account-Admin")]
         public ActionResult AllFirstClassMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -362,12 +421,13 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
-
-
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.FirstClassFees == null
-             && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+             && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+             && x.OfficerData.TowerData.CompanyInfoId == companyId);
             //Revenue = db.Revenues;
             var RevenueList = new List<FirstClassViewModelDto>();
             foreach (var item in Revenue)
@@ -400,7 +460,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
 
 
@@ -414,10 +483,14 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.FirstClassFees != null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
+
             // Revenue = db.Revenues;
             var RevenueList = new List<FirstClassViewModelDto>();
             foreach (var item in Revenue)
@@ -449,7 +522,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
                 RevenueList.Add(N);
             }
@@ -539,14 +621,14 @@ namespace AirPortERP.Controllers
 
 
 
-        [Authorize(Roles = "Car,Revenues,Super-Admin,Cupps&&Car,Ny&&Car")]
+        [Authorize(Roles = "Car,Revenues,Super-Admin,Cupps&&Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult CarSeriveMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -559,14 +641,14 @@ namespace AirPortERP.Controllers
         }
 
 
-        [Authorize(Roles = "Car,Revenues,Super-Admin,Cupps&&Car,Ny&&Car")]
+        [Authorize(Roles = "Car,Revenues,Super-Admin,Cupps&&Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult AllCarSeriveMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -584,10 +666,13 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.AmbolanceFees == null && x.FireFightingFees == null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
             var RevenueList = new List<CarServiceViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -622,6 +707,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
                 RevenueList.Add(N);
 
@@ -635,9 +730,13 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.AmbolanceFees != null && x.FireFightingFees != null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
+
             // Revenue = db.Revenues;
             var RevenueList = new List<CarServiceViewModelDto>();
             foreach (var item in Revenue)
@@ -673,7 +772,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
                 RevenueList.Add(N);
 
             }
@@ -769,14 +877,14 @@ namespace AirPortERP.Controllers
         /////////////////////////////////////////////////Mail && Frieght///////////////////////////////////////////////////////////////////
 
 
-        [Authorize(Roles = "Landing-Admin,Revenues,Super-Admin,Mail&&Freight")]
+        [Authorize(Roles = "Landing-Admin,Revenues,Super-Admin,Mail&&Freight, Account, Account-Admin")]
         public ActionResult MailAndFreightMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -788,14 +896,14 @@ namespace AirPortERP.Controllers
             }
         }
 
-        [Authorize(Roles = "Landing-Admin,Revenues,Super-Admin,Mail&&Freight")]
+        [Authorize(Roles = "Landing-Admin,Revenues,Super-Admin,Mail&&Freight, Account, Account-Admin")]
         public ActionResult AllMailAndFreightMain()
         {
             var id = User.Identity.GetUserId();
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -814,12 +922,14 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
-
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.FreightFees == null && x.ExpMailFees == null && x.ImpMailFees == null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
             var RevenueList = new List<MailAndFreightViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -863,7 +973,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
                 RevenueList.Add(N);
 
@@ -878,10 +997,13 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
 
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.FreightFees != null && x.ExpMailFees != null && x.ImpMailFees != null
-           && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+           && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+           && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             var RevenueList = new List<MailAndFreightViewModelDto>();
             foreach (var item in Revenue)
@@ -927,7 +1049,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
 
 
@@ -1050,7 +1181,7 @@ namespace AirPortERP.Controllers
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -1067,7 +1198,7 @@ namespace AirPortERP.Controllers
 
             if (db.WorkOns.Any(x => x.UserId == id))
             {
-                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MouthWorkOn.Id);
+                WorkMouth = Convert.ToInt32(db.WorkOns.Where(x => x.UserId == id).Single().MonthWorkOn);
             }
             if (WorkMouth > 0)
             {
@@ -1083,9 +1214,14 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
+
             IQueryable<Revenue> Revenue;
             Revenue = db.Revenues.Where(x => x.PushBackFees == null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
+
             var RevenueList = new List<PushPackViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -1117,7 +1253,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
 
 
@@ -1134,10 +1279,15 @@ namespace AirPortERP.Controllers
             var id = User.Identity.GetUserId();
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
+            var companyId = CommonUsed.getCompanyId(id);
+            bool IsSingle = CommonUsed.getIsSingleAccounting(companyId);
+
             IQueryable<Revenue> Revenue;
 
             Revenue = db.Revenues.Where(x => x.PushBackFees != null
-            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear);
+            && x.OfficerData.TowerData.Date.Value.Month == WorkMouth && x.OfficerData.TowerData.Date.Value.Year == WorkYear
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
+          
             var RevenueList = new List<PushPackViewModelDto>();
             foreach (var item in Revenue)
             {
@@ -1170,7 +1320,16 @@ namespace AirPortERP.Controllers
                 N.ATA = item?.OfficerData.TowerData.ATA.ToString();
                 N.ATD = item?.OfficerData.TowerData.ATD.ToString();
                 N.AircraftRegName = item?.OfficerData.TowerData.AircraftRegistration.Registration.ToString();
-
+                if (IsSingle)
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange2(item.Id, Role.GetRole(id));  // check date in range in claim table
+                }
+                else
+                {
+                    N.IsStop = CommonUsed.IsEntryDateinRange(Convert.ToDateTime(item.OfficerData.TowerData.Date), Role.GetRole(id),
+                  Convert.ToInt32(item.OfficerData.TowerData.AirLineId), Convert.ToInt32(companyId));  // check date in range in claim table
+                }
+                N.AirportName = CommonUsed.getCompanyName(item.OfficerData.TowerData.CompanyInfoId);
 
 
 

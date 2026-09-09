@@ -19,6 +19,6 @@ namespace AirPortERP.Models
         public string ClaimType { get; set; }
         public string ClaimValue { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUsers1 AspNetUsers1 { get; set; }
     }
 }

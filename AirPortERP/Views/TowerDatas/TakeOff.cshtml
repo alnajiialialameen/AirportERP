@@ -1,6 +1,4 @@
-﻿
-
-<style>
+﻿<style>
     td.details-control {
         /*background: url('../resources/details_open.png') no-repeat center center;*/
            background: url('../../Temp/Image/Close.png') no-repeat center center;
@@ -60,40 +58,21 @@
             <div class="sk-chase-dot"></div>
             <div class="sk-chase-dot"></div>
         </div>
-
     </div>
-
 </div>
-
 
 <section class="content">
 
     <div class="row">
-        @*<div class="col-md-3">
-            <button class="btn btn-primary m-2" onclick="getTakeOffData(0)">Add New Movement<i class="fas fa-plane-departure fa-1x"></i></button>
-        </div>*@
-
-            <div class="col-md-4">
-
-                <button class="btn btn-success m-2" onclick="getTakeOffDataM()">Add New Movement For Multiple<i class="fas fa-plane-arrival"></i></button>
-            </div>
-            <div class="col-md-5">
-
-
-            </div>
-            <div class="col-md-3">
-
-                <button class="btn btn-info m-2 btn-sm" onclick="GoAll()">show all Movement</button>
-            </div>
+        <div class="col-md-4">
+            <button class="btn btn-success m-2" onclick="getTakeOffDataM()">Add New Movement For Multiple<i class="fas fa-plane-arrival"></i></button>
         </div>
-
-    
-
-
-
-
-
-
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-info m-2 btn-sm" onclick="GoAll()">show all Movement</button>
+        </div>
+    </div>
 
     <div class="card">
         <div class="card-body">
@@ -110,47 +89,22 @@
                             <th>Type</th>
                             <th>Wt</th>
                             <th>From</th>
-
-
                             <th>To</th>
                             <th>Date</th>
-                
                             <th>TripType</th>
                             <th>Created By</th>
-                            
-
-
-
-
-
-
-
-
                             <th>OP</th>
-
                         </tr>
                     </thead>
-
                 </table>
-
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
 
     <!-- Model Start -->
     <div id="myModalTower" class="modal fade" role="dialog">
         <div class="modal-dialog modal-xl">
             <div class="modal-content" id="myModel-contentTower">
-
-                <!-- Model content -->
-
                 <div class="modal-footer justify-content-between">
                     <button class="btn btn-primary btn-xs">Save Change</button>
                     <button class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -158,10 +112,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
     <!-- Model Start -->
     <div id="myModal" class="modal fade" role="dialog">
@@ -179,32 +129,95 @@
     </div>
     <!--Model End -->
 
+
+
+    <div id="myModalUpdate" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="myModel-contentUpdate">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 </section>
 @section scripts{
 
     <script>
+
+
+        // تعريف validation مخصص للتاريخ
+        $.validator.addMethod("dateDMY", function (value, element) {
+
+            if (this.optional(element)) return true;
+
+            return /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value);
+
+        }, "Invalid date format");
+
+
+
+
+
         var dataTable;
 
-        function format(d) {
-            return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
-                  d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
-                 d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
-                '</span> <br></div>   '
+        function format(d)
+        {
+            if (d.IsStop == true) 
+            {
+                return '<div class="card Details card-warning"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                      d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                     d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>'
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                     '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                     '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                     '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                     '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+                     '<br> <span class="badge badge-danger">تم تحرير المطالبة للرحلة</span>  <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                     + ')">Details</button>  <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button>' +
+                    '<br></div></div>';
+            }
+            else
+            {
+
+                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                      d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                     d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                     '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                     '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                     '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                     '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+
+                     '<br><button class="btn btn-success btn-sm m-2" onclick="getTowerData(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                     + ')">Details</button>  <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div>';
 
 
-
-                + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
-                '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
-                 '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
-                 '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
-                 '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
-                 '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
-                 '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees +
-
-                 '<br><button class="btn btn-success btn-sm m-2" onclick="getTakeOffData(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
-                 + ')">Details</button>  <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
-                '<br></div></div>';
-
+            }
         }
         $(document).ready(function () {
 
@@ -271,7 +284,7 @@
 
 
                                 "data": "Id", "width": "50px", "render": function (data) {
-                                    return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTakeOffData(' + data +
+                                    return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTowerData(' + data +
                                         ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
 
                                 }
@@ -301,6 +314,12 @@
                 "dom": '<"top"l>rt<"bottom"ip><"clear">',
                 "fnInitComplete": function (oSettings, json) {
                     addSearchControl(json);
+                },
+                "rowCallback": function (row, data) {
+                    // Check if IsStop is true and change the row color
+                    if (data.IsStop) {
+                        $(row).css('background-color', '#ffcccc'); // Change to desired color
+                    }
                 }
 
 
@@ -334,11 +353,11 @@
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
-            dt.on('draw', function () {
-                $.each(detailRows, function (i, id) {
-                    $('#' + id + ' td.details-control').trigger('click');
-                });
-            });
+            //dt.on('draw', function () {
+            //    $.each(detailRows, function (i, id) {
+            //        $('#' + id + ' td.details-control').trigger('click');
+            //    });
+            //});
 
 
             function addSearchControl(json) {
@@ -405,6 +424,201 @@
 
         });
 
+
+            function getTowerData(id) {
+
+            $("#AjaxLoader").show()
+
+                $.get("/TowerDatas/GetAircraftTakeOffParialU", { id: id }, function (nn) {
+
+                $("#myModel-contentUpdate").html(nn);
+                $("#myModalUpdate").modal('show');
+                $("#AjaxLoader").hide();
+                $('.select2').select2({
+                    theme: 'bootstrap4'
+                });
+
+                    $('#ATAUtimepicker').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+                    $('#ATDUtimepicker').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+                    $('#DateU').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+
+                $('#LandingDateU').datetimepicker({
+                    format: 'DD/MM/YYYY',
+
+                });
+
+                $('#TakeOffDateU').datetimepicker({
+                    format: 'DD/MM/YYYY',
+
+                });
+
+                $("#AirLineIdU").change(function () {
+                    debugger;
+                    var value = $('#AirLineIdU').val();
+                    //var valuePlanOut =
+                    //var valuePlanIn = $('#RbInPlan').val();
+
+
+
+                    //     alert("هل تريد اختيار دورة خارجية");
+                    $("#FlightNoU option").remove()
+                    var url = "/TowerDatas/GetFlightNo/" + value;
+                    $.getJSON(url, function (data) {
+                        $.each(data, function (key, val) {
+                            var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                            $("#FlightNoU").append(ele);
+                        });
+                    });
+
+
+                });
+
+                    $('#TowerUpdatequickForm').validate({
+                    rules: {
+                        ATDU: {
+                            required: true,
+                        },
+                        TakeOffDateU: {
+                            required: true,
+                            dateDMY: true,
+                        },
+                        FlightNoU: {
+                            required: {
+                                depends: function (element) {
+                                    if ('0' == $('#FlightNoU').val()) {
+                                        //Set predefined value to blank.
+                                        $('#FlightNoU').val('');
+                                    }
+                                    return true;
+                                }
+                            }
+                        },
+                        AirportIdFromU: {
+                            required: true,
+
+                        },
+                        AirportIdToU: {
+                            required: true,
+
+                        },
+                        QBDU: {
+                            required: true,
+
+                        },
+                        ATAU: {
+                            required: true,
+
+                        },
+                        TripTypeIdU: {
+                            required: true,
+
+                        },
+                        POBU: {
+                            required: true,
+
+                        },
+                        AirLineIdU: {
+                            required: true,
+
+                        },
+                        AircraftRegIdU: {
+                            required: true,
+
+                        },
+                        DateU: {
+                            required: true,
+                            dateDMY: true,
+
+                        },
+                            LandingDateU: {
+                            required: true,
+                            dateDMY: true,
+
+                        },
+
+                    },
+                    messages: {
+                        ATDU: {
+                            required: "Please Enter ATD",
+
+                        },
+                        TakeOffDateU: {
+                            required: "Please Take Off Date ",
+
+                        },
+                        FlightNoU: {
+                            required: "Please Select FlightNo",
+
+                        },
+                        AirportIdFromU: {
+                            required: "Select Airport From",
+
+                        },
+                        AirportIdToU: {
+                            required: "Select AirportId To",
+
+                        },
+                        QBDU: {
+                            required: "Enter QBD",
+
+                        },
+                        ATAU: {
+                            required: "Enter ATA",
+
+                        },
+                        TripTypeIdU: {
+                            required: "Select Trip Type",
+
+                        },
+                        POBU: {
+                            required: "Enter POB",
+
+                        },
+                        AirLineIdU: {
+                            required: "select AirLine",
+
+                        },
+                        AircraftRegIdU: {
+                            required: "Select Reg",
+
+                        },
+                        DateU: {
+                            required: "Select Date",
+                            dateDMY: "Please Enter valid Date",
+
+                        },
+                        LandingDateU: {
+                            required: "Select LandingDate",
+                            dateDMY: "Please Enter valid Date",
+                        },
+
+
+                    },
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+                });
+
+            });
+
+        }
+
             function getTakeOffData(id) {
 
                 $("#AjaxLoader").show()
@@ -421,29 +635,24 @@
 
 
 
-                    $('#timepicker').datetimepicker({
+                    $('#Utimepicker').datetimepicker({
+                        use24hours: true,
+                        format: 'HH:mm'
+                    })
+
+                    $('#Utimepicker1').datetimepicker({
                         use24hours: true,
                         format: 'HH:mm'
                     })
 
 
-
-
-
-
-                    $('#timepicker1').datetimepicker({
-                        use24hours: true,
-                        format: 'HH:mm'
-                    })
-
-
-                    $('#Date').datetimepicker({
+                    $('#UDate').datetimepicker({
                         format: 'L'
                     });
-                    $('#LandingDate').datetimepicker({
+                    $('#ULandingDate').datetimepicker({
                         format: 'L'
                     });
-                    $('#TakeOffDate').datetimepicker({
+                    $('#UTakeOffDate').datetimepicker({
                         format: 'L'
                     });
 
@@ -469,7 +678,7 @@
 
                     })
 
-                    $('#quickForm').validate({
+                    $('#TowerUpdatequickForm').validate({
                         rules: {
                             ATD: {
                                 required: true,
@@ -644,22 +853,29 @@
 
 
 
-
+                   
 
 
                     $('#timepicker1').datetimepicker({
                         use24hours: true,
                         format: 'HH:mm'
                     })
-                    $('#Date').datetimepicker({
-                        format: 'L'
+
+                    $('#date').datetimepicker({
+                        format: 'DD/MM/YYYY'
                     });
+
                     $('#LandingDate').datetimepicker({
-                        format: 'L'
+                        format: 'DD/MM/YYYY',
+                     
                     });
+
                     $('#TakeOffDate').datetimepicker({
-                        format: 'L'
+                        format: 'DD/MM/YYYY',
+                       
                     });
+
+
 
 
                     $("#AirLineId").change(function () {
@@ -690,7 +906,7 @@
                             },
                             TakeOffDate: {
                                 required: true,
-                                date: true,
+                                dateDMY: true 
                             },
                             FlightNo: {
                                 required: {
@@ -737,14 +953,14 @@
                             },
                             Date: {
                                 required: true,
-                                date: true,
+                                dateDMY: true 
 
 
 
                             },
                             LandingDate: {
                                 required: true,
-                                date: true,
+                                dateDMY: true 
 
                             },
 
@@ -834,12 +1050,34 @@
                     return;
 
                 } else {
+
+
+                    var date = $('#date').val();
+
+                    var formattedDate = moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
+
+                  
+                    var LandingDate = $('#LandingDate').val();
+                    $('#LandingDate').val(moment(LandingDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                    var TakeOffDate = $('#TakeOffDate').val();
+                    $('#TakeOffDate').val(moment(TakeOffDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+
+
+
+
                     var data = form.serialize();
                     $.post("/TowerDatas/CreateOrUpdateTakeOff", data, function (res) {
                         if (res) {
                             if (res.message != null && res.message === "CalculationFeesError") {
                                 toastr.error("Calculation Fees Error", "Error");
                             }
+
+                            else if (res.message != null && res.message === "isStop") {
+                                toastr.error("تاريخ هذه الرحلة تم تحرير المطالبة المالية لة مسبقا ", "تم تحرير مطالبة هذا التاريخ ");
+                            }
+
                             else if (res.message != null && res.message === "Add") {
                                 toastr.success("تم اضافه عام Movement ", "اضافه");
                             }
@@ -867,8 +1105,8 @@
 
                 $("#AjaxLoader").show()
                    
-                    var model = $('#myModal');
-                    var form = $('form[name="DepartmentFormAdd"]');
+                var model = $('#myModalUpdate');
+                var form = $('form[name="TowerUpdateFormAdd"]');
 
 
                     form.validate();
@@ -876,11 +1114,23 @@
                         $("#AjaxLoader").hide()
                         return;
                     } else {
+                        var Date = $('#DateU').val();
+                        $('#DateU').val(moment(Date, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                        var LandingDate = $('#LandingDateU').val();
+                        $('#LandingDateU').val(moment(LandingDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                        var TakeOffDate = $('#TakeOffDateU').val();
+                        $('#TakeOffDateU').val(moment(TakeOffDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
                         var data = form.serialize();
-                        $.post("/TowerDatas/CreateOrUpdateTakeOff", data, function (res) {
+                        $.post("/TowerDatas/CreateOrUpdateTakeOffU", data, function (res) {
                             if (res) {
                                 if (res.message != null && res.message === "Update") {
                                     toastr.success("تم تعديل العام Movement ", "تعديل");
+                                }
+                                else if (res.message != null && res.message === "isStop") {
+                                    toastr.error("تاريخ هذه الرحلة تم تحرير المطالبة المالية لة مسبقا ", "تم تحرير مطالبة هذا التاريخ ");
                                 }
                                 else if (res.message != null && res.message === "Add") {
                                     toastr.success("تم اضافه عام Movement ", "اضافه");
@@ -1088,8 +1338,11 @@
                             if (res.message != null && res.message === "Update") {
                                 toastr.success("تم تعديل العام Movement ", "تعديل");
                             }
+                            else if (res.message != null && res.message === "isHasClaim") {
+                                toastr.error("تاريخ هذه الرحلة تم تحرير المطالبة المالية لة مسبقا ", "اضافه");
+                            }
                             else if (res.message != null && res.message === "Add") {
-                                toastr.success("تم اضافه عام Movement ", "اضافه");
+                                toastr.success("تم اضافه  Movement ", "اضافه");
                             }
                             else if (res.message == null || res.message === "error") {
                                 toastr.error("حدث خطا ", "لم يتم الحفظ");

@@ -1,7 +1,6 @@
 ﻿using AirPortERP.Extenstion;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
@@ -31,20 +30,12 @@ namespace AirPortERP.Controllers
             //ExchangeRate = Convert.ToDecimal(db.Currencies.Where(x => x.Id == 1).Single().ExchangeRateAgainstPrimaryCurrency);
             Format = Convert.ToInt32(db.PrintFormats.Single(x => x.Id == 1).FormatTypeId);
         }
-
-
-
-
-
-
+        
         public ActionResult CuppsInternal()
         {
             return View();
         }
-
-
-
-
+        
         /********************************************************* Final Invoice ***********************************************************************/
         public ActionResult GetInternalCupps(int? page, int? Get, int? Search, int? Count, int? AirLineId
           , DateTime? DateFrom, DateTime? DateTo)
@@ -125,154 +116,150 @@ namespace AirPortERP.Controllers
             return PartialView("_GetCuppsInternal", Revenue.ToPagedList(PageNumber, pageSize));
         }
 
-        public ActionResult PrintDataInternalCupps(int? AirLineId, DateTime? DateFrom, DateTime? DateTo)
+
+
+
+
+
+
+
+
+        public ActionResult PaxAndFrieghtReport()
         {
-            var id = User.Identity.GetUserId();
-            RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+            return View();
+        }
 
-            string UserName = CommonUsed.GetUserName(id);
+        // دي للبحث
+        public ActionResult GetDataPAxAndFrieght(
+    int? page, int? Get, int? Search, int? Count, DateTime? DateFrom, DateTime? DateTo)
+        {
+            IQueryable<TowerData> TowerDataList = db.TowerDatas.OrderBy(x => x.LandingDate);
 
-            if (DateTo != null)
+            ViewBag.DateFrom = DateFrom;
+            ViewBag.DateTo = DateTo;
+
+            if (Get > 0)
             {
-                Month = Convert.ToDateTime(DateTo).Month;
-                Year = Convert.ToDateTime(DateTo).Year;
-            }
-            else if (DateFrom != null)
-            {
-                Month = Convert.ToDateTime(DateFrom).Month;
-                Year = Convert.ToDateTime(DateFrom).Year;
+                if (DateFrom != null && DateTo != null)
+                {
+                    TowerDataList = TowerDataList
+                        .Where(t => DbFunctions.TruncateTime(t.LandingDate) >= DbFunctions.TruncateTime(DateFrom) &&
+                                    DbFunctions.TruncateTime(t.LandingDate) <= DbFunctions.TruncateTime(DateTo));
+
+                    TowerDataList = TowerDataList.Where(x => x.LandingDate.Value.Year >= DateFrom.Value.Year && x.LandingDate.Value.Year <= DateTo.Value.Year);
+                }
+
+                if (Search == 1)
+                {
+                    ViewBag.ItemCount = TowerDataList?.Count() ?? 0;
+                }
+                else
+                {
+                    ViewBag.ItemCount = Count;
+                }
             }
             else
             {
-                //Month = Convert.ToDateTime(currentDate).Month;
-                //Year = Convert.ToDateTime(currentDate).Year;
-                return RedirectToAction("Error");
+                TowerDataList = Enumerable.Empty<TowerData>().AsQueryable(); // تجنب الخطأ في العمليات التالية
+                ViewBag.ItemCount = 0;
             }
-            ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
 
+            // جلب البيانات وتجميعها حسب الشهر
+            //var aggregatedData = TowerDataList
+            //    .SelectMany(item => item.OfficerDatas, (towerData, officerData) => new
+            //    {
+            //        Id = towerData.Id,
+            //        Month = towerData.LandingDate.Value.Month,
+            //        TotalPax = officerData.Pax ?? 0,
+            //        TotalFreightIn = officerData.FreightLoadingImp ?? 0,
+            //        TotalFreightOut = officerData.FreightLoadingExp ?? 0
+            //    })
+            //    .GroupBy(x => x.Month)
+            //    .Select(group => new RepoObj
+            //    {
+            //        Month = group.Key,
+            //        TripCount = group.Sum(x => x.Id),
+            //        TotalPax = group.Sum(x => x.TotalPax),
+            //        TotalFreightIn = group.Sum(x => x.TotalFreightIn),
+            //        TotalFreightOut = group.Sum(x => x.TotalFreightOut)
+            //    })
+            //    .OrderBy(x => x.Month)
+            //    .ToList();
 
-            string SearchAirLineId = "غير محدد";
-          
-            string SearchDateFrom = "غير محدد";
-            string SearchDateTo = "غير محدد";
-          
-            ReportDocument rd = new ReportDocument();
+            //// جلب البيانات وتجميعها حسب الشهر
+            var aggregatedData = TowerDataList
+                     .Select(item => new
+                     {
+                         Id = item.Id,
+                         Month = item.LandingDate.Value.Month,
+                         Year = item.LandingDate.Value.Year,
+                         TotalPax = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).Pax ?? 0,
+                         TotalFreightIn = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).FreightLoadingImp ?? 0,
+                         TotalFreightOut = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).FreightLoadingExp ?? 0
+                     })
+                     .GroupBy(x => new { x.Year, x.Month }) // Group by Year and Month
+                     .Select(group => new RepoObj
+                     {
+                         Month = group.Key.Month,
+                         TripCount = group.Count(), // Count trips instead of summing Ids
+                         TotalPax = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalPax),
+                         TotalFreightIn = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalFreightIn),
+                         TotalFreightOut = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalFreightOut)
+                     }) // Ensure sorting by Year and Month
+                     .OrderBy(x => x.Month)
+                     .ToList();
 
-            
-            IQueryable<Revenue> Revenue ;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.OfficerData.TowerData.AirLine.IsLocalCompany == true 
-            && x.OfficerData.Pax > 0);
-           
-           
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
 
-           
+            // تقسيم النتائج إلى صفحات
+            var pagedResult = aggregatedData.ToPagedList(pageNumber, pageSize);
+
+            return PartialView("_GetData", pagedResult);
+        }
+        
+        // دي للطباعة
+        public ActionResult PrintPaxAndFrieghtReport(DateTime? DateFrom, DateTime? DateTo)
+        {
+            IQueryable<TowerData> TowerDataList = db.TowerDatas.OrderBy(x => x.LandingDate);
+
+            ViewBag.DateFrom = DateFrom.Value.ToString("dd/MM/yyyy");
+            ViewBag.DateTo = DateTo.Value.ToString("dd/MM/yyyy");
 
             if (DateFrom != null && DateTo != null)
             {
-                Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
-                SearchDateFrom = CommonUsed.CheckDate(DateFrom.ToString()).ToString();
-                SearchDateTo = CommonUsed.CheckDate(DateTo.ToString()).ToString();
+                TowerDataList = TowerDataList
+                    .Where(t => DbFunctions.TruncateTime(t.LandingDate) >= DbFunctions.TruncateTime(DateFrom) &&
+                                DbFunctions.TruncateTime(t.LandingDate) <= DbFunctions.TruncateTime(DateTo));
+
+                TowerDataList = TowerDataList.Where(x=> x.LandingDate.Value.Year >= DateFrom.Value.Year && x.LandingDate.Value.Year <= DateTo.Value.Year);
             }
 
+            //// جلب البيانات وتجميعها حسب الشهر
+            var aggregatedData = TowerDataList
+                     .Select(item => new
+                     {
+                         Id = item.Id,
+                         Month = item.LandingDate.Value.Month,
+                         Year = item.LandingDate.Value.Year,
+                         TotalPax = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).Pax ?? 0,
+                         TotalFreightIn = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).FreightLoadingImp ?? 0,
+                         TotalFreightOut = item.OfficerDatas.FirstOrDefault(x => x.TowerDataId == item.Id).FreightLoadingExp ?? 0
+                     })
+                     .GroupBy(x => new { x.Year, x.Month }) // Group by Year and Month
+                     .Select(group => new RepoObj
+                     {
+                         Month = group.Key.Month,
+                         TripCount = group.Count(), // Count trips instead of summing Ids
+                         TotalPax = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalPax),
+                         TotalFreightIn = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalFreightIn),
+                         TotalFreightOut = group.Where(x => x.Year == group.Key.Year).Sum(x => x.TotalFreightOut)
+                     }) // Ensure sorting by Year and Month
+                     .OrderBy(x => x.Month)
+                     .ToList();
 
-            //////////////////////////////////////////////////////////
-           /// IQueryable<AirLine> AirLines = db.AirLines.Where(x => x.IsLocalCompany == true);
-
-            var RevenueList = new List<RptExtenstionInternalCupps>();
-
-            //foreach (var item in ))
-            //{
-              //  Revenue = db.Revenues.Where(x => x.OfficerData.TowerData.AirLineId == AirLine.Id && x.OfficerData.Pax > 0);
-
-                RptExtenstionInternalCupps N = new RptExtenstionInternalCupps();
-               // N.Airline = Revenue.;
-                N.Pax = Convert.ToInt32(Revenue.Sum(x => x.OfficerData.Pax));
-
-                N.CuppsFees = Convert.ToInt32(Revenue.Sum(x => x.DomeCUPPSFees));
-
-                /// N.AmountSDG = N.InterNYFees * ExchangeRate;
-                RevenueList.Add(N);
-
-
-            //}
-
-
-            ////////////////////////////////////////////////////////////////////////////
-
-
-
-           
-
-
-
-
-            if (Revenue.Count() <= 0)
-            {
-                return RedirectToAction("Error");
-            }
-            ///***********************************************************************************
-          
-
-          
-                rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/ReportExtenstion/RptCuppsInternal.rpt")));
-            
-           
-
-            ////*************************************************************************************
-            String HeaderDate = Convert.ToDateTime(DateFrom).ToString("MMM-yyyy");
-            rd.SetDataSource(RevenueList.Select(p => new
-            {
-               // Id = p.Id,
-                Pax = p.Pax,
-                CuppsFees = p.CuppsFees,
-
-            
-
-                ExchangeRate = ExchangeRate,
-
-             
-
-            }).ToList());
-
-
-            if (Format == 2)
-            {
-                Response.Buffer = false;
-                Response.ClearContent();
-                Response.ClearHeaders();
-                Stream Stream = rd.ExportToStream
-                    //WordForWindows
-                    (CrystalDecisions.Shared.ExportFormatType.Excel);
-                Stream.Seek(0, SeekOrigin.Begin);//application/doc
-                return File(Stream, "application/xls", "FinalInvoice.xls");
-            }
-            else
-            {
-                Response.Buffer = false;
-                Response.ClearContent();
-                Response.ClearHeaders();
-                Stream Stream = rd.ExportToStream
-                    //WordForWindows //PortableDocFormat //PortableDocFormat
-                    (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                Stream.Seek(0, SeekOrigin.Begin);//application/doc //
-                return File(Stream, "application/pdf", "FinalReportSum.pdf");
-            }
+            return View(aggregatedData);
+            // return Json(aggregatedData, JsonRequestBehavior.AllowGet);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

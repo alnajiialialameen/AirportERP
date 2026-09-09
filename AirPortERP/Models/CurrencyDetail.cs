@@ -16,8 +16,8 @@ namespace AirPortERP.Models
     {
         public int Id { get; set; }
         public Nullable<int> CurrencyId { get; set; }
-        public Nullable<int> MonthWorkOnId { get; set; }
-        public Nullable<int> YearWorkOnId { get; set; }
+        public Nullable<int> MonthWorkOn { get; set; }
+        public Nullable<int> YearWorkOn { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<decimal> ExchangeRateAgainstPrimaryCurrency { get; set; }
         public bool IsActive { get; set; }
@@ -27,7 +27,5 @@ namespace AirPortERP.Models
         public Nullable<System.DateTime> UpdatingDate { get; set; }
     
         public virtual Currency Currency { get; set; }
-        public virtual MouthWorkOn MouthWorkOn { get; set; }
-        public virtual YearWorkOn YearWorkOn { get; set; }
     }
 }

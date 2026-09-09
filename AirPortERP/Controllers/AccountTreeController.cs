@@ -143,7 +143,7 @@ namespace AirPortERP.Controllers
                      AccNumberParent = 0;
                 }
                 else {
-                    AccNumberParent =  Convert.ToDecimal(AccountTreeParent.AccNumber);
+                    AccNumberParent =  Convert.ToDecimal(AccountTreeParent.Id);
                 }
                 int Id = Convert.ToInt32(db.SpLastAccountTree().FirstOrDefault());
                 decimal AccNumber = Convert.ToInt32(db.GetAccNumber(AccNumberParent).FirstOrDefault());
@@ -152,7 +152,7 @@ namespace AirPortERP.Controllers
 
                 AccountTree.AccNumber = AccNumber;
                 AccountTree.AccName = model.AccName;
-                AccountTree.AccParent = ClsAccount.GetAccNumberForParent(model.AccParent);
+                AccountTree.AccParent =/* ClsAccount.GetAccNumberForParent(model.AccParent)*/ AccountTreeParent.Id;
                 AccountTree.AccLevel = ClsAccount.GetAccParentLevel(model.AccParent) + 1;
 
                 if (model.AccGroupId == 2)

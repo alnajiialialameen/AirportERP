@@ -86,10 +86,17 @@ namespace AirPortERP.ViewModels
 
         public string DateTo { get; set; }
         public int AccId { get; set; }
+        public decimal ExchangeRate { get; set; }
 
-     
     }
+    public class ClaimAddViewModel2
+    {
+        public int Id { get; set; }
 
+        public int TowerDataId { get; set; }
+
+        public int AccId { get; set; }
+    }
 
     public class BankAddViewModel
     {
@@ -279,7 +286,8 @@ namespace AirPortERP.ViewModels
 
         public string Debit { get; set; }
         public string TotalAmountCredit { get; set; }
-
+        public string ExchangeRate { get; set; }
+        
         public int Month { get; set; }
         public int Year { get; set; }
 
@@ -296,7 +304,7 @@ namespace AirPortERP.ViewModels
 
         public int MainId { get; set; }
         public int AccIdDetail { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public string Statement { get; set; }
 

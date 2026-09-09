@@ -1,0 +1,761 @@
+﻿
+<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+    }
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    .ml-Custom {
+        margin-right: 170px;
+    }
+</style>
+
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h5 class="m-0 text-dark">Claim For Single Movement</h5>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Arrived","TowerDatas")">Claim For Single Movement </a></li>
+                    <li class="breadcrumb-item active">All Movement </li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Model Start -->
+<div id="myModalClaim" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myModel-Claim">
+
+            <!-- Model content -->
+
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-primary btn-xs">Save Change</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Model End -->
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="content">
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary btn-sm" onclick="getShowPack()">
+           Back
+        </button>
+    </div>
+
+
+    <br />
+
+
+
+
+
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive">
+
+                <table id="dataTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px">
+                    <thead>
+                        <tr>
+                            <th>D</th>
+                            <th>Id</th>
+                            <th>Airline</th>
+                            <th>Flight No</th>
+                            <th>Reg</th>
+                            @*<th>Type</th>
+                                <th>Wt</th>*@
+                            <th>From</th>
+
+
+                            <th>To</th>
+                            <th>Date</th>
+
+                            <th>TripType</th>
+                            @*<th>Created By</th>*@
+
+                            <th>ATA</th>
+                            <th>ATD</th>
+
+
+
+
+
+                            <th>OP</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Model Start -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="myModel-content">
+
+                <!-- Model content -->
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary btn-xs">Save Change</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+        var dataTable;
+
+        function format(d) {
+
+            if (d.Isconsumed == true) {
+
+                return '<div class="card Details"><div class="card-body card-warning"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>DomeNYFees:</Span> ' + d.DomeNYFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>InterNYFees: </Span>' + d.InterNYFees + '<br>' +
+                    '<Span>DomeCUPPSFees:</Span> ' + d.DomeCUPPSFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>InterCUPPSFees: </Span>' + d.InterCUPPSFees + '<br>' +
+                    '<Span>ServiceCar:</Span> ' + d.ServiceCar + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>FreightFees: </Span>' + d.FreightFees + '<br>' +
+                    '<Span>ExpMailFees:</Span> ' + d.ExpMailFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>ImpMailFees: </Span>' + d.ImpMailFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+                    '<br> <button class="btn btn-success btn-sm m-2" onclick="PrintDataGraf(' + d.Id +
+                    ')"> طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintDataInvoiceDetail(' + d.Id
+                    + ')">طباعة فاتورة تفصيلية </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
+                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button> '
+                    + '<button class="btn btn-default btn-sm m-2" onclick="ReTranfer(' + d.Id + ')">استرجاع</button>' +
+                    '<br></div></div>'; 
+            } else {
+                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>DomeNYFees:</Span> ' + d.DomeNYFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>InterNYFees: </Span>' + d.InterNYFees + '<br>' +
+                    '<Span>DomeCUPPSFees:</Span> ' + d.DomeCUPPSFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>InterCUPPSFees: </Span>' + d.InterCUPPSFees +'<br>' +
+                    '<Span>ServiceCar:</Span> ' + d.ServiceCar + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>FreightFees: </Span>' + d.FreightFees + '<br>' +
+                    '<Span>ExpMailFees:</Span> ' + d.ExpMailFees + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>ImpMailFees: </Span>' + d.ImpMailFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+
+
+                    '<br>  <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')">تحرير مطالبة</button>   <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                    + ')">Details</button> <button class="btn btn-success btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div> ';
+
+            }
+        }
+        $(document).ready(function () {
+
+            dataTable = $("#dataTable").DataTable({
+
+                "processing": true,
+                // "serverSide": true,
+                "ajax": {
+                    "url": "/AccountClaimSingle/GetAllTowerDatasTransfer",
+                    "type": "GET",
+                    "datatype": "json",
+
+                },
+                "columns": [
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
+
+
+                    { "data": "Id", "autowidth": true },
+                    { "data": "AirLineCode", "autowidth": true },
+                    { "data": "FlightNo", "autowidth": true },
+                    { "data": "AircraftRegName", "autowidth": true },
+
+
+
+
+                    //{ "data": "Type", "autowidth": true },
+                    //{ "data": "MaxTaKeOffWeight", "autowidth": true },
+
+
+                    { "data": "AirportIdFrom", "autowidth": true },
+
+                    { "data": "AirportIdTo", "autowidth": true },
+                    { "data": "Date", "autowidth": true },
+                    //{ "data": "ATA", "autowidth": true },
+                    //  { "data": "ATD", "autowidth": true },
+                    //{ "data": "POB", "autowidth": true },
+                    //  { "data": "QBD", "autowidth": true },
+                    //{ "data": "LandingDate", "autowidth": true },
+                    //{ "data": "TakeOffDate", "autowidth": true },
+
+                    {
+                        "data": "TripType", "width": "50px", "render": function (data) {
+                            var cssClass;
+                            if (data === "Domestic") {
+                                cssClass = "badge-danger";
+                            }
+                            if (data === "International") {
+                                cssClass = "badge-success";
+                            }
+                            return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                        }
+                    },
+
+
+                    //{ "data": "CreatedBy", "autowidth": true },
+                    { "data": "ATA", "autowidth": true },
+                    { "data": "ATD", "autowidth": true },
+                    {
+
+
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTowerData(' + data +
+                                ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
+
+                        }
+                    },
+
+                ],
+                "language": {
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "الأول",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي",
+                        "sLast": "الأخير",
+                    }
+                },
+
+                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                "fnInitComplete": function (oSettings, json) {
+                    addSearchControl(json);
+                },
+                "rowCallback": function (row, data) {
+                    // Check if IsStop is true and change the row color
+                    if (data.Isconsumed) {
+                        $(row).css('background-color', '#faeda7');
+                    }
+                }
+            });
+
+            var detailRows = [];
+
+            $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = dataTable.row(tr);
+                var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('Id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            //dt.on('draw', function () {
+            //    $.each(detailRows, function (i, id) {
+            //        $('#' + id + ' td.details-control').trigger('click');
+            //    });
+            //});
+
+            function addSearchControl(json) {
+                $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                $("#dataTable thead tr:eq(1) th").each(function (index) {
+                    /*No Search*/
+                    if (index == 0 || index == 5 || index == 6 || index == 7 || index == 8 || index == 14) {
+                        $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                    }
+                    /*Search as text field*/
+                    if (index == 1 || index == 2 || index == 3 || index == 4 || index == 9 || index == 12 || index == 13) {
+                        $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                        searchControl.on('keyup', function () {
+                            dataTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+                    /*Search as combobox*/
+                    if (index == 10) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text(' نوع الرحلة'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.TripType, ClassCase) == -1) {
+                                ClassCase.push(element.TripType);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.TripType).text(element.TripType));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+                    //if (index == 11) {
+                    //    var ClassCaseDropDown = $('<select/>');
+                    //    ClassCaseDropDown.append($('<option/>').attr('value', '').text('By '));
+                    //    var ClassCase = [];
+                    //    $(json.data).each(function (index, element) {
+                    //        if ($.inArray(element.CreatedBy, ClassCase) == -1) {
+                    //            ClassCase.push(element.CreatedBy);
+                    //            ClassCaseDropDown.append($('<option/>').attr('value', element.CreatedBy).text(element.CreatedBy));
+                    //        }
+                    //    });
+
+
+                    //    $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                    //    var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                    //    searchControl.on('change', function () {
+                    //        dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                    //    });
+                    //}
+                });
+            }
+
+        });
+
+
+
+
+        function getClaim(towerDataId) {
+
+            $("#AjaxLoader").show()
+
+            $.get("/AccountClaimSingle/ClaimParial", { towerDataId: towerDataId }, function (nn) {
+
+                $("#myModel-Claim").html(nn);
+                $("#myModalClaim").modal('show');
+                $("#AjaxLoader").hide()
+
+
+
+
+
+
+                //$('#DateFrom').datepicker({
+                //    dateFormat: "dd/mm/yy",
+                //    changeMonth: true,
+                //    changeYear: true,
+                //    yearRange: "-60:+0",
+                //    showOn: "button",
+                //    buttonText: "<span class='fa fa-calendar'></span>"
+
+                //});
+
+
+                //$('#DateTo').datepicker({
+                //    dateFormat: "dd/mm/yy",
+                //    changeMonth: true,
+                //    changeYear: true,
+                //    yearRange: "-60:+0",
+                //    showOn: "button",
+                //    buttonText: "<span class='fa fa-calendar'></span>"
+
+                //});
+
+
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
+                })
+                //////////////////////////////////////////////////////////////////////////////////////
+
+                $(function () {
+                    debugger;
+                    $.validator.setDefaults({
+                        submitHandler: function () {
+                            alert("Form successful submitted!");
+                        }
+                    });
+                    $('#quickForm').validate({
+                        rules: {
+
+
+                            AccId: {
+                                required: {
+                                    depends: function (element) {
+                                        if ('0' == $('#AccId').val()) {
+                                            //Set predefined value to blank.
+                                            $('#AccId').val('');
+                                        }
+                                        return true;
+                                    }
+                                }
+                            },
+
+
+
+
+                            DateTo: {
+                                required: true,
+                                dateITA: true,
+
+                            },
+
+                            DateFrom: {
+                                required: true,
+                                dateITA: true,
+
+                            },
+
+                        },
+                        messages: {
+
+                            AccId: {
+                                required: "الرجاء تحديد الحساب",
+
+                            },
+
+
+                            DateFrom: {
+                                required: "الرجاء إدخال تاريخ بداية المطالبة",
+                                dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
+
+                            },
+
+
+
+                            DateTo: {
+                                required: "الرجاء إدخال تاريخ نهاية المطالبة",
+                                dateITA: "الرجاء ادخال صيغة التاريخ الصحيحة"
+
+                            },
+
+
+                        },
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
+                });
+
+            })
+        }
+
+
+
+        function AddClaim() {
+
+            var model = $('#myModalClaim');
+            var form = $('form[name="ClaimFormAdd"]');
+
+
+            form.validate();
+            if (!form.valid()) {
+                return;
+            } else {
+                var data = form.serialize();
+
+                $.post("/AccountClaimSingle/CreateOrUpdateClaim", data, function (res) {
+                    if (res) {
+                        if (res.message != null && res.message === "Update") {
+                            toastr.success("تم تعديل مطالبة مالية", "تعديل");
+                            var model = $('#myModalClaim');
+                            model.modal('hide');
+
+                        }
+
+                        else if (res.message != null && res.message === "Add") {
+                            toastr.success("تم اضافه مطالبة مالية ", "اضافه");
+                            var model = $('#myModalClaim');
+                            model.modal('hide');
+                        }
+
+                        else if (res.message != null && res.message === "InvaildStartDate") {
+                            toastr.error("التاريخ يجب ان يبدا من يوم 1 ", "اضافه");
+
+                        }
+
+                        else if (res.message != null && res.message === "InvaildEndDate") {
+                            toastr.error("التاريخ النهاية غير صحيح  ", "اضافه");
+
+                        }
+
+
+
+                        else if (res.message != null && res.message === "Used") {
+                            toastr.error("يوجد مطالبة مالية لنفس الشهر  ", "اضافه");
+
+                        }
+
+
+                        else if (res.message != null && res.message === "InvaildDate") {
+                            toastr.error("لايمكن المطالبة لشهرين  ", "اضافه");
+
+                        }
+
+                        else if (res.message != null && res.message === "InvaildDateYear") {
+                            toastr.error("لايمكن المطالبة لسنتين مختلفتين  ", "اضافه");
+
+                        }
+
+
+                        else if (res.message == null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحفظ");
+                        }
+                        //   model.modal('hide');
+                        //  $("#myModalS").modal('show');
+
+                        //GetSearch();
+                        dataTable.ajax.reload();
+                        //dataTableS.ajax.reload();
+
+
+                    }
+
+                })
+            }
+        }
+
+        function AddToConfrim(id) {
+            $.post("/AccountClaim/AddToConfrim", { id: id }, function (res) {
+                if (res) {
+
+
+                    if (res.message != null && res.message === "Add") {
+                        toastr.success("تم تاكيد المعاملة ", "اضافه");
+                    }
+
+                    else if (res.message == null || res.message === "error") {
+                        toastr.error("حدث خطا ", "لم يتم الحفظ");
+                    }
+
+                    //var model = $('#myModalClaim');
+                    //model.modal('hide');
+                    dataTable.ajax.reload();
+
+                }
+
+            })
+
+        }
+
+
+
+        function Tranfer(id) {
+
+
+            swal({
+                title: "هل تريد نقل ",
+                text: " OK تقوم بنقل العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/AccountClaimSingle/Transfer", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Add") {
+                                    toastr.success("تم نقل المعاملة ", "عملية النقل");
+                                }
+
+                                //if (res.message != null && res.message === "Delete") {
+                                //    toastr.error("تم الحذف نوع المطار ", "الحذف");
+                                //}
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    }
+                });
+
+        }
+
+
+
+
+        function ReTranfer(id) {
+
+
+            swal({
+                title: "هل تريد نقل ",
+                text: " OK تقوم بنقل العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/AccountClaimSingle/ReTransfer", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Add") {
+                                    toastr.success("تم نقل المعاملة ", "عملية النقل");
+                                    dataTable.ajax.reload();
+                                }
+
+                                //if (res.message != null && res.message === "Delete") {
+                                //    toastr.error("تم الحذف نوع المطار ", "الحذف");
+                                //}
+
+                            }
+                        });
+                    }
+                });
+
+        }
+
+
+
+
+        function PrintConstraint(id) {
+            var url = '/AccountReport/PrintClaimConstraintDaily/' + id;
+            window.open(url, '_blank').focus();
+        }
+
+
+        function PrintDataFinalInvoice(id) {
+            var url = '/AccountReport/PrintDataFinalInvoiceDaily/' + id;
+            window.open(url, '_blank');
+        }
+
+        function PrintDataInvoiceDetail(towerDataId) {
+            //alert(towerDataId);
+            var url = '/AccountReport/PrintInoviceDetail?towerDataId=' + towerDataId;
+            window.open(url, '_blank');
+        }
+
+        function PrintDataGraf(id) {
+            var url = '/AccountReport/PrintDataGrafSingle/' + id;
+            window.open(url, '_blank').focus();
+        }
+
+        function getShowPack() {
+
+            window.location.href = "/AccountClaimSingle/Index";
+        }
+
+    </script>
+}

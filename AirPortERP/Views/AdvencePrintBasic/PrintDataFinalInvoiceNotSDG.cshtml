@@ -220,7 +220,7 @@
                     <label class="h-mr">Company: <span>@Model.Name</span></label>
                     <label class="h-mr">From:  <span class="font-normal"> @Model.DateFrom</span></label>
                     <label class="h-mr">To:  <span class="font-normal">@Model.DateTo</span></label>
-                    <label class="h-mr">Rate: @Model.ExchangeRate</label><br />
+                    <label class="h-mr">Rate: @*@Model.ExchangeRate*@  -</label><br />
 
                     <label class="h-mr">Kindly arrange to settle the sum of:<span class="numberFormat ml-2">@Model.GrandTotalDollar </span> <span class="ml-1">$</span> </label>
                     <label class="h-mr">as detailed bellow for: <span class="font-normal">@Model.HeaderDate</span>    </label>
@@ -371,7 +371,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2">  Tax :</td>
+                    <td colspan="2">   Revenue Stamp(5%) :</td>
 
                     <td class="numberFormat">@Model.TaxDollar </td>
                  

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -20,31 +16,31 @@ namespace AirPortERP.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        
+
         CommonUsed CommonUsed = new CommonUsed();
         RoleController RoleManager = new RoleController();
         Entities db = new Entities();
 
         // GET: Account
 
-    private readonly UserManager<ApplicationUser> userManager;
-        
-    //  private readonly TraineeService TraineeService;
+        private readonly UserManager<ApplicationUser> userManager;
+
+        //  private readonly TraineeService TraineeService;
 
 
-    //public ActionResult gett()
-    //{
-    //    var data = from m in db.ExecuteCourses
-    //               select new CourseViewModel
-    //               {
-    //                   Amount = Convert.ToDecimal(m.Amount),
-    //                   Name = Convert.ToDateTime(m.Course.Time.Year).Year.ToString()
-    //               };
+        //public ActionResult gett()
+        //{
+        //    var data = from m in db.ExecuteCourses
+        //               select new CourseViewModel
+        //               {
+        //                   Amount = Convert.ToDecimal(m.Amount),
+        //                   Name = Convert.ToDateTime(m.Course.Time.Year).Year.ToString()
+        //               };
 
-    //    return Json(data, JsonRequestBehavior.AllowGet);
-    //}
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
 
-    public AccountController()
+        public AccountController()
         {
             var db = new ApplicationDbContext();
 
@@ -56,21 +52,16 @@ namespace AirPortERP.Controllers
                 RequireUniqueEmail = true
             };
 
-
-
-
         }
         //  GET: Account
-      
-
 
         public ActionResult Edit(string id)
         {
 
-            AspNetUser AspNetUser = db.AspNetUsers.Single(x=>x.Id==id);
+            AspNetUser AspNetUser = db.AspNetUsers.Single(x => x.Id == id);
 
 
-             UsersViewModel UsersViewModel = new UsersViewModel();
+            UsersViewModel UsersViewModel = new UsersViewModel();
 
 
             UsersViewModel.Id = AspNetUser.Id;
@@ -86,8 +77,6 @@ namespace AirPortERP.Controllers
 
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UsersViewModel UsersViewModel)
@@ -95,12 +84,12 @@ namespace AirPortERP.Controllers
             if (ModelState.IsValid)
             {
                 AspNetUser AspNetUser = db.AspNetUsers.Single(x => x.Id == UsersViewModel.Id);
-               // AspNetUser.Email = UsersViewModel.Email;
+                // AspNetUser.Email = UsersViewModel.Email;
                 // asp AspNetRole = db.AspNetRoles.Single(x => x.Id == UsersViewModel.RoleId);
                 // AspNetRole.
                 //userManager.ro(UserId, UsersViewModel.UserType);
 
-                if (UsersViewModel.Id!="" && UsersViewModel.RoleCurrent!="" && UsersViewModel.RoleNew != "")
+                if (UsersViewModel.Id != "" && UsersViewModel.RoleCurrent != "" && UsersViewModel.RoleNew != "")
                 {
                     userManager.RemoveFromRole(UsersViewModel.Id, UsersViewModel.RoleCurrent);
                     userManager.AddToRole(UsersViewModel.Id, UsersViewModel.RoleNew);
@@ -113,7 +102,7 @@ namespace AirPortERP.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         public ActionResult ResetPassword(string id)
         {
             AspNetUser AspNetUser = db.AspNetUsers.Single(x => x.Id == id);
@@ -125,7 +114,7 @@ namespace AirPortERP.Controllers
             ResetPasswordViewModel.Id = AspNetUser.Id;
             ResetPasswordViewModel.UserName = AspNetUser.UserName;
             ResetPasswordViewModel.Email = AspNetUser.Email;
-            
+
             return View(ResetPasswordViewModel);
         }
 
@@ -136,17 +125,18 @@ namespace AirPortERP.Controllers
                 ApplicationUser user = userManager.FindByIdAsync(userId).Result;
                 var RoleCurrent = RoleManager.GetRole(user.Id);
 
-              var DeleteRoleResult =  userManager.RemoveFromRole(user.Id, RoleCurrent);
-            
-               if(DeleteRoleResult.Succeeded)
-                {
-                    var DeleteUserResult =  userManager.Delete(user);
+                var DeleteRoleResult = userManager.RemoveFromRole(user.Id, RoleCurrent);
 
-                    if (DeleteUserResult.Succeeded) {
-                       return RedirectToAction("Usermanager", "Account");
+                if (DeleteRoleResult.Succeeded)
+                {
+                    var DeleteUserResult = userManager.Delete(user);
+
+                    if (DeleteUserResult.Succeeded)
+                    {
+                        return RedirectToAction("Usermanager", "Account");
                     }
 
-                  
+
                 }
 
 
@@ -155,10 +145,6 @@ namespace AirPortERP.Controllers
             }
             return RedirectToAction("Usermanager", "Account");
         }
-
-
-
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -181,22 +167,16 @@ namespace AirPortERP.Controllers
             //    return RedirectToAction("ResetPasswordConfirmation", "Account");
             //}
 
-            var result =  userManager.Update(user);
+            var result = userManager.Update(user);
 
             if (result.Succeeded)
             {
-             
+
                 return RedirectToAction("UserManager", "Account");
             }
 
             return RedirectToAction("UserManager");
         }
-
-
-
-
-
-
 
         [AllowAnonymous]
         public ActionResult Login(string ReturnUrl = "")
@@ -207,6 +187,7 @@ namespace AirPortERP.Controllers
                 ReturnUrl = ReturnUrl
             });
         }
+        
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -242,10 +223,6 @@ namespace AirPortERP.Controllers
             return View(LoginViewModel);
         }
 
-
-
-
-
         private async Task SignIn(ApplicationUser ApplicationUser)
         {
             var Identity = await userManager.CreateIdentityAsync(ApplicationUser, DefaultAuthenticationTypes.ApplicationCookie);
@@ -254,28 +231,16 @@ namespace AirPortERP.Controllers
             AuthManager.SignIn(Identity);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         [AllowAnonymous]
         public ActionResult Register()
         {
-           ViewBag.UserType = new SelectList(db.AspNetRoles.Where(a => !a.Name.Contains("Admin")).ToList(), "Name", "Name");
+            ViewBag.UserType = new SelectList(db.AspNetRoles.Where(a => !a.Name.Contains("Admin")).ToList(), "Name", "Name");
 
             ViewBag.CompanyInfo = new SelectList(db.CompanyInfoes.ToList(), "Id", "NameEn");
 
             return View();
         }
+        
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -285,7 +250,7 @@ namespace AirPortERP.Controllers
 
             ViewBag.CompanyInfo = new SelectList(db.CompanyInfoes.ToList(), "Id", "NameEn");
             if (ModelState.IsValid)
-            {            
+            {
                 //string name = db.AspNetUsers.Single(x => x.UserName == RegisterViewModel.UserName).UserName;
                 if (!db.AspNetUsers.Any(x => x.UserName == RegisterViewModel.UserName))
                 {
@@ -297,7 +262,7 @@ namespace AirPortERP.Controllers
 
                         Email = RegisterViewModel.Email,
                         UserName = RegisterViewModel.UserName,
-                        CompanyInfoId = RegisterViewModel.CompanyInfo
+                        //CompanyInfoId = RegisterViewModel.CompanyInfo
 
                     };
 
@@ -316,6 +281,14 @@ namespace AirPortERP.Controllers
                         // Role Assigned
                         if (creationReasult.Succeeded)
                         {
+                            WorkOn workOn = new WorkOn();
+                            workOn.CompanyInfoId = RegisterViewModel.CompanyInfo;
+                            workOn.MonthWorkOn = DateTime.Now.Month;
+                            workOn.YearWorkOn = DateTime.Now.Year;
+                            workOn.UserId = UserId;
+
+                            db.WorkOns.Add(workOn);
+                            db.SaveChanges();
                             //   await userManager.AddToRoleAsync(UserId, RegisterViewModel.UserType);
 
 
@@ -334,13 +307,9 @@ namespace AirPortERP.Controllers
                 RegisterViewModel.Message = "User Name Already Found";
 
             }
-           // RegisterViewModel.Message = "User Name Already Found";
+            // RegisterViewModel.Message = "User Name Already Found";
             return View(RegisterViewModel);
         }
-
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -352,6 +321,7 @@ namespace AirPortERP.Controllers
             Session.Abandon();
             return RedirectToAction("Login", "Account");
         }
+
         [HttpGet]
         public async Task<ActionResult> ChangeProfile()
         {
@@ -377,7 +347,7 @@ namespace AirPortERP.Controllers
             {
                 return HttpNotFound();
             }
-           
+
             var existuser = await userManager.FindAsync(RegisterViewModel.OldUserName, RegisterViewModel.OldPassword);
 
             if (existuser != null)
@@ -411,6 +381,7 @@ namespace AirPortERP.Controllers
         /// </summary>
         /// <returns></returns>
 
+        [Authorize(Roles = "Super-Admin")]
         public ActionResult UserManager()
         {
 
@@ -427,6 +398,7 @@ namespace AirPortERP.Controllers
                     UserName = item.UserName,
                     Email = item?.Email,
                     RoleCurrent = RoleManager.GetRole(item.Id),
+                    //AirPort = CommonUsed.getCompanyName(item.CompanyInfoId)
                     // IsActive = GetIsActiveName(Convert.ToBoolean(item.IsActive)),
 
 
@@ -440,6 +412,8 @@ namespace AirPortERP.Controllers
 
             return View();
         }
+
+        // [Authorize(Roles = "Super-Admin")]
         public ActionResult GetAllUserManager()
         {
 
@@ -496,6 +470,57 @@ namespace AirPortERP.Controllers
 
 
         ////////////////////////////////////////////UserManager///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+        public async Task<ActionResult> ChangeAirport(string id)
+        {
+
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            WorkOn workOn = db.WorkOns.Where(x => x.UserId == id).FirstOrDefault();
+
+            AirportViewModel model = new AirportViewModel();
+            model.Id = user.Id;
+            model.UserName = user.UserName;
+            ViewBag.CompanyInfoId = new SelectList(db.CompanyInfoes.ToList(), "Id", "NameEn", workOn.CompanyInfoId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeAirport(AirportViewModel model)
+        {
+            if (model == null || string.IsNullOrEmpty(model.Id))
+                return RedirectToAction("UserManager", "Account");
+
+            var workOn = await db.WorkOns
+                .FirstOrDefaultAsync(x => x.UserId == model.Id);
+
+            if (workOn == null)
+                return RedirectToAction("UserManager", "Account");
+
+            workOn.CompanyInfoId = model.CompanyInfoId;
+
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("UserManager", "Account");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

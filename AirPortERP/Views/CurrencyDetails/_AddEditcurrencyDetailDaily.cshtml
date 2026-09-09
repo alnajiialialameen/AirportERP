@@ -1,0 +1,130 @@
+﻿@model AirPortERP.ViewModels.CurrencyDetailDto
+@using AirPortERP.Models;
+@{ 
+    Entities db = new Entities();
+}
+<form name="currencyDetailDailyFormAdd" id="currencyDetailDailyFormAdd">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update CurrencyDetails </h5>
+            }
+            else
+            {
+
+                <h5>Add CurrencyDetails </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.CurrencyId, "CurrencyId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("CurrencyId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                @*<div class="form-group row">
+                    @Html.LabelFor(model => model.MonthWorkOnId, "Month", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MonthWorkOnId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.MonthWorkOnId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+
+
+
+                @*<div class="form-group row">
+                    @Html.LabelFor(model => model.YearWorkOnId, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("YearWorkOnId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.YearWorkOnId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Date, "date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="input-group date" id="date" data-target-input="nearest">
+                            @Html.TextBoxFor(model => model.Date, "{0:dd/MM/yyyy}", new { @class = "form-control datetimepicker-input", data_target = "#date" })
+                            <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ExchangeRateAgainstPrimaryCurrency, "ExchangeRate", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ExchangeRateAgainstPrimaryCurrency, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Rate" } })
+                        @Html.ValidationMessageFor(model => model.ExchangeRateAgainstPrimaryCurrency, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.IsActive, "IsActive", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.IsActive)
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" onclick="CreateOrUpdate()" class="btn btn-primary">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <span>Update CurrencyDetails</span>
+                            }
+                            else
+                            {
+
+                                <span>Add CurrencyDetails</span>
+                            }
+
+                        }
+
+
+                    </button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

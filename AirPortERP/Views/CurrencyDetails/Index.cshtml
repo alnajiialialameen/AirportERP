@@ -43,7 +43,7 @@
 
     <p>
 
-        <button class="btn btn-primary" onclick="getAirLineAgent(0)">Add New Currency Details</button>
+        <button class="btn btn-primary" onclick="getCurrencyDetail(0)">Add New Currency Details</button>
         @*<button class="btn btn-info float-right" onclick="PrintData()">Print All Airports </button>*@
     </p>
 
@@ -56,10 +56,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Day </th>
                             <th>Currency Name</th>
-                            <th>Name in Arabic</th>
-                            <th>Code</th>
-                            <th>Country Name</th>
+                            <th>Mouth</th>
+                            <th>Year</th>
+                            <th>Rate</th>
 
                             <th>Operation</th>
 
@@ -107,6 +108,14 @@
     <script>
 
 
+        // تعريف validation مخصص للتاريخ
+        $.validator.addMethod("dateDMY", function (value, element) {
+
+            if (this.optional(element)) return true;
+
+            return /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value);
+
+        }, "Invalid date format");
 
 
 
@@ -135,6 +144,20 @@
                     },
                     "columns": [
                         { "data": "Id", "autowidth": true },
+                        /*{ "data": "Day", "autowidth": true },*/
+                        {
+                            "data": "Day", "width": "50px", "render": function (data) {
+                                var cssClass;
+                                if (data === "غير محدد") {
+                                    cssClass = "badge-danger";
+                                } else { cssClass = "badge-success"; }
+                               
+                                return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                            }
+                        },
+
+
                           { "data": "CurrencyName", "autowidth": true },
                            { "data": "Month", "autowidth": true },
                              { "data": "Year", "autowidth": true },
@@ -143,7 +166,7 @@
 
                                    {
                                        "data": "Id", "width": "50px", "render": function (data) {
-                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getAirLineAgent(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getCurrencyDetail(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
 
                                        }
                                    },
@@ -172,10 +195,12 @@
             });
 
 
-            function getAirLineAgent(id) {
+            function getCurrencyDetail(id) {
 
                 $("#AjaxLoader").show()
 
+
+              
                 $.get("/CurrencyDetails/GetCurrencyDetailParial", { id: id }, function (nn) {
 
                     $("#myModel-content").html(nn);
@@ -187,6 +212,9 @@
                     })
 
 
+                    $('#date').datetimepicker({
+                        format: 'DD/MM/YYYY'
+                    });
 
 
                     $(function () {
@@ -195,40 +223,42 @@
                                 alert("Form successful submitted!");
                             }
                         });
-                        $('#quickForm').validate({
+                        $('#currencyDetailDailyFormAdd').validate({
                             rules: {
-                                NameAr: {
+                                Date: {
+                                    required: true,
+                                    dateDMY: true   // 👈 أضفناها هنا
+                                },
+                                ExchangeRateAgainstPrimaryCurrency: {
                                     required: true,
                                 },
-                                NameEn: {
-                                    required: true,
-                                },
-                                Code: {
-                                    required: true,
-                                },
-                                CountryId: {
-                                    required: true,
-                                },
+                                //Code: {
+                                //    required: true,
+                                //},
+                                //CountryId: {
+                                //    required: true,
+                                //},
 
                             },
                             messages: {
 
-                                NameAr: {
-                                    required: "Please in inter arabic Name",
+                                Date: {
+                                    required: "Please in inter Date",
+                                    dateDMY: "Format must be like 09/02/2026"
 
                                 },
-                                NameEn: {
-                                    required: "Please in inter English Name",
+                                ExchangeRateAgainstPrimaryCurrency: {
+                                    required: "Please in inter ExchangeRate Against Primary Currency",
 
                                 },
-                                Code: {
-                                    required: "Please in inter Code",
+                                //Code: {
+                                //    required: "Please in inter Code",
 
-                                },
-                                CountryId: {
-                                    required: "Please in inter CountryId",
+                                //},
+                                //CountryId: {
+                                //    required: "Please in inter CountryId",
 
-                                },
+                                //},
 
                             },
                             errorElement: 'span',
@@ -265,15 +295,26 @@
             function CreateOrUpdate() {
 
                 var model = $('#myModal');
-                var form = $('form[name="DepartmentFormAdd"]');
+                var form = $('form[name="currencyDetailDailyFormAdd"]');
 
 
                 form.validate();
                 if (!form.valid()) {
                     return;
+
                 } else {
+
+
+                    // ✅ تحويل التاريخ باستخدام moment
+                    var currencyDate = $('#date').val();
+
+                    var formattedDate = moment(currencyDate, "DD/MM/YYYY").format("YYYY-MM-DD");
+                    console.log(formattedDate);
+                    $('#date').val(formattedDate);
+                        
+
                     var data = form.serialize();
-                    $.post("/CurrencyDetails/CreateOrUpdateCurrencyDetail", data, function (res) {
+                    $.post("/CurrencyDetails/CreateOrUpdateCurrencyDetailDaily", data, function (res) {
                         if (res) {
                             if (res.message != null && res.message === "Update") {
                                 toastr.success("تم تعديل العمله  ", "تعديل");

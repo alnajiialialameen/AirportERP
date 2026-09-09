@@ -126,7 +126,20 @@
                     </td>
                 
                     <td>
-                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.SandMain.SandDate))
+                        @*@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.SandMain.SandDate))*@
+
+                       
+
+                        @string.Format(
+    new System.Globalization.CultureInfo("en-US"),
+    "{0:dd/MM/yyyy}",
+    item.SandMain.SandDate
+)
+
+
+
+
+
                     </td>
 
 

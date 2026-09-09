@@ -1,0 +1,231 @@
+﻿@model PagedList.IPagedList<AirPortERP.ViewModels.PrintDailyViewModel>
+
+@using PagedList.Mvc
+
+@{
+
+    Layout = null;
+
+}
+
+<style>
+    .re-sort:hover {
+        color: #2d2cdd;
+        text-decoration: double;
+    }
+</style>
+
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px">
+
+
+
+            <tr>
+
+                <th>ID </th>
+
+                <th>
+
+                    <div onclick="sortTable()" class="re-sort"><i class="fa fa-sort"></i> <a>Call Sing</a></div>
+
+
+                </th>
+
+                <th>
+                    FlightNo
+                </th>
+                <th>
+                    Reg
+                </th>
+                <th>
+                    Operation 
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                     From
+                </th>
+                <th>
+                     ATA
+                </th>
+               
+                <th>
+                    To
+                </th>
+                <th>
+                    ATD
+                </th>
+                <td> Landing Per.No </td>
+                <th>
+                    POB
+                </th>
+                <th>
+                    QBD
+                </th>
+                <th>
+                    Note 
+                </th>
+              
+                
+                <th>Operation</th>
+
+            </tr>
+
+            @foreach (var item in Model)
+
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Call)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightNo)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reg)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Operation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.From)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ATA)
+
+                    </td>
+                  
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.To)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ATD)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LandingPermission)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.POB)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QBD)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+
+                    </td>
+
+
+
+
+
+
+
+
+                    <td>
+                    
+                        <div class="btn-group">
+
+                            <button type="button" class="btn" data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" onclick="getTowerData(@item.Id)" href="#">Update</a>
+                                <a class="dropdown-item" href="@Url.Action("Details", "TowerDatas")/@item.Id">More Details</a>
+
+                                @*<a class="dropdown-item" href="#">Something else here</a>*@
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onclick="Delete(@item.Id)" href="#">Detete </a>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount)
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("GetDaily", new
+       {
+           page,
+           // int? AirPortIdFrom,int? AirPortIdTo
+           Get = 1
+           ,
+           Search = 2,
+           Count = ViewBag.ItemCount,
+
+
+
+           DateDaily = ViewBag.DateDaily,
+
+
+       }))
+        </div>
+    </div>
+
+    @if (ViewBag.ItemCount > 0)
+    {
+
+        @*<div class="col-6">
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">عدد الدورات:</th>
+                            <td>@ViewBag.ItemCount</td>
+                        </tr>
+                        <tr>
+                            <th>مجموع النثريات</th>
+                            <td>@ViewBag.Allowance</td>
+                        </tr>
+                        <tr>
+                            <th>اجمالي التكلفة:</th>
+                            <td>@ViewBag.Amount</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>*@
+
+
+    }
+
+
+
+
+
+</div>

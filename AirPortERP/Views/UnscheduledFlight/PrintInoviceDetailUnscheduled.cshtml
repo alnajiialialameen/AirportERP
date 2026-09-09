@@ -1,0 +1,561 @@
+﻿@model AirPortERP.ViewModels.PrintInoviceDetailViewModel
+
+@{
+    ViewBag.Title = "Invoice Detail";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<style>
+    /* تنسيق عام للمستند الرسمي */
+    .invoice-wrapper {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        padding-right: 60px !important;
+        padding-left: 60px !important;
+        padding-top: 10px !important;
+        color: #333;
+    }
+    @@media print {
+        .invoice-wrapper {
+            padding-right: 60px !important;
+            padding-left: 60px !important;
+            padding-top: 20px !important;
+        }
+    }
+
+    /* الهيدر العلوي */
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #444;
+        padding-bottom: 15px;
+        margin-bottom: 10px;
+    }
+
+    .header-logo img { height: 90px; }
+    .header-text { text-align: center; flex-grow: 1; }
+    .header-text h5 { margin: 2px 0; font-weight: bold; text-transform: uppercase; }
+
+    /* شبكة البيانات الأساسية - تمنع التكرار */
+    .main-info-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: #f9f9f9;
+        padding: 7px;
+        border: 1px solid #302e2e;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+
+    .info-item { font-size: 16px; }
+    .info-item strong { color: #555; margin-right: 5px; }
+
+    /* تنسيق الجداول */
+    .table-section { margin-bottom: 10px; }
+    .table-section h6 {
+       /* background: #f2f2f2;*/
+        /*padding: 5px;*/
+/*        border-left: 4px solid #333;
+*/        font-weight: 600;
+        text-decoration: none !important;
+        /*margin-bottom: 10px;*/
+        font-size: 18px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .nodata {
+        color: gray;
+        font-size: medium;
+    }
+
+        table th { background-color: #fafafa; font-weight: 600; }
+    .footer-row { background-color: #fcfcfc; font-weight: 600; }
+
+
+        table th, table td {
+            border: 1px solid #161111;
+            padding: 8px;
+            text-align: center;
+            font-size: medium;
+        }
+
+    @@media print {
+        .invoice-wrapper { padding: 0; }
+        .main-info-bar { border: 1px solid #aaa; }
+        table th { background-color: #eee !important; -webkit-print-color-adjust: exact; color:#302e2e; }
+        .nodata { color:gray; font-size:medium;
+        }
+    }
+
+
+    @@media print {
+
+        .sign {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #999;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            display: flex !important;
+        }
+    }
+
+    .sign {
+        margin-top: 40px;
+    }
+
+</style>
+
+<section class="invoice-wrapper container-fluid">
+
+    <!-- 1. الهيدر الرسمي -->
+    <div class="header-section">
+        <div class="header-logo"><img src="~/Temp/Image/WhiteLogo.png" /></div>
+        <div class="header-text">
+            <h5>Sudan Airports Company .Ltd</h5>
+            <h5>General Administration Of Finance Affairs</h5>
+            <h5>Revenue Directorate</h5>
+        </div>
+        <div class="header-logo"><img src="~/Temp/Image/WhiteLogo.png" /></div>
+    </div>
+
+    <h4 class="text-center" style="margin-bottom:10px;">INVOICE DETAILS</h4>
+
+    <!-- 2. البيانات الأساسية (تظهر هنا فقط لمنع التكرار) -->
+    <div class="main-info-bar">
+        <div class="info-item"><strong>Company:</strong> @ViewBag.Name</div>
+        <div class="info-item"><strong>Date:</strong> @Model.Date</div>
+        <div class="info-item"><strong>Flight No:</strong> @Model.FlightNo</div>
+        <div class="info-item"><strong>Reg No:</strong> @Model.RegNo</div>
+        <div class="info-item"><strong>Type:</strong> @Model.Type</div>
+        <div class="info-item"><strong>Ref N:</strong> @Model.N</div>
+    </div>
+
+    <!-- 3. جدول الإجمالي العام -->
+    <div class="table-section">
+        <h6> SUMMARY</h6>
+        <table class="summary">
+            <thead>
+                <tr>
+                    <th class="font-weight-bold">Total Amount</th>
+                    <th class="font-weight-bold">Revenue Stamp(0.05%)</th>
+                    <th class="font-weight-bold">Total Final Invioce</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="numberFormat font-weight-bold">@Model.TotalInvoice</td>
+                    <td class="numberFormat font-weight-bold ">@Model.TotalRevenueStampInvoice</td>
+                    <td class="numberFormat font-weight-bold">@Model.GrandTotalInvoice</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. جدول Landing -->
+    <div class="table-section">
+        <h6>Landing Service</h6>
+        <table>
+            <thead>
+                <tr>
+                    <th>Weight</th>
+                    <th>Landing Fees</th>
+                    <th>Night Fees</th>
+                    <th>Navigation</th>
+                    <th>Security</th>
+                    <th>Parking</th>
+                    <th>Freight/Mail</th>
+                    <th>Noise</th>
+                    <th>Sub-Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="numberFormat">@Model.Wt</td>
+                    <td class="numberFormat">@Model.LandingFees</td>
+                    <td class="numberFormat">@Model.NightOperationFees</td>
+                    <td class="numberFormat">@Model.NavigationFees</td>
+                    <td class="numberFormat">@Model.SecurityFees</td>
+                    <td class="numberFormat">@Model.ParkingFees</td>
+                    <td>
+                        <span class="numberFormat"> @Model.FreightFees</span> / <span class="numberFormat"> @(Model.ImpMailFees + Model.ExpMailFees)</span>
+                    </td>
+                    <td class="numberFormat">@Model.NoiseFees</td>
+                    <td class="numberFormat">@Model.TotalLanding</td>
+                </tr>
+                <tr class="footer-row">
+                    <td colspan="8" class="text-left">Revenue Stamp(0.05%) :</td>
+                    <td class="numberFormat">@ViewBag.LandingTax</td>
+                </tr>
+                <tr class="footer-row">
+                    <td colspan="8" class="text-left">Landing Grand Total:</td>
+                    <td class="numberFormat">@ViewBag.LandingGrandTotal</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5. جدول Cupps -->
+    <div class="table-section">
+        <h6>Cupps Service:</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Pax Count</th>
+                    <th>TR</th>
+                    <th>Unit Fees</th>
+                    <th>Amount ($)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Pax > 0 || Model.TR > 0)
+                {
+                    <tr>
+                        <td>@Model.AirPortTo</td>
+                        <td>@Model.Pax</td>
+                        <td>@Model.TR</td>
+                        <td class="numberFormat">@Model.CFees</td>
+                        <td class="numberFormat">@Model.CuppsFees</td>
+                    </tr>
+
+                    <tr class="footer-row">
+                        <td colspan="4" class="text-left">
+                            Revenue Stamp(0.05%):
+                        </td>
+                        <td class="numberFormat">
+                            @ViewBag.CuppsTaxDollar
+                        </td>
+                    </tr>
+
+                    <tr class="footer-row">
+                        <td colspan="4" class="text-left">
+                            Total Amount:
+                        </td>
+                        <td class="numberFormat">
+                            @ViewBag.CuppsGrandTotalDollar
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center fw-bold text-secondary">
+                            <h5 class="nodata">No Cupps Service</h5>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- 6. جدول NY Invoice -->
+    <div class="table-section">
+        <h6>NY Service:</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Pax Count</th>
+                    <th>Unit Fees</th>
+                    <th>Amount ($)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Pax > 0)
+                {
+                    <tr>
+                        <td>@Model.AirPortTo</td>
+                        <td>@Model.Pax</td>
+                        <td class="numberFormat">@Model.NFees</td>
+                        <td class="numberFormat">@Model.NyFees</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center fw-bold text-secondary">
+                            <h5 class="nodata">No NY Service</h5>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- 7. جدول Car Service -->
+
+    <div class="table-section">
+        <h6>Car Service:</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ambulance (No/Fees)</th>
+                    <th>Ambulance Amount</th>
+                    <th>Fire Truck (No/Fees)</th>
+                    <th>Fire Truck Amount</th>
+                    <th>Total ($)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.HasCarService)
+                {
+                    <tr>
+                        <td>(@Model.AmbulanceNo) x @Model.FeesAmbulance</td>
+                        <td class="numberFormat">@Model.FeesAmbulanceAmount</td>
+                        <td>(@Model.FireNo) x @Model.FeesFire</td>
+                        <td class="numberFormat">@Model.FeesFireAmount</td>
+                        <td class="numberFormat">@Model.ServiceCar</td>
+                    </tr>
+
+                    <tr class="footer-row">
+                        <td colspan="4" class="text-left">
+                            Revenue Stamp(0.05%):
+                        </td>
+                        <td class="numberFormat">
+                            @ViewBag.ServiceCarTaxDollar
+                        </td>
+                    </tr>
+
+                    <tr class="footer-row">
+                        <td colspan="4" class="text-left">
+                            Grand Total
+                        </td>
+                        <td class="numberFormat">
+                            @ViewBag.ServiceCarGrandTotalDollar
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center fw-bold text-secondary">
+                            <h5 class="nodata">  No Car Service</h5>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+    @if (Model.HasPushPack)
+    {
+        <!-- 8. جدول PushPack -->
+        <div class="table-section">
+            <h6>PushPack Service:</h6>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plane Size</th>
+                        <th>Fees</th>
+                        <th>Tax</th>
+                        <th>Total ($)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model.HasPushPack)
+                    {
+                        <tr>
+                            <td>@Model.PlaneSize</td>
+                            <td class="numberFormat">@Model.PushPackFees</td>
+                            <td class="numberFormat">@ViewBag.PushPackTaxDollar</td>
+                            <td class="numberFormat">@Model.PushPackFees</td>
+                        </tr>
+
+                        <tr class="footer-row">
+                            <td colspan="3" class="text-left">
+                                Revenue Stamp(0.05%)
+                            </td>
+                            <td class="numberFormat">
+                                @ViewBag.PushPackTaxDollar
+                            </td>
+                        </tr>
+
+                        <tr class="footer-row">
+                            <td colspan="3" class="text-left">
+                                Grand Total
+                            </td>
+                            <td class="numberFormat">
+                                @ViewBag.PushPackGrandTotalDollar
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center fw-bold text-secondary">
+                                <h5 class="nodata">No PushPack Service</h5>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+    }
+
+        <!-- 9. جدول Fuel -->
+        <div class="table-section">
+            <h6>Fuel Service:</h6>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plane Size</th>
+                        <th>Fees</th>
+                        <th>Tax</th>
+                        <th>Total ($)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model.FuelLiter > 0)
+                    {
+                        <tr>
+                            <td>@Model.PlaneSize</td>
+                            <td class="numberFormat">@Model.FuelLiter</td>
+                            <td class="numberFormat">@ViewBag.FuelTaxDollar</td>
+                            <td class="numberFormat">@Model.FuelFees</td>
+                        </tr>
+
+                        <tr class="footer-row">
+                            <td colspan="3" class="text-left">
+                                Revenue Stamp(0.05%)
+                            </td>
+                            <td class="numberFormat">
+                                @ViewBag.FuelTaxDollar
+                            </td>
+                        </tr>
+
+                        <tr class="footer-row">
+                            <td colspan="3" class="text-left">
+                                Grand Total
+                            </td>
+                            <td class="numberFormat">
+                                @ViewBag.FuelFeesGrandTotalDollar
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center fw-bold text-secondary">
+                                <h5 class="nodata">No PushPack Service</h5>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+
+
+
+    </section>
+
+<div class="container">
+    <div class="row sign">
+
+        <div class="col-6" style="line-height:2">
+            <strong>Officer</strong><br />
+            <span>Name : @ViewBag.UserName</span><br />
+            <span>-------------------------------</span>
+        </div>
+
+        <div class="col-6 text-right" style="line-height:2">
+            <strong>Accountant</strong><br />
+            <span>Name : ------------------------------</span><br />
+            <span>-----------------------------------------</span>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+      
+        setTimeout(function () {
+            window.print();
+        }, 500);
+    });
+
+
+
+
+
+
+    function formatVal(val) {
+
+        var item = parseFloat(val);
+
+        if (isNaN(item)) return '';
+
+        if (item === 0) return '0';
+
+        // التقريب إلى منزلتين
+        var rounded = Math.round(item * 100) / 100;
+
+        return rounded.toLocaleString(undefined, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+    }
+
+
+    // تطبيق التنسيق على جميع العناصر التي تحمل class = numberFormat
+    function applyNumberFormat() {
+
+        $('.numberFormat').each(function () {
+
+            var value = $(this).text().trim();
+
+            $(this).text(formatVal(value));
+        });
+    }
+
+
+    // تشغيلها بعد تحميل الصفحة
+    $(document).ready(function () {
+
+        applyNumberFormat();
+
+    });
+
+
+
+
+
+
+</script>

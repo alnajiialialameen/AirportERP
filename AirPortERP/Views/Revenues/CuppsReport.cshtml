@@ -24,27 +24,15 @@
 </div>
 <!-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-
-
-
-
-
-
-
-
-
-
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h5> Cupps Report</h5>
+                <h5> CUPPS & NY Report</h5>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
-                    <li class="breadcrumb-item active"> Cupps Report</li>
+                    <li class="breadcrumb-item active"> CUPPS & NY Report</li>
                 </ol>
             </div>
         </div>
@@ -53,10 +41,6 @@
 
 <div class="loader" id="AjaxLoader" style="display:none;">
     <div class="strip-holder">
-        @*<div class="strip-1"></div>
-            <div class="strip-2"></div>
-            <div class="strip-3"></div>*@
-
         <div class="sk-chase">
             <div class="sk-chase-dot"></div>
             <div class="sk-chase-dot"></div>
@@ -71,19 +55,6 @@
 </div>
 
 <section class="content">
-
-
-
-
-
-
-
-
-
-
-
-
-
     <link href="~/Temp/dist/css/PagedList.css" rel="stylesheet" />
     <script src="~/Temp/dist/js/sorting.js"></script>
     <style>
@@ -95,23 +66,10 @@
 
 
     <div class="card card-default">
-        @*<div class="card-header">
-                <h3 class="card-title">Select2 (Bootstrap4 Theme)</h3>
-
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-            </div>*@
         <!-- /.card-header -->
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-
-
-
-
-
                     <div class="form-group">
                         <label>Flight Type</label>
                         <select class="form-control" id="FlightTypeId">
@@ -206,31 +164,47 @@
                         <label> بحث</label>
 
                         <div class="row">
-                            <div class=" col-md-4">
-                                <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control m-1">بحث</button>
+                            <div class=" col-md-3">
+                                <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control m-1">Search</button>
 
 
                             </div>
 
-                            <div class=" col-md-4">
-                                <button id="btnall" onclick="PrintData()" class="btn form-control btn-info btn-sm m-1">Print Search </button>
+                            <div class=" col-md-3">
+                                <button id="btnall" onclick="PrintData()" class="btn form-control btn-info btn-sm m-1">Print CUPPS </button>
 
                             </div>
-                            @*<div class=" col-md-4">
-                                <button id="btnallD" onclick="PrintDataD()" class="btn form-control btn-info btn-sm m-1">انصية شركات  </button>
+                            <div class=" col-md-3">
+                                <button id="btnall" onclick="PrintNYData()" class="btn form-control btn-success btn-sm m-1">Print NY </button>
 
-                            </div>*@
+                            </div>
+
+                            <div class=" col-md-3">
+                                <button id="btnall" onclick="PrintCUPPSdistribution()" class="btn form-control btn-success btn-sm m-1">Print CUPPS distribution </button>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class=" col-md-4">
+                                <button id="btnall" onclick="PrintCuppsDataForDom()" class="btn form-control btn-warning btn-sm m-1">Inter(cupps) In domestic   </button>
+                            </div>
+
+                            <div class=" col-md-4">
+                                <button id="btnall" onclick="PrintNyDataForDom()" class="btn form-control btn-warning btn-sm m-1">Inter(NY) In domestic   </button>
+                            </div>
+
+
+                        </div>
                         </div>
 
+
+
+
+
+
+
                     </div>
-
-
-
-
-
-
-
-                </div>
 
             </div>
 
@@ -570,6 +544,51 @@
 
 
 
+        function PrintCUPPSdistribution() {
+
+            var AirLineId = $("#AirLineId").val();
+
+
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+            var ddlAirLine = $("#AirLineId");
+
+            if (ddlFlightType.val() == "0" || ddlAirLine.val() == "0") {
+                if (ddlFlightType.val() == "0") {
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+                } if (ddlAirLine.val() == "0") {
+                    Swal.fire('Select!! Enter AirLine ')
+
+                    return false;
+                }
+            } else {
+
+
+
+
+                var url = "/AdvencePrintBasic/PrintDataCuppsDistribution?AirLineId=" + AirLineId
+                    + "&&DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                    + "&&FlightTypeId=" + FlightTypeId;
+                window.open(url, '_blank').focus();
+
+
+
+
+
+
+            }
+
+        }
+
+
 
 
         function PrintDataD() {
@@ -614,9 +633,120 @@
 
 
 
+        function PrintNYData() {
+
+            var AirLineId = $("#AirLineId").val();
 
 
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
 
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+            var ddlAirLine = $("#AirLineId");
+
+            if (ddlFlightType.val() == "0" || ddlAirLine.val() == "0") {
+                if (ddlFlightType.val() == "0") {
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+                } if (ddlAirLine.val() == "0") {
+                    Swal.fire('Select!! Enter AirLine ')
+
+                    return false;
+                }
+            } else {
+
+
+                var url = "/AdvencePrintBasic/PrintDataNy?AirLineId=" + AirLineId
+                   + "&&DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                + "&&FlightTypeId=" + FlightTypeId;
+                window.open(url, '_blank').focus();
+
+                // window.location.href = "/Revenues/PrintDataNy?AirLineId=" + AirLineId
+                //    + "&&DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                // + "&&FlightTypeId=" + FlightTypeId;
+            }
+
+        }
+
+        
+        function PrintNyDataForDom() {
+
+            var AirLineId = $("#AirLineId").val();
+
+
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+            var ddlAirLine = $("#AirLineId");
+
+            if (ddlFlightType.val() == "0" || ddlAirLine.val() == "0") {
+                if (ddlFlightType.val() == "0") {
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+                } if (ddlAirLine.val() == "0") {
+                    Swal.fire('Select!! Enter AirLine ')
+
+                    return false;
+                }
+            } else {
+
+
+                var url = "/AdvencePrintBasic/PrintDataNyForDom?AirLineId=" + AirLineId
+                    + "&&DateFrom=" + DateFrom + "&&DateTo=" + DateTo
+                    + "&&FlightTypeId=" + FlightTypeId;
+                window.open(url, '_blank').focus();
+
+            }
+
+        }
+
+        function PrintCuppsDataForDom() {
+
+            var AirLineId = $("#AirLineId").val();
+
+
+            var DateFrom = $("#DateFrom").val();
+            var DateTo = $("#DateTo").val();
+
+
+            var FlightTypeId = $("#FlightTypeId").val();
+
+
+            var ddlFlightType = $("#FlightTypeId");
+            var ddlAirLine = $("#AirLineId");
+
+            if (ddlFlightType.val() == "0" || ddlAirLine.val() == "0") {
+                if (ddlFlightType.val() == "0") {
+                    Swal.fire('Select!! Enter FlightType ')
+
+                    return false;
+                } if (ddlAirLine.val() == "0") {
+                    Swal.fire('Select!! Enter AirLine ')
+
+                    return false;
+                }
+            } else {
+
+
+                var url = "/AdvencePrintBasic/PrintDataCuppForDom?AirLineId=" + AirLineId
+                    + "&&DateFrom=" + DateFrom + "&&DateTo=" + DateTo 
+                    + "&&FlightTypeId=" + FlightTypeId;
+                window.open(url, '_blank').focus();
+
+            }
+
+        }
     </script>
 
 }

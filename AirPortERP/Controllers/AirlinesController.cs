@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Threading;
 namespace AirPortERP.Controllers
@@ -111,6 +110,13 @@ namespace AirPortERP.Controllers
                 AirLine AirLine = new AirLine();
                 if (model.Id > 0)
                 {
+
+                    if (db.AirLines.Any(x =>(x.Code == model.Code || x.Name == model.Name) && x.Id != model.Id))
+                    {
+                        return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
+                    }
+
+
                     AirLine = db.AirLines.Find(model.Id);
                     //-----------------------------Account Start----------------------------
                     AirLine.Id = model.Id;
@@ -132,14 +138,14 @@ namespace AirPortERP.Controllers
                         AccountTree AccountTreeParent = db.AccountTrees.Find(model.AccId);
 
                         int Id = Convert.ToInt32(db.SpLastAccountTree().FirstOrDefault());
-                        decimal AccNumber = Convert.ToInt32(db.GetAccNumber(AccountTreeParent.AccNumber).FirstOrDefault());
+                        decimal AccNumber = Convert.ToInt32(db.GetAccNumber(AccountTreeParent.Id).FirstOrDefault());
                         AccountTree AccountTree = new AccountTree();
 
                         AirLine.AccId = Id;
                         AccountTree.Id = Id;
                         AccountTree.AccNumber = AccNumber;
                         AccountTree.AccName = model.Name;
-                        AccountTree.AccParent = AccountTreeParent.AccNumber;
+                        AccountTree.AccParent = AccountTreeParent.Id;
                         AccountTree.AccType = 2;
                         AccountTree.AccGroupId = 1;
 
@@ -157,7 +163,11 @@ namespace AirPortERP.Controllers
                 }
                 else
                 {
-                 
+                    if (db.AirLines.Any(x => x.Code == model.Code || x.Name == model.Name))
+                    {
+                        return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
+                    }
+
                     AirLine.Id = model.Id;
                     AirLine.Name = model.Name;
                     AirLine.ArName = model.ArName;
@@ -181,7 +191,7 @@ namespace AirPortERP.Controllers
                         AccountTree.Id = Id;
                         AccountTree.AccNumber = AccNumber;
                         AccountTree.AccName = model.Name;
-                        AccountTree.AccParent = AccountTreeParent.AccNumber;
+                        AccountTree.AccParent = AccountTreeParent.Id;
                         AccountTree.AccLevel = ClsAccount.GetAccParentLevel(AccountTreeParent.Id) + 1;
                         AccountTree.AccType = 2;
                        AccountTree.AccGroupId = 1;
@@ -192,20 +202,10 @@ namespace AirPortERP.Controllers
                     //*******
 
 
-
-
-
-
-
-
-
-
-
-
-
-                    db.AirLines.Add(AirLine);
+                    db.AirLines.Add(AirLine);            
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
+                    int lastId = AirLine.Id;
+                    return Json(new { success = true, message = "Add" , LastId = lastId }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -263,52 +263,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirLines.rpt")));
-            IQueryable<AirLine> Airline;
-            Airline = db.AirLines;
-
-
-            var Airlines = new List<AirLinesViewMosels>();
-            foreach (var item in Airline)
-            {
-                AirLinesViewMosels A = new AirLinesViewMosels();
-                A.Id = item.Id;
-                A.Name = item.Name;
-                A.Email = item.Email;
-                A.Phone = item.Phone;
-                A.Islocal = CommonUsed.isLocal(Convert.ToBoolean(item.IsLocalCompany));
-                A.Address = item.Address;
-                A.Code = item.Code;
-                Airlines.Add(A);
-
-            }
-
-            rd.SetDataSource(Airlines.Select(p => new
-            {
-
-                Name = p.Name,
-                Phone = p.Phone,
-                Code = p.Code,
-                Email = p.Email,
-                Address = p.Address,
-                Islocal = p.Islocal,
-
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf");
-        }
 
 
 

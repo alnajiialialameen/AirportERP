@@ -225,7 +225,7 @@ namespace AirPortERP.Controllers
                 var data = db.AccountOperations.Where(d => d.AccountTree.AccGroupId == 1).Select(x =>
                       new GettVM()
                       {
-                          Id = x.AccountNumber,
+                          Id = x.AccId,
                           AirLineName = x.AccountTree.AirLines.FirstOrDefault().Name,
                           Debit = x.OperationDebit,
                           Credit = x.OperationCredit,

@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.Extenstion;
 using AirPortERP.ViewModels;
@@ -122,34 +121,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptPushBackFees.rpt")));
-            IQueryable<PushBackFee> PushBackFees;
-            PushBackFees = db.PushBackFees;
-            rd.SetDataSource(PushBackFees.Select(p => new
-            {
-                Id = p.Id,
-                AireCraftSize = p.AireCraftSize,
-                AmountInDollar = p.AmountInDollar,
-                CreatedBy = p.CreatedBy,
-                CreationDate = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "PushBackFees.pdf");
-        }
 
 
 

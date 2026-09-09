@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 
 namespace AirPortERP.Controllers
@@ -130,66 +129,6 @@ namespace AirPortERP.Controllers
 
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirLineAgents.rpt")));
-            //IQueryable<AirLineAgent> AirLineAgents;
-            //AirLineAgents = db.AirLineAgents;
-
-
-            IQueryable<AirLineAgent> AirLineAgent = db.AirLineAgents;
-            var AirLineAgentsList = new List<AirLineAgentsViewMosels>();
-            foreach (var item in AirLineAgent)
-            {
-                AirLineAgentsList.Add(new AirLineAgentsViewMosels
-                {
-                    Id = item.Id,
-                    NameAr = item?.NameAr,
-                    NameAn = item?.NameAn,
-                    Phone1 = item?.Phone1,
-                    Phone2 = item?.Phone2,
-                    Email = item?.Email,
-                    Address = item?.Address,
-                    AirLineName = item?.AirLine.Name,
-                    IsActive = GetActiveName(Convert.ToBoolean(item.IsActive)),
-
-
-                });
-            }
-
-
-
-
-
-
-
-
-
-            rd.SetDataSource(AirLineAgentsList.Select(p => new
-            {
-
-                NameEn = p.NameAn,
-                NameAr = p.NameAr,
-                Phone1 = p.Phone1,
-                Phone2 = p.Phone2,
-                Email = p.Email,
-                Address = p.Address,
-                AirLineName = p.AirLineName,
-                IsActive = p.IsActive,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "AirLineAgents.pdf");
-        }
 
 
 

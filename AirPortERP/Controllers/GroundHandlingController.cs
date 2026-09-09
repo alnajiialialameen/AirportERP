@@ -10,8 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Extenstion;
 using PagedList;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
+using System.ComponentModel.Design;
 
 namespace AirPortERP.Controllers
 {
@@ -36,14 +36,13 @@ namespace AirPortERP.Controllers
         {
             IQueryable<Revenue> Revenue;
             var id = User.Identity.GetUserId();
-
-            var companyInfo = Role.GetCompanyId(id);
+            var companyId = CommonUsed.getCompanyId(id);
 
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
 
             Revenue = db.Revenues.OrderBy(x => x.Id).Where(x => x.OfficerData.TowerData.Date.Value.Month == WorkMouth
-            && x.OfficerData.TowerData.Date.Value.Year == WorkYear & (x.GroundHandlingFees < 0 | x.GroundHandlingFees == null));
+            && x.OfficerData.TowerData.Date.Value.Year == WorkYear & (x.GroundHandlingFees < 0 | x.GroundHandlingFees == null ) && x.OfficerData.TowerData.CompanyInfoId ==companyId);
 
             var TowerDatasList = new List<GroundHandlingViewModels>();
 
@@ -129,13 +128,13 @@ namespace AirPortERP.Controllers
             IQueryable<Revenue> Revenue;
             var id = User.Identity.GetUserId();
 
-            var companyInfo = Role.GetCompanyId(id);
+            var companyId = CommonUsed.getCompanyId(id);
 
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
 
             Revenue = db.Revenues.OrderBy(x => x.Id).Where(x => x.OfficerData.TowerData.Date.Value.Month == WorkMouth
-            && x.OfficerData.TowerData.Date.Value.Year == WorkYear & x.GroundHandlingFees > 0);
+            && x.OfficerData.TowerData.Date.Value.Year == WorkYear & x.GroundHandlingFees > 0 && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             var TowerDatasList = new List<GroundHandlingViewModels>();
 
@@ -278,8 +277,10 @@ namespace AirPortERP.Controllers
         /******************************************************** First Class ************************************************************************/
         public ActionResult GetDataHandlingComp(int? page, int? Get, int? Search, int? Count, int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
         {
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.GroundHandlingFees > 0);
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.GroundHandlingFees > 0 && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             if (Get > 0)
             {
@@ -320,157 +321,13 @@ namespace AirPortERP.Controllers
             return PartialView("_GetDataHandlingComp", Revenue.ToPagedList(PageNumber, pageSize));
         }
 
-        public ActionResult PrintDataHandlingCompCR(int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
-        {
-            var id = User.Identity.GetUserId();
-            RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
-
-            string UserName = CommonUsed.GetUserName(id);
-
-            if (DateTo != null)
-            {
-                WorkMouth = Convert.ToDateTime(DateTo).Month;
-                WorkYear = Convert.ToDateTime(DateTo).Year;
-            }
-            else if (DateFrom != null)
-            {
-                WorkMouth = Convert.ToDateTime(DateFrom).Month;
-                WorkYear = Convert.ToDateTime(DateFrom).Year;
-            }
-            else
-            {
-                //Month = Convert.ToDateTime(currentDate).Month;
-                //Year = Convert.ToDateTime(currentDate).Year;
-                return RedirectToAction("Error");
-            }
-            ExchangeRate = CommonUsed.getExchangeRateByLandingDate(WorkMouth, WorkYear);
-
-            string SearchAirLineId = "غير محدد";
-            string SearchDateFrom = "غير محدد";
-            string SearchDateTo = "غير محدد";
-            ReportDocument rd = new ReportDocument();
-
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/RptFirstClassFees.rpt")));
-
-            IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FirstClassFees > 0);
-            //if (FlightTypeId > 0)
-            //{
-            //    Revenue = Revenue.Where(x => x.OfficerData.TowerData.FlightType == FlightTypeId);
-            //    SearchFlightTypeId = CommonUsed.GetFlightTypeName(FlightTypeId);
-            //}
-
-            if (HandlingCompanyId > 0)
-            {
-                Revenue = Revenue.Where(x => x.OfficerData.HandlingAgentId == HandlingCompanyId);
-                SearchAirLineId = db.HandlingAgentsCompanies.Find(HandlingCompanyId).NameEn;
-            }
-
-            if (DateFrom != null && DateTo != null)
-            {
-                Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
-                SearchDateFrom = CommonUsed.CheckDate(DateFrom.ToString()).ToString();
-                SearchDateTo = CommonUsed.CheckDate(DateTo.ToString()).ToString();
-            }
-
-            if (Revenue.Count() <= 0)
-            {
-                return RedirectToAction("Error");
-            }
-            ///***********************************************************************************
-            var RevenueList = new List<FirstClassRptViewModel>();
-
-            foreach (var item in Revenue)
-            {
-
-                FirstClassRptViewModel F = new FirstClassRptViewModel();
-
-                F.Id = item.Id;
-                F.Name = item?.OfficerData.TowerData.AirLine.Code + "/ " + item?.OfficerData.TowerData.AirLine.Name;
-                F.FlightNo = item?.OfficerData.TowerData.AirLinesFlightTrip.FlightNo;
-                //L.MaxTakoffWieght = item?.OfficerData.TowerData.AircraftRegistration.AircraftType.MaxTakoffWieght.ToString();
-                F.TakeOffDate = CommonUsed.CheckDate(item?.OfficerData.TowerData.TakeOffDate.ToString());
-
-                // L.MaxTakoffWieght = item?.OfficerData.TowerData.AircraftRegistration.AircraftType.Type.ToString();
-
-                F.FirstClassCount = Convert.ToInt32(item?.OfficerData.FirstClassCount);
-
-                F.FirstClassFees = Convert.ToDecimal(item?.FirstClassFees);
-
-                F.FirstClassFeesSDG = Convert.ToDecimal(item?.FirstClassFees) * Convert.ToDecimal(ExchangeRate);
-                if (F.FirstClassFees == 0)
-                {
-                    F.Fees = 0;
-                }
-                else
-                {
-                    F.Fees = (F.FirstClassFees / F.FirstClassCount);
-
-                }
-
-                RevenueList.Add(F);
-            }
-
-            /*************************************************************************************/
-            rd.SetDataSource(RevenueList.Select(p => new
-            {
-                Id = p.Id,
-                Name = p.Name,
-                FlightNo = p.FlightNo,
-                TakeOffDate = p.TakeOffDate,
-
-                FirstClassCount = p.FirstClassCount,
-                FirstClassFees = p.FirstClassFees,
-                Fees = p.Fees,
-
-                SearchDateFrom = SearchDateFrom,
-                SearchDateTo = SearchDateTo,
-                FirstClassFeesSDG = p.FirstClassFeesSDG,
-                ExchangeRate = ExchangeRate,
-            }).ToList());
-
-            //if (Format == 2) ///excel
-            //{
-            //    Response.Buffer = false;
-            //    Response.ClearContent();
-            //    Response.ClearHeaders();
-            //    Stream Stream = rd.ExportToStream
-            //        //WordForWindows //PortableDocFormat //PortableDocFormat
-            //        (CrystalDecisions.Shared.ExportFormatType.Excel);
-            //    Stream.Seek(0, SeekOrigin.Begin);//application/doc //
-            //    return File(Stream, "application/xls ", "FirstClass.xls");
-            //}
-            //else
-            //{
-            //    //pdf
-            //    Response.Buffer = false;
-            //    Response.ClearContent();
-            //    Response.ClearHeaders();
-            //    Stream Stream = rd.ExportToStream
-            //        //WordForWindows //PortableDocFormat //PortableDocFormat
-            //        (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            //    Stream.Seek(0, SeekOrigin.Begin);//application/doc //
-            //    return File(Stream, "application/doc ");
-            //}
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows //PortableDocFormat //PortableDocFormat
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc //
-            return File(Stream, "application/doc ");
-        }
 
         public ActionResult PrintDataHandlingComp(int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
         {
             var id = User.Identity.GetUserId();
             RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+            int companyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == companyId);
 
             string UserName = CommonUsed.GetUserName(id);
 
@@ -497,7 +354,7 @@ namespace AirPortERP.Controllers
             string SearchDateTo = "غير محدد";
 
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FirstClassFees > 0);
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FirstClassFees > 0 && x.OfficerData.TowerData.CompanyInfoId == companyId);
             
             if (HandlingCompanyId > 0)
             {

@@ -9,10 +9,6 @@ namespace AirPortERP.Models
 
         public string Id { get; set; }
         [Required]
-
-
-     
-
       
         public string UserType { get; set; }
 
@@ -59,4 +55,28 @@ namespace AirPortERP.Models
 
         public string Message { get; set; }
     }
+
+
+
+    public class AirportViewModel
+    {
+
+        public string Id { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        public int CompanyInfo { get; set; }   
+        public string companyInfoName { get; set; }
+        public int CompanyInfoId { get; set; }
+
+      
+    }
+
+
+
+
+
+
+
+
+
 }

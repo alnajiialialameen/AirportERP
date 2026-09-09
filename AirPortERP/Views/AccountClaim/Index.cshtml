@@ -1,16 +1,8 @@
-﻿
-
-
-@using AirPortERP.Models;
-
-
+﻿@using AirPortERP.Models;
 @{
     Entities db = new Entities();
     ViewBag.Title = "Home Page";
-
 }
-
-
 
 <style>
     td.details-control {
@@ -100,6 +92,7 @@
 
 
 <section class="content">
+    <label class="CompanyId d-none">@ViewBag.CompanyId</label>
     <p>
          <button class="btn btn-primary" onclick="getClaim(0)">Add Claim</button>
         <button class="btn btn-primary float-right" onclick="getShowAll()">Show All Confirm Transaction</button>
@@ -129,7 +122,6 @@
         </div>
     </div>
 
-
     <!-- Model Start -->
     <div id="myModalClaim" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -145,11 +137,6 @@
         </div>
     </div>
     <!--Model End -->
-
-
-
-
-
 
     <!-- Model Start -->
     <div id="myModal" class="modal fade" role="dialog">
@@ -192,57 +179,53 @@
         //    })
         //})
 
-        var dataTable;
-
-
-        function format(d) {
-
-            if (d.IsConfirm == true) {
-
-                return '<div class="card Details confirm"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
-                   "===>"+   d.DateTo + '</div>'
-
-
-
-                    + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-
-                     '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
-                    '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
-                      '<Span>  Date :</Span> ' + d.DateFrom + "===>"+ d.DateTo+ '<br>' +
-
-
-
-                     '<br><button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button><button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>  <button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
-                     + ')">طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
-                     + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
-                     + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
-                    '<br></div></div>';
-            } else
+            var dataTable;
+            function format(d)
             {
-                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
-                   "===>" + d.DateTo + '</div>'
-
-
-
-                 + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-
-                      '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
-                    '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
-                      '<Span>  Date :</Span> ' + d.DateFrom + "===>" + d.DateTo + '<br>' +
-                    
-
-                  '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformClaim(' + d.Id
-                    + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
-                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
-                    + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')">طباعة المطالبة</button> <button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
-                 '<br></div></div>';
+                var companyId = $('.CompanyId').text();
+                console.clear();
+                console.log(companyId);
+                if (d.IsConfirm == true)
+                {
+                    return '<div class="card Details confirm"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
+                       "===>"+   d.DateTo + '</div>'
+                        + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                         '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
+                        '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
+                          '<Span>  Date :</Span> ' + d.DateFrom + "===>"+ d.DateTo+ '<br>' +
+                        '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
+                        '<br><button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button><button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>' +
+                        '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
+                         + ')">طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
+                        + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
+                        + (companyId == 11?
+                             '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
+                            : '')
+                         + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
+                        '<br></div></div>';
+                } else
+                {
+                    return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-user"></i> Account Name: ' + d.AccName + '</span><br>   <Span> Account Number    :</Span>  <div class="float-right ml-Custom"><p>   التاريخ من  <i class="fas fa-map-marker-alt"></i></p><Span> ' + d.DateFrom + ' </Span><span>' +
+                       "===>" + d.DateTo + '</div>'
+                     + d.TreeAccountNumber + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                          '<Span>  Amount :</Span> ' + d.TotalAmountCredit + '<br>' +
+                        '<Span>  Amount Text (نص) :</Span> ' + d.TotalAmountText + '<br>' +
+                          '<Span>  Date :</Span> ' + d.DateFrom + "===>" + d.DateTo + '<br>' +
+                        '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
+                      '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformClaim(' + d.Id
+                        + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
+                        + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
+                        + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')">طباعة المطالبة</button> ' 
+                        + (companyId == 11?
+                            '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
+                            : '')
+                       + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
+                     '<br></div></div>';
+                }
             }
-        }
 
             $(document).ready(function () {
-
                 dataTable = $("#dataTable").DataTable({
-
                     "processing": true,
                     // "serverSide": true,
                     "ajax": {
@@ -318,9 +301,6 @@
                     }
                 });
 
-
-
-
                 var detailRows = [];
 
                 $('#dataTable tbody').on('click', 'tr td.details-control', function () {
@@ -352,7 +332,6 @@
                         $('#' + id + ' td.details-control').trigger('click');
                     });
                 });
-
 
                 function addSearchControl(json) {
                     $("#dataTable thead").append($("#dataTable thead tr:first").clone());
@@ -456,21 +435,7 @@
                     });
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
             });
-
-          
 
             function getClaim(id) {
 
@@ -594,14 +559,6 @@
                 })
             }
           
-
-           
-
-
-
-
-
-
             function ConformClaim(id) {
                 $.get("/AccountClaim/GetClaimToConfirm", { id: id }, function (result) {
                         swal({
@@ -618,10 +575,6 @@
                          });
                 });
             }
-
-
-
-
 
             function AddToConfrim(id) {
                 $.post("/AccountClaim/AddToConfrim", { id: id }, function (res) {
@@ -646,9 +599,6 @@
 
             }
 
-
-
-
             function AddToDelete(id) {
                 $.post("/AccountSand/AddToConfrim", { id: id }, function (res) {
                     if (res) {
@@ -670,7 +620,6 @@
                 })
 
             }
-
 
             function getDeleteReason(id) {
 
@@ -722,11 +671,6 @@
 
             }
 
-
-
-
-
-
             function Delete(id) {
                 swal({
                     title: "هل انت متاكد ",
@@ -756,7 +700,6 @@
                  });
 
             }
-
 
             function DeleteConfirm(id) {
 
@@ -788,14 +731,6 @@
 
             }
 
-
-
-
-
-
-
-
-
             function Tranfer(id) {
 
 
@@ -825,9 +760,6 @@
                  });
 
             }
-
-
-
 
         //=====================================================================================================================================================
             function AddDeleteReason() {
@@ -864,14 +796,8 @@
                 }
             }
 
-
-        //=================================================================================================================================================
-
-
         ///=====================================================================================================================================================
-        //8888888888888888888888888888888888888888888888888888888Strart88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
-           
+        
             function AddClaim() {
 
                 var model = $('#myModalClaim');
@@ -945,13 +871,8 @@
                 }
             }
 
-
-
-
-
         ///=====================================================================================================================================================
-        //8888888888888888888888888888888888888888888888888888888888End88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-            function PrintConstraint(id) {
+           function PrintConstraint(id) {
                 var url = '/AccountReport/PrintClaimConstraint/' + id;
                 window.open(url, '_blank').focus();
             }
@@ -960,7 +881,12 @@
                 var url = '/AccountReport/PrintDataGraf/' + id;
                 window.open(url, '_blank').focus();
             }
-          
+
+            function PrintDataNYGraf(id) {
+                var url = '/AccountReport/PrintDataNYGraf/' + id;
+                window.open(url, '_blank').focus();
+            }
+
             function PrintDataFinalInvoice(id) {
                 var url = '/AccountReport/PrintDataFinalInvoice/' + id;
                 window.open(url, '_blank');
@@ -971,6 +897,5 @@
                 window.location.href = "/AccountClaim/ConfirmClaimTransaction";
             }
             
-
     </script>
 }

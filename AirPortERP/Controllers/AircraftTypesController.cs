@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.ViewModels;
 
@@ -131,32 +130,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirCraftTypes.rpt")));
-            IQueryable<AircraftType> AircraftType;
-            AircraftType = db.AircraftTypes;
-            rd.SetDataSource(AircraftType.Select(p => new
-            {
-
-                Type = p.Type,
-               /// MaxTakoffWieght = p.MaxTakoffWieght.Value,
-                Size = p.AircraftSize.Size.ToString(),
-
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "AircraftTypes.pdf");
-        }
 
 
 

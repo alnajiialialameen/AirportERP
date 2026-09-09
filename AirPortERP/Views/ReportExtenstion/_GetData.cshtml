@@ -1,0 +1,106 @@
+﻿@using AirPortERP.ViewModels
+@model PagedList.IPagedList<RepoObj>
+@using PagedList.Mvc
+
+@{
+    Layout = null;
+}
+
+<style>
+    .re-sort:hover {
+        color:#2d2cdd;
+        text-decoration:double;
+    }
+</style>
+
+<div id="content">
+    <div class="table-responsive">
+        <table id="testTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:14px;">
+            <tr>
+                <th>
+                  Month
+                </th>
+                <th>
+                    Total Flights
+                </th>
+                <th>
+                  Total Of Pax
+                </th>
+                <th>
+                  Freight In 
+                </th>
+                <th>
+                    Freight Out
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Month)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TripCount)
+                    </td>
+                    <td>                
+                        @Html.DisplayFor(modelItem => item.TotalPax)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalFreightIn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalFreightOut)
+                    </td>
+                </tr>
+            }
+
+        </table>
+      
+        <br />
+
+        صفحة  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) من  @Model.PageCount  (عدد عناصر @ViewBag.ItemCount) 
+
+        <div id="contentPager">
+
+            @Html.PagedListPager(Model, page => Url.Action("GetDataPAxAndFrieght", new { page,
+           Get = 1,
+           
+           Search = 2,
+           Count = ViewBag.ItemCount,
+           AirLineId = ViewBag.AirLineId,
+
+           DateTo = ViewBag.DateTo,
+           DateFrom = ViewBag.DateFrom,
+
+           FlightTypeId = ViewBag.FlightTypeId,
+       }))
+        </div>
+    </div>
+
+   @if (ViewBag.ItemCount > 0)
+   {
+
+        @*<div class="col-6">
+        
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:50%">عدد الدورات:</th>
+                        <td>@ViewBag.ItemCount</td>
+                    </tr>
+                    <tr>
+                        <th>مجموع النثريات</th>
+                        <td>@ViewBag.Allowance</td>
+                    </tr>
+                    <tr>
+                        <th>اجمالي التكلفة:</th>
+                        <td>@ViewBag.Amount</td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>*@
+   }
+</div>

@@ -1,16 +1,28 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using AirPortERP.Models;
+@using Microsoft.AspNet.Identity;
+@using AirPortERP.Extenstion;
+
+
+@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
+    CommonUsed CommonUsed = new CommonUsed();
+    var id = User.Identity.GetUserId();
+    var companyId = CommonUsed.getCompanyId(id);
+   
+   string AirportPort = CommonUsed.getCompanyName(companyId);
+
     using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "LogoutForm" }))
     {
         @Html.AntiForgeryToken()
 <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
 
-        <span class="badge badge-primary navbar-badges">@User.Identity.Name</span>
+        <span class="badge badge-primary navbar-badges"> @AirportPort-@User.Identity.Name  </span>
     </a>
+    @*<span class="airportSpan">@AirportPort</span>*@
     <div class="dropdown-menu dropdown-menu dropdown-menu-left" style="text-align:right">
-     
+
         <a href="@Url.Action("ChangeProfile","Account")" class="dropdown-item"> Change Profile  <i class="fas fa-user-circle"></i> </a>
         <a href="javascript:document.getElementById('LogoutForm').submit()" class="dropdown-item">  Logout  <i class="fas fa-sign-out-alt"></i> </a>
 
@@ -27,7 +39,7 @@ else
         <a class="nav-link" data-toggle="dropdown" href="#">
 
             <span class="badge badge-primary navbar-badges"> Login</span>
-           
+
         </a>
         <div class="dropdown-menu dropdown-menu dropdown-menu-left" style="text-align:right">
 

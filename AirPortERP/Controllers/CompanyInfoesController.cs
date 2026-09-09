@@ -9,8 +9,8 @@ using System.Web.Mvc;
 using AirPortERP.Models;
 using System.IO;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.Drawing;
+using System.Globalization;
 
 namespace AirPortERP.Controllers
 {
@@ -39,8 +39,8 @@ namespace AirPortERP.Controllers
                     Latitude = item?.Latitude,
             //0999777796
                    //Image = item?.Image,
-                   IsActive = GetActiveName(Convert.ToBoolean(item.IsActive)),
-
+                   //IsActive = GetActiveName(Convert.ToBoolean(item.IsActive)),
+                   IsSingleAccounting = GetIsSingleAccountingName(Convert.ToBoolean(item.IsSingleAccounting)),
 
                 });
             }
@@ -57,31 +57,31 @@ namespace AirPortERP.Controllers
             //ViewBag.AirLineId = new SelectList(db.AirLines, "Id", "Name", AirLineAgent.AirLineId);
             return PartialView("_AddEditCompanyInfo", CompanyInfo);
         }
-        public ActionResult CreateOrUpdateCompanyInfo(CompanyInfo model)
-        {
-            if (ModelState.IsValid)
-            {
+        //public ActionResult CreateOrUpdateCompanyInfo(CompanyInfo model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
-                if (model.Id > 0)
-                {
+        //        if (model.Id > 0)
+        //        {
 
 
-                    db.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Update" }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                  ///  string Image_ID = SaveImageFile(model.ImageFile);
+        //            db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+        //            db.SaveChanges();
+        //            return Json(new { success = true, message = "Update" }, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //          ///  string Image_ID = SaveImageFile(model.ImageFile);
 
-                   // db.CompanyInfoes.Add(model);
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
-                }
+        //           // db.CompanyInfoes.Add(model);
+        //            db.SaveChanges();
+        //            return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
+        //        }
 
-            }
-            return Json(new { success = false, message = "error" }, JsonRequestBehavior.AllowGet);
-        }
+        //    }
+        //    return Json(new { success = false, message = "error" }, JsonRequestBehavior.AllowGet);
+        //}
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,66 +104,6 @@ namespace AirPortERP.Controllers
             db.SaveChanges();
             return Json(new { success = true, message = "Delete" }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirLineAgents.rpt")));
-            //IQueryable<AirLineAgent> AirLineAgents;
-            //AirLineAgents = db.AirLineAgents;
-
-
-            IQueryable<AirLineAgent> AirLineAgent = db.AirLineAgents;
-            var AirLineAgentsList = new List<AirLineAgentsViewMosels>();
-            foreach (var item in AirLineAgent)
-            {
-                AirLineAgentsList.Add(new AirLineAgentsViewMosels
-                {
-                    Id = item.Id,
-                    NameAr = item?.NameAr,
-                    NameAn = item?.NameAn,
-                    Phone1 = item?.Phone1,
-                    Phone2 = item?.Phone2,
-                    Email = item?.Email,
-                    Address = item?.Address,
-                    AirLineName = item?.AirLine.Name,
-                    IsActive = GetActiveName(Convert.ToBoolean(item.IsActive)),
-
-
-                });
-            }
-
-
-
-
-
-
-
-
-
-            rd.SetDataSource(AirLineAgentsList.Select(p => new
-            {
-
-                NameEn = p.NameAn,
-                NameAr = p.NameAr,
-                Phone1 = p.Phone1,
-                Phone2 = p.Phone2,
-                Email = p.Email,
-                Address = p.Address,
-                AirLineName = p.AirLineName,
-                IsActive = p.IsActive,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "AirLineAgents.pdf");
-        }
         public string GetActiveName(bool IsActive)
         {
             string StatusName;
@@ -177,6 +117,32 @@ namespace AirPortERP.Controllers
             }
             return StatusName;
         }
+
+
+        public string GetIsSingleAccountingName(bool IsSingleAccounting)
+        {
+            string StatusName;
+            if (IsSingleAccounting == false)
+            {
+                StatusName = "الفواتير بين التواريخ";
+            }
+            else
+            {
+                StatusName = "الفواتير بالرحلات";
+            }
+            return StatusName;
+        }
+
+
+
+
+
+
+
+
+
+
+
         private string SaveImageFile(HttpPostedFileBase imageFile, string CurrentImageId = "")
         {
 
@@ -317,5 +283,81 @@ namespace AirPortERP.Controllers
             var CompanyInfo = db.CompanyInfoes.ToList();
             return View(CompanyInfo);
         }
+
+
+        #region New companyInfo
+
+        public ActionResult CreateOrUpdateCompanyInfo(CompanyInfoModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CompanyInfo companyInfo = new CompanyInfo();
+                companyInfo.Id = model.Id;
+                companyInfo.NameAr = model.NameAr;
+                companyInfo.NameEn = model.NameEn;
+                companyInfo.Code = model.Code;
+                companyInfo.IsSingleAccounting = model.IsSingleAccounting;
+                if (model.Id > 0)
+                {
+
+
+                    db.Entry(companyInfo).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { Message = "تمت عملية التعديل  بنجاح", Title = "نجاح", Status = "success" });
+                }
+                else
+                {
+                    ///  string Image_ID = SaveImageFile(model.ImageFile);
+
+                    db.CompanyInfoes.Add(companyInfo);
+                    db.SaveChanges();
+                    return Json(new { Message = "تمت عملية الإضافة  بنجاح", Title = "نجاح", Status = "success" });
+                }
+
+            }
+            return Json(new { success = false, message = "error" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public ActionResult GetDataForUpdate(int id)
+        {
+            CompanyInfo CompanyInfo = db.CompanyInfoes.Find(id);
+
+            CompanyInfoModel model = new CompanyInfoModel();
+            model.Id = CompanyInfo.Id;
+            model.NameAr = CompanyInfo.NameAr;
+            model.NameEn = CompanyInfo.NameEn;
+            model.Code = CompanyInfo.Code;
+            model.IsSingleAccounting = Convert.ToBoolean(CompanyInfo.IsSingleAccounting);
+
+          
+            //model.AircraftRegIdAr = Convert.ToInt32(TowerData.AircraftRegId);
+            //model.AirportIdFromAr = TowerData.AirportIdFrom;
+
+            //model.ATAAr = TowerData.ATA;
+            //model.ATAArShow = ConvertToHHmm(TowerData.ATA.ToString());
+
+
+
+
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #endregion
     }
 }

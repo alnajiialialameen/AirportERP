@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
@@ -71,15 +70,15 @@ namespace AirPortERP.Controllers
                 if (model.Id > 0)
                 {
                     model.UpdatedBy = UserId;
-                    model.UpdatingDate = System.DateTime.Now;
-                    db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                    model.UpdatingDate = DateTime.Now;
+                    db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
                     return Json(new { success = true, message = "Update" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     model.CreatedBy = UserId;
-                    model.CreationDate = System.DateTime.Now;
+                    model.CreationDate = DateTime.Now;
                     db.NYFees.Add(model);
                     db.SaveChanges();
                     return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
@@ -112,34 +111,6 @@ namespace AirPortERP.Controllers
             return Json(new { success = true, message = "Delete" }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptNYFees.rpt")));
-            IQueryable<NYFee> NYFees;
-            NYFees = db.NYFees;
-            rd.SetDataSource(NYFees.Select(p => new
-            {
-                Id = p.Id,
-                FlightType = p.FlightType,
-                AmountInDollar = p.AmountInDollar,
-                CreatedBy = p.CreatedBy,
-                CreationDate = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "NYFees.pdf");
-        }
 
         public ActionResult Details(int? id)
         {

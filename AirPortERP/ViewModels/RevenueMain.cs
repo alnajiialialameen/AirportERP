@@ -29,6 +29,7 @@ namespace AirPortERP.ViewModels
         public int DisEmbInft { get; set; }
 
         public int Pax { get; set; }
+        public string Pax2 { get; set; }
         public int TRNYCUPPS { get; set; }
         public int TRNY { get; set; }
 
@@ -46,9 +47,9 @@ namespace AirPortERP.ViewModels
         public string ATA { get; set; }
         public string ATD { get; set; }
         public string AircraftRegName { get; set; }
-
-     
-
+        public bool IsStop { get; set; }
+        public string AirportName { get; set; }
+        
     }
 
     public class FirstClassViewModelDto
@@ -83,8 +84,9 @@ namespace AirPortERP.ViewModels
         public string ATA { get; set; }
         public string ATD { get; set; }
         public string AircraftRegName { get; set; }
+        public bool IsStop { get; set; }
 
-
+        public string AirportName { get; set; }
     }
 
 
@@ -123,6 +125,9 @@ namespace AirPortERP.ViewModels
         public string ATA { get; set; }
         public string ATD { get; set; }
         public string AircraftRegName { get; set; }
+        public bool IsStop { get; set; }
+        public string AirportName { get; set; }
+        
     }
 
 
@@ -171,6 +176,9 @@ namespace AirPortERP.ViewModels
         public string ATA { get; set; }
         public string ATD { get; set; }
         public string AircraftRegName { get; set; }
+        public bool IsStop { get; set; }
+
+        public string AirportName { get; set; }
     }
 
     public class PushPackViewModelDto
@@ -206,6 +214,10 @@ namespace AirPortERP.ViewModels
         public string ATA { get; set; }
         public string ATD { get; set; }
         public string AircraftRegName { get; set; }
+        public bool IsStop { get; set; }
+
+        public string AirportName { get; set; }
+        
 
     }
 

@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.Extenstion;
 namespace AirPortERP.Controllers
@@ -104,9 +103,10 @@ namespace AirPortERP.Controllers
                     {
                         return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
                     }
-                    db.AirLinesFlightTrips.Add(model);
+                    db.AirLinesFlightTrips.Add(model);             
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
+                    int lastId = model.Id;
+                    return Json(new { success = true, message = "Add", LastId = lastId }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -154,74 +154,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirLinesFlightTrips.rpt")));
-            IQueryable<AirLinesFlightTrip> AirLinesFlightTrip;
-            AirLinesFlightTrip = db.AirLinesFlightTrips;
-
-
-            var AirLinesFlightTrips = new List<AirLinesFlightTripsViewMosels>();
-            foreach (var item in AirLinesFlightTrip)
-            {
-
-                AirLinesFlightTripsViewMosels A = new AirLinesFlightTripsViewMosels();
-                A.FlightNo = item.FlightNo;
-                A.AirPortName = item.AirPort.NameEn;
-                A.AirLineName = item.AirLine.Name;
-                A.IsActive = CommonUsed.isActive(item.IsActive);
-
-               // A.AirPortName = item?.AirPort.NameEn;
-                A.AirPortCode = item?.AirPort.Code;
-                if (item.AirPort.CountryId > 0)
-                {
-                    A.Country = item?.AirPort.Country.Code;
-
-                }
-                else
-                {
-                    A.Country = " ";
-                }
-
-
-
-
-
-                AirLinesFlightTrips.Add(A);
-
-            }
-
-
-
-
-
-
-
-
-
-            rd.SetDataSource(AirLinesFlightTrips.Select(p => new
-            {
-
-                FlightNo = p.FlightNo,
-                AirPortName = p.AirPortName,
-                AirLineName = p.AirLineName,
-                IsActive = p.IsActive,
-                AirPortCode = p.AirPortCode,
-                Country = p.Country,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "AirPorts.pdf");
-        }
 
 
 

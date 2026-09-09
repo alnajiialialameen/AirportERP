@@ -1,0 +1,1244 @@
+﻿
+
+<style>
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
+        width: 50px;
+        cursor: pointer;
+    }
+
+    tr.details td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+        background: url('../../Temp/Image/Open.png')no-repeat center center;
+        width: 50px;
+    }
+
+    .iconImg {
+        width: 23px;
+    }
+
+
+    .Details {
+        font-size: 16px;
+    }
+
+    .card span {
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    .ml-Custom {
+        margin-right: 300px;
+    }
+
+    .content {
+        font-size: 14px;
+    }
+
+    .badgeIcon {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    *, ::after, ::before {
+        box-sizing: border-box;
+    }
+
+    .table-hover tbody tr:hover {
+        color: #212529;
+    }
+
+
+
+
+
+    .badgeIcon {
+        font-size: 70%;
+    }
+
+    .badge-color1 {
+        color: #111010;
+        background-color: #ffffff;
+    }
+
+    .badge-color2 {
+        color: #111010;
+        background-color: #ffffff;
+    }
+
+    .badge-color3 {
+        color: #111010;
+        background-color: aquamarine;
+    }
+
+    .imgIcon {
+        vertical-align: baseline;
+        width: 24px;
+    }
+
+    .invalid-feedback {
+        color: red;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+        display: block;
+    }
+</style>
+
+
+
+
+
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <div class="strip-holder">
+        @*<div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>*@
+
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="content">
+
+    <div class="row">
+        @*<div class="col-md-3">
+            <button class="btn btn-light m-2" onclick="getAirDeparture(0)">Add Arrived <img src="~/Temp/Image/landing.png" /></button>
+        </div>
+
+        <div class="col-md-4">
+
+            <button class="btn btn-light m-2" onclick="getAirTakeOff(0)">Add Departure <img src="~/Temp/Image/Takeoff.png" /></button>
+        </div>
+        <div class="col-md-2">
+
+
+        </div>*@
+        <div class="col-md-3">
+
+            <button class="btn btn-light m-2 btn-sm" onclick="GoAll()"> Go Movement <i class="fas  fa-chevron-left "></i> </button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <div style="width:100%" class="table-responsive table-sm">
+
+                <table id="dataTable" class="table table-bordered table-hover table-sm" style="width:100%;font-size:13px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Airline</th>
+                            <th>Flight No</th>
+                            <th>Reg</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Wt</th>
+                            <th>From</th>
+
+
+                            <th>To</th>
+                            <th>Date</th>
+
+                            <th>TripType</th>
+                            <th>Created By</th>
+
+
+
+
+
+
+
+
+
+                            @*<th>OP</th>*@
+
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade" id="modal-complete">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="form-horizontal" id="form-Complete" name="form-Complete">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Update Complete Flight </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" id="IdCo" />
+                                    <div class="form-group row">
+                                        <label for="AirlineIdCo" class="col-sm-2 col-form-label">Call Sing</label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control select2" id="AirlineIdCo" name="AirlineIdCo" placeholder=" Airlines " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="FlightNoCo" class="col-sm-2 col-form-label">Flight No </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control select2" id="FlightNoCo" name="FlightNoCo" placeholder=" Flight No " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="RegCo" class="col-sm-2 col-form-label">Reg  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control select2" id="RegCo" name="RegCo" placeholder=" Reg  " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="AirportFromCo" class="col-sm-2 col-form-label">From  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control select2" id="AirportFromCo" name="AirportFromCo" placeholder=" From  " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="AirportToCo" class="col-sm-2 col-form-label">TO  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control " id="AirportToCo" name="AirportToCo" placeholder=" To  " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="ATACo" class="col-sm-2 col-form-label">ATA</label>
+                                        <div class="col-md-10">
+                                            <div class="input-group date" id="ATACo" data-target-input="nearest">
+                                                <input type="text" id="ATACoReal" class="form-control datetimepicker-input" name="ATACoReal" data-target="#ATACo" />
+                                                <div class="input-group-append" data-target="#ATACo" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="ATDCo" class="col-sm-2 col-form-label">ATD</label>
+                                        <div class="col-md-10">
+                                            <div class="input-group date" id="ATDCo" data-target-input="nearest">
+                                                <input type="text" id="ATDCoReal" class="form-control datetimepicker-input " name="ATDCoReal" data-target="#ATDCo" />
+                                                <div class="input-group-append" data-target="#ATDCo" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label for="TripTypeCo" class="col-sm-2 col-form-label">Trip Type  </label>
+                                        <div class="col-sm-10">
+                                            <select type="text" class="form-control" id="TripTypeCo" name="TripTypeCo" placeholder=" TripType  " autocomplete="off"></select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="DateCo" class="col-sm-2 col-form-label">Date</label>
+
+                                        <div class="col-md-10">
+                                            <div class="input-group date" id="DateCo" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" name="DateCoReal" id="DateCoReal" data-target="#DateCo" />
+                                                <div class="input-group-append" data-target="#DateCo" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="TakeOffDateCo" class="col-sm-2 col-form-label">Take Off Date</label>
+
+                                        <div class="col-md-10">
+                                            <div class="input-group date" id="TakeOffDateCo" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input " id="TakeOffDateCoReal" name="TakeOffDateCoReal" data-target="#TakeOffDateCo" />
+                                                <div class="input-group-append" data-target="#TakeOffDateCo" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="LandingDateCo" class="col-sm-2 col-form-label">Landing Date</label>
+
+                                        <div class="col-md-10">
+                                            <div class="input-group date" id="LandingDateCo" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" id="LandingDateCoReal" name="LandingDateCoReal" data-target="#LandingDateCo" />
+                                                <div class="input-group-append" data-target="#LandingDateCo" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="NoteCo" class="col-sm-2 col-form-label">Note   </label>
+                                        <div class="col-sm-10">
+                                            <input id="NoteCo" name="NoteCo" class="form-control" placeholder="Note" />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="POBCo" class="col-sm-2 col-form-label">POB   </label>
+                                        <div class="col-sm-10">
+                                            <input id="POBCo" name="POBCo" class="form-control" placeholder="POB" />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="QBDCo" class="col-sm-2 col-form-label">QBD   </label>
+                                        <div class="col-sm-10">
+                                            <input id="QBDCo" name="QBDCo" class="form-control" placeholder="QBD" />
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="LandingPermissionCo" class="col-sm-2 col-form-label">Landing Permission   </label>
+                                        <div class="col-sm-10">
+                                            <input id="LandingPermissionCo" name="LandingPermissionCo" class="form-control" placeholder="Landing Permission" />
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+    <!--Model End -->
+
+</section>
+@section scripts{
+
+    <script>
+        var dataTable;
+
+        function format(d) {
+            if (d.Status == 1) {
+                return '<div class="card badge-color1 Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                      d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                     d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+
+
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                     '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                     '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                     '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                     '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                     '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                     '<Span>CreatedBy:</Span> ' + d.CreatedBy + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>UpdatedBy: </Span>' + d.UpdatedBy +
+                     '<br><button class="btn btn-success btn-sm m-2" onclick="getAirTakeOff(' + d.Id
+                    + ')">Update</button><button class="btn btn-primary btn-sm m-2 ml-4" onclick="getAirMakeItArrived(' + d.Id + ')">Make Aircraft Arrived</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div>';
+            }
+            if (d.Status == 2) {
+                return '<div class="card badge-color2 Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                      d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                     d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+
+
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                     '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                     '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                     '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                     '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                     '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                     '<Span>CreatedBy:</Span> ' + d.CreatedBy + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>UpdatedBy: </Span>' + d.UpdatedBy +
+                      '<br><button class="btn btn-success btn-sm m-2" onclick="getAirDeparture(' + d.Id
+                    + ')">Update</button><button class="btn btn-primary btn-sm m-2 ml-4" onclick="getAirMakeItTakeOff(' + d.Id + ')">Make Aircraft Take Off</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div>';
+            }
+            if (d.Status == 3) {
+                return '<div class="card badge-color3 Details"><div class="card-body"> <span> <img class="imgIcon" src="../../Temp/Image/Completed.png" /></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                      d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                     d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
+
+
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                     '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                     '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                     '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                     '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                     '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                     '<Span>CreatedBy:</Span> ' + d.CreatedBy + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>UpdatedBy: </Span>' + d.UpdatedBy +
+                      '<br><button class="btn btn-success btn-sm m-2" onclick="getDataCo(' + d.Id
+                    + ')">Update</button>  <button class="btn btn-danger btn-sm m-2 float-right" onclick="DeleteCompleted(' +
+                    d.Id + ')">Delete</button> <button class="btn btn-primary btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button>  ' +
+                    '<br></div></div>';
+            }
+        }
+        $(document).ready(function () {
+
+            dataTable = $("#dataTable").DataTable({
+
+                "processing": true,
+                // "serverSide": true,
+                "ajax": {
+                    "url": "/Air/GetAllTowerDatas",
+                    "type": "GET",
+                    "datatype": "json",
+
+                },
+                "columns": [
+                      {
+                          "class": "details-control",
+                          "orderable": false,
+                          "data": "Status", "width": "50px", "render": function (data)
+                          {
+                              if (data == 1)
+                              {
+                                 // $('td.details-control').css('background', 'url("../../Temp/Image/Landing.png") no-repeat center center');
+                             //    $('td.details-control').css('background', 'url("../../Temp/Image/Takeoff.png") no-repeat center center');
+                                ///  $('td.details-control').addClass('details-control1').removeClass('details-control');
+
+                              }
+                              if (data == 2)
+                              {
+
+
+                              //    $('td.details-control').css('background', 'url("../../Temp/Image/Landing.png") no-repeat center center');
+                                //  $('td.details-control').addClass('details-control1').removeClass('details-control');
+
+
+                              }
+                          },
+                          "defaultContent": ""
+                      },
+
+
+                    { "data": "Id", "autowidth": true },
+                      { "data": "AirLineCode", "autowidth": true },
+                       { "data": "FlightNo", "autowidth": true },
+                         { "data": "AircraftRegName", "autowidth": true },
+
+
+                         //{
+                         //    "data": "StatusName", "width": "50px", "render": function (data) {
+                         //        var cssClass;
+                         //        if (data === "Domestic") {
+                         //            cssClass = "badge-danger";
+                         //        }
+                         //        if (data === "International") {
+                         //            cssClass = "badge-success";
+                         //        }
+                         //        return '<span class="badge ' + cssClass + '">' + data + '</span>'
+
+                         //    }
+                         //},
+                          {
+                              "data": "StatusName", "width": "50px", "render": function (data) {
+                                  var cssClass;
+                                  if (data === "Departure") {
+                                      cssClass = "badge-danger";
+                                      return '<img class="iconImg" src="../../Temp/Image/Takeoff.png" /><span class="badge ' + cssClass + '">' + data + '</span>'
+                                  }
+                                  if (data === "Arrived") {
+                                      cssClass = "badge-warning";
+                                      return '<img class="iconImg" src="../../Temp/Image/Landing.png" /><span class="badge ' + cssClass + '">' + data + '</span>'
+                                  }
+                                  if (data === "Completed") {
+                                      cssClass = "badge-success";
+                                      return '<span class="badgeIcon ' + cssClass + '">' + data + ' <i class="fas fa-check fa-1x "></i></span>'
+                                  }
+
+
+                              }
+                          },
+
+
+
+                         { "data": "Type", "autowidth": true },
+                          { "data": "MaxTaKeOffWeight", "autowidth": true },
+
+
+
+
+                       { "data": "AirportIdFrom", "autowidth": true },
+
+                            { "data": "AirportIdTo", "autowidth": true },
+                              { "data": "Date", "autowidth": true },
+                                //{ "data": "ATA", "autowidth": true },
+                                //  { "data": "ATD", "autowidth": true },
+                                    //{ "data": "POB", "autowidth": true },
+                                    //  { "data": "QBD", "autowidth": true },
+                                          //{ "data": "LandingDate", "autowidth": true },
+                                          //{ "data": "TakeOffDate", "autowidth": true },
+
+                                         {
+                                             "data": "TripType", "width": "50px", "render": function (data) {
+                                                 var cssClass;
+                                                 if (data === "Domestic") {
+                                                     cssClass = "badge-danger";
+                                                 }
+                                                 if (data === "International") {
+                                                     cssClass = "badge-success";
+                                                 }
+                                                 return '<span class="badgeIcon ' + cssClass + '">' + data + '</span>'
+
+                                             }
+                                         },
+
+
+                                          { "data": "CreatedBy", "autowidth": true },
+
+                            //{
+
+
+                            //    "data": "Id", "width": "50px", "render": function (data) {
+                            //        return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTakeOffData(' + data +
+                            //            ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
+
+                            //    }
+                            //},
+
+
+                ], "language":
+                              {
+                                  "sProcessing": "جارٍ التحميل...",
+                                  "sLengthMenu": "أظهر _MENU_ مدخلات",
+                                  "sZeroRecords": "لم يعثر على أية سجلات",
+                                  "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                                  "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                                  "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                                  "sInfoPostFix": "",
+                                  "sSearch": "ابحث:",
+                                  "sUrl": "",
+                                  "oPaginate": {
+                                      "sFirst": "الأول",
+                                      "sPrevious": "السابق",
+                                      "sNext": "التالي",
+                                      "sLast": "الأخير",
+                                  }
+                              },
+
+
+                "dom": '<"top"l>rt<"bottom"ip><"clear">',
+                "fnInitComplete": function (oSettings, json) {
+                    addSearchControl(json);
+                }
+
+
+            });
+
+
+
+            var detailRows = [];
+
+            $('#dataTable tbody').on('click', 'tr td.details-control', function () {
+
+                var tr = $(this).closest('tr');
+                var row = dataTable.row(tr);
+                var idx = $.inArray(tr.attr('Id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('Id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td.details-control').trigger('click');
+                });
+            });
+            //-------------------------------------------------------------------------------------------------------------------------------------
+
+
+            function addSearchControl(json) {
+                $("#dataTable thead").append($("#dataTable thead tr:first").clone());
+                $("#dataTable thead tr:eq(1) th").each(function (index) {
+                    /*No Search*/
+                    if (index == 0 || index == 1 || index == 6 || index == 7 || index == 8) {
+                        $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
+                    }
+                    /*Search as text field*/
+                    if (index == 2 || index == 3 || index == 4 || index == 9 || index == 10) {
+                        $(this).replaceWith('<th><input type="text" class="jsonText" placeholder="بحث"></input></th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") input");
+                        searchControl.on('keyup', function () {
+                            dataTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+                    /*Search as combobox*/
+                    if (index == 11) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text(' نوع الرحلة'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.TripType, ClassCase) == -1) {
+                                ClassCase.push(element.TripType);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.TripType).text(element.TripType));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+                    /*Search as combobox*/
+                    if (index == 5) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('الحالة'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.StatusName, ClassCase) == -1) {
+                                ClassCase.push(element.StatusName);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.StatusName).text(element.StatusName));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+
+
+
+                    if (index == 12) {
+                        var ClassCaseDropDown = $('<select/>');
+                        ClassCaseDropDown.append($('<option/>').attr('value', '').text('By'));
+                        var ClassCase = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.CreatedBy, ClassCase) == -1) {
+                                ClassCase.push(element.CreatedBy);
+                                ClassCaseDropDown.append($('<option/>').attr('value', element.CreatedBy).text(element.CreatedBy));
+                            }
+                        });
+                        $(this).replaceWith('<th>' + $(ClassCaseDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#dataTable thead tr:eq(1) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
+                        });
+                    }
+
+
+
+
+
+
+
+
+                });
+            }
+
+
+
+        });
+
+
+          
+
+
+        //**************************************************************************************************************************
+
+        //----------------------start flight Complete --------------------------------------
+        $("#AirlineIdCo").change(function () {
+
+            var value = $('#AirlineIdCo').val();
+            $("#FlightNoCo option").remove()
+            var url = "/TowerDatas/GetFlightNo/" + value;
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                    $("#FlightNoCo").append(ele);
+                });
+            });
+
+
+        })
+       
+
+        $('#DateCo').datetimepicker({
+            format: 'DD/MM/YYYY'
+
+        });
+        $('#LandingDateCo').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        $('#TakeOffDateCo').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        //$('#edATAAr').datetimepicker({
+        //    use24hours: true,
+        //    format: 'HH:mm'
+        //})
+
+     
+      
+
+        function CogetAirline() {
+            $('#AirlineIdCo').empty();
+            return $.ajax({
+                url: "/Air/GetAirline",
+                type: "GET",
+                dataType: "json",
+                success: function (result) {
+                    var html = "";
+                    $.each(result, function (key, item) {
+                        html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                    });
+                    $('#AirlineIdCo').append(html);
+                }
+            });
+        }
+
+        function CogetFlightNo() {
+
+            $('#FlightNoCo').empty();
+
+            return $.ajax({
+                url: "/Air/GetFlightNo",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.FlightNo + "</option>";
+                });
+
+                $('#FlightNoCo').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+        function CogetReg() {
+
+            $('#RegCo').empty();
+
+            return $.ajax({
+                url: "/Air/GetReg",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Registration + "</option>";
+                });
+
+                $('#RegCo').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+   
+        function CogetAirportTo() {
+
+            $('#AirportToCo').empty();
+
+            return $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                });
+
+                $('#AirportToCo').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+
+        function CogetAirportFrom() {
+
+            $('#AirportFromCo').empty();
+
+            return $.ajax({
+                url: "/Air/GetAirport",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Code + "</option>";
+                });
+
+                $('#AirportFromCo').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+
+        function CogetTripType() {
+
+            $('#TripTypeCo').empty();
+
+            return $.ajax({
+                url: "/Air/GetTripType",
+                type: "GET",
+                dataType: "json"
+            }).done(function (result) {
+
+                var html = "";
+                $.each(result, function (key, item) {
+                    html += "<option value='" + item.Id + "'>" + item.Name + "</option>";
+                });
+
+                $('#TripTypeCo').append(html);
+
+            }).fail(function (errormessage) {
+                alert(errormessage.responseText);
+            });
+        }
+
+
+
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    editDataCo();
+                }
+            });
+            $('#form-Complete').validate({
+                rules: {
+                    edAirlineIdAr: {
+                        required: true
+                    },
+                    edFlightNoAr: {
+                        required: true
+                    },
+                    edRegAr: {
+                        required: true
+                    },
+                    edAirportFromAr: {
+                        required: true
+                    },
+                    edATAArReal: {
+                        required: true
+                    },
+                    edTripTypeAr: {
+                        required: true
+                    },
+                    edDateArReal: {
+                        required: true,
+                        dateITA: true
+                    },
+                    edLandingDateArReal: {
+                        required: true,
+                        dateITA: true
+                    },
+
+
+
+                },
+                messages: {
+                    edAirlineIdAr: {
+                        required: "Please select an Airline."
+                    },
+                    edFlightNoAr: {
+                        required: "Please select Flight No."
+                    },
+                    edRegAr: {
+                        required: "Please select Aircraft Registration."
+                    },
+                    edAirportFromAr: {
+                        required: "Please select Airport From."
+                    },
+                    edATAArReal: {
+                        required: "Please enter ATA."
+                    },
+                    edTripTypeAr: {
+                        required: "Please select Trip Type."
+                    },
+                    edDateArReal: {
+                        required: "Please select a Date.",
+                        dateITA: "Please enter a valid date."
+                    },
+                    edLandingDateArReal: {
+                        required: "Please select a Landing Date.",
+                        dateITA: "Please enter a valid Landing Date."
+                    },
+
+                },
+                errorElement: 'span',
+                errorClass: 'invalid-feedback', // This class will style the error messages
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('datetimepicker-input')) {
+                        // Special case for datetimepicker inputs
+                        error.insertAfter(element.closest('.input-group'));
+                    } else {
+                        error.insertAfter(element); // Insert error after the input element
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+        function getDataCo(id) {
+
+            $("#modal-complete").modal('show');
+
+            // تحميل كل القوائم أولاً
+            Promise.all([
+                CogetAirline(),
+                CogetReg(),
+                CogetAirportTo(),
+                CogetAirportFrom(),
+                CogetTripType()
+            ])
+            .then(function () {
+
+                // بعد اكتمال تحميل الـ select
+                return $.ajax({
+                    type: "GET",
+                    url: "/Air/GetDataForUpdateCo/" + id,
+                    dataType: "json"
+                });
+
+            })
+            .then(function (response) {
+
+                if (!response) {
+                    alert("Something went wrong");
+                    return;
+                }
+
+                // ====== تعيين Airline أولاً ======
+                $('#AirlineIdCo')
+                    .val(String(response.AirLineIdCompleted))
+                    .trigger('change');
+
+                $('#IdCo').val(response.IdCompleted);
+
+                // ====== تحميل FlightNo بعد Airline ======
+                return CogetFlightNo().then(function () {
+
+                    $('#FlightNoCo')
+                        .val(String(response.FlightNoCompleted))
+                        .trigger('change');
+
+                    return response;
+                });
+
+            })
+            .then(function (response) {
+
+                // ====== باقي الـ select ======
+                $('#RegCo').val(String(response.AircraftRegIdCompleted));
+                $('#AirportFromCo').val(String(response.AirportIdFromCompleted));
+                $('#AirportToCo').val(String(response.AirportIdToCompleted));
+                $('#TripTypeCo').val(String(response.TripTypeIdCompleted));
+
+                // ====== الوقت ======
+                $('#ATACoReal').val(response.ATACompletedShow);
+                $('#ATDCoReal').val(response.ATDCompletedShow);
+
+                $('#ATACo').datetimepicker({ use24hours: true, format: 'HH:mm' });
+                $('#ATDCo').datetimepicker({ use24hours: true, format: 'HH:mm' });
+
+                // ====== بقية الحقول ======
+                $('#POBCo').val(response.POBCompleted);
+                $('#QBDCo').val(response.QBDCompleted);
+                $('#NoteCo').val(response.NoteCompleted);
+                $('#LandingPermissionCo').val(response.LandingPermissionCompleted);
+
+                // ====== التواريخ ======
+                var DateCo = response.DateCompleted
+                    ? moment(response.DateCompleted, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+                $('input[name="DateCoReal"]').val(DateCo);
+
+                var LandingDateCo = response.LandingDateCompleted
+                    ? moment(response.LandingDateCompleted, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+                $('input[name="LandingDateCoReal"]').val(LandingDateCo);
+
+                var TakeOffDateCo = response.TakeOffDateCompleted
+                    ? moment(response.TakeOffDateCompleted, "YYYY-MM-DD").format("DD/MM/YYYY")
+                    : "";
+                $('input[name="TakeOffDateCoReal"]').val(TakeOffDateCo);
+
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert("Error loading data");
+            });
+        }
+
+
+     
+
+
+
+        function editDataCo() {
+            
+         
+
+            var coDate = $('#DateCoReal').val();
+            var formatedcoDate = moment(coDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+            var coLandingDate = $('#LandingDateCoReal').val();
+            var formatedLandingDateco = moment(coLandingDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+            var coTakeOffDate = $('#TakeOffDateCoReal').val();
+            var formatedTakeOffDateco = moment(coTakeOffDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+  
+            var ob = {
+                
+                "IdCompleted": $('#IdCo').val(),
+                "AirLineIdCompleted": $('#AirlineIdCo').val(),
+                "FlightNoCompleted": $('#FlightNoCo').val(),
+                "AircraftRegIdCompleted": $('#RegCo').val(),
+                "AirportIdFromCompleted": $('#AirportFromCo').val(),
+                "AirportIdToCompleted": $('#AirportToCo').val(),
+                "ATACompleted": $('#ATACoReal').val(),
+                "ATDCompleted": $('#ATDCoReal').val(),
+
+                "TripTypeIdCompleted": $('#TripTypeCo').val(),
+                "DateCompleted": formatedcoDate,
+                "LandingDateCompleted": formatedLandingDateco,
+                "TakeOffDateCompleted": formatedTakeOffDateco,
+                "NoteCompleted": $('#NoteCo').val(),
+                "POBCompleted": $('#POBCo').val(),
+                "QBDCompleted": $('#QBDCo').val(),
+                "LandingPermissionCompleted": $('#LandingPermissionCo').val()
+            };
+
+            // Perform the AJAX request to send the data
+            $.ajax({
+                url: "@Url.Action("CreateOrUpdateCompleted", "Air")",
+                type: "POST",
+            data: JSON.stringify(ob),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                // Handle error
+            },
+            success: function (response) {
+           
+                toastr[response.Status](response.Message, response.Title);
+                // $('#add-form').bootstrapValidator('resetForm', true);
+                $('#modal-complete').modal('hide');
+                
+                dataTable.ajax.reload();
+            
+               
+            
+            }
+        });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
+
+        function CreateOrUpdateCompleted() {
+
+            $("#AjaxLoader").show()
+
+            var model = $('#modal-complete');
+            var form = $('form[name="form-Complete"]');
+
+
+            form.validate();
+            if (!form.valid()) {
+                $("#AjaxLoader").hide()
+                return;
+            } else {
+                var data = form.serialize();
+                $.post("/Air/CreateOrUpdateCompleted", data, function (res) {
+                    if (res) {
+                        if (res.message != null && res.message === "Update") {
+                            toastr.success("تم تعديل العام Movement ", "تعديل");
+                        }
+                        else if (res.message != null && res.message === "Add") {
+                            toastr.success("تم اضافه عام Movement ", "اضافه");
+                        }
+
+                        else if (res.message === "Used") {
+                            toastr.error("العنصر موجود", "اضافه");
+                        }
+                        else if (res.message != null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحفظ");
+                        }
+
+                        model.modal('hide');
+                        $("#AjaxLoader").hide()
+
+                        dataTable.ajax.reload();
+                    }
+
+                })
+            }
+        }
+
+
+
+
+
+
+
+
+
+            function PrintData() {
+
+                window.location.href = "/TowerDatas/PrintData?";
+            }
+            function GoArrived() {
+
+                window.location.href = "/TowerDatas/Arrived";
+            }
+            function GoAll() {
+
+                window.location.href = "/Air/AirMove";
+            }
+            function Detail(id) {
+
+                window.location.href = "/TowerDatas/Details/" + id;
+            }
+
+
+
+            /*---------------------------------------------------*/
+            function PrintTripInfo(Id) {
+                window.open('/advencePrintBasic/PrintDataTripInfo?Id=' + Id, '_blank');
+            }
+    </script>
+}

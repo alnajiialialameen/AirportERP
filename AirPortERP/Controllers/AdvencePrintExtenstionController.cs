@@ -1,7 +1,6 @@
 ﻿using AirPortERP.Extenstion;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
@@ -109,8 +108,8 @@ namespace AirPortERP.Controllers
                 Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) &&
                 DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
 
-                SearchDateFrom = CommonUsed.CheckDate(DateFrom.ToString()).ToString();
-                SearchDateTo = CommonUsed.CheckDate(DateTo.ToString()).ToString();
+                SearchDateFrom = CommonUsed.ToDisplayDate(DateFrom).ToString();
+                SearchDateTo = CommonUsed.ToDisplayDate(DateTo).ToString();
 
                 ViewBag.DateFrom = SearchDateFrom;
                 ViewBag.DateTo = SearchDateTo;
@@ -137,7 +136,7 @@ namespace AirPortERP.Controllers
                 CInter.Name = item?.OfficerData.TowerData.AirLine.Code + "/ " + item?.OfficerData.TowerData.AirLine.Name;
                 CInter.Registration = item?.OfficerData.TowerData.AircraftRegistration.Registration;
                 CInter.AirPortTo = item?.OfficerData.TowerData.AirPort.Code;
-                CInter.TakeOffDate = CommonUsed.CheckDate(item?.OfficerData.TowerData.TakeOffDate.ToString());
+                CInter.TakeOffDate = CommonUsed.ToDisplayDate(item?.OfficerData.TowerData.TakeOffDate);
                 CInter.FlightNo = item?.OfficerData.TowerData.AirLinesFlightTrip.FlightNo;
 
                 RevenueListInter.Add(CInter);
@@ -210,8 +209,8 @@ namespace AirPortERP.Controllers
             if (DateFrom != null && DateTo != null)
             {
                 Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
-                SearchDateFrom = CommonUsed.CheckDate(DateFrom.ToString()).ToString();
-                SearchDateTo = CommonUsed.CheckDate(DateTo.ToString()).ToString();
+                SearchDateFrom = CommonUsed.ToDisplayDate(DateFrom).ToString();
+                SearchDateTo = CommonUsed.ToDisplayDate(DateTo).ToString();
 
                 ViewBag.DateFrom = SearchDateFrom;
                 ViewBag.DateTo = SearchDateTo;
@@ -237,7 +236,7 @@ namespace AirPortERP.Controllers
                 C.Id = item.Id;
                 C.Name = item?.OfficerData.TowerData.AirLine.Code + "/ " + item?.OfficerData.TowerData.AirLine.Name;
                 C.FlightNo = item?.OfficerData.TowerData.AirLinesFlightTrip.FlightNo;
-                C.LandingDate = CommonUsed.CheckDate(item?.OfficerData.TowerData.LandingDate.ToString());
+                C.LandingDate = CommonUsed.ToDisplayDate(item?.OfficerData.TowerData.LandingDate);
                 C.NormalMailLoadingExp = Convert.ToDouble(item?.OfficerData.NormalMailLoadingExp);
                 C.RapidMailLoadingExp = Convert.ToDouble(item?.OfficerData.RapidMailLoadingExp);
                 C.NormalMailLoadingImp = Convert.ToDouble(item?.OfficerData.NormalMailLoadingImp);
@@ -266,99 +265,6 @@ namespace AirPortERP.Controllers
 
 
 
-        public ActionResult PrintDataTotalInterCUPPSDetails(DateTime DateFrom)
-        {
-            var id = User.Identity.GetUserId();
-            RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
-
-            double Amount = Convert.ToDouble(db.CUPPSServiceFees.SingleOrDefault(x => x.Id == 1).AmountInDollar);
-            ViewBag.Amount = Amount;
-
-            string txtDate;
-            string UserName = CommonUsed.GetUserName(id);
-            string ManagerName = CompanyInfo.RevenuesManager;
-            
-            string SupervisorName = CompanyInfo.InterCUUPSSupervisor;
-
-            ViewBag.ManagerName = ManagerName;
-            ViewBag.SupervisorName = SupervisorName;
-
-
-
-
-            if (DateFrom != null)
-            {
-                ExchangeRate = CommonUsed.getExchangeRateByLandingDate(DateFrom.Month, DateFrom.Year);
-                ViewBag.ExchangeRate = ExchangeRate;
-            }
-            else
-            {
-                //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(currentDate.Month, currentDate.Year);
-                return RedirectToAction("Error");
-            }
-
-            List<spTotalCompaniesCUPPSForInter_Result> data = getTotalInterCUPPSDetails(DateFrom);
-            /***********************************************************************************/
-          //  ReportDocument rd = new ReportDocument();
-           // rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/RptTotalCUPPSByCompanyInter.rpt")));
-
-            int N = 0;
-            var ReportList = new List<PrintTotalCompaniesInterCUPPSModel>();
-            foreach (var item in data)
-            {
-                PrintTotalCompaniesInterCUPPSModel C = new PrintTotalCompaniesInterCUPPSModel();
-
-                N = N + 1;
-                C.N = N;
-                C.Name = item.ArName;
-                C.Pax = Convert.ToInt32(item.Pax);
-
-                //  C.TotalAmountDollar = Convert.ToDouble(item.TotalAmountDollar);
-                C.TotalAmountSDG = (Convert.ToDouble(item.Pax) * Convert.ToDouble(Amount) * Convert.ToDouble(ExchangeRate));
-
-
-              //  C.TaxDollar = (Convert.ToDouble(item.TaxDollar) * Convert.ToDouble(ExchangeRate) * 0.05);
-                C.TaxSDG = (C.TotalAmountSDG * 0.05);
-
-
-
-              //  C.GrandTotalDollar = Convert.ToInt32(item.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
-                C.GrandTotalSDG = Convert.ToDouble(C.TotalAmountSDG) + Convert.ToDouble(C.TaxSDG);
-                ReportList.Add(C);
-            }
-            /*************************************************************************************/
-            txtDate = DateFrom.Year + " - " + DateFrom.ToString("MMMM");
-            ViewBag.txtDate = txtDate;
-
-
-
-
-            double SumPax = Convert.ToDouble(ReportList.Sum(x => x.Pax));
-            ViewBag.SumPax = SumPax;
-
-            double SumTotalAmountSDG = Convert.ToDouble(ReportList.Sum(x => x.TotalAmountSDG));
-            ViewBag.SumTotalAmountSDG = SumTotalAmountSDG;
-
-            double SumTaxSDG = Convert.ToDouble(ReportList.Sum(x => x.TaxSDG));
-            ViewBag.SumTaxSDG = SumTaxSDG;
-
-            double SumGrandTotalSDG = Convert.ToDouble(ReportList.Sum(x => x.GrandTotalSDG));
-            ViewBag.SumGrandTotalSDG = SumGrandTotalSDG;
-
-
-
-            double RightPart = SumTotalAmountSDG * 0.4;
-
-            double KhartoumPart = SumTotalAmountSDG * 0.6;
-
-            ViewBag.RightPart = RightPart;
-            ViewBag.KhartoumPart = KhartoumPart;
-
-
-            return View(ReportList);
-        }
 
         public ActionResult PrintDataJournalCUPPSInter(DateTime DateFrom)
         {
@@ -589,6 +495,7 @@ namespace AirPortERP.Controllers
 
         private List<spTotalCompaniesNYForInter_Result> getTotalInterNYDetails(DateTime DateFrom)
         {
+           
             int Year = DateFrom.Year;
             int Month = DateFrom.Month;
             List<spTotalCompaniesNYForInter_Result> data = db.spTotalCompaniesNYForInter(Month, Year).ToList();
@@ -604,10 +511,11 @@ namespace AirPortERP.Controllers
 
         public ActionResult PrintDataTotalDomesticCUPPSDetails(DateTime DateFrom)
         {
+            var AirlineList = new List<int> { 52, 107, 176 };
             var id = User.Identity.GetUserId();
             RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+            int companyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == companyId);
             string txtDate;
 
             double Amount = Convert.ToDouble(db.CUPPSServiceFees.SingleOrDefault(x => x.Id == 2).AmountInDollar);
@@ -621,16 +529,16 @@ namespace AirPortERP.Controllers
 
             string UserName = CommonUsed.GetUserName(id);
 
-            if (DateFrom != null)
-            {
-                ExchangeRate = CommonUsed.getExchangeRateByLandingDate(DateFrom.Month, DateFrom.Year);
-                ViewBag.ExchangeRate = ExchangeRate;
-            }
-            else
-            {
-                //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(currentDate.Month, currentDate.Year);
-                return RedirectToAction("Error");
-            }
+            //if (DateFrom != null)
+            //{
+            //    ExchangeRate = CommonUsed.getExchangeRateByLandingDate(DateFrom.Month, DateFrom.Year);
+            //    ViewBag.ExchangeRate = ExchangeRate;
+            //}
+            //else
+            //{
+            //    //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(currentDate.Month, currentDate.Year);
+            //    return RedirectToAction("Error");
+            //}
 
             List<spTotalCompaniesCUPPSForDomestic_Result> data = getTotalDomesticCUPPSDetails(DateFrom);
             /***********************************************************************************/
@@ -641,17 +549,17 @@ namespace AirPortERP.Controllers
 
             int N = 0;
 
-            foreach (var item in data)
+            foreach (var item in data.Where(c => c.CompanyInfoId == companyId && AirlineList.Contains(c.Id)))
             {
                 PrintTotalCompaniesInterCUPPSViewModel C = new PrintTotalCompaniesInterCUPPSViewModel();
                 N = N + 1;
                 C.N = N;
                 C.Name = item.ArName;
                 C.Pax = Convert.ToInt32(item.Pax);
-
+                C.ExchangeRate = Convert.ToDecimal(item.ExchangeRate);
                 //  C.TotalAmountDollar = Convert.ToDouble(item.TotalAmountDollar);
-                C.TotalAmountSDG = (Convert.ToDouble(item.Pax) * Convert.ToDouble(Amount) * Convert.ToDouble(ExchangeRate));
-
+                //C.TotalAmountSDG = (Convert.ToDouble(item.Pax) * Convert.ToDouble(Amount) * Convert.ToDouble(item.ExchangeRate));
+                C.TotalAmountSDG = Convert.ToDouble(item.TotalSDG);
 
                 //  C.TaxDollar = (Convert.ToDouble(item.TaxDollar) * Convert.ToDouble(ExchangeRate) * 0.05);
                 C.TaxSDG = (C.TotalAmountSDG * 0.05);
@@ -695,23 +603,122 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintDataJournalCUPPSDome(DateTime DateFrom)
+
+        public ActionResult PrintDataTotalInterCUPPSForDomesticDetails(DateTime DateFrom)
         {
+            var AirlineList = new List<int> { 52, 107, 176 };
             var id = User.Identity.GetUserId();
             RoleController role = new RoleController();
-            int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+            int companyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == companyId);
+            string txtDate;
 
-            decimal Amount = Convert.ToDecimal(db.CUPPSServiceFees.SingleOrDefault(x => x.Id != 1).AmountInDollar);
+            double Amount = Convert.ToDouble(db.CUPPSServiceFees.SingleOrDefault(x => x.Id == 2).AmountInDollar);
+            ViewBag.Amount = Amount;
 
-            string UserName = CommonUsed.GetUserName(id);
             string ManagerName = CompanyInfo.RevenuesManager;
             ViewBag.ManagerName = ManagerName;
 
-
             string SupervisorName = CompanyInfo.DomeCUUPSSupervisor;
             ViewBag.SupervisorName = SupervisorName;
+
+            string UserName = CommonUsed.GetUserName(id);
+
+            //if (DateFrom != null)
+            //{
+            //    ExchangeRate = CommonUsed.getExchangeRateByLandingDate(DateFrom.Month, DateFrom.Year);
+            //    ViewBag.ExchangeRate = ExchangeRate;
+            //}
+            //else
+            //{
+            //    //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(currentDate.Month, currentDate.Year);
+            //    return RedirectToAction("Error");
+            //}
+
+            List<spTotalCompaniesInterCUPPSForDomestic_Result> data = getTotalTotalCompaniesInterCUPPSForDomesticDetails(DateFrom);
+            /***********************************************************************************/
+            //ReportDocument rd = new ReportDocument();
+            //rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/RptTotalCUPPSByCompanyDom.rpt")));
+          
+            var ReportList = new List<PrintTotalCompaniesInterCUPPSViewModel>();
+
+            int N = 0;
+
+            foreach (var item in data.Where(c => c.CompanyInfoId == companyId && AirlineList.Contains(c.Id)))
+            {
+                PrintTotalCompaniesInterCUPPSViewModel C = new PrintTotalCompaniesInterCUPPSViewModel();
+                N = N + 1;
+                C.N = N;
+                C.Name = item.ArName;
+                C.Pax = Convert.ToInt32(item.PaxInter);
+                C.ExchangeRate = Convert.ToDecimal(item.ExchangeRate);
+                //  C.TotalAmountDollar = Convert.ToDouble(item.TotalAmountDollar);
+                //C.TotalAmountSDG = (Convert.ToDouble(item.Pax) * Convert.ToDouble(Amount) * Convert.ToDouble(item.ExchangeRate));
+                C.TotalAmountSDG = Convert.ToDouble(item.TotalSDG);
+
+                //  C.TaxDollar = (Convert.ToDouble(item.TaxDollar) * Convert.ToDouble(ExchangeRate) * 0.05);
+                C.TaxSDG = (C.TotalAmountSDG * 0.05);
+
+
+
+                //  C.GrandTotalDollar = Convert.ToInt32(item.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
+                C.GrandTotalSDG = Convert.ToDouble(C.TotalAmountSDG) + Convert.ToDouble(C.TaxSDG);
+
+                ReportList.Add(C);
+            }
+            /*************************************************************************************/
+            /*************************************************************************************/
+            txtDate = DateFrom.Year + " - " + DateFrom.ToString("MMMM");
+            ViewBag.txtDate = txtDate;
+
+
+
+
+            double SumPax = Convert.ToDouble(ReportList.Sum(x => x.Pax));
+            ViewBag.SumPax = SumPax;
+
+            double SumTotalAmountSDG = Convert.ToDouble(ReportList.Sum(x => x.TotalAmountSDG));
+            ViewBag.SumTotalAmountSDG = SumTotalAmountSDG;
+
+            double SumTaxSDG = Convert.ToDouble(ReportList.Sum(x => x.TaxSDG));
+            ViewBag.SumTaxSDG = SumTaxSDG;
+
+            double SumGrandTotalSDG = Convert.ToDouble(ReportList.Sum(x => x.GrandTotalSDG));
+            ViewBag.SumGrandTotalSDG = SumGrandTotalSDG;
+
+
+
+            double RightPart = SumTotalAmountSDG * 0.4;
+
+            double KhartoumPart = SumTotalAmountSDG * 0.6;
+
+            ViewBag.RightPart = RightPart;
+            ViewBag.KhartoumPart = KhartoumPart;
+            return View(ReportList);
+        }
+
+
+
+        public ActionResult PrintDataTotalInterCUPPSDetails(DateTime DateFrom)
+        {
+            var AirlineList = new List<int> { 52, 107, 176 };
+            var id = User.Identity.GetUserId();
+            RoleController role = new RoleController();
+            int companyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == companyId);
+            //int companyId = role.GetCompanyId(id);
+
+            double Amount = Convert.ToDouble(db.CUPPSServiceFees.SingleOrDefault(x => x.Id == 1).AmountInDollar);
+            ViewBag.Amount = Amount;
+
             string txtDate;
+            string UserName = CommonUsed.GetUserName(id);
+            string ManagerName = CompanyInfo.RevenuesManager;
+
+            string SupervisorName = CompanyInfo.InterCUUPSSupervisor;
+
+            ViewBag.ManagerName = ManagerName;
+            ViewBag.SupervisorName = SupervisorName;
 
 
 
@@ -719,48 +726,80 @@ namespace AirPortERP.Controllers
             if (DateFrom != null)
             {
                 ExchangeRate = CommonUsed.getExchangeRateByLandingDate(DateFrom.Month, DateFrom.Year);
+                ViewBag.ExchangeRate = ExchangeRate;
             }
             else
             {
+                //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(currentDate.Month, currentDate.Year);
                 return RedirectToAction("Error");
             }
 
+            List<spTotalCompaniesCUPPSForInter_Result> data = getTotalInterCUPPSDetails(DateFrom);
             /***********************************************************************************/
-            ReportDocument rd = new ReportDocument();
+            //  ReportDocument rd = new ReportDocument();
+            // rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/RptTotalCUPPSByCompanyInter.rpt")));
 
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/Revenue/RptJournalCUPPSDome.rpt")));
-            List<spTotalCompaniesCUPPSForDomestic_Result> data = getTotalDomesticCUPPSDetails(DateFrom);
-
-            var ReportList = new List<int>();
-            foreach (var item in data)
+            int N = 0;
+            var ReportList = new List<PrintTotalCompaniesInterCUPPSModel>();
+            foreach (var item in data.Where(c => c.CompanyInfoId == companyId && AirlineList.Contains(c.Id)))
             {
-                ReportList.Add(Convert.ToInt32(item.Pax));
+                PrintTotalCompaniesInterCUPPSModel C = new PrintTotalCompaniesInterCUPPSModel();
+
+                N = N + 1;
+                C.N = N;
+                C.Name = item.ArName;
+                C.Pax = Convert.ToInt32(item.Pax);
+
+                //  C.TotalAmountDollar = Convert.ToDouble(item.TotalAmountDollar);
+                C.TotalAmountSDG = (Convert.ToDouble(item.Pax) * Convert.ToDouble(Amount) * Convert.ToDouble(ExchangeRate));
+
+
+                //  C.TaxDollar = (Convert.ToDouble(item.TaxDollar) * Convert.ToDouble(ExchangeRate) * 0.05);
+                C.TaxSDG = (C.TotalAmountSDG * 0.05);
+
+
+
+                //  C.GrandTotalDollar = Convert.ToInt32(item.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
+                C.GrandTotalSDG = Convert.ToDouble(C.TotalAmountSDG) + Convert.ToDouble(C.TaxSDG);
+                ReportList.Add(C);
             }
-
-            PrintJournalCuppsDetailsViewModel journalViewModel = new PrintJournalCuppsDetailsViewModel();
-            int totalPax = ReportList.Sum();
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+            /*************************************************************************************/
             txtDate = DateFrom.Year + " - " + DateFrom.ToString("MMMM");
             ViewBag.txtDate = txtDate;
 
 
 
-            double TotalAmountSDG = Convert.ToDouble(totalPax) * Convert.ToDouble(Amount) * Convert.ToDouble(ExchangeRate);            
-            double KartoumPart = TotalAmountSDG * 0.6;
-            double RightPart = TotalAmountSDG * 0.4;
 
-            double TaxSDG = TotalAmountSDG * 0.05;
+            double SumPax = Convert.ToDouble(ReportList.Sum(x => x.Pax));
+            ViewBag.SumPax = SumPax;
 
-            TotalAmountSDG += TaxSDG;
-            ViewBag.TotalAmountSDG = TotalAmountSDG;
-            ViewBag.KartoumPart = KartoumPart;
+            double SumTotalAmountSDG = Convert.ToDouble(ReportList.Sum(x => x.TotalAmountSDG));
+            ViewBag.SumTotalAmountSDG = SumTotalAmountSDG;
+
+            double SumTaxSDG = Convert.ToDouble(ReportList.Sum(x => x.TaxSDG));
+            ViewBag.SumTaxSDG = SumTaxSDG;
+
+            double SumGrandTotalSDG = Convert.ToDouble(ReportList.Sum(x => x.GrandTotalSDG));
+            ViewBag.SumGrandTotalSDG = SumGrandTotalSDG;
+
+
+
+            double RightPart = SumTotalAmountSDG * 0.4;
+
+            double KhartoumPart = SumTotalAmountSDG * 0.6;
+
             ViewBag.RightPart = RightPart;
-            ViewBag.TaxSDG = TaxSDG;
+            ViewBag.KhartoumPart = KhartoumPart;
 
 
-            return View();
+            return View(ReportList);
         }
+
+
+
+
+
+
 
 
 
@@ -935,6 +974,19 @@ namespace AirPortERP.Controllers
         }
 
 
+        private List<spTotalCompaniesInterCUPPSForDomestic_Result> getTotalTotalCompaniesInterCUPPSForDomesticDetails(DateTime DateFrom)
+        {
+            int Year = DateFrom.Year;
+            int Month = DateFrom.Month;
+            List<spTotalCompaniesInterCUPPSForDomestic_Result> data = db.spTotalCompaniesInterCUPPSForDomestic(Month, Year).ToList();
+
+            if (data.Count() <= 0)
+            {
+                return null;
+            }
+
+            return data;
+        }
 
 
 
@@ -946,9 +998,8 @@ namespace AirPortERP.Controllers
 
 
 
+        //******************************************CarDetails**************************************************************
 
-      //******************************************CarDetails**************************************************************
-   
 
 
 
@@ -979,8 +1030,8 @@ namespace AirPortERP.Controllers
                 FinalAmountForSudanAirWays = cal.FinalAmountForSudanAirWays(DateFrom);
 
 
-                SearchDateFrom = CommonUsed.CheckDate(DateFrom.ToString()).ToString();
-                SearchDateTo = CommonUsed.CheckDate(DateTo.ToString()).ToString();
+                SearchDateFrom = CommonUsed.ToDisplayDate(DateFrom).ToString();
+                SearchDateTo = CommonUsed.ToDisplayDate(DateTo).ToString();
 
                 ViewBag.DateTo = SearchDateTo;
                 ViewBag.DateFrom = SearchDateFrom;

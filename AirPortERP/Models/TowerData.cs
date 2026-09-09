@@ -17,6 +17,7 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TowerData()
         {
+            this.FinancialClaims = new HashSet<FinancialClaim>();
             this.OfficerDatas = new HashSet<OfficerData>();
         }
     
@@ -45,6 +46,8 @@ namespace AirPortERP.Models
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaim> FinancialClaims { get; set; }
         public virtual AircraftRegistration AircraftRegistration { get; set; }
         public virtual AirLine AirLine { get; set; }
         public virtual AirLinesFlightTrip AirLinesFlightTrip { get; set; }

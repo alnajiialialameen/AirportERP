@@ -117,7 +117,120 @@ namespace AirPortERP.ViewModels
 
     }
 
+    public class PrintInoviceDetailViewModel
+    {
+        public int Id { get; set; }
+        public int N { get; set; }
+        public string Name { get; set; }
+        public decimal LandingFees { get; set; }
+        public decimal ExchangeRateAgainstPrimaryCurrency { get; set; }
 
+        
+        public decimal ParkingFees { get; set; }
+
+
+        public string FlightNo { get; set; }
+        public string AirPortTo { get; set; }
+     
+        public decimal NightOperationFees { get; set; }
+
+        public decimal NavigationFees { get; set; }
+
+
+        public decimal SecurityFees { get; set; }
+
+
+        public decimal FreightFees { get; set; }
+
+        public string MaxTakoffWieght { get; set; }
+
+        public string RegNo { get; set; }
+        public string Wt { get; set; }
+        public string Type { get; set; }
+
+        public string LandingDate { get; set; }
+        public string Date { get; set; }
+
+        public decimal TotalLanding { get; set; }
+        public decimal TotalInvoice { get; set; }
+        public decimal TotalRevenueStampInvoice { get; set; }
+
+        public decimal GrandTotalInvoice { get; set; }
+        public decimal NoiseFees { get; set; }
+
+        public decimal ExpMailFees { get; set; }
+
+
+        public decimal ImpMailFees { get; set; }
+
+        ///---------------------------------------
+        public decimal CUPPSSDG { get; set; }
+
+        public int Pax { get; set; }
+
+        public int TR { get; set; }
+
+        public decimal CFees { get; set; }
+        public decimal DomeFees { get; set; }
+
+        public string TakeOffDate { get; set; }
+
+        public decimal CuppsFees { get; set; }
+
+        public decimal DomeCuppsFees { get; set; }
+
+
+        //------------Car------------------
+        public int AmbulanceNo { get; set; }
+        public decimal FeesAmbulance { get; set; }
+        public decimal FeesAmbulanceAmount { get; set; }
+
+        public int FireNo { get; set; }
+        public decimal FeesFire { get; set; }
+
+        public decimal ServiceCarSDG { get; set; }
+        public decimal ServiceCar { get; set; }
+        
+        public decimal FeesFireAmount { get; set; }
+
+
+        public decimal AmbulanceSDG { get; set; }
+        public decimal FireSDG { get; set; }
+
+
+        //---------pushpack
+        public decimal PushPackFees { get; set; }
+        public decimal PFees { get; set; }
+        public string PlaneSize { get; set; }
+        public decimal PushPackAmountSDG { get; set; }
+        ///---------------First Class
+        public int FirstClassCount { get; set; }
+        public decimal FirstClassFees { get; set; }
+
+        public decimal FirstClassFeesSDG { get; set; }
+
+        public decimal FFees { get; set; }
+        ///------------Ny
+        public decimal NyFees { get; set; }
+
+        public decimal NyAmountSDG { get; set; }
+        public decimal NyAmountDollar { get; set; }
+        public decimal NFees { get; set; }
+
+        public bool HasPushPack { get; set; }
+        public bool HasCarService { get; set; }
+
+        public bool HasNy { get; set; }
+        public bool HasCupps { get; set; }
+
+        public bool HasFirstClass { get; set; }
+
+        //---------pushpack
+        public decimal FuelFees { get; set; }
+        public decimal FuelLiter { get; set; }
+    
+
+    }
 
     public class PrintCarServiceViewModel
     {
@@ -215,7 +328,8 @@ namespace AirPortERP.ViewModels
         public string FlightNo { get; set; }
 
         public int Pax { get; set; }
-
+        public int PaxInter { get; set; }
+        public string Pax2 { get; set; }
         public decimal InterFees { get; set; }
         public decimal DomeFees { get; set; }
         public string TakeOffDate { get; set; }
@@ -243,7 +357,8 @@ namespace AirPortERP.ViewModels
         public decimal CUPPSSDG { get; set; }
 
         public int Pax { get; set; }
-
+        public int PaxInter { get; set; }
+        public string Pax2 { get; set; }
         public int TR { get; set; }
 
         public decimal InterFees { get; set; }
@@ -255,7 +370,7 @@ namespace AirPortERP.ViewModels
 
         public decimal DomeCuppsFees { get; set; }
 
-
+        public decimal? ExchangeRate { get; set; }
     }
 
     public class PrintCuppsNoDataViewModel
@@ -372,7 +487,8 @@ namespace AirPortERP.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
       
-        public decimal ExchRate { get; set; }
+        public decimal ExchangeRate { get; set; }
+
         public int Pax { get; set; }
 
 
@@ -555,4 +671,12 @@ namespace AirPortERP.ViewModels
         public string TakeOffDate { get; set; }
     }
 
+    public class RepoObj
+    {
+        public int TripCount { get; set; }
+        public int Month { get; set; }
+        public int TotalPax { get; set; }
+        public decimal? TotalFreightIn { get; set; }
+        public decimal? TotalFreightOut { get; set; }
+    }
 }

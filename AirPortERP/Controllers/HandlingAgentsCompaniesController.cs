@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
@@ -18,7 +17,8 @@ namespace AirPortERP.Controllers
     {
         private Entities db = new Entities();
         private CommonUsed CommonUsed = new CommonUsed();
-
+        private ClsAccount clsAccount = new ClsAccount();
+        
         public ActionResult Index()
         {
             return View();
@@ -38,7 +38,7 @@ namespace AirPortERP.Controllers
         public ActionResult GetAllHandlingAgentsCompanies()
         {
 
-            var HandlingAgentsCompaniesList = db.HandlingAgentsCompanies.ToList();
+            var HandlingAgentsCompaniesList = db.HandlingAgentsCompanies.Include(q=>q.AccountTree).ToList();
             var ExecuteCourseViewModels = new List<HandlingAgentsCompaniesViewModels>();
             foreach (var item in HandlingAgentsCompaniesList)
             {
@@ -47,10 +47,13 @@ namespace AirPortERP.Controllers
                     //  DateTime.Now.Date.ToString("MM/dd/yyyy");
 
                     Id = item.Id,
+                    AccId = item.AccId,
                     NameEn = item.NameEn,
                     NameAr = item.NameAr,
+                    Email = item.Email,
+                    Phone = item.Phone,
                     Address = item.Address,
-                  
+                   
 
 
 
@@ -81,9 +84,10 @@ namespace AirPortERP.Controllers
             {
 
                 HandlingAgentsCompany = db.HandlingAgentsCompanies.Find(id);
-
+                
             }
 
+            ViewBag.AccId = new SelectList(db.AccountTrees.Where(x => x.Id == 35), "Id", "AccName", 35);
 
             return PartialView("_HandlingAgentsCompanyParial", HandlingAgentsCompany);
 
@@ -106,7 +110,30 @@ namespace AirPortERP.Controllers
                         return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
                     }
 
-                    db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                    //---------------------------------------------------
+                    var handlingAgentCompany = db.HandlingAgentsCompanies.AsNoTracking().FirstOrDefault(q=> q.Id == model.Id);
+                    if (handlingAgentCompany.AccId == null)
+                    {
+                        AccountTree AccountTreeParent = db.AccountTrees.Find(model.AccId);
+
+                        int Id = Convert.ToInt32(db.SpLastAccountTree().FirstOrDefault());
+                        decimal AccNumber = Convert.ToInt32(db.GetAccNumber(AccountTreeParent.AccNumber).FirstOrDefault());
+                        AccountTree AccountTree = new AccountTree();
+
+                        model.AccId = Id;
+                        AccountTree.Id = Id;
+                        AccountTree.AccNumber = AccNumber;
+                        AccountTree.AccName = model.NameEn;
+                        AccountTree.AccParent = AccountTreeParent.Id;
+                        AccountTree.AccType = 2;
+                        AccountTree.AccGroupId = 5;
+
+                        AccountTree.AccLevel = clsAccount.GetAccParentLevel(AccountTreeParent.Id) + 1;
+                        db.AccountTrees.Add(AccountTree);
+                    }
+
+                    ///----------------------------------------------------------------
+                    db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
                     return Json(new { success = true, message = "Update" }, JsonRequestBehavior.AllowGet);
                 }
@@ -116,6 +143,25 @@ namespace AirPortERP.Controllers
                     {
                         return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
                     }
+
+
+                    AccountTree AccountTreeParent = db.AccountTrees.Find(model.AccId);
+
+                    int Id = Convert.ToInt32(db.SpLastAccountTree().FirstOrDefault());
+                    decimal AccNumber = Convert.ToInt32(db.GetAccNumber(AccountTreeParent.AccNumber).FirstOrDefault());
+                    AccountTree AccountTree = new AccountTree();
+
+                    model.AccId = Id;
+
+                    AccountTree.Id = Id;
+                    AccountTree.AccNumber = AccNumber;
+                    AccountTree.AccName = model.NameEn;
+                    AccountTree.AccParent = AccountTreeParent.Id;
+                    AccountTree.AccLevel = clsAccount.GetAccParentLevel(AccountTreeParent.Id) + 1;
+                    AccountTree.AccType = 2;
+                    AccountTree.AccGroupId = 5;
+
+                    db.AccountTrees.Add(AccountTree);
 
                     db.HandlingAgentsCompanies.Add(model);
                     db.SaveChanges();
@@ -167,51 +213,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptHandlingAgentsCompanies.rpt")));
-            IQueryable<HandlingAgentsCompany> HandlingAgentsCompany;
-            HandlingAgentsCompany = db.HandlingAgentsCompanies;
-
-            var HandlingAgentsCompanies = new List<HandlingAgentsCompaniesViewModels>();
-            foreach (var item in HandlingAgentsCompany)
-            {
-
-                HandlingAgentsCompaniesViewModels A = new HandlingAgentsCompaniesViewModels();
-
-                A.NameAr = item.NameAr;
-                A.NameEn = item.NameEn;
-                A.Address = item.Address;
-                A.IsActive = CommonUsed.isActive(item.IsActive);
-
-
-
-                HandlingAgentsCompanies.Add(A);
-
-            }
-
-
-            rd.SetDataSource(HandlingAgentsCompanies.Select(p => new
-            {
-
-                NameAr = p.NameAr,
-                NameEn = p.NameEn,
-                Address = p.Address,
-                IsActive = p.IsActive,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "HandlingAgentsCompanies.pdf");
-        }
 
 
 

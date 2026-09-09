@@ -12,9 +12,9 @@ namespace AirPortERP.ViewModels
 
         public string AirLineName { get; set; }
         public string AirLineCode { get; set; }
-      //  public string AirLineArabicName { get; set; }
+        //  public string AirLineArabicName { get; set; }
 
-
+        public bool Isconsumed { get; set; }
         public string FlightNo { get; set; }
         public string AircraftRegName { get; set; }
         public string Type { get; set; }
@@ -70,11 +70,121 @@ namespace AirPortERP.ViewModels
         public string SecurityFees { get; set; }
         public string NoiseFees { get; set; }
 
+        public string InterNYFees { get; set; }
+        public string DomeNYFees { get; set; }
+        public string DomeCUPPSFees { get; set; }
+        public string InterCUPPSFees { get; set; }
+        public string ServiceCar { get; set; }
+        public string ExpMailFees { get; set; }
+        public string ImpMailFees { get; set; }
+        public string FirstClassFees { get; set; }
+        public string FreightFees { get; set; }
+        public string PushBackFees { get; set; }
+        public decimal FuelFees { get; set; }
 
+        public string AirportName { get; set; }
+        public string StatusName { get; set; }
+        public int Status { get; set; }
+        public bool IsStop { get; set; }
 
 
 
     }
+
+
+
+
+
+    public class UnscheduledViewModels
+    {
+
+        public int Id { get; set; }
+
+        public string AirLineName { get; set; }
+        public string AirLineCode { get; set; }
+        //  public string AirLineArabicName { get; set; }
+
+        public bool Isconsumed { get; set; }
+        public string FlightNo { get; set; }
+        public string AircraftRegName { get; set; }
+        public string Type { get; set; }
+        public string AirportIdFrom { get; set; }
+
+        public string FromArabicName { get; set; }
+        public string FromArabicCountry { get; set; }
+        public string AirportIdTo { get; set; }
+        public string ToArabicName { get; set; }
+        public string ToArabicCountry { get; set; }
+
+
+
+
+
+
+
+
+        public string CountryFrom { get; set; }
+        public string CountryTo { get; set; }
+
+        public string Date { get; set; }
+        //Nullable<System.TimeSpan>
+        public string ATA { get; set; }
+        public string ATD { get; set; }
+        //public Nullable<int> POB { get; set; }
+        //public Nullable<int> QBD { get; set; }
+        public string TripType { get; set; }
+        public string LandingPermission { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreationDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatingDate { get; set; }
+
+        public string LandingDate { get; set; }
+        public string TakeOffDate { get; set; }
+
+        public string FlightType { get; set; }
+
+
+        public string AirportFromName { get; set; }
+        public string AirportToName { get; set; }
+        public string MaxTaKeOffWeight { get; set; }
+
+        public string Size { get; set; }
+
+
+        public string LandingFees { get; set; }
+        public string ParkingFees { get; set; }
+        public string NightOperationFees { get; set; }
+        public string NavigationFees { get; set; }
+        public string SecurityFees { get; set; }
+        public string NoiseFees { get; set; }
+
+        public string InterNYFees { get; set; }
+        public string DomeNYFees { get; set; }
+        public string DomeCUPPSFees { get; set; }
+        public string InterCUPPSFees { get; set; }
+        public string ServiceCar { get; set; }
+        public string ExpMailFees { get; set; }
+        public string ImpMailFees { get; set; }
+        public string FirstClassFees { get; set; }
+        public string FreightFees { get; set; }
+        public string AirportName { get; set; }
+        public string StatusName { get; set; }
+        public int Status { get; set; }
+        public bool IsStop { get; set; }
+
+
+
+    }
+
+
+
+
+
+
+
+
 
 
     public class LandingCoreViewModel

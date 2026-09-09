@@ -17,9 +17,14 @@ namespace AirPortERP.Models
         public string Name { get; set; }
         public string ArName { get; set; }
         public string Code { get; set; }
+        public Nullable<decimal> ExchangeRate { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
         public Nullable<int> Pax { get; set; }
         public Nullable<decimal> TotalAmountDollar { get; set; }
+        public Nullable<decimal> TaxSDG { get; set; }
         public Nullable<decimal> TaxDollar { get; set; }
         public Nullable<decimal> GrandTotalDollar { get; set; }
+        public Nullable<decimal> GrandTotalSDG { get; set; }
+        public Nullable<decimal> TotalSDG { get; set; }
     }
 }

@@ -17,19 +17,10 @@ namespace AirPortERP.Models
         public int Id { get; set; }
         public Nullable<int> SandMainId { get; set; }
         public Nullable<int> AccId { get; set; }
-        public Nullable<decimal> Amount { get; set; }
-        public Nullable<int> CurrencyId { get; set; }
-        public Nullable<decimal> CurrencyValue { get; set; }
-        public string Statement { get; set; }
-        public Nullable<bool> ISCash { get; set; }
-        public string ShakNumber { get; set; }
-        public Nullable<int> YearId { get; set; }
-        public Nullable<int> MonthId { get; set; }
+        public Nullable<decimal> Credit { get; set; }
+        public Nullable<decimal> Debit { get; set; }
     
         public virtual AccountTree AccountTree { get; set; }
-        public virtual Currency Currency { get; set; }
-        public virtual MouthWorkOn MouthWorkOn { get; set; }
         public virtual SandMain SandMain { get; set; }
-        public virtual YearWorkOn YearWorkOn { get; set; }
     }
 }

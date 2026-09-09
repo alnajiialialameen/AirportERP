@@ -116,7 +116,15 @@
 
 
     <div class="invoice-Cupps-Body">
-        <h4 class="text-center"><u> Invoice Cupps Domestic</u></h4>
+        @if (Convert.ToInt32(ViewBag.PaxInter) > 0)
+        {
+            <h4 class="text-center"><u>Invoice Cupps Domestic/International</u></h4>
+        }
+        else
+        {
+            <h4 class="text-center"><u>Invoice Cupps Domestic</u></h4>
+        }
+
         <div class="arline-header">
             <div class="row">
                 <div class="col-md-12">
@@ -254,7 +262,7 @@
 
 
 
-                    <th class="numberFormat">@ViewBag.SumPax</th>
+                    <th>@ViewBag.SumPax</th>
                     <th class="numberFormat">@ViewBag.SumTR</th>
                     <th></th>
 
@@ -267,7 +275,7 @@
 
 
                 <tr class="footer">
-                    <th colspan="7">  Tax :</th>
+                    <th colspan="7">   Revenue Stamp(5%) :</th>
 
                     <th class="numberFormat">@ViewBag.TaxDollar</th>
 

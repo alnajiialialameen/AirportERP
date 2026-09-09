@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.Extenstion;
 using AirPortERP.ViewModels;
@@ -125,37 +124,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptSecurityFees.rpt")));
-            IQueryable<SecurityFee> SecurityFees;
-            SecurityFees = db.SecurityFees;
-            rd.SetDataSource(SecurityFees.Select(p => new
-            {
-                Id = p.Id,
-                WieghtFrom = p.WieghtFrom,
-                WieghtTo = p.WieghtTo,
-                FlightType = p.FlightType,
-                AmountInDollar = p.AmountInDollar,
-                CheckAppendWieght = p.CheckAppendWieght,
-                CreatedBy = p.CreatedBy,
-                CreationData = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "SecurityFees.pdf");
-        }
 
 
         public ActionResult Details(int? id)

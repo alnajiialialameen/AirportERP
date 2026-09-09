@@ -31,13 +31,19 @@ namespace AirPortERP.Models
         public virtual DbSet<AccountOperation> AccountOperations { get; set; }
         public virtual DbSet<AccountTree> AccountTrees { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
+        public virtual DbSet<DeletedSandDetail> DeletedSandDetails { get; set; }
+        public virtual DbSet<DeletedSandMain> DeletedSandMains { get; set; }
         public virtual DbSet<FinancialClaim> FinancialClaims { get; set; }
+        public virtual DbSet<FinancialClaim1> FinancialClaim1 { get; set; }
+        public virtual DbSet<FinancialClaimDetail> FinancialClaimDetails { get; set; }
         public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<OpenAccBalance> OpenAccBalances { get; set; }
         public virtual DbSet<OpenAccDetail> OpenAccDetails { get; set; }
         public virtual DbSet<OperationType> OperationTypes { get; set; }
         public virtual DbSet<SandDetail> SandDetails { get; set; }
+        public virtual DbSet<SandDetails1> SandDetails1 { get; set; }
         public virtual DbSet<SandMain> SandMains { get; set; }
+        public virtual DbSet<SandMain1> SandMain1 { get; set; }
         public virtual DbSet<AircraftRegistration> AircraftRegistrations { get; set; }
         public virtual DbSet<AircraftSize> AircraftSizes { get; set; }
         public virtual DbSet<AircraftType> AircraftTypes { get; set; }
@@ -50,7 +56,7 @@ namespace AirPortERP.Models
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<AspNetUsers1> AspNetUsers1 { get; set; }
         public virtual DbSet<CompanyInfo> CompanyInfoes { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
@@ -62,7 +68,6 @@ namespace AirPortERP.Models
         public virtual DbSet<FuelCompany> FuelCompanies { get; set; }
         public virtual DbSet<HandlingAgentsCompany> HandlingAgentsCompanies { get; set; }
         public virtual DbSet<LandingCore> LandingCores { get; set; }
-        public virtual DbSet<MouthWorkOn> MouthWorkOns { get; set; }
         public virtual DbSet<OfficerData> OfficerDatas { get; set; }
         public virtual DbSet<PlaneRCore> PlaneRCores { get; set; }
         public virtual DbSet<PrintFormat> PrintFormats { get; set; }
@@ -74,7 +79,12 @@ namespace AirPortERP.Models
         public virtual DbSet<TransactionLog> TransactionLogs { get; set; }
         public virtual DbSet<TripType> TripTypes { get; set; }
         public virtual DbSet<WorkOn> WorkOns { get; set; }
-        public virtual DbSet<YearWorkOn> YearWorkOns { get; set; }
+        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
+        public virtual DbSet<AspNetRoles1> AspNetRoles1 { get; set; }
+        public virtual DbSet<AspNetUserClaims1> AspNetUserClaims1 { get; set; }
+        public virtual DbSet<AspNetUserLogins1> AspNetUserLogins1 { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<CarServiceFee> CarServiceFees { get; set; }
         public virtual DbSet<CUPPSServiceFee> CUPPSServiceFees { get; set; }
         public virtual DbSet<FreightFee> FreightFees { get; set; }
@@ -348,6 +358,19 @@ namespace AirPortERP.Models
                 new ObjectParameter("Year", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTotalCompaniesInterCUPPS_Result>("spTotalCompaniesInterCUPPS", monthParameter, yearParameter);
+        }
+    
+        public virtual ObjectResult<spTotalCompaniesInterCUPPSForDomestic_Result> spTotalCompaniesInterCUPPSForDomestic(Nullable<int> month, Nullable<int> year)
+        {
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTotalCompaniesInterCUPPSForDomestic_Result>("spTotalCompaniesInterCUPPSForDomestic", monthParameter, yearParameter);
         }
     
         public virtual ObjectResult<spTotalCompaniesNYForDomestic_Result> spTotalCompaniesNYForDomestic(Nullable<int> month, Nullable<int> year)

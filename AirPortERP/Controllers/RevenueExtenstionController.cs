@@ -154,10 +154,12 @@ namespace AirPortERP.Controllers
 
         public ActionResult UpdateNyAndCuppsfees(NyAndCuppsFeesViewModelDTO model)
         {
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
             if (ModelState.IsValid)
             {
                 bool IsLocalCompany = Convert.ToBoolean(db.OfficerDatas.FirstOrDefault(x => x.Id == model.OfficerDataId).TowerData.AirLine.IsLocalCompany);
-                var id = User.Identity.GetUserId();
+               
 
                 if (model.Id > 0)
                 {
@@ -188,7 +190,7 @@ namespace AirPortERP.Controllers
                     else
                     {
 
-                        decimal InterNYFees = Cal.InterNYFees(Convert.ToInt32(OfficerData.Pax), IsLocalCompany);
+                        decimal InterNYFees = Cal.InterNYFees(Convert.ToInt32(OfficerData.Pax), IsLocalCompany, companyId);
 
                         db.Revenues.SingleOrDefault(x => x.Id == model.Id).InterNYFees = InterNYFees;
 

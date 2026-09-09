@@ -15,11 +15,11 @@ namespace AirPortERP.Models
     public partial class WorkOn
     {
         public int Id { get; set; }
-        public Nullable<int> YearWorkOnId { get; set; }
-        public Nullable<int> MouthWorkOnId { get; set; }
         public string UserId { get; set; }
+        public Nullable<int> YearWorkOn { get; set; }
+        public Nullable<int> MonthWorkOn { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
     
-        public virtual MouthWorkOn MouthWorkOn { get; set; }
-        public virtual YearWorkOn YearWorkOn { get; set; }
+        public virtual CompanyInfo CompanyInfo { get; set; }
     }
 }

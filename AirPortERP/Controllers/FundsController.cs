@@ -108,7 +108,7 @@ namespace AirPortERP.Controllers
                     AccountTree.AccNumber = db.GetAccNumber(AccountTreeParent.AccNumber).FirstOrDefault();
                     AccountTree.AccName = Fund.Name;
                     AccountTree.AccLevel = (AccountTreeParent.AccLevel) + 1;
-                    AccountTree.AccParent = AccountTreeParent.AccNumber;
+                    AccountTree.AccParent = AccountTreeParent.Id;
                     AccountTree.AccType = 2;
                     AccountTree.AccGroupId = 3;
 

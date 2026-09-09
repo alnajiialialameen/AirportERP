@@ -18,7 +18,7 @@ namespace AirPortERP.Models
         public Nullable<int> OperationTypeId { get; set; }
         public Nullable<int> OperationID { get; set; }
         public string OperationRef { get; set; }
-        public Nullable<int> AccountNumber { get; set; }
+        public Nullable<int> AccId { get; set; }
         public Nullable<decimal> OperationDebit { get; set; }
         public Nullable<decimal> OperationCredit { get; set; }
         public Nullable<int> CurrencyId { get; set; }
@@ -30,6 +30,7 @@ namespace AirPortERP.Models
         public Nullable<System.DateTime> CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
     
         public virtual AccountTree AccountTree { get; set; }
         public virtual Currency Currency { get; set; }

@@ -15,9 +15,12 @@ namespace AirPortERP.Models
     public partial class vwAllAirlinesSumationFee
     {
         public string Name { get; set; }
+        public Nullable<int> CurrencyType { get; set; }
         public Nullable<int> AirLineId { get; set; }
-        public Nullable<int> Month { get; set; }
-        public Nullable<int> Year { get; set; }
+        public Nullable<System.DateTime> LandingDate { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
+        public bool IsCurrentAccount { get; set; }
+        public bool IsClaimCalculated { get; set; }
         public decimal LandingFees { get; set; }
         public decimal ParkingFees { get; set; }
         public decimal NightOperationFees { get; set; }
@@ -35,5 +38,7 @@ namespace AirPortERP.Models
         public decimal ImpMailFees { get; set; }
         public decimal FirstClassFees { get; set; }
         public decimal PushBackFees { get; set; }
+        public Nullable<decimal> TotalFees { get; set; }
+        public Nullable<decimal> RevenueStamp { get; set; }
     }
 }

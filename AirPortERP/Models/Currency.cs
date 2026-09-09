@@ -19,8 +19,10 @@ namespace AirPortERP.Models
         {
             this.AccountOperations = new HashSet<AccountOperation>();
             this.FinancialClaims = new HashSet<FinancialClaim>();
+            this.FinancialClaim1 = new HashSet<FinancialClaim1>();
             this.OpenAccBalances = new HashSet<OpenAccBalance>();
-            this.SandDetails = new HashSet<SandDetail>();
+            this.SandDetails1 = new HashSet<SandDetails1>();
+            this.SandMains = new HashSet<SandMain>();
             this.CurrencyDetails = new HashSet<CurrencyDetail>();
             this.FuelCompanies = new HashSet<FuelCompany>();
             this.HandlingAgentsCompanies = new HashSet<HandlingAgentsCompany>();
@@ -43,9 +45,13 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FinancialClaim> FinancialClaims { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaim1> FinancialClaim1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OpenAccBalance> OpenAccBalances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SandDetail> SandDetails { get; set; }
+        public virtual ICollection<SandDetails1> SandDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SandMain> SandMains { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CurrencyDetail> CurrencyDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

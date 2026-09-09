@@ -1,0 +1,245 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintTotalCompaniesInterCUPPSViewModel >
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<section class="invoiceCuppsDetails">
+
+
+    <div class="invoice-CuppsDetails-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <h4 class="text-center"><u> Inter-CUPPS Fees In Domestic Trips</u></h4>
+    <div class="invoice-CuppsDetails-Body" style="float:right;">
+
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <label class="mr-5">Amount: @ViewBag.Amount</label>
+
+                    <label class="mr-5">ExchangeRate: @ViewBag.ExchangeRate</label>
+
+                    <label class="h-mr">  @ViewBag.txtDate  :عن شــهــر (CUPPS)مـطالبات رسوم المغادرة الالي   <span></span></label>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="invoice-CuppsDetails-details">
+
+
+
+
+        <table class="CuppsDetails-table-header">
+
+            <tr>
+                <th>
+                    الجملة
+                </th>
+                <th>
+                    %الضريبة 5
+                </th>
+                <th>
+                    رسوم الكبس
+                </th>
+
+                <th>
+                   سعر الصرف
+                </th>
+
+                <th>
+                    عدد الركاب
+                </th>
+
+                <th>
+                    الشركة
+                </th>
+
+
+                <th>
+                    N
+                </th>
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.GrandTotalSDG)
+                        </td>
+
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.TaxSDG)
+                        </td>
+
+
+
+
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.TotalAmountSDG)
+                        </td>
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.ExchangeRate)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pax)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                    </tr>
+                }
+
+                <tr class="footer">
+
+
+
+                    <td class="numberFormat">@ViewBag.SumGrandTotalSDG</td>
+
+                    <td class="numberFormat">@ViewBag.SumTaxSDG</td>
+
+                    <td class="numberFormat">@ViewBag.SumTotalAmountSDG</td>
+
+                    <td>#######</td>
+                    <td class="numberFormat">@ViewBag.SumPax</td>
+
+                    <td colspan="2">  الجملة </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table-explan">
+            <tr>
+
+
+
+                <th colspan="3"> الرسوم  </th>
+
+                <th colspan="3"> البيان  </th>
+            </tr>
+            <tr>
+
+
+
+
+                <td colspan="3" class="numberFormat"> @ViewBag.KhartoumPart </td>
+
+                <td colspan="3">  %الادارة العامة لمطار الخرطوم 60 </td>
+            </tr>
+
+            <tr>
+
+
+                <td colspan="3" class="numberFormat"> @ViewBag.RightPart </td>
+                <td colspan="3">  %شركة رايت 40 </td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+
+
+                <th colspan="3" class="numberFormat"> @ViewBag.SumTotalAmountSDG </th>
+                <th colspan="3">  جملة المبلغ </th>
+            </tr>
+
+
+
+
+        </table>
+
+
+    </div>
+
+
+
+    <div class="prepared">
+        @*<h5 class="f-right">@ViewBag.SupervisorName /إعداد </h5>
+            <h5 class="f-left">@ViewBag.ManagerName/راجعه</h5>*@
+
+        <h6 class="f-right">  / اعداد</h6>
+        <h6 class="f-left">   راجعة/ @ViewBag.ManagerName</h6>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+               var num = Number(item).toLocaleString();
+               $(this).text(num);
+           });
+
+
+    </script>
+
+}

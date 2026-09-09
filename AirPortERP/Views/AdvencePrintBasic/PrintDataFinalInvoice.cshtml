@@ -200,7 +200,7 @@
                     <label class="h-mr">To:  <span class="font-normal">@Model.DateTo</span></label>
                     <label class="h-mr">Rate: @Model.ExchangeRate</label><br />
 
-                    <label class="h-mr">Kindly arrange to settle the sum of:<span class="numberFormat ml-2">@Model.GrandTotalSDG </span> <span  class="ml-1">SDG</span> </label>
+                    <label class="h-mr">Kindly arrange to settle the sum of:<span class="numberFormat2 ml-2">@Model.GrandTotalSDG </span> <span  class="ml-1">SDG</span> </label>
                     <label class="h-mr">as detailed bellow for: <span class="font-normal">@Model.HeaderDate</span>    </label>
                     
                 </div>
@@ -241,8 +241,8 @@
                 <td class="N">3</td>
                 <td> Night Surcharge Fees</td>
                 <td class="numberFormat">@Model.NightOperationFees</td>
-                <td class="numberFormat">@Convert.ToDouble(@Model.NightOperationFees * Model.ExchangeRate)</td>
-            </tr>
+                <td class="numberFormat">@Convert.ToDouble(@Model.NightOperationFees * Model.ExchangeRate) </td>
+</tr>
 
 
             <tr>
@@ -301,12 +301,12 @@
                 <td class="numberFormat">@Convert.ToDouble(@Model.InterCUPPSFees * Model.ExchangeRate)</td>
             </tr>
 
-            <tr>
+            @*<tr>
                 <td class="N">12</td>
                 <td>International Ny Fees</td>
                 <td class="numberFormat">@Model.InterNYFees</td>
                 <td class="numberFormat">@Convert.ToDouble(@Model.InterNYFees * Model.ExchangeRate)</td>
-            </tr>
+            </tr>*@
 
             <tr>
                 <td class="N">13</td>
@@ -315,12 +315,12 @@
                 <td  class="numberFormat">@Convert.ToDouble(@Model.DomeCUPPSFees * Model.ExchangeRate)</td>
             </tr>
 
-            <tr>
+            @*<tr>
                 <td class="N">14</td>
                 <td >Domestic Ny Fees</td>
                 <td class="numberFormat">@Model.DomeNYFees</td>
                 <td class="numberFormat">@Convert.ToDouble(@Model.DomeNYFees * Model.ExchangeRate)</td>
-            </tr>
+            </tr>*@
 
             <tr>
                 <td class="N">15</td>
@@ -347,7 +347,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2">  Tax :</td>
+                    <td colspan="2">  Revenue Stamp(5%) :</td>
 
                     <td class="numberFormat">@Model.TaxDollar </td>
                     <td class="numberFormat">@Model.TaxSDG</td>
@@ -357,7 +357,7 @@
                     <td colspan="2"> Grand Total :</td>
 
                     <td class="numberFormat">@Model.GrandTotalDollar </td>
-                    <td class="numberFormat">@Model.GrandTotalSDG</td>
+                    <td class="numberFormat2">@Model.GrandTotalSDG</td>
                 </tr>
 
             </tfoot>
@@ -414,18 +414,44 @@
            window.addEventListener("load", window.print());
           // window.location.href = "/AdvancePrint/PrintInvoice"
             
-           $('.numberFormat').each(function () {
-               var item = $(this).text();
+        //$('.numberFormat').each(function () {
+        //    var item = parseFloat($(this).text());
 
-               var N = round(item,2);
-              /// var N = item.toFixed(2);
+        //    if (!isNaN(item)) {
+
+        //        if (item === 0) {
+        //            $(this).text('0');
+        //        } else {
+        //            var num = item.toLocaleString(undefined, {
+        //                minimumFractionDigits: 3,
+        //                maximumFractionDigits: 3
+        //            });
+
+        //            $(this).text(num);
+        //        }
+        //    }
+        //});
 
 
-               var num = Number(N).toLocaleString();
-               $(this).text(num);
-           });
 
 
+        $('.numberFormat').each(function () {
+            var item = parseFloat($(this).text().replace(/,/g, ''));
+
+            if (!isNaN(item)) {
+
+                if (item === 0) {
+                    $(this).text('0');
+                } else {
+                    var num = item.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 4
+                    });
+
+                    $(this).text(num);
+                }
+            }
+        });
 
            function round(value, exp) {
                if (typeof exp === 'undefined' || +exp === 0)
@@ -447,9 +473,16 @@
            }
 
 
+        $('.numberFormat2').each(function () {
+            var item = $(this).text();
+
+            var N = round(item, 2);
+            /// var N = item.toFixed(2);
 
 
-
+            var num = Number(N).toLocaleString();
+            $(this).text(num);
+        });
 
 
 

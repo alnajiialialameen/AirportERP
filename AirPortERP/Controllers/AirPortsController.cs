@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Threading;
 namespace AirPortERP.Controllers
@@ -101,7 +100,8 @@ namespace AirPortERP.Controllers
 
                     db.AirPorts.Add(model);
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
+                    int lastId = model.Id;
+                    return Json(new { success = true, message = "Add", LastId = lastId }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -134,32 +134,6 @@ namespace AirPortERP.Controllers
 
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAirPorts.rpt")));
-            IQueryable<AirPort> AirPorts;
-            AirPorts = db.AirPorts;
-            rd.SetDataSource(AirPorts.Select(p => new
-            {
-
-                NameEn = p.NameEn,
-                NameAr = p.NameAr,
-                Code = p.Code,
-                CountryName = p.Country.NameEn
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "AirPorts.pdf");
-        }
 
 
 

@@ -121,10 +121,9 @@
 
 
 
-    <!-- Model Start -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModalNyAndCupps1" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content" id="myModel-content">
+            <div class="modal-content" id="myModel-contentNyAndCupps1">
 
                 <!-- Model content -->
 
@@ -135,7 +134,6 @@
             </div>
         </div>
     </div>
-    <!--Model End -->
 
 </section>
 @section scripts{
@@ -146,19 +144,35 @@
 
 
                 function format(d) {
-                    return '<div class="card Details"><div class="card-body"><Span>Landing Date:</Span> '
-                        + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
-                        '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + '<Span>  &nbsp;&nbsp; &nbsp;&nbsp AirPortFrom:</Span> ' + d.AirPortFrom + '<br>' +
-                         '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '<Span>AirPortTo:</Span> ' + d.AirPortTo + '<br>' +
-                         '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-                         '<Span>Wt: </Span>' + d.MaxTakoffWieght + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-                         '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
-                         '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
 
-                         '<br><button class="btn btn-success btn-sm m-2" onclick="getNyAndCupps(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="MoreDetails(' + d.Id
-                         + ')">Details</button>' +
-                        '<br></div></div>';
-
+                    if (d.IsStop == true) {
+                        return '<div class="card Details card-warning"><div class="card-body card-warning"><Span>Landing Date:</Span> '
+                            + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                            '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + '<Span>  &nbsp;&nbsp; &nbsp;&nbsp AirPortFrom:</Span> ' + d.AirPortFrom + '<br>' +
+                             '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '<Span>AirPortTo:</Span> ' + d.AirPortTo + '<br>' +
+                             '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                             '<Span>Wt: </Span>' + d.MaxTakoffWieght + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                             '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                             '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                            '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+                             '<br> <span class="badge badge-danger">تم تحرير المطالبة للرحلة</span> <button class="btn btn-info btn-sm m-2" onclick="MoreDetails(' + d.Id
+                             + ')">Details</button>' +
+                            '<br></div></div>';
+                    } else
+                    {
+                        return '<div class="card Details"><div class="card-body"><Span>Landing Date:</Span> '
+                          + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                          '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + '<Span>  &nbsp;&nbsp; &nbsp;&nbsp AirPortFrom:</Span> ' + d.AirPortFrom + '<br>' +
+                           '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '<Span>AirPortTo:</Span> ' + d.AirPortTo + '<br>' +
+                           '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                           '<Span>Wt: </Span>' + d.MaxTakoffWieght + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                           '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                           '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<br>' +
+                            '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+                           '<br><button class="btn btn-success btn-sm m-2" onclick="getNyAndCupps(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="MoreDetails(' + d.Id
+                           + ')">Details</button>' +
+                          '<br></div></div>';
+                    }
                 }
 
 
@@ -251,6 +265,12 @@
                     "dom": '<"top"l>rt<"bottom"ip><"clear">',
                     "fnInitComplete": function (oSettings, json) {
                         addSearchControl(json);
+                    },
+                    "rowCallback": function (row, data) {
+                        // Check if IsStop is true and change the row color
+                        if (data.IsStop) {
+                            $(row).css('background-color', '#faeda7');
+                        }
                     }
                 });
 
@@ -329,8 +349,8 @@
 
                 $.get("/RevenueMain/GetNyAndCuppsfeesParial", { id: id }, function (nn) {
 
-                    $("#myModel-content").html(nn);
-                    $("#myModal").modal('show');
+                    $("#myModel-contentNyAndCupps1").html(nn);
+                    $("#myModalNyAndCupps1").modal('show');
                     $("#AjaxLoader").hide()
 
                     $('.select2bs4').select2({
@@ -346,9 +366,9 @@
                                 alert("Form successful submitted!");
                             }
                         });
-                        $('#quickForm').validate({
+                        $('#NyAndCuppsFormUpdate').validate({
                             rules: {
-                                DISEMB: {
+                                Pax: {
                                     required: true,
                                     digits: true,
                                     maxlength: 14,
@@ -371,8 +391,8 @@
 
                             },
                             messages: {
-                                DISEMB: {
-                                    required: "Please Enter Number Of DISEMB",
+                                Pax: {
+                                    required: "Please Enter Number Of Pax",
                                     digits: "Please inter Number Only ",
                                     maxlength: "DISEMB must be at max 14 ",
 
@@ -434,8 +454,8 @@
 
             function UpdateNyAndCuppsfees() {
 
-                var model = $('#myModal');
-                var form = $('form[name="DepartmentFormAdd"]');
+                var model = $('#myModalNyAndCupps1');
+                var form = $('form[name="NyAndCuppsFormUpdate"]');
 
 
                 form.validate();

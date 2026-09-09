@@ -1,0 +1,68 @@
+﻿@model AirPortERP.ViewModels.ClaimAddViewModel2
+@using AirPortERP.Models;
+@{ 
+    Entities db = new Entities();
+}
+<form name="ClaimFormAdd" id="quickForm">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        @{
+            if (Model.Id > 0)
+            {
+                <h5>Update Claim </h5>
+            }
+            else
+            {
+
+                <h5>Add Claim </h5>
+            }
+
+        }
+
+
+
+        <button class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(C => C.Id)
+        @Html.HiddenFor(C => C.TowerDataId)
+        <div class="form-horizontal">
+
+            <div class="card-body">
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AccId, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("AccId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                        @Html.ValidationMessageFor(model => model.AccId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" onclick="AddClaim()" class="btn btn-primary">
+                    @{
+                        if (Model.Id > 0)
+                        {
+                            <span>Update Claim</span>
+                        }
+                        else
+                        {
+
+                            <span>Add Claim</span>
+                        }
+
+                    }
+
+
+                </button>
+                <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+

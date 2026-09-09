@@ -498,9 +498,7 @@
                     })
 
                     $('#Date').datetimepicker({
-                        format: "YYYY-MM-DD",
-                     
-
+                        format: 'DD/MM/YYYY'
                     });
 
 
@@ -936,6 +934,13 @@
                 if (!form.valid()) {
                     return;
                 } else {
+
+
+                    var date = $('#Date').val();
+
+                    var formattedDate = moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
+
+
                     var data = form.serialize();
                     $.post("/AccountSand/CreateOrUpdateBalance", data, function (res) {
                         if (res) {

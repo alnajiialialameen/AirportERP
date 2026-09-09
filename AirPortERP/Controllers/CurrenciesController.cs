@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 
 namespace AirPortERP.Controllers
@@ -122,38 +121,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptCurrencies.rpt")));
-            IQueryable<Currency> Currencies;
-            Currencies = db.Currencies;
-            rd.SetDataSource(Currencies.Select(p => new
-            {
-                Id = p.Id,
-                CurrencyName = p.CurrencyName,
-                IsActive = p.IsActive,
-                MajorUnit = p.MajorUnit,
-                MinorUnit = p.MinorUnit,
-                ExchangeRateAgainstPrimaryCurrency = p.ExchangeRateAgainstPrimaryCurrency,
-                Notes = p.Notes,
-                CreatedBy = p.CreatedBy,
-                CreationDate = p.CreationDate,
-                UpdatedBy = p.UpdatedBy,
-                UpdatingDate = p.UpdatingDate,
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "Currencies.pdf");
-        }
 
 
         public ActionResult Details(int? id)

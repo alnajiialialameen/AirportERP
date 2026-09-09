@@ -1,17 +1,10 @@
 ﻿@model AirPortERP.ViewModels.NyAndCuppsFeesViewModelDTO
 
-<form name="DepartmentFormAdd" id="quickForm">
+<form name="NyAndCuppsFormUpdate" id="NyAndCuppsFormUpdate">
     @Html.AntiForgeryToken()
     <div class="modal-header">
-     
-
-                <h5>Update Cupps And Ny</h5>
-            
-
-        
-
-
-
+    
+                <h5>Update Cupps And Ny</h5>        
         <button class="close" data-dismiss="modal">&times;</button>
     </div>
     <div class="modal-body">
@@ -28,12 +21,12 @@
                 </div>
 
                 @*<div class="form-group row">
-                    @Html.LabelFor(model => model.DisEmbInft, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.DisEmbInft, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.DisEmbInft, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+            @Html.LabelFor(model => model.DisEmbInft, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DisEmbInft, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DisEmbInft, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
                 <div class="form-group row">
                     @Html.LabelFor(model => model.TRNYCUPPS, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -43,7 +36,7 @@
                     </div>
                 </div>
 
-                 
+
                 <div class="form-group row">
                     @Html.LabelFor(model => model.IsNotUsedCUPPS, "IsNotUsedCUPPS", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -52,9 +45,17 @@
                     </div>
                 </div>
 
+                @if (Model.FlightTypeD == 2)
+                {
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.PaxInter, "Pax Inter", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PaxInter, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PaxInter, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                }
 
-
-             
                 @Html.HiddenFor(C => C.OfficerDataId)
 
 

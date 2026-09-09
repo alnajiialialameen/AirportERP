@@ -111,7 +111,17 @@
 
 
     <div class="invoice-Ny-Body">
-        <h4 class="text-center"><u> Invoice Ny Domestic</u></h4>
+
+        @if (Convert.ToInt32(ViewBag.PaxInter) > 0)
+        {
+            <h4 class="text-center"><u>Invoice Ny Domestic/International</u></h4>
+        }
+        else
+        {
+            <h4 class="text-center"><u>Invoice Ny Domestic</u></h4>
+        }
+
+       
         <div class="arline-header">
             <div class="row">
                 <div class="col-md-12">
@@ -160,14 +170,14 @@
                 <th>
                     Fees
                 </th>
-               
 
-                <th>
-                    Amount SDG
-                </th>
                 <th>
 
                     Amount $
+                </th>
+
+                <th>
+                    Amount SDG
                 </th>
                
 
@@ -212,16 +222,16 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.DomeFees)
                         </td>
-                     
+
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.AmountDollar)
+                        </td>
+
                         <td class="numberFormat">
                             @Html.DisplayFor(modelItem => item.DomeNYFeesSDG)
                         </td>
                         
-                        
-                           <td class="numberFormat">
-                            @Html.DisplayFor(modelItem => item.AmountDollar)
-                        </td>
-
 
 
 
@@ -235,12 +245,12 @@
 
                 <tr class="footer">
                     <td colspan="4">  Total :</td>
-                    <td class="numberFormat">@ViewBag.SumPax</td>
+                    <td>@ViewBag.SumPax</td>
                     <td></td>
 
-                  
-                    <td class="numberFormat">@ViewBag.SumDomeNYFeesSDG</td>
+
                     <td class="numberFormat">@ViewBag.SumAmountDollar</td>
+                    <td class="numberFormat">@ViewBag.SumDomeNYFeesSDG</td>
 
                    
                 </tr>

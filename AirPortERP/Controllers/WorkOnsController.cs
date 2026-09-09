@@ -15,14 +15,14 @@ namespace AirPortERP.Controllers
     public class WorkOnsController : Controller
     {
         private Entities db = new Entities();
-        CommonUsed CommonUsed  = new CommonUsed();
+        CommonUsed CommonUsed = new CommonUsed();
         // GET: WorkOns
         public ActionResult Index()
         {
-         
+
             return View();
         }
-        
+
 
 
         public ActionResult WorkOnUpdate()
@@ -47,12 +47,12 @@ namespace AirPortERP.Controllers
         }
 
         // GET: WorkOns/Create
-  
+
 
         // GET: WorkOns/Edit/5
-     
 
-      
+
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -88,11 +88,11 @@ namespace AirPortERP.Controllers
             var WorkOnList = new List<WorkOnViewModel>();
             foreach (var item in WorkOn)
             {
-              //  AirLinesFlightTripsList.Add(new AirLinesFlightTripsViewMosels
+                //  AirLinesFlightTripsList.Add(new AirLinesFlightTripsViewMosels
                 WorkOnViewModel A = new WorkOnViewModel();
                 A.Id = item.Id;
-                A.MouthWorkOn = item?.MouthWorkOn.Mouth;
-                A.YearWorkOn = Convert.ToInt32(item?.YearWorkOn.Year);
+                A.MouthWorkOn = CommonUsed.GetMonthName(Convert.ToInt32(item.MonthWorkOn));
+                A.YearWorkOn = Convert.ToInt32(item?.YearWorkOn);
 
 
 
@@ -105,50 +105,70 @@ namespace AirPortERP.Controllers
 
         public ActionResult GetWorkOnParial(int? id)
         {
-        
-
-            WorkOn WorkOn = new WorkOn();
+            WorkOnModel model = new WorkOnModel();
 
             if (id > 0)
             {
+                var workOn = db.WorkOns.Find(id);
 
-                WorkOn = db.WorkOns.Find(id);
-
+                model.Id = workOn.Id;
+                model.YearWorkOn = workOn.YearWorkOn;
+                model.MouthWorkOn = workOn.MonthWorkOn;
+                model.CompanyInfoId = workOn.CompanyInfoId;
             }
-          
 
-            ViewBag.YearWorkOnId = new SelectList(db.YearWorkOns, "Id", "Year", WorkOn.YearWorkOnId);
-            ViewBag.MouthWorkOnId = new SelectList(db.MouthWorkOns, "Id", "Mouth", WorkOn.MouthWorkOnId);
+            ViewBag.MonthList = CommonUsed.GetMonths();
+            ViewBag.YearList = CommonUsed.GetYears();
 
-            return PartialView("_AddEditWorkOn", WorkOn);
-
+            return PartialView("_AddEditWorkOn", model);
         }
 
-        public ActionResult CreateOrUpdateWorkOn(WorkOn model)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult CreateOrUpdateWorkOn(WorkOnModel model)
         {
             var id = User.Identity.GetUserId();
-          
+            WorkOn workOn = new WorkOn();
+            workOn.Id = model.Id;
+            workOn.YearWorkOn = model.YearWorkOn;
+            workOn.MonthWorkOn = model.MouthWorkOn;
+            workOn.CompanyInfoId = model.CompanyInfoId;
+            workOn.UserId = id;
+
             CommonUsed.HasMouth(id);
             if (ModelState.IsValid)
             {
 
-          
+
                 if (model.Id > 0)
                 {
                     model.UserId = id;
-                    db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(workOn).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return Json(new { success = true, message = "Update" }, JsonRequestBehavior.AllowGet);
-                   
+
                 }
                 else
                 {
 
                     model.UserId = id;
-                    db.WorkOns.Add(model);
+                    db.WorkOns.Add(workOn);
                     db.SaveChanges();
                     return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
-                 
+
                 }
 
             }

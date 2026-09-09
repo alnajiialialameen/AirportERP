@@ -95,15 +95,19 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <div class="row">
-                            <div class=" col-md-4">
+                            <div class=" col-md-3">
                                 <button id="btnsearch" onclick="Search()" class="btn btn-primary btn-sm form-control">بحث</button>
                             </div>
 
-                            <div class=" col-md-4">
+                            <div class=" col-md-3">
                                 <button id="btnall" onclick="PrintData()" class="btn form-control btn-info btn-sm">Print Search </button>
                             </div>
 
-                            <div class=" col-md-4">
+                            <div class=" col-md-3">
+                                <button id="btnall" onclick="PrintDataForInterPasengerInDomestic()" class="btn form-control btn-info btn-sm">Print Inter Pasenger In Domestic  </button>
+                            </div>
+
+                            <div class=" col-md-3">
                                 <button id="btnPrintJournal" onclick="PrintJournal()" class="btn form-control btn-info btn-sm">Print Journal </button>
                             </div>
                         </div>
@@ -196,6 +200,20 @@ function PrintJournal() {
                 //window.location.href = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSDetails?DateFrom=" + DateFrom;
 
                 var url = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSDetails?DateFrom=" + DateFrom;
+                window.open(url, '_blank').focus();
+            }
+        }
+
+        function PrintDataForInterPasengerInDomestic() {
+            var DateFrom = $("#DateFrom").val();
+            if (DateFrom == "" || DateFrom == null) {
+                Swal.fire('Select The Date ')
+                $("#AjaxLoader").hide();
+                return false;
+            } else {
+                //window.location.href = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSDetails?DateFrom=" + DateFrom;
+
+                var url = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSForDomesticDetails?DateFrom=" + DateFrom;
                 window.open(url, '_blank').focus();
             }
         }

@@ -103,7 +103,8 @@
                             </div>
 
                             <div class=" col-md-4">
-                                <button id="btnPrintJournal" onclick="PrintJournal()" class="btn form-control btn-info btn-sm">Print Journal </button>
+                                <button id="btnall" onclick="PrintDataInterForDomestic()" class="btn form-control btn-info btn-sm">Print Internaional </button>
+                                @*<button id="btnPrintJournal" onclick="PrintJournal()" class="btn form-control btn-info btn-sm">Print Journal </button>*@
                             </div>
                         </div>
 
@@ -183,18 +184,35 @@
             } else {
 
 
-
-          
-
-
-
                 //window.location.href = "/AdvencePrintExtenstion/PrintDataTotalDomesticCUPPSDetails?DateFrom=" + DateFrom;
-
-
                 var url = "/AdvencePrintExtenstion/PrintDataTotalDomesticCUPPSDetails?DateFrom=" + DateFrom;
                 window.open(url, '_blank').focus();
             }
         }
+
+
+        function PrintDataInterForDomestic() {
+            var DateFrom = $("#DateFrom").val();
+            if (DateFrom == "" || DateFrom == null) {
+                Swal.fire('Select The Date ')
+                $("#AjaxLoader").hide();
+                return false;
+            } else {
+
+
+                //window.location.href = "/AdvencePrintExtenstion/PrintDataTotalDomesticCUPPSDetails?DateFrom=" + DateFrom;
+                var url = "/AdvencePrintExtenstion/PrintDataTotalInterCUPPSForDomesticDetails?DateFrom=" + DateFrom;
+                window.open(url, '_blank').focus();
+            }
+        }
+
+
+
+
+
+
+
+
 
         function PrintJournal() {
             var DateFrom = $("#DateFrom").val();

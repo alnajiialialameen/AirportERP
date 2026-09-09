@@ -19,7 +19,9 @@ namespace AirPortERP.Models
         {
             this.AccountOperations = new HashSet<AccountOperation>();
             this.FinancialClaims = new HashSet<FinancialClaim>();
+            this.FinancialClaim1 = new HashSet<FinancialClaim1>();
             this.SandMains = new HashSet<SandMain>();
+            this.SandMain1 = new HashSet<SandMain1>();
         }
     
         public int Id { get; set; }
@@ -30,6 +32,10 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FinancialClaim> FinancialClaims { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaim1> FinancialClaim1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SandMain> SandMains { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SandMain1> SandMain1 { get; set; }
     }
 }

@@ -1,0 +1,417 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintDailyViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+<style type="text/css" media="print">
+   
+
+   @@media print{@@page {size: landscape}}
+
+ 
+
+
+
+</style>
+
+
+
+<style>
+
+
+       /*////////////////////////////////////////////////////Landing/////////////////////////////////////////////*/
+        
+
+  
+
+             .invoiceLanding {
+            padding:10px;
+            font-family:Arial
+        }
+       .invoiceLanding .invoice-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+          
+        }
+        
+        .invoiceLanding .invoice-header .text-word {
+                  
+               float:none;
+
+        }
+
+            
+
+
+        .invoiceLanding .invoice-header .text-word h6 {
+            font-size:16px;
+              font-weight:bolder;
+        }
+        .invoiceLanding .invoice-header img {
+            width:90px;
+            height:90px;
+        }
+               .invoiceLanding .invoice-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceLanding .invoice-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceLanding .invoice-Body {
+                clear:both;
+            }
+
+             .invoiceLanding .invoice-Body .h-mr {
+              margin-right:16px;
+              /*//ADD//*/
+                font-size:16px;
+        }
+               
+
+                .invoiceLanding .invoice-Landing-details th {
+                    background-color:#f3f9f9
+                }
+
+
+                    .invoiceLanding .invoice-Landing-details table,th,td {
+               border: .5px solid #000;
+              padding: .4rem;
+                padding-bottom: 0.3rem;
+              font-size: 15px;
+              padding-bottom: 10px;
+              min-width:55px;
+              text-align: center;
+               
+                
+               
+            }
+                   .invoiceLanding .invoice-Landing-details table,th,td ,tr {
+               border: .5px solid #000;
+             
+              text-align: center;
+               
+                
+               
+            }
+            
+
+
+
+
+                       .invoiceLanding .invoice-Landing-details .reg {
+                                min-width: 80px;
+                                 } 
+
+
+                        .invoiceLanding .invoice-Landing-details table .footer {
+                            background-color:#e6eded;
+                        }
+
+              
+
+                .invoiceLanding .invoice-Landing-details .footer {
+                     background-color:#ebefef;
+                     font-weight:600;
+                     
+                }
+
+
+    .fontDiscount {
+       font-size:x-small;
+       font-weight:normal;
+    }
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+<section class="invoiceLanding">
+
+
+    <div class="invoice-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/Authority.jpg" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>The Republic Of Sudan</h6>
+            <h6>Civil Aviation Authority</h6>
+            <h6>Aircraft Movement </h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/Authority.jpg" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-Body">
+       @*<h5 class="text-center"><u> Invoice Landing</u></h5>*@
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="h-mr">Date: @ViewBag.Date</label>
+                    @*<label class="h-mr">From: @ViewBag.DateFrom</label>
+                    <label class="h-mr">To: @ViewBag.DateTo</label>*@
+                    @*<label class="h-mr">ExchangeRate: @ViewBag.ExchangeRate</label>*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="invoice-Landing-details" style="width:100%;margin-bottom:40px;">
+
+
+
+
+        <table class="Landing-table-header">
+            
+                <tr>
+                    <th rowspan="2">
+                        N
+                    </th>
+                    <th rowspan="2">
+                        Call
+                    </th>
+                    <th rowspan="2">
+                        FlightNo
+                    </th>
+                    <th colspan="3">
+                        Aircraft
+                    </th>
+                    <th rowspan="2">
+                        From
+                    </th>
+
+                    <th rowspan="2">
+
+                        ATA
+                    </th>
+                    <th rowspan="2">
+                         To
+
+                    </th>
+
+                    <th rowspan="2">
+                        ATD
+                    </th>
+
+                    <th rowspan="2">
+                        Landing
+                        Per.No 
+                    </th>
+                    <th rowspan="2">
+                        POB
+                    </th>
+
+                    <th rowspan="2">
+                        QBD
+                    </th>
+
+                    <th  rowspan="2">
+                        Note
+                    </th>
+                   
+
+                   
+                </tr>
+            <tr>
+                <th>
+                    Reg 
+                </th>
+                <th>
+                    Operation
+                </th>
+                <th>
+                    Type
+                </th>
+               
+                    
+            </tr>
+            
+              <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Call)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightNo)
+                        </td>
+
+                        <td class="reg">
+                            @Html.DisplayFor(modelItem => item.Reg)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Operation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+
+
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.From)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ATA)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.To)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ATD)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LandingPermission)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.POB)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QBD)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+
+
+                    </tr>
+                }
+
+                 
+
+            </tbody>
+
+           
+
+              
+
+           
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+          // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+
+
+    </script>
+
+}

@@ -43,8 +43,13 @@
 
     <p>
 
-        <a class="btn btn-primary" href="@Url.Action("Create","CompanyInfoes")">Add New AirPort</a>
-        <button class="btn btn-info float-right" onclick="PrintData()">Print All AirLine Agents </button>
+        @*<a class="btn btn-primary" href="@Url.Action("Create","CompanyInfoes")">Add New AirPort</a>*@
+
+
+        <button class="btn btn-info m-2" id="addMovementArrived" data-toggle="modal" data-target="#modal-addcompanyInfo">Add New AirPort</button>
+
+
+        @*<button class="btn btn-info float-right" onclick="PrintData()">Print All AirLine Agents </button>*@
     </p>
 
 
@@ -64,11 +69,11 @@
                             <th>Name in  Arabic </th>
                             <th>Name in English</th>
                             <th>Code</th>
-                            <th>Address</th>
+                            @*<th>Address</th>
                             <th>Longitude</th>
-                            <th>Latitude</th>
+                            <th>Latitude</th>*@
                             @*<th>Image</th>*@
-                            <th>IsActive</th>
+                            <th>IsSingleAccounting</th>
                             <th>Operation</th>
 
                         </tr>
@@ -93,21 +98,182 @@
 
 
 
-    <!-- Model Start -->
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" id="myModel-content">
+    <div class="modal fade" id="modal-editcompanyInfo">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="form-horizontal" id="form-editcompanyInfo">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Movement </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" id="edId" name="edId" />
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Arabic Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="edNameAr" name="edNameAr" placeholder=" Enter Arabic Name " autocomplete="off">
 
-                <!-- Model content -->
+                                        </div>
+                                    </div>
 
-                <div class="modal-footer justify-content-between">
-                    <button class="btn btn-primary btn-xs">Save Change</button>
-                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">English Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="edNameEn" name="edNameEn" placeholder="Enter English Name " autocomplete="off">
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="edCode" name="edCode" placeholder=" Code  " autocomplete="off">
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Is Single Accounting</label>
+                                        <div class="col-sm-10 d-flex align-items-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="edIsSingleAccounting" name="edIsSingleAccounting" value="true">
+                                                <label class="form-check-label" for="IsSingleAccounting">
+                                                    Is Single Accounting
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
             </div>
+            <!-- /.modal-content -->
+
         </div>
+        <!-- /.modal-dialog -->
     </div>
-    <!--Model End -->
+
+
+
+
+    <div class="modal fade" id="modal-addcompanyInfo">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="form-horizontal" id="form-addcompanyInfo">
+                    <div class="modal-header">
+                        <h4 class="modal-title">  Movement </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Arabic Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="addNameAr" name="addNameAr" placeholder=" Enter Arabic Name " autocomplete="off">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">English Name </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="addNameEn" name="addNameEn" placeholder="Enter English Name " autocomplete="off">
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control select2" id="addCode" name="addCode" placeholder=" Code  " autocomplete="off">
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Is Single Accounting</label>
+                                        <div class="col-sm-10 d-flex align-items-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="addIsSingleAccounting" name="addIsSingleAccounting" value="true">
+                                                <label class="form-check-label" for="IsSingleAccounting">
+                                                    Is Single Accounting
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary" id="save">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 </section>
 @section scripts{
@@ -132,19 +298,19 @@
                           { "data": "NameAr", "autowidth": true },
                              { "data": "NameEn", "autowidth": true },
                              { "data": "Code", "autowidth": true },
-                                { "data": "Address", "autowidth": true },
-                                   { "data": "Longitude", "autowidth": true },
-                                     { "data": "Latitude", "autowidth": true },
+                                //{ "data": "Address", "autowidth": true },
+                                //   { "data": "Longitude", "autowidth": true },
+                                //     { "data": "Latitude", "autowidth": true },
 
 
 
                                           {
-                                              "data": "IsActive", "width": "50px", "render": function (data) {
+                                              "data": "IsSingleAccounting", "width": "50px", "render": function (data) {
                                                   var cssClass;
-                                                  if (data === "Not Active") {
+                                                  if (data === "الفواتير بالرحلات") {
                                                       cssClass = "badge-danger";
                                                   }
-                                                  if (data === "Active") {
+                                                  if (data === "الفواتير بين التواريخ") {
                                                       cssClass = "badge-success";
                                                   }
                                                   return '<span class="badge ' + cssClass + '">' + data + '</span>'
@@ -154,10 +320,10 @@
 
 
                                            //{
-                                              
+
                                            //    "data": "Image", "width": "50px", "render": function (data) {
 
-                                                     
+
                                            //        return '<img src="/Uploads/Images/' + data + '" style="width:90px" class="img-thumbnail"/>'
 
                                            //    }
@@ -167,7 +333,7 @@
 
                                    {
                                        "data": "Id", "width": "50px", "render": function (data) {
-                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="Edit(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
+                                           return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="getData(' + data + ')">Update</a><button class="dropdown-item"  onclick="Delete(' + data + ')">Delete</button></div></div>'
 
                                        }
                                    },
@@ -327,7 +493,230 @@
             function Edit(id) {
 
                 window.location.href = "/CompanyInfoes/Edit/"+id;
+        }
+
+
+
+
+         $(function () {
+            // Set default submit handler to call the saveAr function
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    save();
+                }
+            });
+
+            // Initialize form validation on the form with ID 'form-arrived'
+             $('#form-addcompanyInfo').validate({
+                rules: {
+                     addNameAr: {
+                        required: true
+                    },
+                     addNameEn: {
+                        required: true
+                    },
+                     addCode: {
+                        required: true
+                    },
+
+
+
+
+
+                },
+                messages: {
+                    addNameAr: {
+                        required: "Please Enter Arabic Name."
+                    },
+                    addNameEn: {
+                        required: "Please Enter English Name."
+                    },
+                    addCode: {
+                        required: "Please select Code Registration."
+                    },
+
+
+
+                },
+                errorElement: 'span',
+                errorClass: 'invalid-feedback', // This class will style the error messages
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('datetimepicker-input')) {
+                        // Special case for datetimepicker inputs
+                        error.insertAfter(element.closest('.input-group'));
+                    } else {
+                        error.insertAfter(element); // Insert error after the input element
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+
+        function save()
+        {
+
+
+            var ob = {
+                "NameAr": $('#addNameAr').val(),
+                "NameEn": $('#addNameEn').val(),
+                "Code": $('#addCode').val(),
+                "IsSingleAccounting": $('#addIsSingleAccounting').prop('checked'),
+            };
+
+            // Perform the AJAX request to send the data
+            $.ajax({
+                url: "@Url.Action("CreateOrUpdateCompanyInfo", "CompanyInfoes")",
+                type: "POST",
+                data: JSON.stringify(ob),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                error: function (response) {
+                    // Handle error
+                },
+                success: function (response) {
+
+                    toastr[response.Status](response.Message, response.Title);
+                    // $('#add-form').bootstrapValidator('resetForm', true);
+                    $('modal-addcompanyInfo').modal('hide');
+
+                    dataTable.ajax.reload();
+
+
+
+                }
+            });
+        };
+
+
+
+        function getData(id) {
+
+            $("#modal-editcompanyInfo").modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: "/CompanyInfoes/GetDataForUpdate/" + id,
+                dataType: "json",
+                success: function (response) {
+
+                    $('#edId').val(response.Id);
+                    $('#edNameAr').val(response.NameAr);
+                    $('#edNameEn').val(response.NameEn);
+                    $('#edCode').val(response.Code);
+                    // checkbox
+                    $('#edIsSingleAccounting').prop('checked', response.IsSingleAccounting === true);
+                },
+                error: function (xhr, status, error) {
+
+                    console.error(error);
+                    alert("Error loading data");
+                }
+            });
+        }
+
+
+
+
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                   editAr();
+                }
+            });
+            $('#form-editcompanyInfo').validate({
+                rules: {
+                    edNameAr: {
+                        required: true
+                    },
+                    edNameEn: {
+                        required: true
+                    },
+                    edCode: {
+                        required: true
+                    },
+
+
+
+
+
+                },
+                messages: {
+                    edNameAr: {
+                        required: "Please Enter Arabic Name."
+                    },
+                    edNameEn: {
+                        required: "Please Enter English Name."
+                    },
+                    edCode: {
+                        required: "Please select Code Registration."
+                    },
+
+
+
+                },
+                errorElement: 'span',
+                errorClass: 'invalid-feedback', // This class will style the error messages
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('datetimepicker-input')) {
+                        // Special case for datetimepicker inputs
+                        error.insertAfter(element.closest('.input-group'));
+                    } else {
+                        error.insertAfter(element); // Insert error after the input element
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+        function editAr() {
+            var ob = {
+
+                "Id": $('#edId').val(),
+                "NameAr": $('#edNameAr').val(),
+                "NameEn": $('#edNameEn').val(),
+                "Code": $('#edCode').val(),
+                "IsSingleAccounting": $('#edIsSingleAccounting').prop('checked'),
+            };
+
+            // Perform the AJAX request to send the data
+            $.ajax({
+                 url: "@Url.Action("CreateOrUpdateCompanyInfo", "CompanyInfoes")",
+                type: "POST",
+            data: JSON.stringify(ob),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                // Handle error
+            },
+            success: function (response) {
+
+                toastr[response.Status](response.Message, response.Title);
+                // $('#add-form').bootstrapValidator('resetForm', true);
+                $('#modal-editcompanyInfo').modal('hide');
+
+                dataTable.ajax.reload();
+
+
+
             }
+        });
+        }
+
+
+
+
+
+
+
 
     </script>
 }

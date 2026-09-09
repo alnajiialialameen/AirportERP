@@ -18,18 +18,22 @@ namespace AirPortERP.Models
         public AccountTree()
         {
             this.AccountOperations = new HashSet<AccountOperation>();
+            this.AccountTree1 = new HashSet<AccountTree>();
             this.AirLines = new HashSet<AirLine>();
             this.FinancialClaims = new HashSet<FinancialClaim>();
+            this.FinancialClaim1 = new HashSet<FinancialClaim1>();
+            this.FinancialClaimDetails = new HashSet<FinancialClaimDetail>();
             this.FuelCompanies = new HashSet<FuelCompany>();
             this.HandlingAgentsCompanies = new HashSet<HandlingAgentsCompany>();
             this.OpenAccBalances = new HashSet<OpenAccBalance>();
             this.SandDetails = new HashSet<SandDetail>();
-            this.SandMains = new HashSet<SandMain>();
+            this.SandDetails1 = new HashSet<SandDetails1>();
+            this.SandMain1 = new HashSet<SandMain1>();
         }
     
         public int Id { get; set; }
         public string AccName { get; set; }
-        public Nullable<decimal> AccParent { get; set; }
+        public Nullable<int> AccParent { get; set; }
         public Nullable<decimal> AccNumber { get; set; }
         public Nullable<int> AccType { get; set; }
         public Nullable<int> AccLevel { get; set; }
@@ -39,9 +43,16 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountOperation> AccountOperations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountTree> AccountTree1 { get; set; }
+        public virtual AccountTree AccountTree2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AirLine> AirLines { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FinancialClaim> FinancialClaims { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaim1> FinancialClaim1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FinancialClaimDetail> FinancialClaimDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FuelCompany> FuelCompanies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,6 +62,8 @@ namespace AirPortERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SandDetail> SandDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SandMain> SandMains { get; set; }
+        public virtual ICollection<SandDetails1> SandDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SandMain1> SandMain1 { get; set; }
     }
 }

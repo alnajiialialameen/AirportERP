@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,28 +45,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Dll\CrystalDecisions.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="N2C">
-      <HintPath>..\..\..\..\..\dll\N2C.dll</HintPath>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList">
-      <HintPath>..\..\..\..\dll\PagedList.dll</HintPath>
-    </Reference>
-    <Reference Include="PagedList.Mvc">
-      <HintPath>..\..\..\..\dll\PagedList.Mvc.dll</HintPath>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -210,6 +199,7 @@
     <Compile Include="Controllers\AccountTreeController.cs" />
     <Compile Include="Controllers\AdvencePrintBasicController.cs" />
     <Compile Include="Controllers\AdvencePrintExtenstionController.cs" />
+    <Compile Include="Controllers\AirController.cs" />
     <Compile Include="Controllers\AircraftRegistrationsController.cs" />
     <Compile Include="Controllers\AircraftSizesController.cs" />
     <Compile Include="Controllers\AircraftTypesController.cs" />
@@ -254,16 +244,12 @@
     <Compile Include="Controllers\RevenuesController.cs" />
     <Compile Include="Controllers\SecurityFeesController.cs" />
     <Compile Include="Controllers\StayInFeesController.cs" />
+    <Compile Include="Controllers\UnscheduledFlightController.cs" />
     <Compile Include="Controllers\TowerDatasController.cs" />
     <Compile Include="Controllers\TripTypesController.cs" />
+    <Compile Include="Controllers\AccountClaimSingleController.cs" />
     <Compile Include="Controllers\UpdaterController.cs" />
     <Compile Include="Controllers\WorkOnsController.cs" />
-    <Compile Include="Extenstion\Calculation.cs" />
-    <Compile Include="Extenstion\ClsAccount.cs" />
-    <Compile Include="Extenstion\CommonUsed.cs" />
-    <Compile Include="Extenstion\CurrencyFormat.cs" />
-    <Compile Include="Extenstion\CurrencyInfo.cs" />
-    <Compile Include="Extenstion\ToWord.cs" />
     <Compile Include="Models\AccountGroup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -303,13 +289,31 @@
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetRoleClaim.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRoles1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetUserClaims1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserToken.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Bank.cs">
@@ -333,10 +337,22 @@
     <Compile Include="Models\CurrencyDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeletedSandDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeletedSandMain.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FinalInvoiceNumber.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FinancialClaim.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FinancialClaim1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FinancialClaimDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FlightNoCore.cs">
@@ -390,9 +406,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\MouthWorkOn.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\NoiseFee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -432,7 +445,13 @@
     <Compile Include="Models\SandDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SandDetails1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SandMain.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SandMain1.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SecurityFee.cs">
@@ -451,6 +470,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spTotalCompaniesCUPPSForInter_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spTotalCompaniesInterCUPPSForDomestic_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spTotalCompaniesInterCUPPS_Result.cs">
@@ -528,13 +550,16 @@
     <Compile Include="Models\WorkOn.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\YearWorkOn.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Scripts\Extenstion\Calculation.cs" />
+    <Compile Include="Scripts\Extenstion\ClsAccount.cs" />
+    <Compile Include="Scripts\Extenstion\CommonUsed.cs" />
+    <Compile Include="Scripts\Extenstion\CurrencyFormat.cs" />
+    <Compile Include="Scripts\Extenstion\CurrencyInfo.cs" />
+    <Compile Include="Scripts\Extenstion\ToWord.cs" />
     <Compile Include="ViewModels\Account.cs" />
     <Compile Include="ViewModels\PrintInovice.cs" />
-    <Compile Include="Extenstion\RptExtention.cs" />
-    <Compile Include="Extenstion\RoleController.cs" />
+    <Compile Include="Scripts\Extenstion\RptExtention.cs" />
+    <Compile Include="Scripts\Extenstion\RoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -542,331 +567,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\BasicData\RptAircraftRegistrations.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAircraftRegistrations.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptAircraftTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAircraftTypes.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptAirLineAgents.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAirLineAgents.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptAirlines.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAirlines.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptAirLinesFlightTrips.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAirLinesFlightTrips.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptAirports.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptAirports.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptCountries.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptCountries.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptFooter.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptFooter.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptFooterLandscape.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptFooterLandscape.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptHandlingAgentsCompanies.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptHandlingAgentsCompanies.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptMainReportRevenueLandscape.cs">
-      <DependentUpon>RptMainReportRevenueLandscape.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptMainReportRevenue.cs">
-      <DependentUpon>RptMainReportRevenue.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Reports\BasicData\RptMainReportOfficer.cs">
-      <DependentUpon>RptMainReportOfficer.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Ds\dsBasicData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsBasicData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Ds\dsOfficerData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsOfficerData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Ds\dsRevenue.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsRevenue.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Ds\dsTowerData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsTowerData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Ds\Extenstion.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Extenstion.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\OfficerData\RptOfficerDataFilter.cs">
-      <DependentUpon>RptOfficerDataFilter.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Reports\OfficerData\RptOfficerData.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptOfficerData.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Revenue\Dist\RptCUPPSDomeDistribtion.cs">
-      <DependentUpon>RptCUPPSDomeDistribtion.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\Dist\RptCUPPSInterDistribtion.cs">
-      <DependentUpon>RptCUPPSInterDistribtion.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\Graf\RptGraf.cs">
-      <DependentUpon>RptGraf.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\Graf\RptGrafNotSDG.cs">
-      <DependentUpon>RptGrafNotSDG.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\ReportExtenstion\RptCuppsInternal.cs">
-      <DependentUpon>RptCuppsInternal.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptCuppsNoDataDomFees.cs">
-      <DependentUpon>RptCuppsNoDataDomFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptCuppsNoDataIntFees.cs">
-      <DependentUpon>RptCuppsNoDataIntFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptDomeCuppsFees.cs">
-      <DependentUpon>RptDomeCuppsFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptDomeNYFees.cs">
-      <DependentUpon>RptDomeNYFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptDomeNYFeesDiscount.cs">
-      <DependentUpon>RptDomeNYFeesDiscount.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptFinalInvoice1.cs">
-      <DependentUpon>RptFinalInvoice.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptFinalInvoiceNotSDG1.cs">
-      <DependentUpon>RptFinalInvoiceNotSDG.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptFinalTax.cs">
-      <DependentUpon>RptFinalTax.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptFirstClassFees.cs">
-      <DependentUpon>RptFirstClassFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptInterCuppsFees.cs">
-      <DependentUpon>RptInterCuppsFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptInterNYFees.cs">
-      <DependentUpon>RptInterNYFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptInterNYFeesDiscount.cs">
-      <DependentUpon>RptInterNYFeesDiscount.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptJournalCUPPSDome1.cs">
-      <DependentUpon>RptJournalCUPPSDome.rpt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptJournalCUPPSInter1.cs">
-      <DependentUpon>RptJournalCUPPSInter.rpt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptJournalNYDome1.cs">
-      <DependentUpon>RptJournalNYDome.rpt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptJournalNYInter1.cs">
-      <DependentUpon>RptJournalNYInter.rpt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptLandingFees.cs">
-      <DependentUpon>RptLandingFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptLandingFeesDom.cs">
-      <DependentUpon>RptLandingFeesDom.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptMailFees.cs">
-      <DependentUpon>RptMailFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptPushPackFees.cs">
-      <DependentUpon>RptPushPackFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptServiceCarFees.cs">
-      <DependentUpon>RptServiceCarFees.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalCompaniesInterCUPPS1.cs">
-      <DependentUpon>RptTotalCompaniesInterCUPPS.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalCUPPSByCompanyDom1.cs">
-      <DependentUpon>RptTotalCUPPSByCompanyDom.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalCUPPSByCompanyInter1.cs">
-      <DependentUpon>RptTotalCUPPSByCompanyInter.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalNYByCompanyDom1.cs">
-      <DependentUpon>RptTotalNYByCompanyDom.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalNYByCompanyInter1.cs">
-      <DependentUpon>RptTotalNYByCompanyInter.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalPushbackDetails1.cs">
-      <DependentUpon>RptTotalPushbackDetails.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\Revenue\RptTotalServiceCarByCompanyDetails.cs">
-      <DependentUpon>RptTotalServiceCarByCompanyDetails.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Reports\TowerData\RptTowerDataDaily.cs">
-      <DependentUpon>RptTowerDataDaily.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Reports\TowerData\RptTowerDataFilter.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RptTowerDataFilter.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BasicData.cs" />
     <Compile Include="ViewModels\DescriptionReport.cs" />
@@ -881,6 +581,7 @@
     <Content Include="Airline.ico" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -896,9 +597,6 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Reports\Ds\dsBasicData.xsc">
-      <DependentUpon>dsBasicData.xsd</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -909,58 +607,6 @@
     <None Include="Properties\PublishProfiles\AirPor.pubxml" />
     <None Include="Properties\PublishProfiles\AirPort.pubxml" />
     <None Include="Properties\PublishProfiles\AirPortERP.pubxml" />
-    <None Include="Reports\Ds\dsBasicData.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsBasicData.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Reports\Ds\dsBasicData.xss">
-      <DependentUpon>dsBasicData.xsd</DependentUpon>
-    </Content>
-    <Content Include="Reports\Ds\dsTowerData.xsc">
-      <DependentUpon>dsTowerData.xsd</DependentUpon>
-    </Content>
-    <Content Include="Reports\Ds\dsOfficerData.xsc">
-      <DependentUpon>dsOfficerData.xsd</DependentUpon>
-    </Content>
-    <None Include="Reports\Ds\dsOfficerData.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsOfficerData.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Reports\Ds\dsOfficerData.xss">
-      <DependentUpon>dsOfficerData.xsd</DependentUpon>
-    </Content>
-    <Content Include="Reports\Ds\dsRevenue.xsc">
-      <DependentUpon>dsRevenue.xsd</DependentUpon>
-    </Content>
-    <None Include="Reports\Ds\dsRevenue.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsRevenue.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Reports\Ds\dsRevenue.xss">
-      <DependentUpon>dsRevenue.xsd</DependentUpon>
-    </Content>
-    <None Include="Reports\Ds\dsTowerData.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsTowerData.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Reports\Ds\dsTowerData.xss">
-      <DependentUpon>dsTowerData.xsd</DependentUpon>
-    </Content>
-    <Content Include="Reports\Ds\Extenstion.xsc">
-      <DependentUpon>Extenstion.xsd</DependentUpon>
-    </Content>
-    <None Include="Reports\Ds\Extenstion.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Extenstion.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Reports\Ds\Extenstion.xss">
-      <DependentUpon>Extenstion.xsd</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1034,24 +680,15 @@
     <Content Include="Temp\fonts\fa-brands-400.svg" />
     <Content Include="Temp\fonts\fa-regular-400.svg" />
     <Content Include="Temp\fonts\fa-solid-900.svg" />
-    <Content Include="Temp\Image\add.png" />
     <Content Include="Temp\Image\Arrow.png" />
+    <Content Include="Temp\Image\Authority.jpg" />
     <Content Include="Temp\Image\Close.png" />
-    <Content Include="Temp\Image\Down.png" />
-    <Content Include="Temp\Image\eyes.png" />
+    <Content Include="Temp\Image\Completed.png" />
     <Content Include="Temp\Image\Flying.gif" />
-    <Content Include="Temp\Image\folder-c.png" />
-    <Content Include="Temp\Image\folder-close.png" />
-    <Content Include="Temp\Image\folder-o.png" />
-    <Content Include="Temp\Image\folder-open.png" />
-    <Content Include="Temp\Image\folder.png" />
-    <Content Include="Temp\Image\minus.png" />
+    <Content Include="Temp\Image\Landing.png" />
     <Content Include="Temp\Image\Open.png" />
-    <Content Include="Temp\Image\paper-plane-s.png" />
-    <Content Include="Temp\Image\paper-plane.png" />
-    <Content Include="Temp\Image\private.png" />
-    <Content Include="Temp\Image\Top.png" />
-    <Content Include="Temp\Image\UP.png" />
+    <Content Include="Temp\Image\TakeOff.png" />
+    <Content Include="Temp\Image\TakeoffSuccess.png" />
     <Content Include="Temp\Image\WhiteLogo.png" />
     <Content Include="Temp\Loader\Loader.css" />
     <Content Include="Temp\Loader\Loader.js" />
@@ -3148,7 +2785,7 @@
     <Content Include="Views\AdvencePrintBasic\PrintDataGraf.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataGrafDollar.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataServiceCar.cshtml" />
-    <Content Include="Views\AdvencePrintBasic\PrintPushPack.cshtml" />
+    <Content Include="Views\AirLineAgents\PrintPushPack.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataFirstClass.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataNyInter.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataNyDom.cshtml" />
@@ -3245,6 +2882,36 @@
     <Content Include="Views\AdvencePrintBasic\PrintDataTripInfo.cshtml" />
     <Content Include="Views\AccountReport\ComapniesPaymentStatus.cshtml" />
     <Content Include="Views\AccountReport\ComapniesPaymentStatusDollar.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataNyDomOld.cshtml" />
+    <Content Include="Views\ReportExtenstion\PaxAndFrieghtReport.cshtml" />
+    <Content Include="Views\ReportExtenstion\_GetData.cshtml" />
+    <Content Include="Views\ReportExtenstion\PrintPaxAndFrieghtReport.cshtml" />
+    <Content Include="Views\CurrencyDetails\_AddEditcurrencyDetailDaily.cshtml" />
+    <Content Include="Views\AccountClaimSingle\Index.cshtml" />
+    <Content Include="Views\AccountClaimSingle\_AddEditClaimDaily.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataFinalInvoiceDaily.cshtml" />
+    <Content Include="Views\AccountReport\PrintClaimConstraintDaily.cshtml" />
+    <Content Include="Views\AccountReport\PrintInoviceDetail.cshtml" />
+    <Content Include="Views\AccountClaimSingle\ConfirmClaimTransaction.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataGrafSingle.cshtml" />
+    <Content Include="Views\Account\ChangeAirport.cshtml" />
+    <Content Include="Views\Air\AirCompleted.cshtml" />
+    <Content Include="Views\Air\AirMove.cshtml" />
+    <Content Include="Views\Air\DailyMovement.cshtml" />
+    <Content Include="Views\Air\PrintDataDaily.cshtml" />
+    <Content Include="Views\Air\_GetDaily.cshtml" />
+    <Content Include="Views\Air\PrintDataDailyAll.cshtml" />
+    <Content Include="Views\Air\DailyMovementAll.cshtml" />
+    <Content Include="Views\Air\_GetDailyAll.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataCuppsDistributionDome.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataCuppsDistributionInter.cshtml" />
+    <Content Include="Views\AdvencePrintExtenstion\PrintDataTotalInterCUPPSForDomesticDetails.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataCuppForDom.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataNyForDom.cshtml" />
+    <Content Include="Views\UnscheduledFlight\Unscheduled.cshtml" />
+    <Content Include="Views\UnscheduledFlight\PrintDataFinalInvoiceUnscheduled.cshtml" />
+    <Content Include="Views\UnscheduledFlight\PrintInoviceDetailUnscheduled.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataNYGraf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3265,208 +2932,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reports\BasicData\RptAircraftRegistrations.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAircraftRegistrations.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptAircraftTypes.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAircraftTypes.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptAirLineAgents.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAirLineAgents.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptAirlines.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAirlines.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptAirLinesFlightTrips.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAirLinesFlightTrips.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptAirports.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptAirports.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptCountries.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCountries.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptFooter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFooter.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptFooterLandscape.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFooterLandscape.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptHandlingAgentsCompanies.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptHandlingAgentsCompanies.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptMainReportRevenueLandscape.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptMainReportRevenueLandscape.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptMainReportRevenue.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptMainReportRevenue.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BasicData\RptMainReportOfficer.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptMainReportOfficer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\OfficerData\RptOfficerDataFilter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptOfficerDataFilter.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\OfficerData\RptOfficerData.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptOfficerData.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\Dist\RptCUPPSDomeDistribtion.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCUPPSDomeDistribtion.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\Dist\RptCUPPSInterDistribtion.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCUPPSInterDistribtion.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\Graf\RptGraf.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptGraf.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\Graf\RptGrafNotSDG.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptGrafNotSDG.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\ReportExtenstion\RptCuppsInternal.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCuppsInternal.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptCuppsNoDataDomFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCuppsNoDataDomFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptCuppsNoDataIntFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptCuppsNoDataIntFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptDomeCuppsFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptDomeCuppsFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptDomeNYFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptDomeNYFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptDomeNYFeesDiscount.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptDomeNYFeesDiscount.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptFinalInvoice.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFinalInvoice1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptFinalInvoiceNotSDG.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFinalInvoiceNotSDG1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptFinalTax.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFinalTax.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptFirstClassFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptFirstClassFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptInterCuppsFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptInterCuppsFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptInterNYFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptInterNYFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptInterNYFeesDiscount.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptInterNYFeesDiscount.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptJournalCUPPSDome.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptJournalCUPPSDome1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptJournalCUPPSInter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptJournalCUPPSInter1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptJournalNYDome.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptJournalNYDome1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptJournalNYInter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptJournalNYInter1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptLandingFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptLandingFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptLandingFeesDom.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptLandingFeesDom.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptMailFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptMailFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptPushPackFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptPushPackFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptServiceCarFees.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptServiceCarFees.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalCompaniesInterCUPPS.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalCompaniesInterCUPPS1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalCUPPSByCompanyDom.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalCUPPSByCompanyDom1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalCUPPSByCompanyInter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalCUPPSByCompanyInter1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalNYByCompanyDom.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalNYByCompanyDom1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalNYByCompanyInter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalNYByCompanyInter1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalPushbackDetails.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalPushbackDetails1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Revenue\RptTotalServiceCarByCompanyDetails.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTotalServiceCarByCompanyDetails.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TowerData\RptTowerDataDaily.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTowerDataDaily.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TowerData\RptTowerDataFilter.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RptTowerDataFilter.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -3485,7 +2950,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50129</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:33389/</IISUrl>
+          <IISUrl>http://localhost:33382/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -3499,8 +2964,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

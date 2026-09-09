@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Threading;
 namespace AirPortERP.Controllers
@@ -112,31 +111,6 @@ namespace AirPortERP.Controllers
         }
 
 
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptCountries.rpt")));
-            IQueryable<Country> Countries;
-            Countries = db.Countries;
-            rd.SetDataSource(Countries.Select(p => new
-            {
-                Id = p.Id,
-                NameEn = p.NameEn,
-                NameAr = p.NameAr,
-                Code = p.Code,          
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf");
-        }
 
 
 

@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using AirPortERP.ViewModels;
 using AirPortERP.Extenstion;
@@ -95,7 +94,7 @@ namespace AirPortERP.Controllers
                         AccountTree.Id = Id;
                         AccountTree.AccNumber = AccNumber;
                         AccountTree.AccName = model.NameEn;
-                        AccountTree.AccParent = AccountTreeParent.AccNumber;
+                        AccountTree.AccParent = AccountTreeParent.Id;
                         AccountTree.AccType = 2;
                         AccountTree.AccGroupId = 1;
 
@@ -130,7 +129,7 @@ namespace AirPortERP.Controllers
                     AccountTree.Id = Id;
                     AccountTree.AccNumber = AccNumber;
                     AccountTree.AccName = model.NameEn;
-                    AccountTree.AccParent = AccountTreeParent.AccNumber;
+                    AccountTree.AccParent = AccountTreeParent.Id;
                     AccountTree.AccLevel = ClsAccount.GetAccParentLevel(AccountTreeParent.Id) + 1;
                     AccountTree.AccType = 2;
                     AccountTree.AccGroupId = 1;
@@ -194,43 +193,6 @@ namespace AirPortERP.Controllers
             return StatusName;
         }
         
-        public ActionResult PrintData()
-        {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptHandlingAgentsCompanies.rpt")));
-            IQueryable<FuelCompany> HandlingAgentsCompany;
-            HandlingAgentsCompany = db.FuelCompanies;
-
-            var fuelCompanies = new List<HandlingAgentsCompaniesViewModels>();
-            foreach (var item in HandlingAgentsCompany)
-            {
-                HandlingAgentsCompaniesViewModels A = new HandlingAgentsCompaniesViewModels();
-
-                A.NameAr = item.NameAr;
-                A.NameEn = item.NameEn;
-                A.Address = item.Address;
-                A.IsActive = CommonUsed.isActive(item.IsActive);
-
-                fuelCompanies.Add(A);
-            }
-
-            rd.SetDataSource(fuelCompanies.Select(p => new
-            {
-                NameAr = p.NameAr,
-                NameEn = p.NameEn,
-                Address = p.Address,
-                IsActive = p.IsActive,
-            }).ToList());
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "HandlingAgentsCompanies.pdf");
-        }
         /*---------------------------------------------------------------------------------------------------------------*/
         
         // GET: HandlingAgentsCompanies/Details/5

@@ -268,10 +268,14 @@
 
 
     <div class="text-center invoice-Graf-details">
-    
+
         @*<h4 class="font-weight-bold text-center"><u>   الموضوع/ @ViewBag.DemandDate </u> </h4>*@
-        <h4 class="font-weight-bold text-center"><u>   الموضوع/ المطالبة من تاريخ @ViewBag.SearchDateFrom وحتي تاريخ @ViewBag.SearchDateTo </u> </h4>
-       
+        @*<h4 class="font-weight-bold text-center"><u>   الموضوع/ المطالبة من تاريخ @ViewBag.SearchDateFrom وحتي تاريخ @ViewBag.SearchDateTo </u> </h4>*@
+        <h4 class="font-weight-bold text-center">
+            <u>الموضوع/ @ViewBag.DemandDate</u>
+        </h4>
+
+
         <h5>@*بالاشارة للموضوع اعلاه مرفق لسيادتكم @ViewBag.DemandDate حسب ماموضح ادناه*@</h5>
         <h5>بالاشارة للموضوع اعلاه مرفق لسيادتكم المطالبة في الفترة المحددة حسب ماموضح ادناه</h5>
 
@@ -279,13 +283,13 @@
             <thead>
                 <tr class="Gray">
                     <th>المبلغ بالجنية السوداني </th>
-                    <th >البيـــــــــــــــــان </th>
+                    <th>البيـــــــــــــــــان </th>
                     <th>الرقم</th>
                 </tr>
             </thead>
             <tr>
                 <td class="numberFormat"> @Model.GrandTotalSDG</td>
-                <td>اجمالي الرسوم الطيرانية</td>
+                <td>اجمالي رسوم التزود بالوقود</td>
                 <td class="N">1</td>
             </tr>
         </table>

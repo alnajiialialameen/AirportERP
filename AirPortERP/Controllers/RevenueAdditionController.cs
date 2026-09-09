@@ -141,18 +141,19 @@ namespace AirPortERP.Controllers
             //   TowerData TowerData = db.TowerDatas.Where(x => x.Id == OfficerData.TowerDataId).FirstOrDefault();
 
                     OfficerData.Pax = null;
-                  //  OfficerData.DisEmbInft = null;
-                    OfficerData.TRNY = null;
+                    OfficerData.PaxInter = null;
+            //  OfficerData.DisEmbInft = null;
+                   OfficerData.TRNY = null;
                     OfficerData.TRNYCUPPS = null;
 
                     Revenue.DomeCUPPSFees = null;
                     Revenue.DomeNYFees = null;
                     Revenue.InterCUPPSFees = null;
                     Revenue.InterNYFees = null;
-                  
-                   
-         
-            
+                   /// Revenue.InterNYFees = null;
+
+
+
             db.Entry(OfficerData).State = System.Data.Entity.EntityState.Modified;
             db.Entry(Revenue).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();

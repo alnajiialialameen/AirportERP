@@ -82,7 +82,9 @@
                         <th>
                             Email
                         </th>
-                      
+                        <th>
+                            Airport
+                        </th>
                         <th>Operation</th>
                     </tr>
 
@@ -90,8 +92,8 @@
                     {
                         <tr>
                             @*<td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>*@
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
@@ -101,15 +103,25 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.UserType)
-                                </td>*@
-                            <td>
-                                @Html.ActionLink("Edit Role", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-sm" }) |
-                                @Html.ActionLink("Reset Password", "ResetPassword", new { id = item.Id }, new { @class = "btn btn-success btn-sm" }) |
 
-                                <button class="btn btn-danger btn-sm" onclick="Delete('@item.Id')">Delete</button>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AirPort)
                             </td>
+
+
+                            @*<td>
+
+
+            @Html.DisplayFor(modelItem => item.UserType)
+        </td>*@
+                        <td>
+                            @Html.ActionLink("Edit Role", "Edit", new { id = item.Id }, new { @class = "btn btn-info btn-sm" }) |
+                            @Html.ActionLink("Reset Password", "ResetPassword", new { id = item.Id }, new { @class = "btn btn-success btn-sm" }) |
+                            @Html.ActionLink("Change Airport", "ChangeAirport", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+
+                            @*<button class="btn btn-danger btn-sm" onclick="Delete('@item.Id')">Delete</button>*@
+                        </td>
                         </tr>
                     }
 

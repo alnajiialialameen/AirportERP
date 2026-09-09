@@ -2,7 +2,7 @@
 <style>
     td.details-control {
         /*background: url('../resources/details_open.png') no-repeat center center;*/
-         background: url('../../Temp/Image/Close.png') no-repeat center center;
+        background: url('../../Temp/Image/Close.png') no-repeat center center;
         cursor: pointer;
     }
 
@@ -19,8 +19,9 @@
         font-weight: bold;
         padding: 5px;
     }
+
     .ml-Custom {
-        margin-right:120px;
+        margin-right: 120px;
     }
 </style>
 
@@ -64,6 +65,22 @@
 
 </div>
 
+<div id="myModalUpdate" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="myModel-contentUpdate">
+
+            <!-- Model content -->
+
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-primary btn-xs">Save Change</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <section class="content">
 
@@ -72,12 +89,12 @@
             @*@Html.ActionLink("Back to previous page",null, null, null, new { href = Request.UrlReferrer  , @class = "btn btn-success btn-sm" })*@
 
             <button class="btn btn-success m-2 btn-sm" onclick="BackToMain()">Back to previous page</button>
-        </div>              
+        </div>
     </div>
 
     <br />
 
-    
+
 
 
 
@@ -104,7 +121,7 @@
 
                             <th>To</th>
                             <th>Date</th>
-                
+
                             <th>TripType</th>
                             <th>Created By</th>
 
@@ -140,46 +157,92 @@
 
 
     <!-- Model Start -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <!--<div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content" id="myModel-content">
+            <div class="modal-content" id="myModel-content">-->
 
                 <!-- Model content -->
 
-                <div class="modal-footer justify-content-between">
+                <!--<div class="modal-footer justify-content-between">
                     <button class="btn btn-primary btn-xs">Save Change</button>
                     <button class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!--Model End -->
 
 </section>
 @section scripts{
 
     <script>
+
+
+
+        // تعريف validation مخصص للتاريخ
+        $.validator.addMethod("dateDMY", function (value, element) {
+
+            if (this.optional(element)) return true;
+
+            return /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value);
+
+        }, "Invalid date format");
+
+
+
+
+
+
+
+
+
         var dataTable;
 
         function format(d) {
-            return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
-                 d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
-                d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
-               '</span> <br></div>   '
+
+            if (d.IsStop == true)
+            {
+
+                return '<div class="card Details"><div class="card-body card-warning"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
 
 
-                + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
-                '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
-                 '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
-                 '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
-                 '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
-                 '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
-                 '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees +
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
 
-                 '<br>  <button class="btn btn-success btn-sm m-2" onclick="getTowerData(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
-                 + ')">Details</button> <button class="btn btn-success btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
-                '<br></div></div> ';
+                    '<br> <span class="badge badge-danger">تم تحرير المطالبة للرحلة</span> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                    + ')">Details</button> <button class="btn btn-success btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button>' +
+                    '<br></div></div> ';
+            }
+            else
+            {
+                return '<div class="card Details"><div class="card-body"> <span> <i class="fas fa-plane-departure"></i> Airline: ' + d.AirLineName + '</span><br>   <Span>Landing Date:</Span>  <div class="float-right ml-Custom"><p> Location  <i class="fas fa-map-marker-alt"></i></p><Span>From:</Span><span>' +
+                    d.AirportIdFrom + '-' + d.FromArabicCountry + '-' + d.FromArabicName + '</span><br><Span>To:</Span><span>' +
+                    d.AirportIdTo + '-' + d.ToArabicCountry + '-' + d.ToArabicName +
+                    '</span> <br></div>   '
 
+
+                    + d.LandingDate + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '<Span>Size:</Span> ' + d.Size + '<br>' +
+                    '<Span>TakeOff Date:</Span> ' + d.TakeOffDate + ' &nbsp; &nbsp;&nbsp; ' + '  <Span>LandingFees:</Span> ' + d.LandingFees + '<br>' +
+                    '<Span>ATA: </Span>' + d.ATA + ' &nbsp; &nbsp; &nbsp;&nbsp' + '  <Span>ParkingFees: </Span>' + d.ParkingFees + '<br>' +
+                    '<Span>ATD: </Span>' + d.ATD + ' &nbsp;&nbsp; &nbsp;&nbsp ' + '  <Span> NightOperationFees:</Span> ' + d.NightOperationFees + '<br>' +
+                    '<Span>Wt: </Span>' + d.MaxTaKeOffWeight + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NavigationFees:</Span> ' + d.NavigationFees + '<br>' +
+                    '<Span>Type:</Span> ' + d.Type + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>NoiseFees:<Span> ' + d.NoiseFees + '<br>' +
+                    '<Span>REG:</Span> ' + d.AircraftRegName + ' &nbsp;&nbsp; &nbsp;&nbsp ' + ' <Span>SecurityFees: </Span>' + d.SecurityFees + '<br>' +
+                    '<Span>Airport Name:</Span> ' + d.AirportName + '' +
+
+                    '<br>  <button class="btn btn-success btn-sm m-2" onclick="getTowerData(' + d.Id + ')">Update</button> <button class="btn btn-info btn-sm m-2" onclick="Detail(' + d.Id
+                    + ')">Details</button> <button class="btn btn-success btn-sm m-2 float-right" onclick="PrintTripInfo(' + d.Id + ')">Print</button><button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">Delete</button>' +
+                    '<br></div></div> ';
+
+            }
         }
         $(document).ready(function () {
 
@@ -190,99 +253,99 @@
                 "ajax": {
                     "url": "/TowerDatas/GetAllTowerDatas",
                     "type": "GET",
-                    "datatype": "json", 
+                    "datatype": "json",
 
                 },
                 "columns": [
-                      {
-                          "class": "details-control",
-                          "orderable": false,
-                          "data": null,
-                          "defaultContent": ""
-                      },
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
 
 
                     { "data": "Id", "autowidth": true },
-                      { "data": "AirLineCode", "autowidth": true },
-                       { "data": "FlightNo", "autowidth": true },
-                         { "data": "AircraftRegName", "autowidth": true },
+                    { "data": "AirLineCode", "autowidth": true },
+                    { "data": "FlightNo", "autowidth": true },
+                    { "data": "AircraftRegName", "autowidth": true },
 
 
 
 
-                         { "data": "Type", "autowidth": true },
-                          { "data": "MaxTaKeOffWeight", "autowidth": true },
+                    { "data": "Type", "autowidth": true },
+                    { "data": "MaxTaKeOffWeight", "autowidth": true },
 
 
-                       { "data": "AirportIdFrom", "autowidth": true },
+                    { "data": "AirportIdFrom", "autowidth": true },
 
-                            { "data": "AirportIdTo", "autowidth": true },
-                              { "data": "Date", "autowidth": true },
-                                //{ "data": "ATA", "autowidth": true },
-                                //  { "data": "ATD", "autowidth": true },
-                                    //{ "data": "POB", "autowidth": true },
-                                    //  { "data": "QBD", "autowidth": true },
-                                          //{ "data": "LandingDate", "autowidth": true },
-                                          //{ "data": "TakeOffDate", "autowidth": true },
+                    { "data": "AirportIdTo", "autowidth": true },
+                    { "data": "Date", "autowidth": true },
+                    //{ "data": "ATA", "autowidth": true },
+                    //  { "data": "ATD", "autowidth": true },
+                    //{ "data": "POB", "autowidth": true },
+                    //  { "data": "QBD", "autowidth": true },
+                    //{ "data": "LandingDate", "autowidth": true },
+                    //{ "data": "TakeOffDate", "autowidth": true },
 
-                                         {
-                                             "data": "TripType", "width": "50px", "render": function (data) {
-                                                 var cssClass;
-                                                 if (data === "Domestic") {
-                                                     cssClass = "badge-danger";
-                                                 }
-                                                 if (data === "International") {
-                                                     cssClass = "badge-success";
-                                                 }
-                                                 return '<span class="badge ' + cssClass + '">' + data + '</span>'
+                    {
+                        "data": "TripType", "width": "50px", "render": function (data) {
+                            var cssClass;
+                            if (data === "Domestic") {
+                                cssClass = "badge-danger";
+                            }
+                            if (data === "International") {
+                                cssClass = "badge-success";
+                            }
+                            return '<span class="badge ' + cssClass + '">' + data + '</span>'
 
-                                             }
-                                         },
-                                              
-
-                                      { "data": "CreatedBy", "autowidth": true },
-                                        { "data": "ATA", "autowidth": true },
-                                          { "data": "ATD", "autowidth": true },
-                            {
+                        }
+                    },
 
 
-                                "data": "Id", "width": "50px", "render": function (data) {
-                                    return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTowerData(' + data +
-                                        ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
-
-                                }
-                            },
+                    { "data": "CreatedBy", "autowidth": true },
+                    { "data": "ATA", "autowidth": true },
+                    { "data": "ATD", "autowidth": true },
+                    {
 
 
-                ], "language":
-                              {
-                                  "sProcessing": "جارٍ التحميل...",
-                                  "sLengthMenu": "أظهر _MENU_ مدخلات",
-                                  "sZeroRecords": "لم يعثر على أية سجلات",
-                                  "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                                  "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                                  "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                                  "sInfoPostFix": "",
-                                  "sSearch": "ابحث:",
-                                  "sUrl": "",
-                                  "oPaginate": {
-                                      "sFirst": "الأول",
-                                      "sPrevious": "السابق",
-                                      "sNext": "التالي",
-                                      "sLast": "الأخير",
-                                  }
-                              },
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<div class="btn-group"> <button type="button" class="btn btn-default" data-toggle="dropdown">  <i class="fa fa-ellipsis-v"></i> </button><div class="dropdown-menu"><button class="dropdown-item"  onclick="PrintTripInfo(' + data + ')">Print</button><a class="dropdown-item" href="#" onclick="getTowerData(' + data +
+                                ')">Update</a><button class="dropdown-item"  onclick="Detail(' + data + ')">Details</button><button class="dropdown-item" onclick="Delete(' + data + ')">Delete</button>  </div></div>'
 
+                        }
+                    },
+
+                ],
+                "language": {
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "الأول",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي",
+                        "sLast": "الأخير",
+                    }
+                },
 
                 "dom": '<"top"l>rt<"bottom"ip><"clear">',
                 "fnInitComplete": function (oSettings, json) {
                     addSearchControl(json);
+                },
+                "rowCallback": function (row, data) {
+                    // Check if IsStop is true and change the row color
+                    if (data.IsStop) {
+                        $(row).css('background-color', '#faeda7');
+                    }
                 }
-
-
             });
-
-
 
             var detailRows = [];
 
@@ -310,19 +373,17 @@
             });
 
             // On each draw, loop over the `detailRows` array and show any child rows
-            dt.on('draw', function () {
-                $.each(detailRows, function (i, id) {
-                    $('#' + id + ' td.details-control').trigger('click');
-                });
-            });
-
-
+            //dt.on('draw', function () {
+            //    $.each(detailRows, function (i, id) {
+            //        $('#' + id + ' td.details-control').trigger('click');
+            //    });
+            //});
 
             function addSearchControl(json) {
                 $("#dataTable thead").append($("#dataTable thead tr:first").clone());
                 $("#dataTable thead tr:eq(1) th").each(function (index) {
                     /*No Search*/
-                    if (index == 0 ||  index == 5 || index == 6 || index == 7 || index == 8 || index == 14) {
+                    if (index == 0 || index == 5 || index == 6 || index == 7 || index == 8 || index == 14) {
                         $(this).replaceWith('<th><input type="hidden" placeholder="None"></input></th>');
                     }
                     /*Search as text field*/
@@ -369,409 +430,370 @@
                             dataTable.column(index).search(searchControl.val() == "" ? "" : '^' + searchControl.val() + '$', true, false).draw();
                         });
                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 });
             }
 
         });
 
-            
-            function getTowerData(id) {
-
-                $("#AjaxLoader").show()
-
-                $.get("/TowerDatas/GetAircraftTakeOffParial", { id: id }, function (nn) {
-
-                    $("#myModel-content").html(nn);
-                    $("#myModal").modal('show');
-                    $("#AjaxLoader").hide()
-
-                    $('.select2').select2({
-                        theme: 'bootstrap4'
-                    })
 
 
 
-                    $('#timepicker').datetimepicker({
-                        use24hours: true,
-                        format: 'HH:mm'
-                    })
+        function getTowerData(id) {
+
+            $("#AjaxLoader").show()
+
+            $.get("/TowerDatas/GetAircraftTakeOffParialU", { id: id }, function (nn) {
+
+                $("#myModel-contentUpdate").html(nn);
+                $("#myModalUpdate").modal('show');
+                $("#AjaxLoader").hide();
+                $('.select2').select2({
+                    theme: 'bootstrap4'
+                });
+
+                $('#ATAUtimepicker').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+                $('#ATDUtimepicker').datetimepicker({
+                    use24hours: true,
+                    format: 'HH:mm'
+                });
+                $('#DateU').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+
+                $('#LandingDateU').datetimepicker({
+                    format: 'DD/MM/YYYY',
+
+                });
+
+                $('#TakeOffDateU').datetimepicker({
+                    format: 'DD/MM/YYYY',
+
+                });
+
+                $("#AirLineIdU").change(function () {
+                    debugger;
+                    var value = $('#AirLineIdU').val();
+                    //var valuePlanOut =
+                    //var valuePlanIn = $('#RbInPlan').val();
 
 
 
-
-
-
-                    $('#timepicker1').datetimepicker({
-                        use24hours: true,
-                        format: 'HH:mm'
-                    })
-                    $('#Date').datetimepicker({
-                        format: 'L'
-                    });
-                    $('#LandingDate').datetimepicker({
-                        format: 'L'
-                    });
-                    $('#TakeOffDate').datetimepicker({
-                        format: 'L'
-                    });
-
-
-                    $("#AirLineId").change(function () {
-                        debugger;
-                        var value = $('#AirLineId').val();
-                        //var valuePlanOut =
-                        //var valuePlanIn = $('#RbInPlan').val();
-
-
-
-                        //     alert("هل تريد اختيار دورة خارجية");
-                        $("#FlightNo option").remove()
-                        var url = "/TowerDatas/GetFlightNo/" + value;
-                        $.getJSON(url, function (data) {
-                            $.each(data, function (key, val) {
-                                var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
-                                $("#FlightNo").append(ele);
-                            });
+                    //     alert("هل تريد اختيار دورة خارجية");
+                    $("#FlightNoU option").remove()
+                    var url = "/TowerDatas/GetFlightNo/" + value;
+                    $.getJSON(url, function (data) {
+                        $.each(data, function (key, val) {
+                            var ele = $('<option value="' + val.Id + '">' + val.FlightNo + '</option>');
+                            $("#FlightNoU").append(ele);
                         });
-
-
-                    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    $('#quickForm').validate({
-                        rules: {
-                            ATD: {
-                                required: true,
-                            },
-                            TakeOffDate: {
-                                required: true,
-                                date: true,
-                            },
-                            FlightNo: {
-                                required: {
-                                    depends: function (element) {
-                                        if ('0' == $('#FlightNo').val()) {
-                                            //Set predefined value to blank.
-                                            $('#FlightNo').val('');
-                                        }
-                                        return true;
-                                    }
-                                }
-                            },
-                            AirportIdFrom: {
-                                required: true,
-
-                            },
-                            AirportIdTo: {
-                                required: true,
-
-                            },
-                            QBD: {
-                                required: true,
-
-                            },
-                            ATA: {
-                                required: true,
-
-                            },
-                            TripTypeId: {
-                                required: true,
-
-                            },
-                            POB: {
-                                required: true,
-
-                            },
-                            AirLineId: {
-                                required: true,
-
-                            },
-                            AircraftRegId: {
-                                required: true,
-
-                            },
-                            Date: {
-                                required: true,
-                                date: true,
-
-                            },
-                            LandingDate: {
-                                required: true,
-                                date: true,
-
-                            },
-
-                        },
-                        messages: {
-                            ATD: {
-                                required: "Please Enter ATD",
-
-                            },
-                            TakeOffDate: {
-                                required: "Please Take Off Date ",
-
-                            },
-                            FlightNo: {
-                                required: "Please Select FlightNo",
-
-                            },
-                            AirportIdFrom: {
-                                required: "Select Airport From",
-
-                            },
-                            AirportIdTo: {
-                                required: "Select AirportId To",
-
-                            },
-                            QBD: {
-                                required: "Enter QBD",
-
-                            },
-                            ATA: {
-                                required: "Enter ATA",
-
-                            },
-                            TripTypeId: {
-                                required: "Select Trip Type",
-
-                            },
-                            POB: {
-                                required: "Enter POB",
-
-                            },
-                            AirLineId: {
-                                required: "select AirLine",
-
-                            },
-                            AircraftRegId: {
-                                required: "Select Reg",
-
-                            },
-                            Date: {
-                                required: "Select Date",
-
-
-                            },
-                            LandingDate: {
-                                required: "Select LandingDate",
-                                date: "Please Enter valid Date",
-                            },
-
-
-                        },
-                        errorElement: 'span',
-                        errorPlacement: function (error, element) {
-                            error.addClass('invalid-feedback');
-                            element.closest('.form-group').append(error);
-                        },
-                        highlight: function (element, errorClass, validClass) {
-                            $(element).addClass('is-invalid');
-                        },
-                        unhighlight: function (element, errorClass, validClass) {
-                            $(element).removeClass('is-invalid');
-                        }
                     });
 
 
+                });
 
-
-
-
-                })
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-
-
-            function CreateOrUpdate() {
-
-
-                var model = $('#myModal');
-                var form = $('form[name="DepartmentFormAdd"]');
-
-
-                form.validate();
-                if (!form.valid()) {
-                    return;
-                } else {
-                    var data = form.serialize();
-                    $.post("/TowerDatas/CreateOrUpdateTakeOff", data, function (res) {
-                        if (res) {
-                            if (res.message != null && res.message === "Update") {
-                                toastr.success("تم تعديل العام Movement ", "تعديل");
+                $('#TowerUpdatequickForm').validate({
+                    rules: {
+                        ATDU: {
+                            required: true,
+                        },
+                        TakeOffDateU: {
+                            required: true,
+                            dateDMY: true,
+                        },
+                        FlightNoU: {
+                            required: {
+                                depends: function (element) {
+                                    if ('0' == $('#FlightNoU').val()) {
+                                        //Set predefined value to blank.
+                                        $('#FlightNoU').val('');
+                                    }
+                                    return true;
+                                }
                             }
-                            else if (res.message != null && res.message === "Add") {
-                                toastr.success("تم اضافه عام Movement ", "اضافه");
-                            }
-                            else if (res.message == null || res.message === "Repeat") {
-                                toastr.error("لم يتم الحفظ", "تاريخ الاقلاع و الزمن الفعلي للاقلاع يجب كتابتهما معا او تركهما معا");
-                            }
-                            else if (res.message == null || res.message === "InvalidDate") {
-                                toastr.error("لم يتم الحفظ", "لا يمكن تاريخ الاقلاع اقل من تاريخ الوصول");
-                            }
-                            else if (res.message == null || res.message === "error") {
-                                toastr.error("حدث خطا ", "لم يتم الحفظ");
-                            }
+                        },
+                        AirportIdFromU: {
+                            required: true,
 
-                            model.modal('hide');
+                        },
+                        AirportIdToU: {
+                            required: true,
+
+                        },
+                        QBDU: {
+                            required: true,
+
+                        },
+                        ATAU: {
+                            required: true,
+
+                        },
+                        TripTypeIdU: {
+                            required: true,
+
+                        },
+                        POBU: {
+                            required: true,
+
+                        },
+                        AirLineIdU: {
+                            required: true,
+
+                        },
+                        AircraftRegIdU: {
+                            required: true,
+
+                        },
+                        DateU: {
+                            required: true,
+                            dateDMY: true,
+
+                        },
+                        LandingDateU: {
+                            required: true,
+                            dateDMY: true,
+
+                        },
+
+                    },
+                    messages: {
+                        ATDU: {
+                            required: "Please Enter ATD",
+
+                        },
+                        TakeOffDateU: {
+                            required: "Please Take Off Date ",
+
+                        },
+                        FlightNoU: {
+                            required: "Please Select FlightNo",
+
+                        },
+                        AirportIdFromU: {
+                            required: "Select Airport From",
+
+                        },
+                        AirportIdToU: {
+                            required: "Select AirportId To",
+
+                        },
+                        QBDU: {
+                            required: "Enter QBD",
+
+                        },
+                        ATAU: {
+                            required: "Enter ATA",
+
+                        },
+                        TripTypeIdU: {
+                            required: "Select Trip Type",
+
+                        },
+                        POBU: {
+                            required: "Enter POB",
+
+                        },
+                        AirLineIdU: {
+                            required: "select AirLine",
+
+                        },
+                        AircraftRegIdU: {
+                            required: "Select Reg",
+
+                        },
+                        DateU: {
+                            required: "Select Date",
+                            dateDMY: "Please Enter valid Date",
+
+                        },
+                        LandingDateU: {
+                            required: "Select LandingDate",
+                            dateDMY: "Please Enter valid Date",
+                        },
 
 
-                            dataTable.ajax.reload();
+                    },
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+                });
+
+            });
+
+        }
+
+        function CreateOrUpdate() {
+
+            $("#AjaxLoader").show()
+
+            var model = $('#myModalUpdate');
+            var form = $('form[name="TowerUpdateFormAdd"]');
+
+
+            form.validate();
+            if (!form.valid()) {
+                $("#AjaxLoader").hide()
+                return;
+            } else {
+                var Date = $('#DateU').val();
+                $('#DateU').val(moment(Date, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                var LandingDate = $('#LandingDateU').val();
+                $('#LandingDateU').val(moment(LandingDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                var TakeOffDate = $('#TakeOffDateU').val();
+                $('#TakeOffDateU').val(moment(TakeOffDate, "DD/MM/YYYY").format("DD/MM/YYYY"));
+
+                var data = form.serialize();
+                $.post("/TowerDatas/CreateOrUpdateTakeOffU", data, function (res) {
+                    if (res) {
+                        if (res.message != null && res.message === "Update") {
+                            toastr.success("تم تعديل العام Movement ", "تعديل");
+                        }
+                        else if (res.message != null && res.message === "isStop") {
+                            toastr.error("تاريخ هذه الرحلة تم تحرير المطالبة المالية لة مسبقا ", "تم تحرير مطالبة هذا التاريخ ");
+                        }
+                        else if (res.message != null && res.message === "Add") {
+                            toastr.success("تم اضافه عام Movement ", "اضافه");
                         }
 
-                    })
-                }
-            }
-            
-            function Delete(id) {
+                        else if (res.message === "Used") {
+                            toastr.error("العنصر موجود", "اضافه");
+                        }
+                        else if (res.message != null || res.message === "error") {
+                            toastr.error("حدث خطا ", "لم يتم الحفظ");
+                        }
 
+                        model.modal('hide');
+                        $("#AjaxLoader").hide()
 
-                swal({
-                    title: "هل انت متاكد ",
-                    text: " OK تقوم بحذف العنصر! عند الضعط علي",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                        dataTable.ajax.reload();
+                    }
+
                 })
-                 .then((willDelete) => {
-                     if (willDelete) {
-                         $.get("/TowerDatas/Delete", { id: id }, function (res) {
-                             if (res) {
-
-                                 if (res.message != null && res.message === "Used") {
-                                     toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
-                                 }
-
-                                 if (res.message === "CuppsAndNyFound") {
-                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
-                                     Swal.fire({
-                                         icon: 'error',
-                                         title: '... يوجد بيانات متعلقة Ny و Cupps',
-                                         text: '  يجب حذف البيانات اولا',
-                                         footer: '<a href="">Why do I have this issue?</a>'
-                                     })
-                                 }
-
-                                 if (res.message === "MailAndFreightFound") {
-                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
-                                     Swal.fire({
-                                         icon: 'error',
-                                         title: '... يوجد بيانات متعلقة Mail و Freight',
-                                         text: '  يجب حذف البيانات اولا',
-                                         footer: '<a href="">Why do I have this issue?</a>'
-                                     })
-                                 }
-
-                                 if (res.message === "CarServiceFound") {
-                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
-                                     Swal.fire({
-                                         icon: 'error',
-                                         title: '... يوجد بيانات متعلقة Car Service',
-                                         text: '  يجب حذف البيانات اولا',
-                                         footer: '<a href="">Why do I have this issue?</a>'
-                                     })
-                                 }
-                                 if (res.message === "PushPackFound") {
-                                     //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
-                                     Swal.fire({
-                                         icon: 'error',
-                                         title: '... يوجد بيانات متعلقة PushPack',
-                                         text: '  يجب حذف البيانات اولا',
-                                         footer: '<a href="">Why do I have this issue?</a>'
-                                     })
-                                 }
-
-
-                                 if (res.message != null && res.message === "Delete") {
-                                     toastr.success("تم الحذف نوع Movement ", "الحذف");
-                                 }
-                                 dataTable.ajax.reload();
-                             }
-                         });
-                     }
-                 });
-
             }
+        }
+
+
+        function Delete(id) {
+
+
+            swal({
+                title: "هل انت متاكد ",
+                text: " OK تقوم بحذف العنصر! عند الضعط علي",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.get("/TowerDatas/Delete", { id: id }, function (res) {
+                            if (res) {
+
+                                if (res.message != null && res.message === "Used") {
+                                    toastr.error("لايمكن حذف هذا العنصر ", "تعذر الحذف");
+                                }
+
+                                if (res.message === "CuppsAndNyFound") {
+                                    //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '... يوجد بيانات متعلقة Ny و Cupps',
+                                        text: '  يجب حذف البيانات اولا',
+                                        footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                }
+
+                                if (res.message === "MailAndFreightFound") {
+                                    //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '... يوجد بيانات متعلقة Mail و Freight',
+                                        text: '  يجب حذف البيانات اولا',
+                                        footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                }
+
+                                if (res.message === "CarServiceFound") {
+                                    //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '... يوجد بيانات متعلقة Car Service',
+                                        text: '  يجب حذف البيانات اولا',
+                                        footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                }
+                                if (res.message === "PushPackFound") {
+                                    //  toastr.error("الشركات الطيران العالمية يجب علي الطائره الهبوط اولا", "اضافه");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '... يوجد بيانات متعلقة PushPack',
+                                        text: '  يجب حذف البيانات اولا',
+                                        footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                }
+
+
+                                if (res.message != null && res.message === "Delete") {
+                                    toastr.success("تم الحذف نوع Movement ", "الحذف");
+                                }
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    }
+                });
+
+        }
 
 
 
-            //function PrintData() {
+        //function PrintData() {
 
-            //    window.location.href = "/TowerDatas/PrintData?";
-            //}
-            //function AircraftNotTakeOff() {
+        //    window.location.href = "/TowerDatas/PrintData?";
+        //}
+        //function AircraftNotTakeOff() {
 
-            //    window.location.href = "/TowerDatas/AircraftNotTakeOff";
-            //}
-            
-            //function Detail(id) {
-
-            //    window.location.href = "/TowerDatas/Details/" + id;
-            //}
-
-
-            //function GoArrived() {
-
-            //    window.location.href = "/TowerDatas/Arrived";
-            //}
-
-            //function GoTakeOff() {
-
-            //    window.location.href = "/TowerDatas/TakeOff";
+        //    window.location.href = "/TowerDatas/AircraftNotTakeOff";
         //}
 
-            function Detail(id) {
+        //function Detail(id) {
 
-                window.location.href = "/TowerDatas/Details/" + id;
-            }
+        //    window.location.href = "/TowerDatas/Details/" + id;
+        //}
 
-            function BackToMain() {
 
-                window.location.href = "/TowerDatas/TakeOff";
-            }
-            /*---------------------------------------------------*/
-            function PrintTripInfo(Id) {
-                window.open('/advencePrintBasic/PrintDataTripInfo?Id=' + Id, '_blank');
-            }
+        //function GoArrived() {
+
+        //    window.location.href = "/TowerDatas/Arrived";
+        //}
+
+        //function GoTakeOff() {
+
+        //    window.location.href = "/TowerDatas/TakeOff";
+        //}
+
+        function Detail(id) {
+
+            window.location.href = "/TowerDatas/Details/" + id;
+        }
+
+        function BackToMain() {
+
+            window.location.href = "/TowerDatas/TakeOff";
+        }
+        /*---------------------------------------------------*/
+        function PrintTripInfo(Id) {
+            window.open('/advencePrintBasic/PrintDataTripInfo?Id=' + Id, '_blank');
+        }
     </script>
 }

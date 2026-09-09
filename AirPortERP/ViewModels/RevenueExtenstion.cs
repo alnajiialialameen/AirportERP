@@ -13,7 +13,9 @@ namespace AirPortERP.ViewModels
         public int TRNYCUPPS { get; set; }
         //public int TRNY { get; set; }
         public bool IsNotUsedCUPPS { get; set; }
+        public int FlightTypeD { get; set; }
         public int Pax { get; set; }
+        public int PaxInter { get; set; }
         //public int DISEMB { get; set; }
     }
     //public class CuppsFeesViewModelDTO

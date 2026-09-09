@@ -95,27 +95,41 @@
                 
                     <div class="row">
 
-                    <div class="col-md-6">
-                        @Html.HiddenFor(C => C.Id)
-                        @Html.HiddenFor(C => C.MainId)
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.AccIdDetail, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("AccIdDetail", null, htmlAttributes: new { @class = "form-control select2bs4" })
-                                @Html.ValidationMessageFor(model => model.AccIdDetail, "", new { @class = "text-danger" })
+                        <div class="col-md-6">
+                            @Html.HiddenFor(C => C.Id)
+                            @Html.HiddenFor(C => C.MainId)
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.AccIdDetail, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("AccIdDetail", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                    @Html.ValidationMessageFor(model => model.AccIdDetail, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
+
+
+                            @*<div class="form-group row">
+                                @Html.LabelFor(model => model.Date, "The Date", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-10">
+                                    <div class="input-group date" id="SandDate" data-target-input="nearest">
+                                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "text", @Value = Model.Date, @class = "form-control datetimepicker-input ", data_target = "#Date" } })
+
+
+                                        <div class="input-group-append" data-target="#Date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
 
 
                         <div class="form-group row">
-                            @Html.LabelFor(model => model.Date, "The Date", htmlAttributes: new { @class = "control-label col-md-2" })
-
-
+                            @Html.LabelFor(model => model.Date, "date", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 <div class="input-group date" id="Date" data-target-input="nearest">
-                                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "text", @Value = Model.Date, @class = "form-control datetimepicker-input ", data_target = "#Date" } })
-
-
+                                    @Html.TextBoxFor(model => model.Date, new { @class = "form-control datetimepicker-input", data_target = "#Date" })
                                     <div class="input-group-append" data-target="#Date" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
@@ -126,84 +140,90 @@
 
 
 
-                        @*<div class="form-group row">
-                            @Html.LabelFor(model => model.YearId, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("YearId", null, htmlAttributes: new { @class = "form-control select2bs4" })
-                                @Html.ValidationMessageFor(model => model.YearId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-                        @*<div class="form-group row">
-                            @Html.LabelFor(model => model.MonthId, "Month", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("MonthId", null, htmlAttributes: new { @class = "form-control select2bs4" })
-                                @Html.ValidationMessageFor(model => model.MonthId, "", new { @class = "text-danger" })
-                                <label id="MoneyBall" name="MoneyBall" class="customlabel"> </label>
-                            </div>
-                        </div>*@
-
-                        <div class="ConfirmAmount">
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    @Html.CheckBoxFor(m => m.ISConfirmAmount)
-
-                                </div>
-                                @Html.LabelFor(model => model.ISConfirmAmount, " مبلغ تحرير الفاتورة غير مطابق لمبلغ السداد هل تريد تاكيد المبلغ ؟", htmlAttributes: new { @class = "control-label col-md-10" })
-                                
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="col-md-6">
-
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.CurrencyId, "Currency", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("CurrencyId", null, htmlAttributes: new { @class = "form-control select2bs4" })
-                                @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.TotalAmountCredit, " Amount", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TotalAmountCredit, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
-                                <label id="MoneyText" name="MoneyText" class="customlabel"></label>
-                            </div>
-                        </div>
-                       
-
-
-
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.Statement, " Statement", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                              @Html.TextAreaFor(m => m.Statement, new { @class = "form-control" })
-
-                                @Html.ValidationMessageFor(model => model.Statement, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.WriteAutomatic, "Writing the Statement Automatic?", htmlAttributes: new { @class = "control-label col-md-8" })
-                            <div class="col-md-4">
-                                @Html.CheckBoxFor(m => m.WriteAutomatic)
-
-                            </div>
-                        </div>
 
 
 
 
 
 
-                    </div>
-
-
+                                @*<div class="form-group row">
+                @Html.LabelFor(model => model.YearId, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("YearId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                    @Html.ValidationMessageFor(model => model.YearId, "", new { @class = "text-danger" })
                 </div>
+            </div>*@
+                                @*<div class="form-group row">
+                @Html.LabelFor(model => model.MonthId, "Month", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MonthId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                    @Html.ValidationMessageFor(model => model.MonthId, "", new { @class = "text-danger" })
+                    <label id="MoneyBall" name="MoneyBall" class="customlabel"> </label>
+                </div>
+            </div>*@
+
+                                <div class="ConfirmAmount">
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            @Html.CheckBoxFor(m => m.ISConfirmAmount)
+
+                                        </div>
+                                        @Html.LabelFor(model => model.ISConfirmAmount, " مبلغ تحرير الفاتورة غير مطابق لمبلغ السداد هل تريد تاكيد المبلغ ؟", htmlAttributes: new { @class = "control-label col-md-10" })
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.CurrencyId, "Currency", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("CurrencyId", null, htmlAttributes: new { @class = "form-control select2bs4" })
+                                        @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.TotalAmountCredit, " Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TotalAmountCredit, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Arabic Name" } })
+                                        <label id="MoneyText" name="MoneyText" class="customlabel"></label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Statement, " Statement", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(m => m.Statement, new { @class = "form-control" })
+
+                                        @Html.ValidationMessageFor(model => model.Statement, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.WriteAutomatic, "Writing the Statement Automatic?", htmlAttributes: new { @class = "control-label col-md-8" })
+                                    <div class="col-md-4">
+                                        @Html.CheckBoxFor(m => m.WriteAutomatic)
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
 
 
                 <!--------------------------------------------------------------------------------------------------------------------------------------------->

@@ -201,7 +201,7 @@ namespace AirPortERP.Controllers
                         {
                             int Id = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault());
                             OperationDebit.Id = Id;
-                            OperationDebit.AccountNumber = model.AccId;
+                            OperationDebit.AccId = model.AccId;
                             OperationDebit.OperationDebit = Convert.ToDecimal(model.Debit);
                             OperationDebit.OperationCredit = 0;
                             OperationDebit.OperationDate = Balance.Date;
@@ -212,7 +212,7 @@ namespace AirPortERP.Controllers
                             ///----------------------------------------------------------------------------
                             int Id2 = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault() + 1);
                             OperationCredit.Id = Id2;
-                            OperationCredit.AccountNumber = 7;  /// المدنيون
+                            OperationCredit.AccId = 7;  /// المدنيون
                             OperationCredit.OperationDebit = 0;
                             OperationCredit.OperationCredit = Convert.ToDecimal(model.Debit);
                             OperationCredit.OperationDate = Balance.Date;
@@ -225,7 +225,7 @@ namespace AirPortERP.Controllers
                         {
                             int Id = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault());
                             OperationDebit.Id = Id;
-                            OperationDebit.AccountNumber = model.AccId;
+                            OperationDebit.AccId = model.AccId;
                             OperationDebit.OperationDebit = 0;
                             OperationDebit.OperationCredit = Convert.ToDecimal(model.Credit);
                             OperationDebit.OperationDate = Balance.Date;
@@ -236,7 +236,7 @@ namespace AirPortERP.Controllers
                             ///----------------------------------------------------------------------------
                             int Id2 = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault() + 1);
                             OperationCredit.Id = Id2;
-                            OperationCredit.AccountNumber = 7;  // الدائنون16
+                            OperationCredit.AccId = 7;  // الدائنون16
                             OperationCredit.OperationDebit = Convert.ToDecimal(model.Credit);
                             OperationCredit.OperationCredit = 0;
                             OperationCredit.OperationDate = model.Date;
@@ -319,7 +319,7 @@ namespace AirPortERP.Controllers
             {
                 int Id = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault());
                 OperationDebit.Id = Id;
-                OperationDebit.AccountNumber = Open.AccId;
+                OperationDebit.AccId = Open.AccId;
                 OperationDebit.OperationDebit = Convert.ToDecimal(Open.Debit);
                 OperationDebit.OperationCredit = 0;
                 OperationDebit.OperationDate = Open.Date;
@@ -329,7 +329,7 @@ namespace AirPortERP.Controllers
                 ///----------------------------------------------------------------------------
                 int Id2 = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault() + 1);
                 OperationCredit.Id = Id2;
-                OperationCredit.AccountNumber = 7;  /// المدنيون
+                OperationCredit.AccId = 7;  /// المدنيون
                 OperationCredit.OperationDebit = 0;
                 OperationCredit.OperationCredit = Convert.ToDecimal(Open.Debit);
                 OperationCredit.OperationDate = Open.Date;
@@ -341,7 +341,7 @@ namespace AirPortERP.Controllers
             {
                 int Id = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault());
                 OperationDebit.Id = Id;
-                OperationDebit.AccountNumber = Open.AccId;
+                OperationDebit.AccId = Open.AccId;
                 OperationDebit.OperationDebit = 0;
                 OperationDebit.OperationCredit = Convert.ToDecimal(Open.Credit);
                 OperationDebit.OperationDate = Open.Date;
@@ -351,7 +351,7 @@ namespace AirPortERP.Controllers
                 ///----------------------------------------------------------------------------
                 int Id2 = Convert.ToInt32(db.SpLastAccountOperationId().FirstOrDefault() + 1);
                 OperationCredit.Id = Id2;
-                OperationCredit.AccountNumber = 7;  //16 الدائنون
+                OperationCredit.AccId = 7;  //16 الدائنون
                 OperationCredit.OperationDebit = Convert.ToDecimal(Open.Credit);
                 OperationCredit.OperationCredit = 0;
                 OperationCredit.OperationDate = Open.Date;

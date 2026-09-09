@@ -23,21 +23,28 @@ namespace AirPortERP.Models
         public int Id { get; set; }
         public Nullable<int> OperationTypeId { get; set; }
         public Nullable<System.DateTime> SandDate { get; set; }
-        public Nullable<int> AccId { get; set; }
+        public string Statement { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
+        public Nullable<int> CurrencyId { get; set; }
+        public string ShakNumber { get; set; }
+        public Nullable<int> FinancialClaimId { get; set; }
+        public Nullable<int> CompanyInfoId { get; set; }
+        public Nullable<decimal> ExchangeRate { get; set; }
         public Nullable<bool> Posted { get; set; }
         public Nullable<bool> Suspened { get; set; }
         public Nullable<bool> IsConfirm { get; set; }
         public Nullable<bool> IsTransfer { get; set; }
-        public Nullable<decimal> TotalAmount { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
         public string DeleteReason { get; set; }
     
-        public virtual AccountTree AccountTree { get; set; }
+        public virtual FinancialClaim FinancialClaim { get; set; }
         public virtual OperationType OperationType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SandDetail> SandDetails { get; set; }
+        public virtual CompanyInfo CompanyInfo { get; set; }
+        public virtual Currency Currency { get; set; }
     }
 }

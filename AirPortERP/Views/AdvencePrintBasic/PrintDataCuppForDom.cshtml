@@ -1,0 +1,371 @@
+﻿@model IEnumerable<AirPortERP.ViewModels.PrintCuppsViewModel>
+
+@{
+    ViewBag.Title = "PrintInvoice";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+
+<style>
+
+     /*////////////////////////////////////////////////////Cupps/////////////////////////////////////////////*/
+              .invoiceCupps {
+            padding:10px;
+            font-family:Arial;
+        }
+       .invoiceCupps .invoice-Cupps-header {
+            border:2px solid #808080;
+            border-radius:5px;
+            padding:16px;
+            margin-bottom:10px;
+        }
+        
+        .invoiceCupps .invoice-Cupps-header .text-word {
+                  
+               float:none;
+
+        }
+        .invoiceCupps .invoice-Cupps-header .text-word h6 {
+            font-size:21px;
+              font-weight:bolder;
+        }
+               .invoiceCupps .invoice-Cupps-header .image-R {
+                    float:right;
+                    margin-right:30px;
+                     margin-top:-90px;
+                   
+            }
+                .invoiceCupps .invoice-Cupps-header .image-L {
+               float:left;
+               margin-top:-10px;
+                   
+            }
+
+            .invoiceCupps .invoice-Cupps-Body {
+                clear:both;
+            }
+
+             .invoiceCupps .invoice-Cupps-Body .h-mr {
+              margin-right:20px;
+                font-size:21px;
+        }
+
+
+                .invoiceCupps .invoice-Cupps-details th {
+                    background-color:#ebefef
+                }
+
+                .invoiceCupps .invoice-Cupps-details table {
+                    min-width:1000px;
+                    text-align:left;
+                }
+
+                    .invoiceCupps .invoice-Cupps-details table,th,td {
+                 border:1px solid #282a2c; 
+                 padding:.5rem;
+                   font-size:18px;
+               
+            }
+
+              
+
+                .invoiceCupps .invoice-Cupps-details .footer {
+                     background-color:#ebefef;
+                     font-weight:600;
+                    
+                }
+
+
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+<section class="invoiceCupps">
+
+
+    <div class="invoice-Cupps-header">
+
+
+
+        <div class="image-L">
+            <img src="~/Temp/Image/WhiteLogo.png" height="100" />
+        </div>
+
+
+        <div class="text-center text-word">
+            <h6>Sudan Airports Company .Ltd</h6>
+            <h6>General Administration Of Finance Affairs</h6>
+            <h6>Revenue Directorate</h6>
+        </div>
+
+
+
+        <div>
+            <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
+        </div>
+
+    </div>
+
+
+    <div class="invoice-Cupps-Body">
+        <h4 class="text-center"><u> Invoice Cupps International</u></h4>
+        <div class="arline-header">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <label class="h-mr">Company: @ViewBag.Name</label>
+                    <label class="h-mr">From: @ViewBag.DateFrom</label>
+                    <label class="h-mr">To: @ViewBag.DateTo</label>
+                    <label class="h-mr">ExchangeRate: @ViewBag.ExchangeRate</label>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center invoice-Cupps-details" style="width:100%;margin-bottom:40px;">
+
+
+
+
+        <table class="cupps-table-header">
+
+            <tr>
+                <th>
+                    N
+                </th>
+
+                <th>
+                    Date
+                </th>
+
+
+                <th>
+                    FlightNo
+                </th>
+
+                <th>
+                    Flight To
+                </th>
+
+
+                <th>
+                    Pax
+                </th>
+
+
+                <th>
+                    TR
+                </th>
+
+
+
+
+
+
+                <th>
+                    Fees
+                </th>
+
+
+
+                <th>
+
+                    Amount $
+                </th>
+                <th>
+                    Amount SDG
+
+                </th>
+
+
+
+
+
+
+
+
+
+            </tr>
+
+
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.N)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TakeOffDate)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightNo)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AirPortTo)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pax)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TR)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InterFees)
+                        </td>
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.InterCuppsFees)
+                        </td>
+
+
+
+
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.CUPPSSDG)
+                        </td>
+
+
+
+                    </tr>
+                }
+
+                <tr class="footer">
+                    <th colspan="4">  Total :</th>
+
+
+
+                    <th class="numberFormat">@ViewBag.SumPax</th>
+                    <th class="numberFormat">@ViewBag.SumTR</th>
+                    <th></th>
+
+                
+
+                    <th class="numberFormat">@ViewBag.SumInterCuppsFees</th>
+
+                    <th class="numberFormat">@ViewBag.SumCUPPSSDG</th>
+                </tr>
+
+
+                <tr class="footer">
+                    <th colspan="7">   Revenue Stamp(5%) :</th>
+
+                    <th class="numberFormat">@ViewBag.TaxDollar</th>
+
+                    <th class="numberFormat">@ViewBag.TaxSDG</th>
+                </tr>
+
+
+                <tr class="footer">
+                    <th colspan="7">  Grand Total :</th>
+
+                    <th class="numberFormat">@ViewBag.GrandTotalDollar</th>
+
+                    <th class="numberFormat">@ViewBag.GrandTotalSDG</th>
+                </tr>
+
+            </tbody>
+
+
+
+
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script src="~/Temp/plugins/jquery/jquery.min.js"></script>
+
+@section scripts{
+
+    <script>
+
+
+
+           window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
+
+
+           $('.numberFormat').each(function () {
+               var item = $(this).text();
+
+               var N = round(item, 2);
+               /// var N = item.toFixed(2);
+
+
+               var num = Number(N).toLocaleString();
+               $(this).text(num);
+           });
+
+
+
+           function round(value, exp) {
+               if (typeof exp === 'undefined' || +exp === 0)
+                   return Math.round(value);
+
+               value = +value;
+               exp = +exp;
+
+               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                   return NaN;
+
+               // Shift
+               value = value.toString().split('e');
+               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+               // Shift back
+               value = value.toString().split('e');
+               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+           }
+
+
+    </script>
+
+}

@@ -41,6 +41,7 @@ namespace AirPortERP.Models
         public Nullable<System.DateTime> CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatingDate { get; set; }
+        public Nullable<decimal> ExchangeRate { get; set; }
     
         public virtual CompanyInfo CompanyInfo { get; set; }
         public virtual OfficerData OfficerData { get; set; }

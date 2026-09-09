@@ -1,12 +1,13 @@
 ﻿using AirPortERP.Extenstion;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.Entity;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -38,7 +39,8 @@ namespace AirPortERP.Controllers
             IQueryable<Revenue> Revenue;
             var id = User.Identity.GetUserId();
 
-            var companyInfo = Role.GetCompanyId(id);
+            //var companyInfo = Role.GetCompanyId(id);
+            var companyId = CommonUsed.getCompanyId(id);
 
             WorkMouth = CommonUsed.GetMouth(id);
             WorkYear = CommonUsed.GetYear(id);
@@ -46,6 +48,7 @@ namespace AirPortERP.Controllers
             Revenue = db.Revenues.OrderBy(x => x.Id).Where(x => x.OfficerData.TowerData.Date.Value.Month == WorkMouth
             && x.OfficerData.TowerData.Date.Value.Year == WorkYear & (x.FuelFees < 0 | x.FuelFees == null));
 
+            Revenue = Revenue.Where(x => x.OfficerData.TowerData.CompanyInfoId == companyId);
             var TowerDatasList = new List<GroundHandlingViewModels>();
 
             // var TowerDatasList = new List<TowerDataViewModels>();
@@ -127,7 +130,7 @@ namespace AirPortERP.Controllers
         {
             IQueryable<Revenue> Revenue;
             var id = User.Identity.GetUserId();
-
+            var companyId = CommonUsed.getCompanyId(id);
             var companyInfo = Role.GetCompanyId(id);
 
             WorkMouth = CommonUsed.GetMouth(id);
@@ -135,7 +138,7 @@ namespace AirPortERP.Controllers
 
             Revenue = db.Revenues.OrderBy(x => x.Id).Where(x => x.OfficerData.TowerData.Date.Value.Month == WorkMouth
             && x.OfficerData.TowerData.Date.Value.Year == WorkYear & x.FuelFees > 0);
-
+            Revenue = Revenue.Where(x => x.OfficerData.TowerData.CompanyInfoId == companyId);
             var TowerDatasList = new List<GroundHandlingViewModels>();
 
             // var TowerDatasList = new List<TowerDataViewModels>();
@@ -275,8 +278,12 @@ namespace AirPortERP.Controllers
         /******************************************************** First Class ************************************************************************/
         public ActionResult GetDataFuel(int? page, int? Get, int? Search, int? Count, int? FuelCompanyId, DateTime? DateFrom, DateTime? DateTo)
         {
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
+
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FuelFees > 0);
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FuelFees > 0
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             if (Get > 0)
             {
@@ -320,6 +327,7 @@ namespace AirPortERP.Controllers
         public ActionResult PrintDataHandlingComp(int? FuelCompanyId, DateTime? DateFrom, DateTime? DateTo)
         {
             var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
             RoleController role = new RoleController();
             int GetCompanyId = role.GetCompanyId(id);
             var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
@@ -349,7 +357,8 @@ namespace AirPortERP.Controllers
             string SearchDateTo = "غير محدد";
 
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FuelFees > 0);
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FuelFees > 0
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             if (FuelCompanyId > 0)
             {
@@ -435,5 +444,127 @@ namespace AirPortERP.Controllers
             ViewBag.Header = "FirstClass-" + Name + "-" + DateTime.Now.ToShortDateString();
             return View(RevenueList);
         }
+
+
+
+        //// ---------------------------------print fueil graf-------------------------------------------
+
+
+        //public ActionResult PrintDataFuelsGraf(int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
+        //{
+        //    var id = User.Identity.GetUserId();
+        //    var companyId = CommonUsed.getCompanyId(id);
+        //    RoleController role = new RoleController();
+
+        //    int GetCompanyId = role.GetCompanyId(id);
+        //    var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+
+        //    string RevenuesManager = CompanyInfo.RevenuesManager;
+        //    ViewBag.RevenuesManager = RevenuesManager;
+
+        //    string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
+        //    ViewBag.DateNow = DateNow;
+
+        //    string Serial = Guid.NewGuid().ToString();
+
+        //    string UserName = CommonUsed.GetUserName(id);
+
+        //    if (DateTo != null)
+        //    {
+        //        Month = Convert.ToDateTime(DateTo).Month;
+        //        Year = Convert.ToDateTime(DateTo).Year;
+        //    }
+        //    else if (DateFrom != null)
+        //    {
+        //        Month = Convert.ToDateTime(DateFrom).Month;
+        //        Year = Convert.ToDateTime(DateFrom).Year;
+        //    }
+        //    else
+        //    {
+        //        //Month = Convert.ToDateTime(currentDate).Month;
+        //        //Year = Convert.ToDateTime(currentDate).Year;
+        //        return RedirectToAction("Error");
+        //    }
+        //    ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
+        //    string DemandMouth = db.MouthWorkOns.Where(x => x.Id == Month).FirstOrDefault().Mouth;
+
+        //    string DemandDate = "مطالبة شهر " + DemandMouth + " " + Year + "م";
+        //    ViewBag.DemandDate = DemandDate;
+
+        //    string ArName = "غير محدد";
+        //    string Name = "غير محدد";
+
+        //    string SearchDateFrom = "غير محدد";
+        //    string SearchDateTo = "غير محدد";
+
+        //    IQueryable<Revenue> Revenue;
+        //    Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.OfficerData.TowerData.CompanyInfoId == companyId);
+        //    ;
+
+        //    if (HandlingCompanyId > 0)
+        //    {
+        //        Revenue = Revenue.Where(x => x.OfficerData.HandlingAgentId == HandlingCompanyId);
+        //        ArName = db.HandlingAgentsCompanies.Find(HandlingCompanyId).NameAr;
+        //        Name = db.HandlingAgentsCompanies.Find(HandlingCompanyId).NameEn;
+        //    }
+        //    ViewBag.ArName = ArName;
+        //    if (DateFrom != null && DateTo != null)
+        //    {
+        //        Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
+        //        SearchDateFrom = CommonUsed.ToDisplayDate(DateFrom).ToString();
+        //        SearchDateTo = CommonUsed.ToDisplayDate(DateTo).ToString();
+
+        //        ViewBag.SearchDateFrom = SearchDateFrom;
+        //        ViewBag.SearchDateTo = SearchDateTo;
+
+        //    }
+        //    /***********************************************************************************/
+
+        //    PrintFinalInvoiceViewModel F = new PrintFinalInvoiceViewModel();
+
+        //    F.Name = db.HandlingAgentsCompanies.Find(HandlingCompanyId).NameAr;
+
+        //    F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.GroundHandlingFees));
+
+        //    F.TaxDollar = F.FreightFees * 0.05;
+
+        //    F.GrandTotalDollar = (F.FreightFees + F.TaxDollar);
+        //    F.GrandTotalSDG = (F.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
+
+        //    /*-------------------------------------SDG------------------------------------------------------------*/
+
+        //    double SDGRound = Convert.ToDouble(Math.Round(F.GrandTotalSDG, 2));
+
+        //    ToWord toWord = new ToWord(Convert.ToDecimal(SDGRound), currencies[Convert.ToInt32(0)]);
+
+        //    F.GrandTotalSDGTxt = toWord.ConvertToArabic().ToString();
+
+        //    /*--------------------------------------Dollar-----------------------------------------------------------*/
+
+        //    double DollarRound = Convert.ToDouble(Math.Round(F.GrandTotalDollar, 2));
+        //    ToWord toWord1 = new ToWord(Convert.ToDecimal(DollarRound), currencies[Convert.ToInt32(1)]);
+
+        //    F.GrandTotalDollarTxt = toWord1.ConvertToArabic().ToString();
+
+        //    /*************************************************************************************/
+        //    ViewBag.HeaderDate = Convert.ToDateTime(DateFrom).ToString("MMM-yyyy");
+
+        //    int CurrencyType = Convert.ToInt32(db.HandlingAgentsCompanies.Find(HandlingCompanyId).CurrencyId);
+
+        //    if (CurrencyType == 1)
+        //    {
+        //        ViewBag.Header = "Graf-" + Name + "-" + DateTime.Now.ToShortDateString();
+        //        return View(F);
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Header = "Graf-" + Name + "-" + DateTime.Now.ToShortDateString();
+        //        return View("PrintDataGHGrafDollar", F);
+        //    }
+
+        //}
+
+
+
     }
 }

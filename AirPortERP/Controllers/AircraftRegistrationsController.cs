@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.ViewModels;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 
 namespace AirPortERP.Controllers
@@ -97,9 +96,10 @@ namespace AirPortERP.Controllers
                     {
                         return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
                     }
-                    db.AircraftRegistrations.Add(model);
+                    db.AircraftRegistrations.Add(model);            
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
+                    int lastId = model.Id;
+                    return Json(new { success = true, message = "Add", LastId = lastId }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -132,52 +132,6 @@ namespace AirPortERP.Controllers
 
 
 
-        public ActionResult PrintData()
-        {
-          
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/BasicData/RptAircraftRegistrations.rpt")));
-            IQueryable<AircraftRegistration> AircraftRegistrations;
-            AircraftRegistrations = db.AircraftRegistrations;
-
-          
-            var AircraftRegistrationModels = new List<AircraftRegistrationModels>();
-            foreach (var item in AircraftRegistrations)
-            {
-                AircraftRegistrationModels R = new AircraftRegistrationModels();
-                R.Id = item.Id;
-                R.AircraftTypeName = item.AircraftType.Type;
-                R.Registration = item.Registration;
-                R.MaxTakoffWieght =Convert.ToDouble(item.MaxTakoffWieght).ToString();
-                R.Size = item.AircraftType.AircraftSize.Size;
-
-                AircraftRegistrationModels.Add(R);
-
-            }
-
-
-            rd.SetDataSource(AircraftRegistrationModels.Select(p => new
-            {
-
-                Registration = p.Registration,
-                Type = p.AircraftTypeName,
-             ///   AirLineName = p.AirLine.Name,
-                MaxTakoffWieght = p.MaxTakoffWieght,
-                Size = p.Size,
-
-            }).ToList());
-
-
-
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream Stream = rd.ExportToStream
-                //WordForWindows
-                (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            Stream.Seek(0, SeekOrigin.Begin);//application/doc
-            return File(Stream, "application/pdf", "Registrations.pdf");
-        }
 
 
 
