@@ -670,7 +670,7 @@ namespace AirPortERP.Controllers
             int CurrencyType = Convert.ToInt32(db.AirLines.Where(x => x.Id == AirLineId).Single().CurrencyType);
             ///-------------------------------------SDG------------------------------------------------------------
 
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 double SDGRound = Convert.ToDouble(Math.Round(F.GrandTotalSDG, 2));
 

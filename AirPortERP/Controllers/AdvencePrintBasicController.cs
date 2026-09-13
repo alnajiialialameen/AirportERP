@@ -242,7 +242,7 @@ namespace AirPortERP.Controllers
             F.DateNow = DateTime.Now.ToString() ;
            
 
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 double NumberSDGRound = Convert.ToDouble(F.GrandTotalSDG);
                 double SDGRounded = Math.Round(NumberSDGRound, 2);
@@ -839,7 +839,7 @@ namespace AirPortERP.Controllers
             ////*************************************************************************************
             ViewBag.HeaderDate = Convert.ToDateTime(DateFrom).ToString("MMM-yyyy");
 
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 ViewBag.Header = "Graf-" + Name + "-" + DateTime.Now.ToShortDateString();
                 return View(F);
@@ -3944,7 +3944,7 @@ namespace AirPortERP.Controllers
             ////*************************************************************************************
             ViewBag.HeaderDate = Convert.ToDateTime(DateFrom).ToString("MMM-yyyy");
 
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 ViewBag.Header = "Graf-" + Name + "-" + DateTime.Now.ToShortDateString();
                 return View(F);
