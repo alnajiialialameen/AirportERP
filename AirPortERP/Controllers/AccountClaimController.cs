@@ -617,18 +617,19 @@ namespace AirPortERP.Controllers
             F.InterCUPPSFees = Convert.ToDouble(Revenue.Sum(x => x.InterCUPPSFees));
             F.DomeCUPPSFees = Convert.ToDouble(Revenue.Sum(x => x.DomeCUPPSFees));
 
-            if (companyId != 11)
-            {
-                F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
-                // F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees) / myExchangeRate);
-                F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees));
-            }
-            else
-            {
-                F.InterNYFees = 0;
-                // F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees) / myExchangeRate);
-                F.DomeNYFees = 0;
-            }
+            F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
+            F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees));
+
+            //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
+            //{
+            //    F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
+            //    F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees));
+            //}
+            //else
+            //{
+            //    F.InterNYFees = 0;
+            //    F.DomeNYFees = 0;
+            //}
 
             F.PushBackFees = Convert.ToDouble(Revenue.Sum(x => x.PushBackFees));
             F.ServiceCars = Convert.ToDouble(Revenue.Sum(x => x.AmbolanceFees))
@@ -639,21 +640,25 @@ namespace AirPortERP.Controllers
             F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
-            if (companyId != 11)
-            {
-                F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-                F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
-                F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
-                + F.NoiseFees;
-            }else
-            {
-                F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-                F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
-                F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
-                + F.NoiseFees;
-            }
+            //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
+            //{
+            //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+            //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
+            //    F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
+            //    + F.NoiseFees;
+            //}else
+            //{
+            //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+            //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
+            //    F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
+            //    + F.NoiseFees;
+            //}
 
-                F.TaxDollar = ((F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+            F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+                               F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
+                               F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees + F.NoiseFees;
+
+            F.TaxDollar = ((F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
                 F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
                 F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
                 + F.NoiseFees) * 0.05);

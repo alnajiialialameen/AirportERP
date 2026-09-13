@@ -72,7 +72,7 @@ namespace AirPortERP.Controllers
             }
 
             //اذا عملة الدفع هي الجنيه السوداني
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 if (ExcRate <= 0)
                 {
@@ -690,7 +690,7 @@ namespace AirPortERP.Controllers
             int CurrencyType = Convert.ToInt32(db.AirLines.Where(x => x.Id == AirLineId).Single().CurrencyType);
 
             //اذا عملة الدفع هي الجنيه السوداني
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 if (ExcRate <= 0)
                 {
@@ -3701,7 +3701,7 @@ namespace AirPortERP.Controllers
             int CurrencyType = Convert.ToInt32(db.AirLines.Where(x => x.Id == towerData.AirLineId).Single().CurrencyType);
 
             //اذا عملة الدفع هي الجنيه السوداني
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 if (ExcRate <= 0)
                 {
@@ -3867,7 +3867,7 @@ namespace AirPortERP.Controllers
             int CurrencyType = Convert.ToInt32(db.AirLines.Where(x => x.Id == AirLineId).Single().CurrencyType);
 
             //اذا عملة الدفع هي الجنيه السوداني
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 if (ExcRate <= 0)
                 {
