@@ -217,12 +217,12 @@
 
         <div class="image-L">
 
-           
-                <h5>Sudan Airports Company .Ltd</h5>
-                <h5>General Administration Of Finance Affairs</h5>
-                <h5>Revenue Directorate</h5>
-            </div>
-        
+
+            <h5>Sudan Airports Company .Ltd</h5>
+            <h5>General Administration Of Finance Affairs</h5>
+            <h5>Revenue Directorate</h5>
+        </div>
+
 
 
         <div class="Center-image">
@@ -230,25 +230,25 @@
         </div>
 
 
-           
+
         <div class="image-R text-right">
             <h5>شركة مطارات السودان المحدودة  </h5>
             <h5>الادارة العامة للشؤون المالية</h5>
             <h5>ادارة الايرادات </h5>
         </div>
-            </div>
+    </div>
 
-        
+
 
 
     <div class="invoice-Graf-Body">
-      
+
         <div class="arline-header">
             <div class="row">
                 <div class="col-md-12">
 
                     <h5>   التاريخ:   @ViewBag.DateNow</h5> <br />
-                   
+
                     <h5>  السيد مدير/ @ViewBag.ArName</h5>
                     <div class="mater">
                         <h5>المحترم</h5>
@@ -268,24 +268,24 @@
 
 
     <div class="text-center invoice-Graf-details">
-    
+
         <h4 class="font-weight-bold text-center"><u>   الموضوع/ @ViewBag.DemandDate </u> </h4>
-       
+
         <h5>بالاشارة للموضوع اعلاة مرفق لسيادتكم @ViewBag.DemandDate حسب ماموضح ادناة</h5>
 
         <table class="myTable" width="100%">
             <thead>
                 <tr class="Gray">
-                   
-                    
+
+
                     <th>المبلغ بالجنية السوداني </th>
-                    <th >البيـــــــــــــــــان </th>
+                    <th>البيـــــــــــــــــان </th>
                     <th>الرقم</th>
                 </tr>
             </thead>
             <tr>
-               
-             
+
+
                 <td class="numberFormat"> @Model.GrandTotalSDG</td>
                 <td>اجمالي الرسوم الطيرانية</td>
                 <td class="N">1</td>
@@ -299,36 +299,37 @@
 
 
         </table>
-       
-       
+
+
 
 
 
     </div>
-   
+
     <div class="number-word">
-        <h6>@Model.GrandTotalSDGTxt</h6>
-        
+        <h6 class="text-right">@Model.GrandTotalSDGTxt</h6>
+        <h6>@ViewBag.BankInfo</h6>
     </div>
+
     <div class="Pay">
-        <h5>نرجو التكرم بالسداد</h5>
     </div>
+
     <div class="thank">
-        <h5> <i class="fas fa-quote-right"></i> ولكم الشكر </h5>
+        <h5> <i class="fas fa-quote-right mt-4"></i> ولكم الشكر </h5>
     </div>
 
     <div class="invoice-Graf-footer">
-      
+
         <div class="sign">
             @*<h5>@ViewBag.RevenuesManager</h5>*@
             <h5>بلقــــــيس مــــــحـــجوب احـــــــــمد</h5>
             @*<h5>مديــــر ادارة الايــــرادات</h5>*@
             <h5>مدير الادارة العامة للشؤون المالية والحسابية</h5>
         </div>
-      
-      
-      
-       
+
+
+
+
     </div>
 
 
@@ -339,7 +340,7 @@
         <h5>الرجاء مراجعة الفاتورة خلال 72 ساعة وبعدها تصبح قابلة للسداد</h5>
         <h5>السداد خلال اسبوع من تاريخ استلام الفاتورة</h5>
     </div>
-   
+
 
 
 

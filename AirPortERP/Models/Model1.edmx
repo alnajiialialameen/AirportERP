@@ -486,6 +486,8 @@
           <Property Name="FirstClassSupervisor" Type="nvarchar" MaxLength="50" />
           <Property Name="PushBackSupervisor" Type="nvarchar" MaxLength="50" />
           <Property Name="IsSingleAccounting" Type="bit" />
+          <Property Name="BankInfo" Type="nvarchar" MaxLength="250" />
+          <Property Name="SignatureDescription" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -3312,6 +3314,8 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <NavigationProperty Name="Revenues" Relationship="Self.FK_Revenue_CompanyInfo" FromRole="CompanyInfo" ToRole="Revenue" />
           <NavigationProperty Name="TowerDatas" Relationship="Self.FK_TowerData_CompanyInfo" FromRole="CompanyInfo" ToRole="TowerData" />
           <NavigationProperty Name="WorkOns" Relationship="Self.FK_WorkOn_CompanyInfo" FromRole="CompanyInfo" ToRole="WorkOn" />
+          <Property Name="BankInfo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -6049,6 +6053,8 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <EntitySetMapping Name="CompanyInfoes">
             <EntityTypeMapping TypeName="AirPortERPModel.CompanyInfo">
               <MappingFragment StoreEntitySet="CompanyInfo">
+                <ScalarProperty Name="SignatureDescription" ColumnName="SignatureDescription" />
+                <ScalarProperty Name="BankInfo" ColumnName="BankInfo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="NameAr" ColumnName="NameAr" />
                 <ScalarProperty Name="NameEn" ColumnName="NameEn" />

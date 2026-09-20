@@ -100,7 +100,7 @@ namespace AirPortERP.Controllers
             var companyId = CommonUsed.getCompanyId(id);
 
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == false || x.IsTransfer == null
-             && x.CompanyInfoId == companyId && x.TowerDataId == null);
+             && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
            // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
 
             var ClaimList = new List<ClaimViewModel>();
@@ -145,7 +145,7 @@ namespace AirPortERP.Controllers
             var companyId = CommonUsed.getCompanyId(id);
            
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == true
-            && x.CompanyInfoId == companyId && x.TowerDataId == null);
+            && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
             // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
 
             var ClaimList = new List<ClaimViewModel>();
@@ -316,9 +316,9 @@ namespace AirPortERP.Controllers
             DateTime DateFrom = CommonUsed.ConvertToDbDate(model.DateFrom);
             DateTime DateTo = CommonUsed.ConvertToDbDate(model.DateTo);
             int AccId = Convert.ToInt32(model.AccId);
-           
 
-            // Config DateFrom - DateTo
+
+          //  Config DateFrom -DateTo
             if (DateFrom.Month != DateTo.Month)
             {
                 return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);

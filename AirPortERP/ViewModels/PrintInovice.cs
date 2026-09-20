@@ -75,6 +75,48 @@ namespace AirPortERP.ViewModels
     }
 
 
+    public class PrintFuelFinalInvoiceViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public string txtInvoiceNo { get; set; }
+
+        public string HeaderDate { get; set; }
+
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
+
+        public double ExchangeRate { get; set; }
+
+        public string DateNow { get; set; }
+
+        public double FuelFees { get; set; }
+        public double SubTotalDollar { get; set; }
+
+        public double SubTotalSDG { get; set; }
+        public double GrandTotalDollar { get; set; }
+
+        public double GrandTotalSDG { get; set; }
+
+        public string GrandTotalSDGTxt { get; set; }
+        public string GrandTotalDollarTxt { get; set; }
+
+        public string NumberWord { get; set; }
+
+
+        public double TaxDollar { get; set; }
+        public double TaxSDG { get; set; }
+
+
+
+
+
+
+
+
+        public double OpenAireportOvertimeFees { get; set; }
+    }
 
 
     public class PrintLandingViewModel
