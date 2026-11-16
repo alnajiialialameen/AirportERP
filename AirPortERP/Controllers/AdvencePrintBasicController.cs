@@ -661,6 +661,7 @@ namespace AirPortERP.Controllers
             
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.companyId = GetCompanyId;
             ViewBag.BankInfo = CompanyInfo.BankInfo;
             
@@ -717,17 +718,14 @@ namespace AirPortERP.Controllers
 
 
             //string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM");
-            string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM", new CultureInfo("ar-EG"));
-       
+            //  string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM", new CultureInfo("ar-EG"));
+            string DemandMouth = GetDemandDateForInvoice(DateFrom.Value, DateTo.Value);
 
             //string DemandMouth = db.MouthWorkOns.Where(x => x.Id == Month).FirstOrDefault().Mouth;
             //  string DemandYear = db.WorkOns.Where(x => x.UserId == id).FirstOrDefault().YearWorkOn.Year.ToString();
 
-
-
-
-            string DemandDate = "مطالبة شهر " + DemandMouth + " " + Year + "م";
-            ViewBag.DemandDate = DemandDate;
+            //string DemandDate = "مطالبة شهر " + DemandMouth + " " + Year + "م";
+            ViewBag.DemandDate = DemandMouth;
 
             string ArName = "غير محدد";
             string Name = "غير محدد";
@@ -852,6 +850,15 @@ namespace AirPortERP.Controllers
                 return View("PrintDataGrafDollar", F);
             }
         }
+
+
+
+
+    
+
+
+
+
 
         [Authorize(Roles = "Revenues,Super-Admin,Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult PrintDataServiceCar(int? AirLineId, DateTime? DateFrom, DateTime? DateTo, int? FlightTypeId)
@@ -3181,6 +3188,7 @@ namespace AirPortERP.Controllers
             var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
 
             string RevenuesManager = CompanyInfo.RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.RevenuesManager = RevenuesManager;
 
             string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
@@ -3216,7 +3224,7 @@ namespace AirPortERP.Controllers
             string DemandMouth = Convert.ToDateTime(financialClaim1.DateFrom)
                     .ToString("MMMM", new CultureInfo("ar-EG"));
 
-            string DemandDate = this.GetDemandDate(financialClaim1.DateFrom.Value, financialClaim1.DateTo.Value);
+            string DemandDate = this.GetDemandDateForFuelInvoice(financialClaim1.DateFrom.Value, financialClaim1.DateTo.Value);
 
            
 
@@ -3259,7 +3267,7 @@ namespace AirPortERP.Controllers
 
             F.TaxDollar = F.FreightFees * 0.05;
 
-            F.GrandTotalDollar = (F.FreightFees + F.TaxDollar);
+            F.GrandTotalDollar = (F.FreightFees /*+ F.TaxDollar*/);
             F.GrandTotalSDG = (F.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
 
             ///-------------------------------------SDG------------------------------------------------------------
@@ -3296,7 +3304,9 @@ namespace AirPortERP.Controllers
 
         }
 
-        public string GetDemandDate(DateTime dateFrom, DateTime dateTo)
+       
+
+        public string GetDemandDateForInvoice(DateTime dateFrom, DateTime dateTo)
         {
             int year = dateFrom.Year;
             string monthName = dateFrom.ToString("MMMM", new CultureInfo("ar-EG"));
@@ -3330,6 +3340,50 @@ namespace AirPortERP.Controllers
 
             return $"مطالبة من ({fromDay}-{toDay}) من شهر {monthName} {year}م";
         }
+
+
+
+        public string GetDemandDateForFuelInvoice(DateTime dateFrom, DateTime dateTo)
+        {
+            int year = dateFrom.Year;
+            string monthName = dateFrom.ToString("MMMM", new CultureInfo("ar-EG"));
+
+            // إذا الشهر أو السنة مختلفين
+            if (dateFrom.Month != dateTo.Month || dateFrom.Year != dateTo.Year)
+            {
+                return $"مطالبة من ({dateFrom:dd/MM/yyyy} إلى {dateTo:dd/MM/yyyy})";
+            }
+
+            int lastDay = DateTime.DaysInMonth(dateFrom.Year, dateFrom.Month);
+
+            // شهر كامل
+            if (dateFrom.Day == 1 && dateTo.Day == lastDay)
+                return $"مطالبة شهر {monthName} {year}م";
+
+            int fromDay = dateFrom.Day;
+            int toDay = dateTo.Day;
+
+            if (fromDay == 1 && toDay == 7)
+                return $"مطالبة وقود الأسبوع الأول من شهر {monthName} {year}م";
+
+            if (fromDay == 8 && toDay == 14)
+                return $"مطالبة وقود الأسبوع الثاني من شهر {monthName} {year}م";
+
+            if (fromDay == 15 && toDay == 21)
+                return $"مطالبة وقود الأسبوع الثالث من شهر {monthName} {year}م";
+
+            if (fromDay == 22 && toDay == lastDay)
+                return $"مطالبة وقود الأسبوع الرابع من شهر {monthName} {year}م";
+
+            return $"مطالبة من ({fromDay}-{toDay}) من شهر {monthName} {year}م";
+        }
+
+
+
+
+
+
+
 
         [Authorize(Roles = "Revenues,Super-Admin, Account, Account-Admin")]
         public ActionResult PrintDataHandlingComp(int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
@@ -3670,7 +3724,7 @@ namespace AirPortERP.Controllers
 
                 F.AirCraftReg = item?.OfficerData.TowerData.AircraftRegistration.Registration;
                 F.AirCraftType = item?.OfficerData.TowerData.AircraftRegistration.AircraftType.Type;
-                F.AirCraftWieght = item?.OfficerData.FuelLiter.ToString();
+                F.FuelLiter = Convert.ToDecimal(item?.OfficerData.FuelLiter);
 
                 F.GroundHandlingFees = Convert.ToDecimal(item?.FuelFees);
 
@@ -3691,6 +3745,8 @@ namespace AirPortERP.Controllers
             /**************************************************************************************************************/
             //double SumFirstClassCount = Convert.ToDouble(RevenueList.Sum(x => x.FirstClassCount));
             //ViewBag.SumFirstClassCount = SumFirstClassCount;
+            double sumFuelliter = Convert.ToDouble(RevenueList.Sum(x => x.FuelLiter));
+            ViewBag.sumFuelliter = sumFuelliter;    
 
             double SumFuelFees = Convert.ToDouble(RevenueList.Sum(x => x.GroundHandlingFees));
             ViewBag.SumFuelFees = SumFuelFees;
@@ -3710,6 +3766,7 @@ namespace AirPortERP.Controllers
 
             double GrandTotalSDG = SumFuelFeesSDG + TaxSDG;
             ViewBag.GrandTotalSDG = GrandTotalSDG;
+
 
             ViewBag.Header = "Fuel Fees-" + Name + "-" + DateTime.Now.ToShortDateString();
             return View(RevenueList);
@@ -3988,6 +4045,7 @@ namespace AirPortERP.Controllers
 
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.companyId = GetCompanyId;
             ViewBag.BankInfo = CompanyInfo.BankInfo;
 

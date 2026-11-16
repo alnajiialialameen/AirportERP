@@ -31,7 +31,8 @@ namespace AirPortERP.ViewModels
         public double SecurityFees { get; set; }
 
         public double FreightFees { get; set; }
-
+        public double FuelFees { get; set; }
+        
         public double FirstClassFees { get; set; }
 
         public double FireFightingFees { get; set; }
@@ -92,6 +93,9 @@ namespace AirPortERP.ViewModels
         public string DateNow { get; set; }
 
         public double FuelFees { get; set; }
+        public double FreightFees { get; set; }
+
+        
         public double SubTotalDollar { get; set; }
 
         public double SubTotalSDG { get; set; }
@@ -703,6 +707,8 @@ namespace AirPortERP.ViewModels
         public string AirCraftType { get; set; }
         public string AirCraftWieght { get; set; }
 
+        public decimal FuelLiter { get; set; }
+        
         public string AirlineCode { get; set; }
         public decimal GroundHandlingFees { get; set; }
 

@@ -167,7 +167,7 @@
                         </td>
 
                         <td class="numberFormat">
-                            @Html.DisplayFor(modelItem => item.AirCraftWieght)
+                            @Html.DisplayFor(modelItem => item.FuelLiter)
                         </td>
 
                         <td>
@@ -181,19 +181,22 @@
                     </tr>
                 }
 
-                <tr class="footer">
-                    <th colspan="7">  Total :</th>
+            <tr class="footer">
+                <th colspan="6">  Total :</th>
 
-                    @*<th class="numberFormat">@ViewBag.SumPax</th>
-                    <th class="numberFormat">@ViewBag.SumTR</th>
-                    <th></th>*@
+                @*<th class="numberFormat">@ViewBag.SumPax</th>
+        <th class="numberFormat">@ViewBag.SumTR</th>
+        <th></th>*@
 
-                    <th class="numberFormat">@ViewBag.SumFuelFees</th>
 
-                    <th class="numberFormat2">@ViewBag.SumFuelFeesSDG</th>
-                </tr>
+                
+                <th class="numberFormat">@ViewBag.sumFuelliter</th>
+                <th class="numberFormat">@ViewBag.SumFuelFees</th>
 
-                <tr class="footer">
+                <th class="numberFormat2">@ViewBag.SumFuelFeesSDG</th>
+            </tr>
+
+                @*<tr class="footer">
                     <th colspan="7">   Revenue Stamp(5%) :</th>
 
                     <th class="numberFormat">@ViewBag.TaxDollar</th>
@@ -207,7 +210,7 @@
                     <th class="numberFormat">@ViewBag.GrandTotalDollar</th>
 
                     <th class="numberFormat2">@ViewBag.GrandTotalSDG</th>
-                </tr>
+                </tr>*@
 
             </tbody>
         </table>

@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountFreightClaimController.cs" />
     <Compile Include="Controllers\AccountFuelClaimController.cs" />
     <Compile Include="Controllers\AccountClaimController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -2916,6 +2917,8 @@
     <Content Include="Views\AccountFuelClaim\Index.cshtml" />
     <Content Include="Views\AccountFuelClaim\AddEditFuelClaim.cshtml" />
     <Content Include="Views\AdvencePrintBasic\PrintDataFuelFeesInovice.cshtml" />
+    <Content Include="Views\AccountFreightClaim\AddEditFreightClaim.cshtml" />
+    <Content Include="Views\AccountFreightClaim\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

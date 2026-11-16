@@ -448,13 +448,13 @@
 
 
                                     @*<li class="nav-item">
-                        <a href="@Url.Action("Index", "AccountGroups")" class="nav-link">
-                            <span><i class="fas fa-university colorBrand "></i></span>
-                            <p class="setting-p">
-                                Group
-                            </p>
-                        </a>
-                    </li>*@
+            <a href="@Url.Action("Index", "AccountGroups")" class="nav-link">
+                <span><i class="fas fa-university colorBrand "></i></span>
+                <p class="setting-p">
+                    Group
+                </p>
+            </a>
+        </li>*@
 
 
 
@@ -568,7 +568,17 @@
                                             <a href="@Url.Action("Index", "AccountFuelClaim")" class="nav-link">
                                                 <span><i class="fas fa-dollar-sign colorBrand"></i></span>
                                                 <p>
-                                                   Fuel Claim
+                                                    Fuel Claim
+                                                </p>
+                                            </a>
+                                        </li>
+
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "AccountFreightClaim")" class="nav-link">
+                                                <span><i class="fas fa-dollar-sign colorBrand"></i></span>
+                                                <p>
+                                                    Freight Claim
                                                 </p>
                                             </a>
                                         </li>
@@ -927,14 +937,14 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                                @*<li class="nav-item">
                                     <a href="@Url.Action("FuelsReport", "Fuels")" class="nav-link">
                                         <span><i class="fas fa-paste colorBrand "></i></span>
                                         <p>
                                             Fuel Fees Report
                                         </p>
                                     </a>
-                                </li>
+                                </li>*@
 
 
                             }

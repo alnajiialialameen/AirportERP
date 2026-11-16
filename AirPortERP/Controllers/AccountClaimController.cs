@@ -319,14 +319,14 @@ namespace AirPortERP.Controllers
 
 
           //  Config DateFrom -DateTo
-            if (DateFrom.Month != DateTo.Month)
-            {
-                return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);
-            }
-            if (DateFrom.Year != DateTo.Year)
-            {
-                return Json(new { success = true, message = "InvaildDateYear" }, JsonRequestBehavior.AllowGet);
-            }
+            //if (DateFrom.Month != DateTo.Month)
+            //{
+            //    return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);
+            //}
+            //if (DateFrom.Year != DateTo.Year)
+            //{
+            //    return Json(new { success = true, message = "InvaildDateYear" }, JsonRequestBehavior.AllowGet);
+            //}
             //هنا التاريخ ما لاوم يبدا من يوم 1 لانه الفواتير بقت اسبوعية عشان كده ح تتلغي ال حته دي
             //if (DateFrom.Day!=1)
             //{
@@ -473,16 +473,16 @@ namespace AirPortERP.Controllers
                 //              }
 
 
-                if (db.FinancialClaim1.Any(x =>
-                    x.AccIdDebit == AirLine.AccId &&
-                    x.CompanyInfoId == companyId &&
-                    x.TowerDataId == null &&
-                    DbFunctions.TruncateTime(x.DateFrom) <= DateTo &&
-                    DbFunctions.TruncateTime(x.DateTo) >= DateFrom
-                ))
-                {
-                    return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
-                }
+                //if (db.FinancialClaim1.Any(x =>
+                //    x.AccIdDebit == AirLine.AccId &&
+                //    x.CompanyInfoId == companyId &&
+                //    x.TowerDataId == null &&
+                //    DbFunctions.TruncateTime(x.DateFrom) <= DateTo &&
+                //    DbFunctions.TruncateTime(x.DateTo) >= DateFrom
+                //))
+                //{
+                //    return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
+                //}
 
                 Model = Claim(AirLine.Id, DateFrom, DateTo, ExchangeRate);
 
