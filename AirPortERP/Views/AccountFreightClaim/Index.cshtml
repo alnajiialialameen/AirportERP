@@ -62,12 +62,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h6 class="m-0 text-dark">Fuel Claim (مطالبة مالية)</h6>
+                <h6 class="m-0 text-dark">Frieght Claim (مطالبة مالية)</h6>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     @*<li class="breadcrumb-item"><a href="#">Home</a></li>*@
-                    <li class="breadcrumb-item active"> Fuel Claim (مطالبة وقود)</li>
+                    <li class="breadcrumb-item active"> Frieght Claim (مطالبة الشحن)</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -100,7 +100,7 @@
     <label class="CompanyId d-none">@ViewBag.CompanyId</label>
     <p>
         <button class="btn btn-primary" onclick="getClaim(0)">Add Claim</button>
-        <button class="btn btn-primary float-right" onclick="getShowAll()">Show All Confirm Transaction</button>
+        @*<button class="btn btn-primary float-right" onclick="getShowAll()">Show All Confirm Transaction</button>*@
     </p>
 
     <div class="card">
@@ -199,7 +199,7 @@
                     '<br>  <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>' +
                     '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
                     + ')">  Graf طباعة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
-                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة فاتورة الوقود</button>'
+                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة فاتورة الشحن</button>'
                     + /*companyId == 11 &&*//* airlinesSeperateNYInvoiceList.includes(d.AirLineId)?*/
 
                  //   <button class="btn btn-success btn-sm m-2" onclick="Tranfer(' + d.Id + ')"> ترحيل</button> 
@@ -215,7 +215,7 @@
                     '<Span>  ExchangeRate :</Span> ' + d.ExchangeRate + '<br>' +
                     '<br><button class="btn btn-warning btn-sm m-2" onclick="ConformClaim(' + d.Id
                     + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
-                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة فاتورة الوقود</button>'
+                    + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة فاتورة الشحن</button>'
                     + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')"> Graf طباعة</button> '
                     //+ (/*companyId == 11 &&*/ airlinesSeperateNYInvoiceList.includes(d.AirLineId) ?
                /* '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')"> Graf طباعة </button>'*/
@@ -878,9 +878,9 @@
             window.open(url, '_blank').focus(); 
         }
 
-        function PrintDataGraf(id) {
-            var url = '/AccountReport/PrintDataGraf/' + id;
-            window.open(url, '_blank').focus();
+        function PrintDataGraf(id) { ///PrintFreightGraf
+            var url = '/AdvencePrintBasic/PrintDataFreightGraf/' + id;
+            window.open(url, '_blank').focus(); 
         }
 
         function PrintDataNYGraf(id) {
@@ -889,14 +889,11 @@
         }
 
         function PrintDataFinalInvoice(id) {
-            var url = '/AdvencePrintBasic/PrintDataFuelFeesInovice/' + id;
+            var url = '/AdvencePrintBasic/PrintDataFreightFees/' + id;
             window.open(url, '_blank');
         }
 
-        function PrintDataGraf(id) {
-            var url = '/AdvencePrintBasic/PrintDataFuelGraf/' + id;
-            window.open(url, '_blank');
-        }
+        
 
         function getShowAll() {
 

@@ -718,7 +718,30 @@ namespace AirPortERP.ViewModels
 
         public string TakeOffDate { get; set; }
     }
+    public class PrintFreightViewModel
+    {
+        public int Id { get; set; }
+        public int N { get; set; }
+        public string Name { get; set; }
+        public string FlightNo { get; set; }
 
+        public string AirCraftReg { get; set; }
+        public string AirCraftType { get; set; }
+        public string AirCraftWieght { get; set; }
+
+        public decimal FreightLoadingExp { get; set; }
+        public decimal FreightLoadingImp { get; set; }
+
+
+        public string AirlineCode { get; set; }
+        public decimal FreightFees { get; set; }
+
+        public decimal FreightFeeSDG { get; set; }
+
+        public decimal Fees { get; set; }
+
+        public string TakeOffDate { get; set; }
+    }
     public class RepoObj
     {
         public int TripCount { get; set; }

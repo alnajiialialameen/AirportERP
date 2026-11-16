@@ -23,6 +23,7 @@ namespace AirPortERP.Controllers
         ClsAccount cls = new ClsAccount();
         Entities db = new Entities();
         List<CurrencyInfo> currencies = new List<CurrencyInfo>();
+        List<int> blackListAirlinesForFriegth = new List<int>() { 40 };
 
         // GET: AccountClaim
 
@@ -79,7 +80,7 @@ namespace AirPortERP.Controllers
 
 
             List<AccountTree> Acclist = new List<AccountTree>();
-            Acclist = db.AccountTrees.Where(x => x.AccGroupId == 1).ToList();
+            Acclist = db.AccountTrees.Where(x => x.AccGroupId == 1 && blackListAirlinesForFriegth.Any(q=> q == x.Id)).ToList();
             Acclist.Insert(0, new AccountTree() { AccName = "--Select Account--", Id = 0 });
             ViewBag.AccId = new SelectList(Acclist, "Id", "AccName", model.AccId);
 

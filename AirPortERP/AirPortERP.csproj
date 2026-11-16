@@ -2919,6 +2919,8 @@
     <Content Include="Views\AdvencePrintBasic\PrintDataFuelFeesInovice.cshtml" />
     <Content Include="Views\AccountFreightClaim\AddEditFreightClaim.cshtml" />
     <Content Include="Views\AccountFreightClaim\Index.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataFreightGraf.cshtml" />
+    <Content Include="Views\AdvencePrintBasic\PrintDataFreightFees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

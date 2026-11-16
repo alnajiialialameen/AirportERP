@@ -775,6 +775,18 @@ namespace AirPortERP.Controllers
             return RedirectToAction("PrintDataGraf", "AdvencePrintBasic", new { AirLineId = AirLineId, DateFrom = DateFrom, DateTo = DateTo, ExcRate = ExchangeRate });
 
 
+        }
+            public ActionResult PrintFreightGraf(int? id)
+        {
+            FinancialClaim1 Claim = db.FinancialClaim1.Find(id);
+            AirLine AirLine = db.AirLines.Where(x => x.AccId == Claim.AccIdDebit).FirstOrDefault();
+
+            int AirLineId = AirLine.Id;
+            DateTime DateFrom = Convert.ToDateTime(Claim.DateFrom);
+            DateTime DateTo = Convert.ToDateTime(Claim.DateTo);
+            decimal ExchangeRate = Convert.ToDecimal(Claim.ExchangeRateAgainstPrimaryCurrency);
+
+            return RedirectToAction("PrintDataFreightGraf", "AdvencePrintBasic", new { AirLineId = AirLineId, DateFrom = DateFrom, DateTo = DateTo, ExcRate = ExchangeRate });
 
 
 
