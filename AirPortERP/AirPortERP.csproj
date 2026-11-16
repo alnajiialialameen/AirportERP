@@ -550,16 +550,16 @@
     <Compile Include="Models\WorkOn.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Scripts\Extenstion\Calculation.cs" />
-    <Compile Include="Scripts\Extenstion\ClsAccount.cs" />
-    <Compile Include="Scripts\Extenstion\CommonUsed.cs" />
-    <Compile Include="Scripts\Extenstion\CurrencyFormat.cs" />
-    <Compile Include="Scripts\Extenstion\CurrencyInfo.cs" />
-    <Compile Include="Scripts\Extenstion\ToWord.cs" />
+    <Compile Include="Extenstion\Calculation.cs" />
+    <Compile Include="Extenstion\ClsAccount.cs" />
+    <Compile Include="Extenstion\CommonUsed.cs" />
+    <Compile Include="Extenstion\CurrencyFormat.cs" />
+    <Compile Include="Extenstion\CurrencyInfo.cs" />
+    <Compile Include="Extenstion\ToWord.cs" />
     <Compile Include="ViewModels\Account.cs" />
     <Compile Include="ViewModels\PrintInovice.cs" />
-    <Compile Include="Scripts\Extenstion\RptExtention.cs" />
-    <Compile Include="Scripts\Extenstion\RoleController.cs" />
+    <Compile Include="Extenstion\RptExtention.cs" />
+    <Compile Include="Extenstion\RoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
