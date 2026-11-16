@@ -23,7 +23,8 @@ namespace AirPortERP.Controllers
         ClsAccount cls = new ClsAccount();
         Entities db = new Entities();
         List<CurrencyInfo> currencies = new List<CurrencyInfo>();
-        List<int> blackListAirlines = new List<int>() { 176, 107, 52};
+        List<int> blackListAirlines = new List<int>() { 176, 107, 52 };
+        List<int> blackListAirlinesForFrieght = new List<int>() { 107 };
 
         // GET: AccountClaim
 
@@ -36,12 +37,12 @@ namespace AirPortERP.Controllers
 
             return View();
         }
-        
+
         public ActionResult ConfirmClaimTransaction()
         {
             return View();
         }
-        
+
         public AccountClaimController()
         {
 
@@ -56,7 +57,7 @@ namespace AirPortERP.Controllers
 
 
         }
-        
+
         public ActionResult ClaimParial(int? id)
         {
 
@@ -89,7 +90,7 @@ namespace AirPortERP.Controllers
             ViewBag.AccId = new SelectList(Acclist, "Id", "AccName", model.AccId);
 
 
-          ///  ViewBag.AccId = new SelectList(db.AccountTrees.Where(x => x.AccGroupId == 1), "Id", "AccName", model.AccId);
+            ///  ViewBag.AccId = new SelectList(db.AccountTrees.Where(x => x.AccGroupId == 1), "Id", "AccName", model.AccId);
             return PartialView("_AddEditClaim", model);
 
         }
@@ -101,7 +102,7 @@ namespace AirPortERP.Controllers
 
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == false || x.IsTransfer == null
              && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
-           // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
+            // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
 
             var ClaimList = new List<ClaimViewModel>();
             foreach (var item in FinancialClaim)
@@ -109,7 +110,7 @@ namespace AirPortERP.Controllers
 
                 ClaimViewModel r = new ClaimViewModel();
                 r.Id = item.Id;
-              
+
                 r.AccId = Convert.ToInt32(item.AccIdDebit);
                 if (item.AccIdDebit > 0)
                 {
@@ -138,12 +139,12 @@ namespace AirPortERP.Controllers
 
             return Json(new { data = ClaimList.ToList() }, JsonRequestBehavior.AllowGet);
         }
-        
+
         public ActionResult GetAllClaimTransfer()
         {
             var id = User.Identity.GetUserId();
             var companyId = CommonUsed.getCompanyId(id);
-           
+
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == true
             && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
             // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
@@ -181,7 +182,7 @@ namespace AirPortERP.Controllers
 
             return Json(new { data = ClaimList.ToList() }, JsonRequestBehavior.AllowGet);
         }
-        
+
         public ActionResult GetClaimToConfirm(int id)
         {
             string MoneyText = "";
@@ -197,7 +198,7 @@ namespace AirPortERP.Controllers
 
             ///--------------------------------------Dollar-----------------------------------------------------------
         }
-        
+
         public ActionResult AddToConfrim(int id)
         {
             // string MoneyText = "";
@@ -281,7 +282,7 @@ namespace AirPortERP.Controllers
                 //  model.Note = Convert.ToDecimal(OpenAccBalance.Credit);
                 if (model.ISCash == true)
                 {
-                   /// ViewBag.AccIdMain = new SelectList(db.AccountTrees.Where(x => x.AccGroupId == 3), "Id", "AccName", model.AccIdMain);
+                    /// ViewBag.AccIdMain = new SelectList(db.AccountTrees.Where(x => x.AccGroupId == 3), "Id", "AccName", model.AccIdMain);
 
                     List<AccountTree> AccountTreelist = new List<AccountTree>();
                     AccountTreelist = db.AccountTrees.Where(x => x.AccGroupId == 3).ToList();
@@ -306,7 +307,7 @@ namespace AirPortERP.Controllers
             return PartialView("_AddEditSand", model);
 
         }
-        
+
         public ActionResult CreateOrUpdateClaim(ClaimAddViewModel model)
         {
             var userId = User.Identity.GetUserId();
@@ -318,7 +319,7 @@ namespace AirPortERP.Controllers
             int AccId = Convert.ToInt32(model.AccId);
 
 
-          //  Config DateFrom -DateTo
+            //  Config DateFrom -DateTo
             //if (DateFrom.Month != DateTo.Month)
             //{
             //    return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);
@@ -339,9 +340,9 @@ namespace AirPortERP.Controllers
 
             FinancialClaim1 FinancialClaim = new FinancialClaim1();
             FinancialClaimViewModel Model = new FinancialClaimViewModel();
-           
+
             /*---------------------------------------------- Get ExchangeRate & AirLine -------------------------------------------------------------*/
-           
+
             decimal ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
             AirLine AirLine = db.AirLines.Where(x => x.AccId == AccId).FirstOrDefault();
 
@@ -358,13 +359,13 @@ namespace AirPortERP.Controllers
                 FinancialClaim = db.FinancialClaim1.Find(model.Id);
                 ExchangeRate = Convert.ToDecimal(model.ExchangeRate);
                 Model = Claim(AirLine.Id, DateFrom, DateTo, ExchangeRate);
-                
+
                 bool IsOperation = db.AccountOperations.Any(x => x.OperationID == model.Id && x.OperationTypeId == 3);
                 if (IsOperation)
                 {
                     //delete old operation
                     List<AccountOperation> Operation = db.AccountOperations.Where(x => x.OperationTypeId == 3 && x.OperationID == model.Id).ToList();
-                    
+
                     foreach (var item in Operation)
                     {
                         db.AccountOperations.Remove(item);
@@ -385,7 +386,7 @@ namespace AirPortERP.Controllers
                     OperationDebit.CurrencyId = FinancialClaim.CurrencyId;
                     OperationDebit.CurrencyValue = Convert.ToDouble(model.ExchangeRate);
                     OperationDebit.OperationStatement = FinancialClaim.Statement;
-                    OperationDebit.OperationTypeId =  3;
+                    OperationDebit.OperationTypeId = 3;
                     OperationDebit.CreatedBy = userId;
                     OperationDebit.CreationDate = DateTime.Now;
                     OperationDebit.CompanyInfoId = companyId;
@@ -408,7 +409,7 @@ namespace AirPortERP.Controllers
                     db.AccountOperations.Add(OperationDebit);
                     db.AccountOperations.Add(OperationCredit);
 
-                    /*------------------------------------------------------------------------------------------------------------------------------------------*/  
+                    /*------------------------------------------------------------------------------------------------------------------------------------------*/
                 }
 
                 FinancialClaim.AccIdDebit = AccId;
@@ -557,13 +558,13 @@ namespace AirPortERP.Controllers
                 return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         public FinancialClaimViewModel Claim(int? AirLineId, DateTime? DateFrom, DateTime? DateTo, decimal myExchangeRate)
         {
             var userId = User.Identity.GetUserId();
             var companyId = CommonUsed.getCompanyId(userId);
-            FinancialClaimViewModel Model =new FinancialClaimViewModel();
-            
+            FinancialClaimViewModel Model = new FinancialClaimViewModel();
+
             if (DateTo != null)
             {
                 Month = Convert.ToDateTime(DateTo).Month;
@@ -582,8 +583,8 @@ namespace AirPortERP.Controllers
             //string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM");
             string DemandMouth = Convert.ToDateTime(DateFrom)
             .ToString("MMMM", new CultureInfo("ar-EG"));
- 
-            string DemandDate = "مطالبة " + Airline.ArName +" لشهر "+ DemandMouth + " " + Year + "م";
+
+            string DemandDate = "مطالبة " + Airline.ArName + " لشهر " + DemandMouth + " " + Year + "م";
             Model.Statement = DemandDate;
 
 
@@ -594,15 +595,15 @@ namespace AirPortERP.Controllers
             if (AirLineId > 0)
             {
                 Revenue = Revenue.Where(x => x.OfficerData.TowerData.AirLineId == AirLineId);
-              
+
             }
-           // هنا حددنا انه عاوزين نطلع مطالبة من يوم كم لحدي يوم كم
+            // هنا حددنا انه عاوزين نطلع مطالبة من يوم كم لحدي يوم كم
             if (DateFrom != null && DateTo != null)
             {
                 Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
-              
+
             }
-            
+
             PrintFinalInvoiceViewModel F = new PrintFinalInvoiceViewModel();
 
             F.Name = db.AirLines.Where(x => x.Id == AirLineId).Single().Code + "/ " + db.AirLines.Where(x => x.Id == AirLineId).Single().Name;
@@ -638,25 +639,33 @@ namespace AirPortERP.Controllers
             F.NoiseFees = Convert.ToDouble(Revenue.Sum(x => x.NoiseFees));
             F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
             F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
-            F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            //F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            
+            if (!blackListAirlinesForFrieght.Contains(AirLineId ?? 0))
+            {
+                F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            }
+            else
+            {
+                F.FreightFees = 0;
+            }
+                //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
+                //{
+                //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+                //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
+                //    F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
+                //    + F.NoiseFees;
+                //}else
+                //{
+                //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+                //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
+                //    F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
+                //    + F.NoiseFees;
+                //}
 
-            //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
-            //{
-            //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-            //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
-            //    F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
-            //    + F.NoiseFees;
-            //}else
-            //{
-            //    F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-            //    F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
-            //    F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
-            //    + F.NoiseFees;
-            //}
-
-            F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-                               F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
-                               F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees + F.NoiseFees;
+                F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
+                                   F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
+                                   F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees + F.NoiseFees;
 
             F.TaxDollar = ((F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
                 F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees +
@@ -703,7 +712,7 @@ namespace AirPortERP.Controllers
 
             return Model;
         }
-        
+
         public string GetAmountTextString(int CurrencyId, decimal Statement)
         {
             string MoneyText = "";
@@ -730,7 +739,7 @@ namespace AirPortERP.Controllers
                 return MoneyText;
             }
         }
-        
+
         public ActionResult Delete(int id)
         {
             var userId = User.Identity.GetUserId();
@@ -762,11 +771,11 @@ namespace AirPortERP.Controllers
 
             return Json(new { success = true, message = "Delete" }, JsonRequestBehavior.AllowGet);
         }
-        
+
         //public ActionResult DeleteConfirm(int id)
         //{
         //    FinancialClaim Claim = db.FinancialClaims.Find(id);
-             
+
         //    List<AccountOperation> Operation = db.AccountOperations.Where(x => x.OperationTypeId == 3 && x.OperationID == Claim.Id).ToList();
 
 
@@ -785,7 +794,7 @@ namespace AirPortERP.Controllers
 
 
         //}
-        
+
         public ActionResult Transfer(int id)
         {
             FinancialClaim1 Claim = db.FinancialClaim1.Find(id);
@@ -811,6 +820,6 @@ namespace AirPortERP.Controllers
             return Json(new { success = true, message = "Add" }, JsonRequestBehavior.AllowGet);
 
         }
-        
+
     }
 }
