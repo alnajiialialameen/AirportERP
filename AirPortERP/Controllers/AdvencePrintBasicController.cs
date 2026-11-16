@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Web.Mvc;
 using static System.Web.Razor.Parser.SyntaxConstants;
 
@@ -134,7 +135,7 @@ namespace AirPortERP.Controllers
             //F.InterCUPPSFees = Convert.ToInt32(Revenue.Where(x=> x.OfficerData.TowerData.FlightTypeD == 1).Sum(x => x.OfficerData.Pax + x.OfficerData.TRNYCUPPS)) * 2.5;
             F.DomeCUPPSFees = Convert.ToDouble(Revenue.Sum(x => x.DomeCUPPSFees));
 
-            if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
+            if (/* companyId != 11 || */ !blackListAirlines.Contains(AirLineId ?? 0))
             {
                 F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
                 F.DomeNYFees = Convert.ToDouble(Revenue.Sum(x => x.DomeNYFees));
@@ -168,12 +169,12 @@ namespace AirPortERP.Controllers
 
             F.NoiseFees = Convert.ToDouble(Revenue.Sum(x => x.NoiseFees));
             F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
-            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
+            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees)); 
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
             F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
-                F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + /*F.InterNYFees +
-                F.DomeNYFees*/ + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
+                F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
+                F.DomeNYFees + F.PushBackFees + F.ExpMailFees + F.ImpMailFees // + F.OpenAireportOvertimeFees
             + F.NoiseFees;
 
             F.SubTotalSDG = Convert.ToDouble(F.SubTotalDollar * Convert.ToDouble(ExchangeRate));
@@ -642,8 +643,8 @@ namespace AirPortERP.Controllers
            
         }
         
-        public ActionResult PrintDataGrafDollar() {
-
+        public ActionResult PrintDataGrafDollar() 
+        {
             return View();
         }
 
@@ -656,12 +657,14 @@ namespace AirPortERP.Controllers
 
             int AirLineAccId = 0;
             int GetCompanyId = role.GetCompanyId(id);
-            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+            var CompanyInfo = db.CompanyInfoes.FirstOrDefault(x => x.Id == GetCompanyId);
             
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.companyId = GetCompanyId;
-
+            ViewBag.BankInfo = CompanyInfo.BankInfo;
+            
 
             string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
             ViewBag.DateNow = DateNow;
@@ -715,17 +718,14 @@ namespace AirPortERP.Controllers
 
 
             //string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM");
-            string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM", new CultureInfo("ar-EG"));
-       
+            //  string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM", new CultureInfo("ar-EG"));
+            string DemandMouth = GetDemandDateForInvoice(DateFrom.Value, DateTo.Value);
 
             //string DemandMouth = db.MouthWorkOns.Where(x => x.Id == Month).FirstOrDefault().Mouth;
             //  string DemandYear = db.WorkOns.Where(x => x.UserId == id).FirstOrDefault().YearWorkOn.Year.ToString();
 
-
-
-
-            string DemandDate = "مطالبة شهر " + DemandMouth + " " + Year + "م";
-            ViewBag.DemandDate = DemandDate;
+            //string DemandDate = "مطالبة شهر " + DemandMouth + " " + Year + "م";
+            ViewBag.DemandDate = DemandMouth;
 
             string ArName = "غير محدد";
             string Name = "غير محدد";
@@ -790,7 +790,7 @@ namespace AirPortERP.Controllers
             F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
-            if (companyId != 11 || !blackListAirlines.Contains(AirLineId??0))
+            if (/*companyId != 11 || */ !blackListAirlines.Contains(AirLineId??0))
             {
                 F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
                 F.FirstClassFees + F.FreightFees + F.ServiceCars + F.InterCUPPSFees + F.DomeCUPPSFees + F.InterNYFees +
@@ -850,6 +850,15 @@ namespace AirPortERP.Controllers
                 return View("PrintDataGrafDollar", F);
             }
         }
+
+
+
+
+    
+
+
+
+
 
         [Authorize(Roles = "Revenues,Super-Admin,Car,Ny&&Car, Account, Account-Admin")]
         public ActionResult PrintDataServiceCar(int? AirLineId, DateTime? DateFrom, DateTime? DateTo, int? FlightTypeId)
@@ -3166,9 +3175,12 @@ namespace AirPortERP.Controllers
         }
 
         [Authorize(Roles = "Revenues,Super-Admin, Account, Account-Admin")]
-        public ActionResult PrintDataFuelGraf(int? FuelCompanyId, DateTime? DateFrom, DateTime? DateTo)
+        public ActionResult PrintDataFuelGraf(int? Id) 
         {
-            var id = User.Identity.GetUserId();
+            FinancialClaim1 financialClaim1 = db.FinancialClaim1.Find(Id);
+            FuelCompany fuelCompany = db.FuelCompanies.Where(x => x.AccId == financialClaim1.AccIdDebit).FirstOrDefault();
+            int? FuelCompanyId = fuelCompany.Id;
+             var id = User.Identity.GetUserId();
             var companyId = CommonUsed.getCompanyId(id);
             RoleController role = new RoleController();
 
@@ -3176,6 +3188,7 @@ namespace AirPortERP.Controllers
             var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
 
             string RevenuesManager = CompanyInfo.RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.RevenuesManager = RevenuesManager;
 
             string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
@@ -3185,15 +3198,15 @@ namespace AirPortERP.Controllers
 
             string UserName = CommonUsed.GetUserName(id);
 
-            if (DateTo != null)
+            if (financialClaim1.DateTo != null)
             {
-                Month = Convert.ToDateTime(DateTo).Month;
-                Year = Convert.ToDateTime(DateTo).Year;
+                Month = Convert.ToDateTime(financialClaim1.DateTo).Month;
+                Year = Convert.ToDateTime(financialClaim1.DateTo).Year;
             }
-            else if (DateFrom != null)
+            else if (financialClaim1.DateFrom != null)
             {
-                Month = Convert.ToDateTime(DateFrom).Month;
-                Year = Convert.ToDateTime(DateFrom).Year;
+                Month = Convert.ToDateTime(financialClaim1.DateFrom).Month;
+                Year = Convert.ToDateTime(financialClaim1.DateFrom).Year;
               
 
             }
@@ -3204,12 +3217,14 @@ namespace AirPortERP.Controllers
                 return RedirectToAction("Error");
             }
             ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
+            ExchangeRate = Convert.ToDecimal(financialClaim1.ExchangeRateAgainstPrimaryCurrency);
+
             //string DemandMouth = db.MouthWorkOns.Where(x => x.Id == Month).FirstOrDefault().Mouth;
             //string DemandMouth = Convert.ToDateTime(DateFrom).ToString("MMMM");
-            string DemandMouth = Convert.ToDateTime(DateFrom)
+            string DemandMouth = Convert.ToDateTime(financialClaim1.DateFrom)
                     .ToString("MMMM", new CultureInfo("ar-EG"));
 
-            string DemandDate = this.GetDemandDate(DateFrom.Value, DateTo.Value);
+            string DemandDate = this.GetDemandDateForFuelInvoice(financialClaim1.DateFrom.Value, financialClaim1.DateTo.Value);
 
            
 
@@ -3231,11 +3246,11 @@ namespace AirPortERP.Controllers
             }
 
             ViewBag.ArName = ArName;
-            if (DateFrom != null && DateTo != null)
+            if (financialClaim1.DateFrom != null && financialClaim1.DateTo != null)
             {
-                Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
-                SearchDateFrom = CommonUsed.ToDisplayDate(DateFrom).ToString();
-                SearchDateTo = CommonUsed.ToDisplayDate(DateTo).ToString();
+                Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(financialClaim1.DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(financialClaim1.DateTo));
+                SearchDateFrom = CommonUsed.ToDisplayDate(financialClaim1.DateFrom).ToString();
+                SearchDateTo = CommonUsed.ToDisplayDate(financialClaim1.DateTo).ToString();
 
                 ViewBag.SearchDateFrom = SearchDateFrom;
                 ViewBag.SearchDateTo = SearchDateTo;
@@ -3252,7 +3267,7 @@ namespace AirPortERP.Controllers
 
             F.TaxDollar = F.FreightFees * 0.05;
 
-            F.GrandTotalDollar = (F.FreightFees + F.TaxDollar);
+            F.GrandTotalDollar = (F.FreightFees /*+ F.TaxDollar*/);
             F.GrandTotalSDG = (F.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
 
             ///-------------------------------------SDG------------------------------------------------------------
@@ -3272,11 +3287,11 @@ namespace AirPortERP.Controllers
 
 
             ////*************************************************************************************
-            ViewBag.HeaderDate = Convert.ToDateTime(DateFrom).ToString("MMM-yyyy");
+            ViewBag.HeaderDate = Convert.ToDateTime(financialClaim1.DateFrom).ToString("MMM-yyyy");
             ViewBag.DemandDate = DemandDate;
             int CurrencyType = Convert.ToInt32(db.FuelCompanies.Find(FuelCompanyId).CurrencyId);
 
-            if (CurrencyType == 1)
+            if (CurrencyType == 2)
             {
                 ViewBag.Header = "Graf-" + Name + "-" + DateTime.Now.ToShortDateString();
                 return View(F);
@@ -3289,7 +3304,9 @@ namespace AirPortERP.Controllers
 
         }
 
-        public string GetDemandDate(DateTime dateFrom, DateTime dateTo)
+       
+
+        public string GetDemandDateForInvoice(DateTime dateFrom, DateTime dateTo)
         {
             int year = dateFrom.Year;
             string monthName = dateFrom.ToString("MMMM", new CultureInfo("ar-EG"));
@@ -3323,6 +3340,50 @@ namespace AirPortERP.Controllers
 
             return $"مطالبة من ({fromDay}-{toDay}) من شهر {monthName} {year}م";
         }
+
+
+
+        public string GetDemandDateForFuelInvoice(DateTime dateFrom, DateTime dateTo)
+        {
+            int year = dateFrom.Year;
+            string monthName = dateFrom.ToString("MMMM", new CultureInfo("ar-EG"));
+
+            // إذا الشهر أو السنة مختلفين
+            if (dateFrom.Month != dateTo.Month || dateFrom.Year != dateTo.Year)
+            {
+                return $"مطالبة من ({dateFrom:dd/MM/yyyy} إلى {dateTo:dd/MM/yyyy})";
+            }
+
+            int lastDay = DateTime.DaysInMonth(dateFrom.Year, dateFrom.Month);
+
+            // شهر كامل
+            if (dateFrom.Day == 1 && dateTo.Day == lastDay)
+                return $"مطالبة شهر {monthName} {year}م";
+
+            int fromDay = dateFrom.Day;
+            int toDay = dateTo.Day;
+
+            if (fromDay == 1 && toDay == 7)
+                return $"مطالبة وقود الأسبوع الأول من شهر {monthName} {year}م";
+
+            if (fromDay == 8 && toDay == 14)
+                return $"مطالبة وقود الأسبوع الثاني من شهر {monthName} {year}م";
+
+            if (fromDay == 15 && toDay == 21)
+                return $"مطالبة وقود الأسبوع الثالث من شهر {monthName} {year}م";
+
+            if (fromDay == 22 && toDay == lastDay)
+                return $"مطالبة وقود الأسبوع الرابع من شهر {monthName} {year}م";
+
+            return $"مطالبة من ({fromDay}-{toDay}) من شهر {monthName} {year}م";
+        }
+
+
+
+
+
+
+
 
         [Authorize(Roles = "Revenues,Super-Admin, Account, Account-Admin")]
         public ActionResult PrintDataHandlingComp(int? HandlingCompanyId, DateTime? DateFrom, DateTime? DateTo)
@@ -3577,7 +3638,151 @@ namespace AirPortERP.Controllers
             ViewBag.Header = "Fuel Fees-" + Name + "-" + DateTime.Now.ToShortDateString();
             return View(RevenueList);
         }
-        
+
+
+
+        public ActionResult PrintDataFuelFeesInovice(int? Id)
+        {
+            FinancialClaim1 claim1 = db.FinancialClaim1.Find(Id);
+             FuelCompany fuelCompany = db.FuelCompanies.Where(x => x.AccId == claim1.AccIdDebit).FirstOrDefault();
+            int FuelCompanyId = fuelCompany.Id;
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
+            RoleController role = new RoleController();
+            int GetCompanyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+
+            string UserName = CommonUsed.GetUserName(id);
+
+            if (claim1.DateTo != null)
+            {
+                Month = Convert.ToDateTime(claim1.DateTo).Month;
+                Year = Convert.ToDateTime(claim1.DateTo).Year;
+            }
+            else if (claim1.DateFrom != null)
+            {
+                Month = Convert.ToDateTime(claim1.DateFrom).Month;
+                Year = Convert.ToDateTime(claim1.DateFrom).Year;
+            }
+
+            //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
+            ExchangeRate = Convert.ToDecimal(claim1.ExchangeRateAgainstPrimaryCurrency);
+            ViewBag.ExchangeRate = ExchangeRate;
+
+            string Name = "غير محدد";
+            string SearchDateFrom = "غير محدد";
+            string SearchDateTo = "غير محدد";
+
+            IQueryable<Revenue> Revenue;
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FuelFees > 0
+            && x.OfficerData.TowerData.CompanyInfoId == companyId);
+
+            if (FuelCompanyId > 0)
+            {
+                Revenue = Revenue.Where(x => x.OfficerData.FuelCompanyId == FuelCompanyId);
+                Name = db.FuelCompanies.Find(FuelCompanyId).NameEn;
+
+                ViewBag.Name = Name;
+            }
+
+            if (claim1.DateFrom != null && claim1.DateTo != null)
+            {
+                Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(claim1.DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(claim1.DateTo));
+                SearchDateFrom = CommonUsed.ToDisplayDate(claim1.DateFrom).ToString();
+                SearchDateTo = CommonUsed.ToDisplayDate(claim1.DateTo).ToString();
+
+                ViewBag.DateFrom = SearchDateFrom;
+                ViewBag.DateTo = SearchDateTo;
+            }
+
+            //if (Revenue.Count() <= 0)
+            //{
+            //    return RedirectToAction("Error");
+            //}
+
+            /**************************************************************************************************************/
+
+            var RevenueList = new List<PrintGroundHandlingViewModel>();
+
+            int N = 0;
+            foreach (var item in Revenue)
+            {
+                PrintGroundHandlingViewModel F = new PrintGroundHandlingViewModel();
+
+                F.Id = item.Id;
+
+                N = N + 1;
+                F.N = N;
+
+                F.Name = item?.OfficerData.TowerData.AirLine.Name;
+
+                F.FlightNo = item?.OfficerData.TowerData.AirLinesFlightTrip.FlightNo;
+
+                F.TakeOffDate = CommonUsed.ToDisplayDate(item?.OfficerData.TowerData.TakeOffDate);
+
+                F.AirlineCode = item?.OfficerData.TowerData.AirLine.Code;
+
+                F.AirCraftReg = item?.OfficerData.TowerData.AircraftRegistration.Registration;
+                F.AirCraftType = item?.OfficerData.TowerData.AircraftRegistration.AircraftType.Type;
+                F.FuelLiter = Convert.ToDecimal(item?.OfficerData.FuelLiter);
+
+                F.GroundHandlingFees = Convert.ToDecimal(item?.FuelFees);
+
+                F.GroundHandlingFeeSDG = Convert.ToDecimal(item?.FuelFees) * Convert.ToDecimal(ExchangeRate);
+
+                //if (F.GroundHandlingFeeSDG == 0)
+                //{
+                //    F.Fees = 0;
+                //}
+                //else
+                //{
+                //    F.Fees = (F.GroundHandlingFeeSDG / F.FirstClassCount);
+                //}
+
+                RevenueList.Add(F);
+            }
+
+            /**************************************************************************************************************/
+            //double SumFirstClassCount = Convert.ToDouble(RevenueList.Sum(x => x.FirstClassCount));
+            //ViewBag.SumFirstClassCount = SumFirstClassCount;
+            double sumFuelliter = Convert.ToDouble(RevenueList.Sum(x => x.FuelLiter));
+            ViewBag.sumFuelliter = sumFuelliter;    
+
+            double SumFuelFees = Convert.ToDouble(RevenueList.Sum(x => x.GroundHandlingFees));
+            ViewBag.SumFuelFees = SumFuelFees;
+
+            double SumFuelFeesSDG = Convert.ToDouble(RevenueList.Sum(x => x.GroundHandlingFeeSDG));
+            ViewBag.SumFuelFeesSDG = SumFuelFeesSDG;
+
+            double TaxDollar = SumFuelFees * 0.05;
+            ViewBag.TaxDollar = TaxDollar;
+
+            double TaxSDG = SumFuelFeesSDG * 0.05;
+            ViewBag.TaxSDG = TaxSDG;
+
+            // Grand Total
+            double GrandTotalDollar = SumFuelFees + TaxDollar;
+            ViewBag.GrandTotalDollar = GrandTotalDollar;
+
+            double GrandTotalSDG = SumFuelFeesSDG + TaxSDG;
+            ViewBag.GrandTotalSDG = GrandTotalSDG;
+
+
+            ViewBag.Header = "Fuel Fees-" + Name + "-" + DateTime.Now.ToShortDateString();
+            return View(RevenueList);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         [Authorize(Roles = "Revenues,Super-Admin,Landing,Mail,Freight,Landing-Admin, Account, Account-Admin")]
         public ActionResult PrintDataTripInfo(int Id)
         {
@@ -3688,6 +3893,7 @@ namespace AirPortERP.Controllers
 
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.BankInfo = CompanyInfo.BankInfo;
 
             string DateNow = DateTime.Now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture) + "م";
             ViewBag.DateNow = DateNow;
@@ -3839,7 +4045,9 @@ namespace AirPortERP.Controllers
 
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.companyId = GetCompanyId;
+            ViewBag.BankInfo = CompanyInfo.BankInfo;
 
 
             string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";

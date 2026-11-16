@@ -100,7 +100,7 @@ namespace AirPortERP.Controllers
             var companyId = CommonUsed.getCompanyId(id);
 
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == false || x.IsTransfer == null
-             && x.CompanyInfoId == companyId && x.TowerDataId == null);
+             && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
            // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
 
             var ClaimList = new List<ClaimViewModel>();
@@ -145,7 +145,7 @@ namespace AirPortERP.Controllers
             var companyId = CommonUsed.getCompanyId(id);
            
             IQueryable<FinancialClaim1> FinancialClaim = db.FinancialClaim1.Where(x => x.IsTransfer == true
-            && x.CompanyInfoId == companyId && x.TowerDataId == null);
+            && x.CompanyInfoId == companyId && x.TowerDataId == null && x.OperationTypeId == 3);
             // SandDetail = SandDetail.Where(x => x.SandMain.ISDeleted == false || x.SandMain.ISDeleted == null);
 
             var ClaimList = new List<ClaimViewModel>();
@@ -316,17 +316,17 @@ namespace AirPortERP.Controllers
             DateTime DateFrom = CommonUsed.ConvertToDbDate(model.DateFrom);
             DateTime DateTo = CommonUsed.ConvertToDbDate(model.DateTo);
             int AccId = Convert.ToInt32(model.AccId);
-           
 
-            // Config DateFrom - DateTo
-            if (DateFrom.Month != DateTo.Month)
-            {
-                return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);
-            }
-            if (DateFrom.Year != DateTo.Year)
-            {
-                return Json(new { success = true, message = "InvaildDateYear" }, JsonRequestBehavior.AllowGet);
-            }
+
+          //  Config DateFrom -DateTo
+            //if (DateFrom.Month != DateTo.Month)
+            //{
+            //    return Json(new { success = true, message = "InvaildDate" }, JsonRequestBehavior.AllowGet);
+            //}
+            //if (DateFrom.Year != DateTo.Year)
+            //{
+            //    return Json(new { success = true, message = "InvaildDateYear" }, JsonRequestBehavior.AllowGet);
+            //}
             //هنا التاريخ ما لاوم يبدا من يوم 1 لانه الفواتير بقت اسبوعية عشان كده ح تتلغي ال حته دي
             //if (DateFrom.Day!=1)
             //{
@@ -473,16 +473,16 @@ namespace AirPortERP.Controllers
                 //              }
 
 
-                if (db.FinancialClaim1.Any(x =>
-                    x.AccIdDebit == AirLine.AccId &&
-                    x.CompanyInfoId == companyId &&
-                    x.TowerDataId == null &&
-                    DbFunctions.TruncateTime(x.DateFrom) <= DateTo &&
-                    DbFunctions.TruncateTime(x.DateTo) >= DateFrom
-                ))
-                {
-                    return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
-                }
+                //if (db.FinancialClaim1.Any(x =>
+                //    x.AccIdDebit == AirLine.AccId &&
+                //    x.CompanyInfoId == companyId &&
+                //    x.TowerDataId == null &&
+                //    DbFunctions.TruncateTime(x.DateFrom) <= DateTo &&
+                //    DbFunctions.TruncateTime(x.DateTo) >= DateFrom
+                //))
+                //{
+                //    return Json(new { success = true, message = "Used" }, JsonRequestBehavior.AllowGet);
+                //}
 
                 Model = Claim(AirLine.Id, DateFrom, DateTo, ExchangeRate);
 

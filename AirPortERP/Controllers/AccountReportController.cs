@@ -262,7 +262,10 @@ namespace AirPortERP.Controllers
         public ActionResult PrintClaimConstraint(int? id)
         {
 
-            IQueryable<AccountOperation> AccountOperation = db.AccountOperations.Where(x => x.OperationID == id && x.OperationTypeId == 3);
+            FinancialClaim1 financialClaim1 = db.FinancialClaim1.Find(id);
+            int? operationtypeId = financialClaim1.OperationTypeId;
+
+            IQueryable<AccountOperation> AccountOperation = db.AccountOperations.Where(x => x.OperationID == id && x.OperationTypeId == operationtypeId);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -299,6 +302,17 @@ namespace AirPortERP.Controllers
 
 
         }
+
+
+
+
+
+
+
+
+
+
+
 
         public ActionResult PrintOpenConstraint(int? id)
         {

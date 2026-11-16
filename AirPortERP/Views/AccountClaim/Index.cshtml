@@ -201,7 +201,7 @@
                     '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id
                     + ')">طباعة المطالبة </button> <button class="btn btn-info btn-sm m-2" onclick="PrintConstraint(' + d.Id + ')">عرض القيد </button>'
                     + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
-                    + (companyId == 11 && airlinesSeperateNYInvoiceList.includes(d.AirLineId)?
+                    + (/*companyId == 11 &&*/ airlinesSeperateNYInvoiceList.includes(d.AirLineId)?
                         '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
                                 : '')
                 + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')">حذف</button>' +
@@ -218,7 +218,7 @@
                     + ')">تاكيد المعاملة</button> <button class="btn btn-success btn-sm m-2" onclick="getClaim(' + d.Id + ')"> تعديل المعاملة </button>'
                     + '<button class="btn btn-default btn-sm m-2" onclick="PrintDataFinalInvoice(' + d.Id + ')">طباعة الفاتورة النهائية</button>'
                     + '<button class="btn btn-info btn-sm m-2" onclick="PrintDataGraf(' + d.Id + ')">طباعة المطالبة</button> '
-                    + (companyId == 11 && airlinesSeperateNYInvoiceList.includes(d.AirLineId) ?
+                    + (/*companyId == 11 &&*/ airlinesSeperateNYInvoiceList.includes(d.AirLineId) ?
                         '<button class="btn btn-primary btn-sm m-2" onclick="PrintDataNYGraf(' + d.Id + ')">طباعة فاتورة NY</button>'
                         : '')
                     + '<button class="btn btn-danger btn-sm m-2 float-right" onclick="Delete(' + d.Id + ')"> حذف</button>' +
