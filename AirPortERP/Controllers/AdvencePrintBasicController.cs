@@ -3228,6 +3228,7 @@ namespace AirPortERP.Controllers
             string RevenuesManager = CompanyInfo.RevenuesManager;
             ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
             ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.BankInfo = CompanyInfo.BankInfo;
 
             string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
             ViewBag.DateNow = DateNow;
@@ -3342,9 +3343,33 @@ namespace AirPortERP.Controllers
 
         }
 
-       
+
+
+
+
+        [Authorize(Roles = "Revenues,Super-Admin, Account, Account-Admin")]
+        public ActionResult PrintDataFreightGraf(int? Id)///PrintDataFreightGraf
+        {
+            FinancialClaim1 financialClaim1 = db.FinancialClaim1.Find(Id);
+            var AirlineCompany = db.AirLines.Where(x => x.AccId == financialClaim1.AccIdDebit).FirstOrDefault();
+            int? AirlineCompanyId = AirlineCompany.Id;
+            var id = User.Identity.GetUserId();
+            var companyId = CommonUsed.getCompanyId(id);
+            RoleController role = new RoleController();
+
+            int GetCompanyId = role.GetCompanyId(id);
+            var CompanyInfo = db.CompanyInfoes.Single(x => x.Id == GetCompanyId);
+
+            string RevenuesManager = CompanyInfo.RevenuesManager;
+            ViewBag.SignatureDescription = CompanyInfo.SignatureDescription;
+            ViewBag.RevenuesManager = RevenuesManager;
+            ViewBag.BankInfo = CompanyInfo.BankInfo;
+
+            string DateNow = System.DateTime.Now.ToString("yyyy/MM/dd") + "م";
+            ViewBag.DateNow = DateNow;
 
             string Serial = Guid.NewGuid().ToString();
+
 
             string UserName = CommonUsed.GetUserName(id);
 
