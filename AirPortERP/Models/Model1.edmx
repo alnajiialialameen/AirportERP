@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AirPortERPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="AirPortERPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountGroup">
           <Key>
             <PropertyRef Name="Id" />
@@ -1202,6 +1202,14 @@ warning 6002: The table/view 'AirPortERP.dbo.vwAllFeesRep' does not have a prima
           <Property Name="NoiseFees" Type="decimal" Precision="38" Scale="4" />
           <Property Name="OpenAireportOvertimeFees" Type="decimal" Precision="38" Scale="4" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'AirPortERP.dbo.vwAllPax' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwAllPax">
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="total Pax" Type="int" />
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'AirPortERP.dbo.vwJournalCUPPSDome' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwJournalCUPPSDome">
@@ -2745,7 +2753,8 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
             <End Role="WorkOn" EntitySet="WorkOn" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AirPortERPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2878,6 +2887,7 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatingDate" Type="DateTime" Precision="3" />
+          <Property Name="FinancialClaimRefId" Type="Int32" />
           <NavigationProperty Name="AccountTree" Relationship="Self.FK_FinancialClaim_AccountTree" FromRole="FinancialClaim" ToRole="AccountTree" />
           <NavigationProperty Name="CompanyInfo" Relationship="Self.FK_FinancialClaim_CompanyInfo" FromRole="FinancialClaim" ToRole="CompanyInfo" />
           <NavigationProperty Name="Currency" Relationship="Self.FK_FinancialClaim_Currency" FromRole="FinancialClaim" ToRole="Currency" />
@@ -2885,7 +2895,6 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <NavigationProperty Name="TowerData" Relationship="Self.FK_FinancialClaim_TowerData" FromRole="FinancialClaim" ToRole="TowerData" />
           <NavigationProperty Name="FinancialClaimDetails" Relationship="Self.FK_FinancialClaimDetail_FinancialClaim" FromRole="FinancialClaim" ToRole="FinancialClaimDetail" />
           <NavigationProperty Name="SandMains" Relationship="Self.FK_SanadMain_FinancialClaim" FromRole="FinancialClaim" ToRole="SandMain" />
-          <Property Name="FinancialClaimRefId" Type="Int32" />
         </EntityType>
         <EntityType Name="FinancialClaim1">
           <Key>
@@ -3309,13 +3318,13 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <Property Name="FirstClassSupervisor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PushBackSupervisor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsSingleAccounting" Type="Boolean" />
+          <Property Name="BankInfo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FinancialClaims" Relationship="Self.FK_FinancialClaim_CompanyInfo" FromRole="CompanyInfo" ToRole="FinancialClaim" />
           <NavigationProperty Name="SandMains" Relationship="Self.FK_SanadMain_CompanyInfo" FromRole="CompanyInfo" ToRole="SandMain" />
           <NavigationProperty Name="Revenues" Relationship="Self.FK_Revenue_CompanyInfo" FromRole="CompanyInfo" ToRole="Revenue" />
           <NavigationProperty Name="TowerDatas" Relationship="Self.FK_TowerData_CompanyInfo" FromRole="CompanyInfo" ToRole="TowerData" />
           <NavigationProperty Name="WorkOns" Relationship="Self.FK_WorkOn_CompanyInfo" FromRole="CompanyInfo" ToRole="WorkOn" />
-          <Property Name="BankInfo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="SignatureDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -5325,10 +5334,10 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="GetAccNumber" ReturnType="Collection(Decimal)">
-          <Parameter Name="AccParentId" Mode="In" Type="Decimal" />
+            <Parameter Name="AccParentId" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SelectPartOfAccount">
-          <Parameter Name="AccParent" Mode="In" Type="Decimal" />
+            <Parameter Name="AccParent" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -5369,7 +5378,7 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
             <Parameter Name="DateTo" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spBackUp">
-          <Parameter Name="path" Mode="In" Type="String" />
+            <Parameter Name="path" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SpLastAccountOperationId" ReturnType="Collection(Int32)" />
           <FunctionImport Name="SpLastAccountTree" ReturnType="Collection(Int32)" />
@@ -5672,7 +5681,6 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <EntitySetMapping Name="FinancialClaims">
             <EntityTypeMapping TypeName="AirPortERPModel.FinancialClaim">
               <MappingFragment StoreEntitySet="FinancialClaim">
-                <ScalarProperty Name="FinancialClaimRefId" ColumnName="FinancialClaimRefId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OperationTypeId" ColumnName="OperationTypeId" />
                 <ScalarProperty Name="TowerDataId" ColumnName="TowerDataId" />
@@ -5695,6 +5703,7 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatingDate" ColumnName="UpdatingDate" />
+                <ScalarProperty Name="FinancialClaimRefId" ColumnName="FinancialClaimRefId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6053,8 +6062,6 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
           <EntitySetMapping Name="CompanyInfoes">
             <EntityTypeMapping TypeName="AirPortERPModel.CompanyInfo">
               <MappingFragment StoreEntitySet="CompanyInfo">
-                <ScalarProperty Name="SignatureDescription" ColumnName="SignatureDescription" />
-                <ScalarProperty Name="BankInfo" ColumnName="BankInfo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="NameAr" ColumnName="NameAr" />
                 <ScalarProperty Name="NameEn" ColumnName="NameEn" />
@@ -6080,6 +6087,8 @@ warning 6002: The table/view 'AirPortERP.dbo.vwUserRloes' does not have a primar
                 <ScalarProperty Name="FirstClassSupervisor" ColumnName="FirstClassSupervisor" />
                 <ScalarProperty Name="PushBackSupervisor" ColumnName="PushBackSupervisor" />
                 <ScalarProperty Name="IsSingleAccounting" ColumnName="IsSingleAccounting" />
+                <ScalarProperty Name="BankInfo" ColumnName="BankInfo" />
+                <ScalarProperty Name="SignatureDescription" ColumnName="SignatureDescription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

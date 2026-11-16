@@ -30,8 +30,8 @@ namespace AirPortERP.Extenstion
 
         public string GetRole(string id)
         {
-            ApplicationUser user = userManager.FindById(id);
-            string rolename = userManager.GetRoles(user.Id).FirstOrDefault();
+            //ApplicationUser user = userManager.FindById(id);
+            string rolename = userManager.GetRoles(id).FirstOrDefault();
             if (string.IsNullOrEmpty(id))
             {
                 rolename = " ";

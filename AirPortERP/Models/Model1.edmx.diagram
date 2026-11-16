@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c7ada3e1cdf545e0855cde3eec263006" Name="Diagram1">
+      <Diagram DiagramId="b32ce0a15a6a4d0ea7726959e91024d3" Name="Diagram1">
         <EntityTypeShape EntityType="AirPortERPModel.AccountGroup" Width="1.5" PointX="0.75" PointY="40.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AccountOperation" Width="1.5" PointX="5.25" PointY="38.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AccountTree" Width="1.5" PointX="3" PointY="38.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.Bank" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.DeletedSandDetail" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.DeletedSandMain" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AirPortERPModel.FinancialClaim" Width="1.5" PointX="18" PointY="51" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPModel.FinancialClaim" Width="1.5" PointX="18" PointY="50.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.FinancialClaim1" Width="1.5" PointX="8.25" PointY="38.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.FinancialClaimDetail" Width="1.5" PointX="20.25" PointY="44.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.Fund" Width="1.5" PointX="11.75" PointY="9.75" IsExpanded="true" />
@@ -35,7 +35,7 @@
         <EntityTypeShape EntityType="AirPortERPModel.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AspNetUsers1" Width="1.5" PointX="10" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AirPortERPModel.CompanyInfo" Width="1.5" PointX="13.5" PointY="57.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPModel.CompanyInfo" Width="1.5" PointX="13.5" PointY="57" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.Country" Width="1.5" PointX="6" PointY="57.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.Currency" Width="1.5" PointX="6" PointY="26.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.CurrencyDetail" Width="1.5" PointX="8.25" PointY="27.5" IsExpanded="true" />
@@ -55,7 +55,7 @@
         <EntityTypeShape EntityType="AirPortERPModel.sysdiagram" Width="1.5" PointX="13.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.TowerData" Width="1.5" PointX="15.75" PointY="62.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.TransactionLog" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AirPortERPModel.TripType" Width="1.5" PointX="13.5" PointY="76.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirPortERPModel.TripType" Width="1.5" PointX="13.5" PointY="75.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.WorkOn" Width="1.5" PointX="15.75" PointY="59.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AspNetRoleClaim" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AirPortERPModel.AspNetRoles1" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />

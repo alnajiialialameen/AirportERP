@@ -23,8 +23,6 @@ namespace AirPortERP.Controllers
             return View();
         }
 
-
-
         public ActionResult GetAllTripTypes()
         {
             db.Configuration.ProxyCreationEnabled = false;
