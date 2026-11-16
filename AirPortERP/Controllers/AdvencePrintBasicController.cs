@@ -538,6 +538,8 @@ namespace AirPortERP.Controllers
             }
 
             ViewBag.TitleDiscount = TitleDiscount;
+            var IsSperateFrieght = blackListAirlinesForFrieght.Contains(AirLineId??0);
+
             if (DateFrom != null && DateTo != null)
             {
                 Revenue = Revenue.Where(t => DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) >= DbFunctions.TruncateTime(DateFrom) && DbFunctions.TruncateTime(t.OfficerData.TowerData.Date) <= DbFunctions.TruncateTime(DateTo));
@@ -569,7 +571,10 @@ namespace AirPortERP.Controllers
                 L.NightOperationFees = Convert.ToDecimal(item?.NightOperationFees);
                 L.NavigationFees = Convert.ToDecimal(item?.NavigationFees);
                 L.SecurityFees = Convert.ToDecimal(item?.SecurityFees);
-                L.FreightFees = Convert.ToDecimal(item?.FreightFees);
+
+                L.FreightFees = blackListAirlinesForFrieght.Contains(AirLineId??0)? 0 : Convert.ToDecimal(item?.FreightFees);
+                L.IsSperateFrieght = IsSperateFrieght;
+
                 L.NoiseFees = Convert.ToDecimal(item?.NoiseFees);
                 L.ImpMailFees = Convert.ToDecimal(item?.ImpMailFees);
                 L.ExpMailFees = Convert.ToDecimal(item?.ExpMailFees);

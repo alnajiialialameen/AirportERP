@@ -109,55 +109,13 @@
     }
 </style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <section class="invoiceLanding">
 
-
     <div class="invoice-header">
-
-
 
         <div class="image-L">
             <img src="~/Temp/Image/WhiteLogo.png" height="100" />
         </div>
-
 
         <div class="text-center text-word">
             <h6>Sudan Airports Company .Ltd</h6>
@@ -165,38 +123,26 @@
             <h6>Revenue Directorate</h6>
         </div>
 
-
-
         <div>
             <img src="~/Temp/Image/WhiteLogo.png" class="image-R" height="100" />
         </div>
 
     </div>
 
-
     <div class="invoice-Body">
         <h5 class="text-center"><u> Invoice Landing Domestic</u></h5>
         <div class="arline-header">
             <div class="row">
                 <div class="col-md-12">
-
                     <label class="h-mr">Company: @ViewBag.Name</label>
                     <label class="h-mr">From: @ViewBag.DateFrom</label>
                     <label class="h-mr">To: @ViewBag.DateTo</label>
-
-
                 </div>
-
             </div>
         </div>
     </div>
 
-
-
     <div class="invoice-Landing-details" style="width:100%;margin-bottom:40px;">
-
-
-
 
         <table class="Landing-table-header">
 
@@ -216,16 +162,11 @@
                 <th>
                     Wt
                 </th>
-
-
-
                 <th>
-
                     Landing Fees
                 </th>
                 <th>
                     Night Fees
-
                 </th>
 
                 <th>
@@ -239,15 +180,12 @@
                     Parking Fees
                 </th>
 
-
-
-
-                <th>
-                    Freight
-                </th>
-
-
-
+                @if (Model.FirstOrDefault().IsSperateFrieght == true)
+                {
+                    <th>
+                        Freight
+                    </th>
+                }
                 <th>
                     Imp Mail
                 </th>
@@ -256,7 +194,6 @@
                 <th>
                     Exp Mail
                 </th>
-
 
                 <th>
                     Noise Fees
@@ -289,16 +226,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Wt)
                         </td>
-
-
-
-
-
                         <td>
                             @Html.DisplayFor(modelItem => item.LandingFees)
                         </td>
-
-
                         <td>
                             @Html.DisplayFor(modelItem => item.NightOperationFees)
                         </td>
@@ -314,10 +244,16 @@
                         </td>
 
 
+                        @if (item.IsSperateFrieght == true)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FreightFees)
+                            </td>
+                        }
 
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.FreightFees)
-                        </td>
+                        </td>*@
 
 
                         <td>
@@ -341,27 +277,31 @@
                     </tr>
                 }
 
-                <tr class="footer">
-                    <td colspan="5">  Total :</td>
+            <tr class="footer">
+                <td colspan="5">  Total :</td>
 
-                    <td class="numberFormat">@ViewBag.SumLandingFees </td>
-                    <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
+                <td class="numberFormat">@ViewBag.SumLandingFees </td>
+                <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
 
-                    <td class="numberFormat">@ViewBag.SumNavigationFees</td>
+                <td class="numberFormat">@ViewBag.SumNavigationFees</td>
 
-                    <td class="numberFormat">@ViewBag.SumSecurityFees</td>
+                <td class="numberFormat">@ViewBag.SumSecurityFees</td>
 
-                    <td class="numberFormat">@ViewBag.SumParkingFees</td>
-                    <td  class="numberFormat">@ViewBag.SumFreightFees</td>
+                <td class="numberFormat">@ViewBag.SumParkingFees</td>
 
-                    <td class="numberFormat">@ViewBag.SumImpMailFees</td>
-                    <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+                @if (Model.FirstOrDefault().IsSperateFrieght == true)
+                {
+                    <td class="numberFormat">@ViewBag.SumFreightFees</td>
+                }
+
+                <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                <td class="numberFormat">@ViewBag.SumExpMailFees</td>
 
 
-                    <td class="numberFormat">@ViewBag.SumNoiseFees</td>
+                <td class="numberFormat">@ViewBag.SumNoiseFees</td>
 
-                    <td class="numberFormat">@ViewBag.SumTotal</td>
-                </tr>
+                <td class="numberFormat">@ViewBag.SumTotal</td>
+            </tr>
 
                 <tr class="footer">
                     <td colspan="5">   Revenue Stamp(5%) :</td>
@@ -391,24 +331,7 @@
 
         </table>
 
-
-
-
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </section>
 
@@ -416,9 +339,6 @@
 @section scripts{
 
     <script>
-
-
-
            window.addEventListener("load", window.print());
         // window.location.href = "/AdvancePrint/PrintInvoice"
 

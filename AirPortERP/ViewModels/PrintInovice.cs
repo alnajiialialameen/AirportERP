@@ -32,7 +32,7 @@ namespace AirPortERP.ViewModels
 
         public double FreightFees { get; set; }
         public double FuelFees { get; set; }
-        
+
         public double FirstClassFees { get; set; }
 
         public double FireFightingFees { get; set; }
@@ -58,15 +58,15 @@ namespace AirPortERP.ViewModels
 
         public string GrandTotalSDGTxt { get; set; }
         public string GrandTotalDollarTxt { get; set; }
-        
+
         public string NumberWord { get; set; }
-      
+
 
         public double TaxDollar { get; set; }
         public double TaxSDG { get; set; }
 
-     
-        
+
+
 
 
 
@@ -95,7 +95,7 @@ namespace AirPortERP.ViewModels
         public double FuelFees { get; set; }
         public double FreightFees { get; set; }
 
-        
+
         public double SubTotalDollar { get; set; }
 
         public double SubTotalSDG { get; set; }
@@ -129,21 +129,23 @@ namespace AirPortERP.ViewModels
         public int N { get; set; }
         public string Name { get; set; }
         public decimal LandingFees { get; set; }
-       
+
         public decimal ParkingFees { get; set; }
-       
+
 
         public string FlightNo { get; set; }
         public decimal NightOperationFees { get; set; }
-       
+
         public decimal NavigationFees { get; set; }
-      
+
 
         public decimal SecurityFees { get; set; }
-       
+
 
         public decimal FreightFees { get; set; }
-      
+
+        public bool IsSperateFrieght { get; set; }
+
         public string MaxTakoffWieght { get; set; }
 
         public string RegNo { get; set; }
@@ -156,10 +158,10 @@ namespace AirPortERP.ViewModels
         public decimal NoiseFees { get; set; }
 
         public decimal ExpMailFees { get; set; }
-     
+
 
         public decimal ImpMailFees { get; set; }
-       
+
 
     }
 
@@ -171,13 +173,13 @@ namespace AirPortERP.ViewModels
         public decimal LandingFees { get; set; }
         public decimal ExchangeRateAgainstPrimaryCurrency { get; set; }
 
-        
+
         public decimal ParkingFees { get; set; }
 
 
         public string FlightNo { get; set; }
         public string AirPortTo { get; set; }
-     
+
         public decimal NightOperationFees { get; set; }
 
         public decimal NavigationFees { get; set; }
@@ -236,7 +238,7 @@ namespace AirPortERP.ViewModels
 
         public decimal ServiceCarSDG { get; set; }
         public decimal ServiceCar { get; set; }
-        
+
         public decimal FeesFireAmount { get; set; }
 
 
@@ -274,7 +276,7 @@ namespace AirPortERP.ViewModels
         //---------pushpack
         public decimal FuelFees { get; set; }
         public decimal FuelLiter { get; set; }
-    
+
 
     }
 
@@ -514,7 +516,7 @@ namespace AirPortERP.ViewModels
 
         public int N { get; set; }
         public string Name { get; set; }
-      
+
         public decimal ExchRate { get; set; }
         public int Pax { get; set; }
         public double TotalAmountDollar { get; set; }
@@ -532,7 +534,7 @@ namespace AirPortERP.ViewModels
         public int N { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
-      
+
         public decimal ExchangeRate { get; set; }
 
         public int Pax { get; set; }
@@ -572,7 +574,7 @@ namespace AirPortERP.ViewModels
         public int Pax { get; set; }
         public double TotalAmountDollar { get; set; }
         public double TotalAmountSDG { get; set; }
-        
+
         public double TaxDollar { get; set; }
         public double GrandTotalDollar { get; set; }
         public double Amount { get; set; }
@@ -654,12 +656,12 @@ namespace AirPortERP.ViewModels
         public double FireFightingFees { get; set; }
         //public double CarService { get; set; }
         public double CuppsFees { get; set; }
-      //  public double DomeCUPPSFees { get; set; }
+        //  public double DomeCUPPSFees { get; set; }
         public double NyFees { get; set; }
 
-       // public double DomeNYFees { get; set; }
+        // public double DomeNYFees { get; set; }
         public double PushBackFees { get; set; }
-       // public double ExpMailFees { get; set; }
+        // public double ExpMailFees { get; set; }
         public double MailFees { get; set; }
         public double ServiceCars { get; set; }
 
@@ -673,11 +675,11 @@ namespace AirPortERP.ViewModels
 
         public double GrandTotal { get; set; }
 
-       
+
 
 
         public double Tax { get; set; }
-     
+
 
 
 
@@ -708,7 +710,7 @@ namespace AirPortERP.ViewModels
         public string AirCraftWieght { get; set; }
 
         public decimal FuelLiter { get; set; }
-        
+
         public string AirlineCode { get; set; }
         public decimal GroundHandlingFees { get; set; }
 
