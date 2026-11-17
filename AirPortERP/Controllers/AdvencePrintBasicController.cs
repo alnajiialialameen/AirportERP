@@ -148,10 +148,14 @@ namespace AirPortERP.Controllers
             if (/* companyId != 11 || */ !blackListAirlinesForFrieght.Contains(AirLineId ?? 0))
             {
                 F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+                F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+                F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             }
             else
             {
                 F.FreightFees = 0;
+                F.ExpMailFees = 0;
+                F.ImpMailFees = 0;
             }
 
             //F.InterNYFees = Convert.ToDouble(Revenue.Sum(x => x.InterNYFees));
@@ -176,8 +180,8 @@ namespace AirPortERP.Controllers
                 + Convert.ToDouble(Revenue.Sum(x => x.FireFightingFees));
 
             F.NoiseFees = Convert.ToDouble(Revenue.Sum(x => x.NoiseFees));
-            F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
-            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
+            //F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+            //F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             //F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
             F.SubTotalDollar = F.LandingFees + F.ParkingFees + F.NightOperationFees + F.NavigationFees + F.SecurityFees +
@@ -572,12 +576,13 @@ namespace AirPortERP.Controllers
                 L.NavigationFees = Convert.ToDecimal(item?.NavigationFees);
                 L.SecurityFees = Convert.ToDecimal(item?.SecurityFees);
 
-                L.FreightFees = blackListAirlinesForFrieght.Contains(AirLineId??0)? 0 : Convert.ToDecimal(item?.FreightFees);
+                L.FreightFees = blackListAirlinesForFrieght.Contains(AirLineId??0)? 0 : 
+                    Convert.ToDecimal(item?.FreightFees);
+                L.ImpMailFees = blackListAirlinesForFrieght.Contains(AirLineId ?? 0) ? 0 : Convert.ToDecimal(item?.ImpMailFees);
+                L.ExpMailFees = blackListAirlinesForFrieght.Contains(AirLineId ?? 0) ? 0 : Convert.ToDecimal(item?.ExpMailFees);
                 L.IsSperateFrieght = IsSperateFrieght;
 
                 L.NoiseFees = Convert.ToDecimal(item?.NoiseFees);
-                L.ImpMailFees = Convert.ToDecimal(item?.ImpMailFees);
-                L.ExpMailFees = Convert.ToDecimal(item?.ExpMailFees);
                 L.Total = L.ParkingFees + L.LandingFees + L.NightOperationFees + L.NavigationFees + L.FreightFees + L.SecurityFees
                     + L.NoiseFees + L.ExpMailFees + L.ImpMailFees;
 
@@ -800,9 +805,9 @@ namespace AirPortERP.Controllers
                 + Convert.ToDouble(Revenue.Sum(x => x.FireFightingFees));
 
             F.NoiseFees = Convert.ToDouble(Revenue.Sum(x => x.NoiseFees));
-            F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
-            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
-            F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            //F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+            //F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
+            //F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
 
 
             if (/* companyId != 11 || */ !blackListAirlines.Contains(AirLineId ?? 0))
@@ -819,10 +824,14 @@ namespace AirPortERP.Controllers
             if (/* companyId != 11 || */ !blackListAirlinesForFrieght.Contains(AirLineId ?? 0))
             {
                 F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+                F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+                F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             }
             else
             {
                 F.FreightFees = 0;
+                F.ExpMailFees = 0;
+                F.ImpMailFees = 0;
             }
 
 
@@ -3445,10 +3454,12 @@ namespace AirPortERP.Controllers
           
 
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
 
-            F.TaxDollar = F.FreightFees * 0.05;
+            F.TaxDollar = (F.FreightFees + F.ExpMailFees + F.ImpMailFees)* 0.05;
 
-            F.GrandTotalDollar = (F.FreightFees + F.TaxDollar);
+            F.GrandTotalDollar = (F.FreightFees + F.ExpMailFees + F.ImpMailFees + F.TaxDollar);
             F.GrandTotalSDG = (F.GrandTotalDollar) * Convert.ToDouble(ExchangeRate);
 
             ///-------------------------------------SDG------------------------------------------------------------
@@ -3514,7 +3525,8 @@ namespace AirPortERP.Controllers
                 Year = Convert.ToDateTime(DateFrom).Year;
             }
 
-            ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
+            //ExchangeRate = CommonUsed.getExchangeRateByLandingDate(Month, Year);
+            ExchangeRate = financialClaim1.ExchangeRateAgainstPrimaryCurrency??0;
             ViewBag.ExchangeRate = ExchangeRate;
 
             string Name = "غير محدد";
@@ -3522,7 +3534,7 @@ namespace AirPortERP.Controllers
             string SearchDateTo = "غير محدد";
 
             IQueryable<Revenue> Revenue;
-            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => x.FreightFees > 0
+            Revenue = db.Revenues.OrderBy(x => x.OfficerData.TowerData.Date).Where(x => (x.FreightFees > 0 || x.ExpMailFees > 0 || x.ImpMailFees > 0)
             && x.OfficerData.TowerData.CompanyInfoId == companyId);
 
             if (AirlineId > 0)
@@ -3575,12 +3587,15 @@ namespace AirPortERP.Controllers
                 //F.AirCraftWieght = item?.OfficerData.FuelLiter.ToString();
                 F.FreightLoadingImp = Convert.ToDecimal(item?.OfficerData.FreightLoadingImp);
                 F.FreightLoadingExp = Convert.ToDecimal(item?.OfficerData.FreightLoadingExp);
-
                 F.FreightFees = Convert.ToDecimal(item?.FreightFees);
-
-               
-
                 F.FreightFeeSDG = Convert.ToDecimal(item?.FreightFees) * Convert.ToDecimal(ExchangeRate);
+
+                F.MailLoadingExp = Convert.ToDecimal(item?.OfficerData.NormalMailLoadingExp + item?.OfficerData.RapidMailLoadingExp);
+                F.MailLoadingImp = Convert.ToDecimal(item?.OfficerData.NormalMailLoadingImp + item?.OfficerData.RapidMailLoadingImp);
+                F.MailExpFees = Convert.ToDecimal(item?.ExpMailFees); 
+                F.MailImpFees = Convert.ToDecimal(item?.ImpMailFees); 
+                F.MailFees = Convert.ToDecimal(item?.ExpMailFees + item?.ImpMailFees);
+                F.MailFeesSDG = Convert.ToDecimal(item?.ExpMailFees + item?.ImpMailFees) * Convert.ToDecimal(ExchangeRate);
 
                 //if (F.GroundHandlingFeeSDG == 0)
                 //{
@@ -3604,17 +3619,23 @@ namespace AirPortERP.Controllers
             double SumFreightFeesSDG = Convert.ToDouble(RevenueList.Sum(x => x.FreightFeeSDG));
             ViewBag.SumFreightFeesSDG = SumFreightFeesSDG;
 
-            double TaxDollar = SumFreightFees * 0.05;
+            double SumMailFees = Convert.ToDouble(RevenueList.Sum(x => x.MailFees));
+            ViewBag.SumMailFees = SumMailFees;
+
+            double SumMailFeesSDG = Convert.ToDouble(RevenueList.Sum(x => x.MailFeesSDG));
+            ViewBag.SumMailFeesSDG = SumMailFeesSDG;
+
+            double TaxDollar = (SumFreightFees  + SumMailFees) * 0.05;
             ViewBag.TaxDollar = TaxDollar;
 
-            double TaxSDG = SumFreightFeesSDG * 0.05;
+            double TaxSDG = (SumFreightFeesSDG + SumMailFeesSDG) * 0.05;
             ViewBag.TaxSDG = TaxSDG;
 
             // Grand Total
-            double GrandTotalDollar = SumFreightFees + TaxDollar;
+            double GrandTotalDollar = SumFreightFees + SumMailFees + TaxDollar;
             ViewBag.GrandTotalDollar = GrandTotalDollar;
 
-            double GrandTotalSDG = SumFreightFeesSDG + TaxSDG;
+            double GrandTotalSDG = SumFreightFeesSDG + SumMailFeesSDG + TaxSDG;
             ViewBag.GrandTotalSDG = GrandTotalSDG;
 
             ViewBag.Header = "Freight Fees-" + Name + "-" + DateTime.Now.ToShortDateString();

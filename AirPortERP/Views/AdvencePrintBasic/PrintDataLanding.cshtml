@@ -179,70 +179,68 @@
 
         <table class="Landing-table-header">
             
-                <tr>
-                    <th>
-                        N
-                    </th>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Reg
-                    </th>
-                    <th>
-                        Type
-                    </th>
-                    <th>
-                        Wt
-                    </th>
+            <tr>
+                <th>
+                    N
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Reg
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Wt
+                </th>
 
 
 
-                    <th>
-                        Landing Fees
-                    </th>
-                    <th>
-                        Night Fees
+                <th>
+                    Landing Fees
+                </th>
+                <th>
+                    Night Fees
 
-                    </th>
+                </th>
 
-                    <th>
-                        User  Charge
-                    </th>
+                <th>
+                    User  Charge
+                </th>
 
-                    <th>
-                        @*Security Fees <br /> <span class="fontDiscount">@ViewBag.TitleDiscount</span>*@
+                <th>
+                    @*Security Fees <br /> <span class="fontDiscount">@ViewBag.TitleDiscount</span>*@
 
-                        Security Fees
-                    </th>
-                    <th>
-                        Parking Fees
-                    </th>
+                    Security Fees
+                </th>
+                <th>
+                    Parking Fees
+                </th>
 
+                @if (Model.FirstOrDefault().IsSperateFrieght == false)
+                {
                     <th>
                         Freight
                     </th>
-
-
-
                     <th>
                         Imp Mail
                     </th>
-
-
                     <th>
                         Exp Mail
                     </th>
+                }
 
 
-                    <th>
-                        Noise Fees
-                    </th>
+                <th>
+                    Noise Fees
+                </th>
 
-                    <th>
-                        Total
-                    </th>
-                </tr>
+                <th>
+                    Total
+                </th>
+            </tr>
             
             
               <tbody>
@@ -267,21 +265,18 @@
                             @Html.DisplayFor(modelItem => item.Wt)
                         </td>
 
-
-
-
-
                         <td>
                             @Html.DisplayFor(modelItem => item.LandingFees)
                         </td>
 
-
                         <td>
                             @Html.DisplayFor(modelItem => item.NightOperationFees)
                         </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.NavigationFees)
                         </td>
+                        
                         <td>
                             @Html.DisplayFor(modelItem => item.SecurityFees)
                         </td>
@@ -290,23 +285,18 @@
                             @Html.DisplayFor(modelItem => item.ParkingFees)
                         </td>
 
-
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FreightFees)
-                        </td>
-
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ImpMailFees)
-                        </td>
-
-
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ExpMailFees)
-                        </td>
-
+                        @if (item.IsSperateFrieght == false)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FreightFees)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ImpMailFees)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExpMailFees)
+                            </td>
+                        }
 
                         <td>
                             @Html.DisplayFor(modelItem => item.NoiseFees)
@@ -318,27 +308,28 @@
                     </tr>
                 }
 
-                  <tr class="footer">
-                      <td colspan="5">  Total :</td>
+              <tr class="footer">
+                  <td colspan="5">  Total :</td>
 
-                      <td class="numberFormat">@ViewBag.SumLandingFees </td>
-                      <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
+                  <td class="numberFormat">@ViewBag.SumLandingFees </td>
+                  <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
 
-                      <td class="numberFormat">@ViewBag.SumNavigationFees</td>
+                  <td class="numberFormat">@ViewBag.SumNavigationFees</td>
 
-                      <td class="numberFormat">@ViewBag.SumSecurityFees</td>
+                  <td class="numberFormat">@ViewBag.SumSecurityFees</td>
 
-                      <td class="numberFormat">@ViewBag.SumParkingFees</td>
+                  <td class="numberFormat">@ViewBag.SumParkingFees</td>
+
+                  @if (Model.FirstOrDefault().IsSperateFrieght == false)
+                  {
                       <td class="numberFormat">@ViewBag.SumFreightFees</td>
-
                       <td class="numberFormat">@ViewBag.SumImpMailFees</td>
                       <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+                  }
 
-
-                      <td class="numberFormat">@ViewBag.SumNoiseFees</td>
-
-                      <td class="numberFormat">@ViewBag.SumTotal</td>
-                  </tr>
+                  <td class="numberFormat">@ViewBag.SumNoiseFees</td>
+                  <td class="numberFormat">@ViewBag.SumTotal</td>
+              </tr>
 
                   <tr class="footer">
                       <td colspan="5">   Revenue Stamp(5%) :</td>

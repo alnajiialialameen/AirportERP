@@ -637,17 +637,21 @@ namespace AirPortERP.Controllers
                 + Convert.ToDouble(Revenue.Sum(x => x.FireFightingFees));
 
             F.NoiseFees = Convert.ToDouble(Revenue.Sum(x => x.NoiseFees));
-            F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
-            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
+            //F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+            //F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             //F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
             
             if (!blackListAirlinesForFrieght.Contains(AirLineId ?? 0))
             {
                 F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+                F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+                F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
             }
             else
             {
                 F.FreightFees = 0;
+                F.ExpMailFees = 0;
+                F.ImpMailFees = 0;
             }
                 //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
                 //{

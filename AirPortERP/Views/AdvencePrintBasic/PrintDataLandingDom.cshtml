@@ -143,7 +143,7 @@
     </div>
 
     <div class="invoice-Landing-details" style="width:100%;margin-bottom:40px;">
-
+        <label>IsSperateFrieght = @Model.FirstOrDefault().IsSperateFrieght</label>
         <table class="Landing-table-header">
 
             <tr>
@@ -180,20 +180,18 @@
                     Parking Fees
                 </th>
 
-                @if (Model.FirstOrDefault().IsSperateFrieght == true)
+                @if (Model.FirstOrDefault().IsSperateFrieght == false)
                 {
                     <th>
                         Freight
                     </th>
+                    <th>
+                        Imp Mail
+                    </th>
+                    <th>
+                        Exp Mail
+                    </th>
                 }
-                <th>
-                    Imp Mail
-                </th>
-
-
-                <th>
-                    Exp Mail
-                </th>
 
                 <th>
                     Noise Fees
@@ -244,27 +242,24 @@
                         </td>
 
 
-                        @if (item.IsSperateFrieght == true)
+                        @if (item.IsSperateFrieght == false)
                         {
                             <td>
                                 @Html.DisplayFor(modelItem => item.FreightFees)
                             </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ImpMailFees)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExpMailFees)
+                            </td>
                         }
 
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.FreightFees)
-                        </td>*@
+            @Html.DisplayFor(modelItem => item.FreightFees)
+        </td>*@
 
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ImpMailFees)
-                        </td>
-
-
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ExpMailFees)
-                        </td>
 
 
                         <td>
@@ -289,13 +284,12 @@
 
                 <td class="numberFormat">@ViewBag.SumParkingFees</td>
 
-                @if (Model.FirstOrDefault().IsSperateFrieght == true)
+                @if (Model.FirstOrDefault().IsSperateFrieght == false)
                 {
                     <td class="numberFormat">@ViewBag.SumFreightFees</td>
+                    <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                    <td class="numberFormat">@ViewBag.SumExpMailFees</td>
                 }
-
-                <td class="numberFormat">@ViewBag.SumImpMailFees</td>
-                <td class="numberFormat">@ViewBag.SumExpMailFees</td>
 
 
                 <td class="numberFormat">@ViewBag.SumNoiseFees</td>

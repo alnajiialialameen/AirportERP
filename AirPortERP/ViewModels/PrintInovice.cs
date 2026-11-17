@@ -94,6 +94,8 @@ namespace AirPortERP.ViewModels
 
         public double FuelFees { get; set; }
         public double FreightFees { get; set; }
+        public double ImpMailFees { get; set; }
+        public double ExpMailFees { get; set; }
 
 
         public double SubTotalDollar { get; set; }
@@ -734,6 +736,14 @@ namespace AirPortERP.ViewModels
         public decimal FreightLoadingExp { get; set; }
         public decimal FreightLoadingImp { get; set; }
 
+        public decimal MailLoadingExp { get; set; }
+        public decimal MailLoadingImp { get; set; }
+
+
+        public decimal MailExpFees { get; set; }
+        public decimal MailImpFees { get; set; }
+        public decimal MailFees { get; set; }
+        public decimal MailFeesSDG { get; set; }
 
         public string AirlineCode { get; set; }
         public decimal FreightFees { get; set; }

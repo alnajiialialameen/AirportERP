@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using AirPortERP.Models;
 using AirPortERP.Extenstion;
 using AirPortERP.ViewModels;
-using System.IO;
 using Microsoft.AspNet.Identity;
 
 namespace AirPortERP.Controllers
@@ -44,30 +39,23 @@ namespace AirPortERP.Controllers
                     CreationDate = CommonUsed.CheckDate(item.CreationDate.ToString()),
                     UpdatedBy = CommonUsed.GetUserName(item.UpdatedBy),
                     UpdatingDate = CommonUsed.CheckDate(item.UpdatingDate.ToString()),
-
-
                 });
 
             }
 
-
             return Json(new { data = FreightFeesList }, JsonRequestBehavior.AllowGet);
 
         }
+        
         public ActionResult GetFreightFeesParial(int? id)
         {
-
             FreightFee FreightFees = new FreightFee();
             if (id > 0)
             {
-
                 FreightFees = db.FreightFees.Find(id);
-
             }
 
-
             return PartialView("_AddEditFreightFees", FreightFees);
-
         }
 
         public ActionResult CreateOrUpdateFreightFees(FreightFee model)
@@ -78,7 +66,6 @@ namespace AirPortERP.Controllers
 
                 if (model.Id > 0)
                 {
-
                     model.UpdatedBy = UserId;
                     model.UpdatingDate = System.DateTime.Now;
                     db.Entry(model).State = System.Data.Entity.EntityState.Modified;
@@ -97,7 +84,6 @@ namespace AirPortERP.Controllers
             }
             return Json(new { success = false, message = "error" }, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult Delete(int? id)
         {
@@ -121,9 +107,6 @@ namespace AirPortERP.Controllers
             db.SaveChanges();
             return Json(new { success = true, message = "Delete" }, JsonRequestBehavior.AllowGet);
         }
-
-
-
 
         public ActionResult Details(int? id)
         {

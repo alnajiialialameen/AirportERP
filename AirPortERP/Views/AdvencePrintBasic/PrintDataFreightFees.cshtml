@@ -100,46 +100,28 @@
 
     <div class="text-center invoice-Cupps-details" style="width:100%;margin-bottom:40px;">
         <table class="cupps-table-header">
-            <tr>
-                <th>
-                    N
-                </th>
+            <thead>
+                <tr>
+                    <th rowspan="2">N</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">FlightNo</th>
+                    <th rowspan="2">Reg</th>
+                    <th rowspan="2">Type</th>
+                    <th colspan="4" class="text-center">Freight</th>
+                    <th colspan="4" class="text-center">Mail</th>
+                </tr>
 
-                @*<th>
-                    Served Company
-                </th>*@
-
-                <th>
-                    Date
-                </th>
-
-                <th>
-                    FlightNo
-                </th>
-
-                <th>
-                    Reg
-                </th>
-
-                <th>
-                    Type
-                </th>
-
-                <th>
-                    Freight Exp
-                </th>
-                <th>
-                    Freight Imp
-                </th>
-
-                <th>
-                    Amount $
-                </th>
-
-                <th>
-                    Amount SDG
-                </th>
-            </tr>
+                <tr>
+                    <th>Freight Exp</th>
+                    <th>Freight Imp</th>
+                    <th>Freight Amount $</th>
+                    <th>Freight Amount SDG</th>
+                    <th>Mail Exp</th>
+                    <th>Mail Imp</th>
+                    <th>Mail Amount $</th>
+                    <th>Mail Amount SDG</th>
+                </tr>
+            </thead>
 
             <tbody>
                 @foreach (var item in Model)
@@ -150,8 +132,8 @@
                         </td>
 
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.AirlineCode)
-                        </td>*@
+            @Html.DisplayFor(modelItem => item.AirlineCode)
+        </td>*@
 
                         <td>
                             @Html.DisplayFor(modelItem => item.TakeOffDate)
@@ -185,36 +167,53 @@
                             @Html.DisplayFor(modelItem => item.FreightFeeSDG)
                         </td>
 
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.MailLoadingExp)
+                        </td>
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.MailLoadingImp)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MailFees)
+                        </td>
+
+                        <td class="numberFormat">
+                            @Html.DisplayFor(modelItem => item.MailFeesSDG)
+                        </td>
+
                     </tr>
                 }
 
-                <tr class="footer">
-                    <th colspan="7">  Total :</th>
+            <tr class="footer">
+                <th colspan="7">  Total :</th>
 
-                    @*<th class="numberFormat">@ViewBag.SumPax</th>
-                    <th class="numberFormat">@ViewBag.SumTR</th>
-                    <th></th>*@
+                @*<th class="numberFormat">@ViewBag.SumPax</th>
+        <th class="numberFormat">@ViewBag.SumTR</th>
+        <th></th>*@
 
-                    <th class="numberFormat">@ViewBag.SumFreightFees</th>
+                <th class="numberFormat">@ViewBag.SumFreightFees</th>
 
-                    <th class="numberFormat2">@ViewBag.SumFreightFeesSDG</th>
-                </tr>
+                <th class="numberFormat2">@ViewBag.SumFreightFeesSDG</th>
+                <th colspan="2"></th>
+                <th class="numberFormat">@ViewBag.SumMailFees</th>
+                <th class="numberFormat2">@ViewBag.SumMailFeesSDG</th>
+            </tr>
 
-                <tr class="footer">
-                    <th colspan="7">   Revenue Stamp(5%) :</th>
+            <tr class="footer">
+                <th colspan="7">   Revenue Stamp(5%) :</th>
 
-                    <th class="numberFormat">@ViewBag.TaxDollar</th>
+                <th colspan="3" class="numberFormat">@ViewBag.TaxDollar</th>
+                <th colspan="3" class="numberFormat2">@ViewBag.TaxSDG</th>
+            </tr>
 
-                    <th class="numberFormat2">@ViewBag.TaxSDG</th>
-                </tr>
+            <tr class="footer">
+                <th colspan="7">  Grand Total :</th>
 
-                <tr class="footer">
-                    <th colspan="7">  Grand Total :</th>
-
-                    <th class="numberFormat">@ViewBag.GrandTotalDollar</th>
-
-                    <th class="numberFormat2">@ViewBag.GrandTotalSDG</th>
-                </tr>
+                <th colspan="3" class="numberFormat">@ViewBag.GrandTotalDollar</th>
+                <th colspan="3" class="numberFormat2">@ViewBag.GrandTotalSDG</th>
+            </tr>
 
             </tbody>
         </table>

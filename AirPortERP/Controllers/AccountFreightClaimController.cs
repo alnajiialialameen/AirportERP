@@ -8,9 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebGrease.Css.Extensions;
 
 namespace AirPortERP.Controllers
 {
@@ -603,6 +601,8 @@ namespace AirPortERP.Controllers
 
             F.Name = db.AirLines.Where(x => x.Id == AirlineId).Single().Name;
             F.FreightFees = Convert.ToDouble(Revenue.Sum(x => x.FreightFees));
+            F.ExpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ExpMailFees));
+            F.ImpMailFees = Convert.ToDouble(Revenue.Sum(x => x.ImpMailFees));
 
 
             //if (companyId != 11 || !blackListAirlines.Contains(AirLineId ?? 0))
@@ -632,19 +632,11 @@ namespace AirPortERP.Controllers
             //    + F.NoiseFees;
             //}
 
-            F.SubTotalDollar = F.FreightFees;
-
-
+            F.SubTotalDollar = F.FreightFees + F.ImpMailFees + F.ExpMailFees;
             F.TaxDollar = (F.SubTotalDollar) * 0.05;
-
-
-
-
 
             F.GrandTotalDollar = (F.SubTotalDollar + F.TaxDollar);
             F.GrandTotalSDG = (F.GrandTotalDollar) * Convert.ToDouble(myExchangeRate);
-
-
 
             int CurrencyType = Convert.ToInt32(db.AirLines.Where(x => x.Id == AirlineId).Single().CurrencyType);
             ///-------------------------------------SDG------------------------------------------------------------
