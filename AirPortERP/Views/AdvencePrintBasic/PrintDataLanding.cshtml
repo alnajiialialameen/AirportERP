@@ -6,14 +6,13 @@
 }
 
 <style type="text/css" media="print">
-   
-
-   @@media print{@@page {size: landscape}}
-
- 
 
 
-
+    @@media print {
+        @@page {
+            size: landscape
+        }
+    }
 </style>
 
 
@@ -21,105 +20,97 @@
 <style>
 
 
-       /*////////////////////////////////////////////////////Landing/////////////////////////////////////////////*/
-        
+    /*////////////////////////////////////////////////////Landing/////////////////////////////////////////////*/
 
-  
 
-             .invoiceLanding {
-            padding:10px;
-            font-family:Arial
-        }
-       .invoiceLanding .invoice-header {
-            border:2px solid #808080;
-            border-radius:5px;
-            padding:16px;
-            margin-bottom:10px;
-          
-        }
-        
-        .invoiceLanding .invoice-header .text-word {
-                  
-               float:none;
 
+
+    .invoiceLanding {
+        padding: 10px;
+        font-family: Arial
+    }
+
+        .invoiceLanding .invoice-header {
+            border: 2px solid #808080;
+            border-radius: 5px;
+            padding: 16px;
+            margin-bottom: 10px;
         }
 
-            
-
-
-        .invoiceLanding .invoice-header .text-word h6 {
-            font-size:16px;
-              font-weight:bolder;
-        }
-               .invoiceLanding .invoice-header .image-R {
-                    float:right;
-                    margin-right:30px;
-                     margin-top:-90px;
-                   
-            }
-                .invoiceLanding .invoice-header .image-L {
-               float:left;
-               margin-top:-10px;
-                   
+            .invoiceLanding .invoice-header .text-word {
+                float: none;
             }
 
-            .invoiceLanding .invoice-Body {
-                clear:both;
-            }
 
-             .invoiceLanding .invoice-Body .h-mr {
-              margin-right:16px;
-              /*//ADD//*/
-                font-size:16px;
-        }
-               
 
-                .invoiceLanding .invoice-Landing-details th {
-                    background-color:#ebefef
+
+                .invoiceLanding .invoice-header .text-word h6 {
+                    font-size: 16px;
+                    font-weight: bolder;
                 }
 
-
-                    .invoiceLanding .invoice-Landing-details table,th,td {
-                 border:1px solid #000000; 
-                 padding:.3rem;
-                  /*//ADD//*/
-                  font-size:14px;
-                  padding-bottom:10px;
-               
-                
-               
+            .invoiceLanding .invoice-header .image-R {
+                float: right;
+                margin-right: 30px;
+                margin-top: -90px;
             }
-                       .invoiceLanding .invoice-Landing-details .reg {
-                                min-width: 80px;
-                                 } 
+
+            .invoiceLanding .invoice-header .image-L {
+                float: left;
+                margin-top: -10px;
+            }
+
+        .invoiceLanding .invoice-Body {
+            clear: both;
+        }
+
+            .invoiceLanding .invoice-Body .h-mr {
+                margin-right: 16px;
+                /*//ADD//*/
+                font-size: 16px;
+            }
 
 
-                        .invoiceLanding .invoice-Landing-details table .footer {
-                            background-color:#e6eded;
-                        }
+        .invoiceLanding .invoice-Landing-details th {
+            background-color: #ebefef
+        }
 
-              
 
-                .invoiceLanding .invoice-Landing-details .footer {
-                     background-color:#ebefef;
-                     font-weight:600;
-                     
-                }
+        .invoiceLanding .invoice-Landing-details table, th, td {
+            border: 1px solid #000000;
+            padding: .3rem;
+            /*//ADD//*/
+            font-size: 14px;
+            padding-bottom: 10px;
+        }
+
+        .invoiceLanding .invoice-Landing-details .reg {
+            min-width: 80px;
+        }
+
+
+        .invoiceLanding .invoice-Landing-details table .footer {
+            background-color: #e6eded;
+        }
+
+
+
+        .invoiceLanding .invoice-Landing-details .footer {
+            background-color: #ebefef;
+            font-weight: 600;
+        }
 
 
     .fontDiscount {
-       font-size:x-small;
-       font-weight:normal;
+        font-size: x-small;
+        font-weight: normal;
     }
-
-
-
-
-
-
 </style>
 
-
+@{
+    var isSeparateFreight = Model.FirstOrDefault()?.IsSperateFrieght ?? false;
+    var emptyColSpan = isSeparateFreight ? 6 : 9;
+}
 
 
 
@@ -154,7 +145,7 @@
 
 
     <div class="invoice-Body">
-       <h5 class="text-center"><u> Invoice Landing</u></h5>
+        <h5 class="text-center"><u> Invoice Landing</u></h5>
         <div class="arline-header">
             <div class="row">
                 <div class="col-md-12">
@@ -178,7 +169,7 @@
 
 
         <table class="Landing-table-header">
-            
+
             <tr>
                 <th>
                     N
@@ -241,11 +232,11 @@
                     Total
                 </th>
             </tr>
-            
-            
-              <tbody>
+
+
+            <tbody>
                 @foreach (var item in Model)
-            {
+                {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.N)
@@ -276,7 +267,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.NavigationFees)
                         </td>
-                        
+
                         <td>
                             @Html.DisplayFor(modelItem => item.SecurityFees)
                         </td>
@@ -308,53 +299,51 @@
                     </tr>
                 }
 
-              <tr class="footer">
-                  <td colspan="5">  Total :</td>
+                <tr class="footer">
+                    <td colspan="5">  Total :</td>
 
-                  <td class="numberFormat">@ViewBag.SumLandingFees </td>
-                  <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
+                    <td class="numberFormat">@ViewBag.SumLandingFees </td>
+                    <td class="numberFormat">@ViewBag.SumNightOperationFees</td>
 
-                  <td class="numberFormat">@ViewBag.SumNavigationFees</td>
+                    <td class="numberFormat">@ViewBag.SumNavigationFees</td>
 
-                  <td class="numberFormat">@ViewBag.SumSecurityFees</td>
+                    <td class="numberFormat">@ViewBag.SumSecurityFees</td>
 
-                  <td class="numberFormat">@ViewBag.SumParkingFees</td>
+                    <td class="numberFormat">@ViewBag.SumParkingFees</td>
 
-                  @if (Model.FirstOrDefault().IsSperateFrieght == false)
-                  {
-                      <td class="numberFormat">@ViewBag.SumFreightFees</td>
-                      <td class="numberFormat">@ViewBag.SumImpMailFees</td>
-                      <td class="numberFormat">@ViewBag.SumExpMailFees</td>
-                  }
+                    @if (Model.FirstOrDefault().IsSperateFrieght == false)
+                    {
+                        <td class="numberFormat">@ViewBag.SumFreightFees</td>
+                        <td class="numberFormat">@ViewBag.SumImpMailFees</td>
+                        <td class="numberFormat">@ViewBag.SumExpMailFees</td>
+                    }
 
-                  <td class="numberFormat">@ViewBag.SumNoiseFees</td>
-                  <td class="numberFormat">@ViewBag.SumTotal</td>
-              </tr>
+                    <td class="numberFormat">@ViewBag.SumNoiseFees</td>
+                    <td class="numberFormat">@ViewBag.SumTotal</td>
+                </tr>
+                <tr class="footer">
+                    <td colspan="5"> Revenue Stamp(5%) :</td>
 
-                  <tr class="footer">
-                      <td colspan="5">   Revenue Stamp(5%) :</td>
+                    <td colspan="@emptyColSpan"> </td>
 
-                      <td colspan="9"> </td>
+                    <td class="numberFormat"> @ViewBag.Tax </td>
+                </tr>
 
-                      <td class="numberFormat"> @ViewBag.Tax </td>
+                <tr class="footer">
+                    <td colspan="5"> Grand Total :</td>
 
-                  </tr>
+                    <td colspan="@emptyColSpan"> </td>
 
-                  <tr class="footer">
-                      <td colspan="5"> Grand Total :</td>
-
-                      <td colspan="9"> </td>
-
-                      <td class="numberFormat"> @ViewBag.GrandTotal </td>
-                  </tr>
+                    <td class="numberFormat"> @ViewBag.GrandTotal </td>
+                </tr>
 
             </tbody>
 
-           
 
-              
 
-           
+
+
+
 
 
         </table>
@@ -365,7 +354,7 @@
     </div>
 
 
-   
+
 
 
 
@@ -387,43 +376,43 @@
 
 
 
-           window.addEventListener("load", window.print());
-          // window.location.href = "/AdvancePrint/PrintInvoice"
+        window.addEventListener("load", window.print());
+        // window.location.href = "/AdvancePrint/PrintInvoice"
 
 
 
 
-           $('.numberFormat').each(function () {
-               var item = $(this).text();
+        $('.numberFormat').each(function () {
+            var item = $(this).text();
 
-               var N = round(item, 2);
-               /// var N = item.toFixed(2);
-
-
-               var num = Number(N).toLocaleString();
-               $(this).text(num);
-           });
+            var N = round(item, 2);
+            /// var N = item.toFixed(2);
 
 
+            var num = Number(N).toLocaleString();
+            $(this).text(num);
+        });
 
-           function round(value, exp) {
-               if (typeof exp === 'undefined' || +exp === 0)
-                   return Math.round(value);
 
-               value = +value;
-               exp = +exp;
 
-               if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
-                   return NaN;
+        function round(value, exp) {
+            if (typeof exp === 'undefined' || +exp === 0)
+                return Math.round(value);
 
-               // Shift
-               value = value.toString().split('e');
-               value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+            value = +value;
+            exp = +exp;
 
-               // Shift back
-               value = value.toString().split('e');
-               return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
-           }
+            if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+                return NaN;
+
+            // Shift
+            value = value.toString().split('e');
+            value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+            // Shift back
+            value = value.toString().split('e');
+            return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+        }
 
 
 
